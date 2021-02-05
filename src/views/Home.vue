@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <h1>Welcome to Sticks n Stones !</h1>
     <auth-component/>
   </div>
 </template>
@@ -13,3 +13,10 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+  .h1{
+    color: black;
+  }
+</style>
