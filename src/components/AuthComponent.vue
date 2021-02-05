@@ -33,7 +33,10 @@ export default {
       }
     },
     authenticate () { authenticate() },
-    signingOut () { userSession.signUserOut() }
+    signingOut () {
+      userSession.signUserOut()
+      window.location.reload()
+    }
   }
 
 }
