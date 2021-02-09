@@ -1,10 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/MyItems">My Items</router-link> |
-      <router-link to="/Upload">Upload</router-link> |
-      <auth-component/>
+      <Header/>
     </div>
     <router-view/>
   </div>
@@ -12,9 +9,19 @@
 
 <script>
 
-import AuthComponent from './components/AuthComponent.vue'
+import Header from './components/Header.vue'
 
 export default {
-  components: { AuthComponent }
+  name: 'App',
+  components: {
+    Header
+  },
+  methods: {
+    scrollMeTo (data) {
+      const element = document.getElementById(data.refName)
+      const top = element.offsetTop
+      window.scrollTo(0, top)
+    }
+  }
 }
 </script>

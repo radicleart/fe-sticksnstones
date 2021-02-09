@@ -5,7 +5,6 @@
         </h1>
         <div v-if="!fileUploadedYet">
             <h2>Select a file to upload</h2>
-            <div>{{ fileUploadedYet }}</div>
             <input type="file" @change="onFileChange">
         </div>
         <div v-else>
@@ -36,7 +35,6 @@ export default {
       this.createFile(files[0])
     },
     createFile (InputFile) {
-      console.log('Fonction lancée')
       this.fileUploaded = InputFile
       this.fileUploadedYet = true
       this.displayHashFile()
