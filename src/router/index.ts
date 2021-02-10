@@ -9,17 +9,17 @@ Vue.use(VueRouter)
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home
   },
   {
-    path: '/Upload',
-    name: 'Upload',
+    path: '/upload',
+    name: 'upload',
     component: Upload
   },
   {
-    path: '/MyItems',
-    name: 'My-Items',
+    path: '/my-items',
+    name: 'my-items',
     component: MyItems
   }
 ]
