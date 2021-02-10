@@ -4,8 +4,12 @@
             Welcome to the upload page !
         </h1>
         <div v-if="!fileUploadedYet">
-            <h2>Select a file to upload</h2>
-            <input type="file" @change="onFileChange">
+            <b-form-file
+            v-model="fileUploaded"
+            :state="fileUploadedYet"
+            placeholder="Choose a file or drop it here..."
+            drop-placeholder="Drop file here..."
+            @change="onFileChange"></b-form-file>
         </div>
         <div v-else>
             <div> This is the hash of your file : {{ fileHash }} </div>
