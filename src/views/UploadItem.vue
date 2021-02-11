@@ -25,9 +25,15 @@
               <div class="mb-4">
                 <div class="text2">Name of Item</div>
                 <b-input
-                  id="title"
-                  v-model="item.title"
+                  id="name"
+                  v-model="item.name"
                   ></b-input>
+              </div>
+              <div class="mb-4">
+                <b-form-checkbox size="lg" v-model="item.private" name="check-button" switch>
+                  <span v-if="!item.private"><b>make it public</b> the item will be listed on our marketplace</span>
+                  <span v-else><b>keep it private for now</b></span>
+                </b-form-checkbox>
               </div>
               <div class="mb-4">
                 <div class="text2">Short Description</div>
@@ -77,15 +83,16 @@ export default {
       dims: { width: 250, height: 250 },
       result: 'Saving data to your storage - back in a mo!',
       item: {
-        logo: require('@/assets/img/risidio_collection_logo.svg'),
+        owner: null,
         creatorDID: null,
         name: '',
-        description: ''
+        description: '',
+        private: false
       },
       contentModel1: {
-        title: 'Upload logo <br/> (250x250 px)',
+        title: 'Upload artwork image <br/> (250x250 px)',
         errorMessage: 'A file is required.',
-        popoverBody: 'Your logo  file.'
+        popoverBody: 'Your artwork image.'
       },
       files: [],
       doValidate: true,
@@ -138,22 +145,26 @@ export default {
     },
     validate: function () {
       let result = true
-      if (!this.item.title) {
-        this.$notify({ type: 'error', title: 'Application', text: 'Please enter the title of your application' })
+      if (!this.item.name) {
+        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter the name of your artwork' })
+        result = false
+      }
+      if (!this.files || this.files.length === 0) {
+        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an image to list with your item' })
         result = false
       }
       if (!this.item.description) {
-        this.$notify({ type: 'error', title: 'Application', text: 'Please enter a short description of your application' })
+        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter a short description of your artwork' })
         result = false
       }
       if (!this.files.length > 0) {
-        this.$notify({ type: 'error', title: 'Application', text: 'Please upload a logo for display purposes' })
+        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an artwork image or accompanying image' })
         result = false
       }
       return result
     },
     valid () {
-      return this.item.title && this.item.description
+      return this.item.name && this.item.description
     },
     saveApplication: function () {
       if (this.doValidate && !this.validate()) return
@@ -170,9 +181,8 @@ export default {
         // this.$router.push('/my-app/' + item.itemUUID)
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')
-        this.$store.commit('setModalMessage', 'Application is now connected to the Stacks blockchain.')
+        this.$store.commit('setModalMessage', 'Your artwork is now uploaded to your personal cloud.')
       }).catch((error) => {
-        // this.$notify({ type: 'error', title: 'Transfers', text: 'Error message: ' + error })
         this.$store.commit('setModalMessage', 'Error occurred processing transaction.')
         this.result = error
       })
