@@ -9,9 +9,6 @@
 </template>
 
 <script>
-
-import { getData } from '@/store/data_storage.js'
-
 const emptyFile = new File([], 'Emptyfile')
 
 export default {
@@ -27,7 +24,7 @@ export default {
   methods: {
     getData () {
       console.log('Fonction lancée')
-      this.fileGet = getData(this.fileName, this.getOptions)
+      // this.fileGet = getData(this.fileName, this.getOptions)
     }
   }
 }

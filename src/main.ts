@@ -16,5 +16,8 @@ Vue.use(IconsPlugin)
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  beforeCreate () {
+    store.dispatch('initApplication')
+  }
 }).$mount('#app')

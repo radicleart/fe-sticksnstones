@@ -21,9 +21,7 @@
 </template>
 
 <script>
-
 import sha256 from 'js-sha256'
-import { storeData } from '@/store/data_storage.js'
 
 const emptyFile = new File([], 'Emptyfile')
 
@@ -60,7 +58,7 @@ export default {
       this.fileUploadedYet = false
     },
     submitFile () {
-      this.fileUrl = Promise.resolve(storeData(this.fileUploaded.name, this.fileUploaded, this.storageOptions))
+      // this.fileUrl = Promise.resolve(storeData(this.fileUploaded.name, this.fileUploaded, this.storageOptions))
       this.removeFile()
     }
   }
