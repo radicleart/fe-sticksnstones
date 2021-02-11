@@ -1,23 +1,60 @@
 <template>
 <div class="page-nav">
 <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar-brand href="#">
+      <div class="d-block d-md-none">
+        <router-link to="/" class="navbar-brand"><img height="30px" :src="logo" alt="risidio-logo"/></router-link>
+      </div>
+      <div class="d-none d-md-block">
+        <router-link to="/" class="navbar-brand"><img height="50px" :src="logo" alt="risidio-logo"/></router-link>
+      </div>
+    </b-navbar-brand>
+    <b-navbar-toggle class="" target="nav-collapse">
+      <template v-slot:default="{ expanded }">
+        <b-icon width="20px" height="30px" v-if="expanded" icon="chevron-contract"></b-icon>
+        <img width="20px" v-else :src="toggler"/>
+      </template>
+    </b-navbar-toggle>
+
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar class="ml-auto">
+        <b-navbar-nav class="ml-auto ">
+          <b-nav-item><router-link class="text-white" to="/upload-item">Upload Item</router-link></b-nav-item>
+          <b-nav-item><router-link class="text-white" to="/my-items">My Items</router-link></b-nav-item>
+          <b-nav-item-dropdown class="nav-text" right v-if="loggedIn" caret>
+            <template v-slot:button-content>
+              Account
+            </template>
+            <b-dropdown-item>{{username()}}</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item>
+              <span @click="logout()">Logout</span>
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item class="nav-text" v-else><span @click.prevent="startLogin()">Login</span></b-nav-item>
+        </b-navbar-nav>
+      </b-navbar>
+    </b-collapse>
+  </b-navbar>
+</div>
+<!--
+<div class="page-nav">
+<b-navbar toggleable="lg" type="dark" variant="info">
   <b-navbar-brand><router-link class="navbar-brand" to="/"><img style="max-height: 60px;max-width: 60px;" :src="logo" alt="risidio-logo"/></router-link></b-navbar-brand>
   <b-navbar-toggle target="nav-collapse">
     <span> </span>
     <span> </span>
     <span> </span>
   </b-navbar-toggle>
-  <!-- Mobile Design for login menu -->
   <b-navbar-nav class="ml-auto d-xl-none">
     <b-nav-item v-if="loggedIn">
       <div v-if="avatar" v-b-toggle.login-sidebar class=""><span v-html="avatar"></span><span class="text-info">Account</span></div>
-      <div v-else v-b-toggle.login-sidebar class=""><span><b-icon icon="person" class=""/></span><span class="text-info">Account</span></div>
+      <div v-else v-b-toggle.login-sidebar class=""><span><b-icon icon="person"/></span><span class="ml-3 text-info">Account</span></div>
     </b-nav-item>
     <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary text-white">Login</button></b-nav-item>
   </b-navbar-nav>
 
   <b-collapse id="nav-collapse" is-nav>
-    <!-- Right aligned nav items -->
     <b-navbar-nav class="ml-auto ">
       <b-nav-item><router-link class="text-white" to="/upload-item">Upload Item</router-link></b-nav-item>
       <b-nav-item><router-link class="text-white" to="/upload">Upload</router-link></b-nav-item>
@@ -34,6 +71,7 @@
   </b-collapse>
 </b-navbar>
 </div>
+-->
 </template>
 
 <script>
@@ -45,6 +83,7 @@ export default {
   },
   data () {
     return {
+      toggler: require('@/assets/img/navbar/Icon_ionic-md-options.svg'),
       logo: require('@/assets/img/sticksnstones_logo.png')
     }
   },
@@ -54,6 +93,10 @@ export default {
         localStorage.clear()
         sessionStorage.clear()
       })
+    },
+    username () {
+      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      return profile.username
     },
     startLogin () {
       this.$store.dispatch('authStore/startLogin')
