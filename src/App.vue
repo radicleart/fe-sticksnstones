@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <router-view name="header"/>
-    <router-view/>
+    <router-view class="container mt-5"/>
+    <notifications :duration="10000" classes="r-notifs" position="bottom right" width="30%"/>
   </div>
 </template>
 

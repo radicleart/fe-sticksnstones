@@ -5,10 +5,13 @@
  */
 import myItemService from '@/services/myItemService'
 import { APP_CONSTANTS } from '@/app-constants'
+import store from '@/store'
+import { v4 as uuidv4 } from 'uuid'
 
 const myItemStore = {
   namespaced: true,
   state: {
+    rootFile: null,
     myProfile: {
       username: null,
       loggedIn: false,
@@ -20,21 +23,42 @@ const myItemStore = {
   getters: {
   },
   mutations: {
+    rootFile (state: any, rootFile: any) {
+      state.rootFile = rootFile
+    }
   },
   actions: {
-    initSchema ({ getters, state, commit }, forced: boolean) {
-      return new Promise((resolve, reject) => {
+    initSchema ({ state, commit }, forced: boolean) {
+      return new Promise((resolve) => {
+        const profile = store.getters[APP_CONSTANTS.KEY_PROFILE]
         if (state.rootFile && !forced) {
           resolve(state.rootFile)
         } else {
-          const profile = getters[APP_CONSTANTS.KEY_PROFILE]
           myItemService.fetchMyItems(profile).then((rootFile: object) => {
             commit('rootFile', rootFile)
             resolve(rootFile)
-          }).catch((err) => {
-            reject(err)
+          }).catch(() => {
+            myItemService.initItemSchema(profile).then((rootFile: object) => {
+              commit('rootFile', rootFile)
+              resolve(rootFile)
+            })
           })
         }
+      })
+    },
+    saveItem ({ state, commit }, item: any) {
+      return new Promise((resolve) => {
+        const index = state.rootFile.records.findIndex((o) => o.itemUUID === item.itemUUID)
+        if (index < 0) {
+          item.itemUUID = uuidv4()
+          state.rootFile.records.splice(0, 0, item)
+        } else {
+          state.rootFile.records.splice(index, 1, item)
+        }
+        myItemService.saveItem(state.rootFile).then((rootFile: object) => {
+          commit('rootFile', rootFile)
+          resolve(rootFile)
+        })
       })
     }
   }
