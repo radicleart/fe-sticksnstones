@@ -17,7 +17,7 @@ const getNewRootFile = function () {
   const newRootFile = {
     created: now,
     artistProfile: {},
-    items: []
+    records: []
   }
   return newRootFile
 }
@@ -86,10 +86,10 @@ const myItemService = {
       })
     })
   },
-  uploadPngImageData: function (fileName, imageData) {
+  uploadImageData: function (filename, imageData) {
     return new Promise((resolve) => {
       // const artwork = Buffer.from(imageData.imageBuffer).toString('base64') // imageDataURI.decode(dataUrl)
-      const path = fileName + '.png'
+      const path = filename
       const options = {
         contentType: imageData.mimeType,
         encrypt: false

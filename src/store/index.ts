@@ -17,8 +17,17 @@ export default new Vuex.Store({
     authStore
   },
   state: {
+    modalMessage: 'Your request is being processed'
+  },
+  getters: {
+    getModalMessage: state => {
+      return state.modalMessage
+    }
   },
   mutations: {
+    setModalMessage (state, modalMessage) {
+      state.modalMessage = modalMessage
+    }
   },
   actions: {
     initApplication ({ dispatch }) {

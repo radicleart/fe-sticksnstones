@@ -3,10 +3,12 @@
  * it is session scoped store and hands off to myItemService to access
  * permanent storage.
  */
+import searchIndexService from '@/services/searchIndexService'
 import myItemService from '@/services/myItemService'
 import { APP_CONSTANTS } from '@/app-constants'
 import store from '@/store'
 import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
 
 const myItemStore = {
   namespaced: true,
@@ -46,18 +48,49 @@ const myItemStore = {
         }
       })
     },
-    saveItem ({ state, commit }, item: any) {
+    findItemByUUID ({ state }, itemUUID: string) {
       return new Promise((resolve) => {
-        const index = state.rootFile.records.findIndex((o) => o.itemUUID === item.itemUUID)
-        if (index < 0) {
-          item.itemUUID = uuidv4()
-          state.rootFile.records.splice(0, 0, item)
-        } else {
-          state.rootFile.records.splice(index, 1, item)
+        const index = state.rootFile.records.findIndex((o) => o.itemUUID === itemUUID)
+        resolve(state.rootFile.records[index])
+      })
+    },
+    saveItem ({ state, commit }: any, data: any) {
+      return new Promise((resolve, reject) => {
+        if (!data.imageData || !data.item.owner ||
+          !data.item.title ||
+          !data.item.description) {
+          reject(new Error('Unable to save your app - check the contract id is in the format "stx_address.app_name"'))
+          return
         }
-        myItemService.saveItem(state.rootFile).then((rootFile: object) => {
-          commit('rootFile', rootFile)
-          resolve(rootFile)
+        myItemService.uploadImageData(data.item.filename, data.imageData).then((gaiaUrl: string) => {
+          const item = data.item
+          item.logo = null
+          item.domain = location.hostname
+          item.imageUrl = gaiaUrl
+          item.objType = 'multi-media'
+          item.updated = moment({}).valueOf()
+          const index = state.rootFile.records.findIndex((o) => o.itemUUID === item.itemUUID)
+          if (index < 0) {
+            item.itemUUID = uuidv4()
+            state.rootFile.records.splice(0, 0, item)
+          } else {
+            state.rootFile.records.splice(index, 1, item)
+          }
+          myItemService.saveItem(state.rootFile).then((rootFile) => {
+            commit('rootFile', rootFile)
+            resolve(item)
+            if (item.privacy === 'public') {
+              searchIndexService.addRecord(item).then((result) => {
+                console.log(result)
+              }).catch((error) => {
+                console.log(error)
+              })
+            }
+          }).catch((error) => {
+            reject(error)
+          })
+        }).catch((error) => {
+          reject(error)
         })
       })
     }

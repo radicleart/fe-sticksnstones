@@ -72,7 +72,7 @@ export default {
   data () {
     return {
       loading: true,
-      projectId: null,
+      itemUUID: null,
       loaded: false,
       dims: { width: 250, height: 250 },
       result: 'Saving data to your storage - back in a mo!',
@@ -94,18 +94,18 @@ export default {
     }
   },
   mounted () {
-    this.projectId = this.$route.params.projectId
-    if (!this.projectId) {
+    this.itemUUID = this.$route.params.itemUUID
+    if (!this.itemUUID) {
       this.loaded = true
     } else {
-      this.$store.dispatch('projectStore/findProjectByProjectId', this.projectId).then((project) => {
-        if (!project) {
+      this.$store.dispatch('myItemStore/findItemByUUID', this.itemUUID).then((item) => {
+        if (!item) {
           this.$router.push('/404')
           return
         }
-        this.project = project
-        this.setImage(project.imageUrl)
-        if (project.imageUrl) this.project.logo = project.imageUrl
+        this.item = item
+        this.setImage(item.imageUrl)
+        if (item.imageUrl) this.item.imageUrl = item.imageUrl
         this.loaded = true
       })
     }
@@ -138,15 +138,11 @@ export default {
     },
     validate: function () {
       let result = true
-      if (!this.project.title) {
+      if (!this.item.title) {
         this.$notify({ type: 'error', title: 'Application', text: 'Please enter the title of your application' })
         result = false
       }
-      if (!this.project.projectId || this.project.projectId.indexOf('.') === -1) {
-        this.$notify({ type: 'error', title: 'Application', text: 'Please enter the contract id is format << address.name >>' })
-        result = false
-      }
-      if (!this.project.description) {
+      if (!this.item.description) {
         this.$notify({ type: 'error', title: 'Application', text: 'Please enter a short description of your application' })
         result = false
       }
@@ -157,7 +153,7 @@ export default {
       return result
     },
     valid () {
-      return this.project.title && this.project.description
+      return this.item.title && this.item.description
     },
     saveApplication: function () {
       if (this.doValidate && !this.validate()) return
@@ -167,10 +163,11 @@ export default {
       }
       this.showWaitingModal = true
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      this.project.owner = profile.username
+      this.item.owner = profile.username
+      this.item.filename = this.files[0].name
       this.$root.$emit('bv::show::modal', 'waiting-modal')
-      this.$store.dispatch(APP_CONSTANTS.DISP_SAVE_PROJECT, { project: this.project, imageData: imageData }).then(() => {
-        // this.$router.push('/my-app/' + project.projectId)
+      this.$store.dispatch('myItemStore/saveItem', { item: this.item, imageData: imageData }).then(() => {
+        // this.$router.push('/my-app/' + item.itemUUID)
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')
         this.$store.commit('setModalMessage', 'Application is now connected to the Stacks blockchain.')
