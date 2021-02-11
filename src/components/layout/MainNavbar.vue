@@ -37,41 +37,6 @@
     </b-collapse>
   </b-navbar>
 </div>
-<!--
-<div class="page-nav">
-<b-navbar toggleable="lg" type="dark" variant="info">
-  <b-navbar-brand><router-link class="navbar-brand" to="/"><img style="max-height: 60px;max-width: 60px;" :src="logo" alt="risidio-logo"/></router-link></b-navbar-brand>
-  <b-navbar-toggle target="nav-collapse">
-    <span> </span>
-    <span> </span>
-    <span> </span>
-  </b-navbar-toggle>
-  <b-navbar-nav class="ml-auto d-xl-none">
-    <b-nav-item v-if="loggedIn">
-      <div v-if="avatar" v-b-toggle.login-sidebar class=""><span v-html="avatar"></span><span class="text-info">Account</span></div>
-      <div v-else v-b-toggle.login-sidebar class=""><span><b-icon icon="person"/></span><span class="ml-3 text-info">Account</span></div>
-    </b-nav-item>
-    <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary text-white">Login</button></b-nav-item>
-  </b-navbar-nav>
-
-  <b-collapse id="nav-collapse" is-nav>
-    <b-navbar-nav class="ml-auto ">
-      <b-nav-item><router-link class="text-white" to="/upload-item">Upload Item</router-link></b-nav-item>
-      <b-nav-item><router-link class="text-white" to="/upload">Upload</router-link></b-nav-item>
-      <b-nav-item><router-link class="text-white" to="/my-items">My Items</router-link></b-nav-item>
-    </b-navbar-nav>
-
-    <b-navbar-nav class="">
-      <b-nav-item class="" v-if="loggedIn">
-        <div v-if="avatar" v-b-toggle.login-sidebar class=" d-flex align-items-center"><span v-html="avatar"></span><span class=" ">Account</span></div>
-        <div v-else v-b-toggle.login-sidebar class=" d-flex align-items-center"><span><b-icon icon="person" class=""/></span><span @click="logout" class="">Account</span></div>
-      </b-nav-item>
-      <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary text-white">Login</button></b-nav-item>
-    </b-navbar-nav>
-  </b-collapse>
-</b-navbar>
-</div>
--->
 </template>
 
 <script>
