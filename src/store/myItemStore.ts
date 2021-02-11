@@ -57,9 +57,9 @@ const myItemStore = {
     saveItem ({ state, commit }: any, data: any) {
       return new Promise((resolve, reject) => {
         if (!data.imageData || !data.item.owner ||
-          !data.item.title ||
+          !data.item.name ||
           !data.item.description) {
-          reject(new Error('Unable to save your app - check the contract id is in the format "stx_address.app_name"'))
+          reject(new Error('Unable to save your data...'))
           return
         }
         myItemService.uploadImageData(data.item.filename, data.imageData).then((gaiaUrl: string) => {
@@ -79,7 +79,7 @@ const myItemStore = {
           myItemService.saveItem(state.rootFile).then((rootFile) => {
             commit('rootFile', rootFile)
             resolve(item)
-            if (item.privacy === 'public') {
+            if (!item.private) {
               searchIndexService.addRecord(item).then((result) => {
                 console.log(result)
               }).catch((error) => {
