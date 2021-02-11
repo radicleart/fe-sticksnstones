@@ -1,7 +1,7 @@
 <template>
 <div class="page-nav">
 <b-navbar toggleable="lg" type="dark" variant="info">
-  <b-navbar-brand><router-link class="navbar-brand" to="/"><img style="max-width: 60px;" :src="logo" alt="risidio-logo"/></router-link></b-navbar-brand>
+  <b-navbar-brand><router-link class="navbar-brand" to="/"><img style="max-height: 60px;max-width: 60px;" :src="logo" alt="risidio-logo"/></router-link></b-navbar-brand>
   <b-navbar-toggle target="nav-collapse">
     <span> </span>
     <span> </span>
@@ -13,7 +13,7 @@
       <div v-if="avatar" v-b-toggle.login-sidebar class=""><span v-html="avatar"></span><span class="text-info">Account</span></div>
       <div v-else v-b-toggle.login-sidebar class=""><span><b-icon icon="person" class=""/></span><span class="text-info">Account</span></div>
     </b-nav-item>
-    <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary">Login</button></b-nav-item>
+    <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary text-white">Login</button></b-nav-item>
   </b-navbar-nav>
 
   <b-collapse id="nav-collapse" is-nav>
@@ -29,7 +29,7 @@
         <div v-if="avatar" v-b-toggle.login-sidebar class=" d-flex align-items-center"><span v-html="avatar"></span><span class=" ">Account</span></div>
         <div v-else v-b-toggle.login-sidebar class=" d-flex align-items-center"><span><b-icon icon="person" class=""/></span><span @click="logout" class="">Account</span></div>
       </b-nav-item>
-      <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary">Login</button></b-nav-item>
+      <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary text-white">Login</button></b-nav-item>
     </b-navbar-nav>
   </b-collapse>
 </b-navbar>
@@ -91,5 +91,6 @@ body {
     margin-right: 0;
     margin-left: 0;
     border-width: .2rem;
+    height: 120px;
 }
 </style>

@@ -84,10 +84,10 @@ export default {
       result: 'Saving data to your storage - back in a mo!',
       item: {
         owner: null,
+        private: false,
         creatorDID: null,
         name: '',
-        description: '',
-        private: false
+        description: ''
       },
       contentModel1: {
         title: 'Upload artwork image <br/> (250x250 px)',

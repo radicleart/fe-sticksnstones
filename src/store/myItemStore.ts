@@ -23,6 +23,9 @@ const myItemStore = {
     appLogo: '/img/sticksnstones_logo.8217b8f7.png'
   },
   getters: {
+    getMyItems: state => {
+      return (state.rootFile) ? state.rootFile.records : []
+    }
   },
   mutations: {
     rootFile (state: any, rootFile: any) {
@@ -46,6 +49,16 @@ const myItemStore = {
             })
           })
         }
+      })
+    },
+    fetchItems ({ state }, itemUUID: string) {
+      return new Promise((resolve) => {
+        const profile = store.getters[APP_CONSTANTS.KEY_PROFILE]
+        myItemService.fetchMyItems(profile).then((rootFile) => {
+          resolve(rootFile.records)
+        }).catch((error) => {
+          reject(error)
+        })
       })
     },
     findItemByUUID ({ state }, itemUUID: string) {

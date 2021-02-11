@@ -1,30 +1,40 @@
 <template>
-    <div class="MyItems">
-        <h1>
-            Welcome to my items !
-        </h1>
-        <button @click="getData">Get data</button>
-        <div>{{ fileGet[0].name }}</div>
+<div>
+  <h1>
+      Welcome to my items !
+  </h1>
+  <div class="row mb-4">
+    <div v-for="(item, index) in myItems" :key="index" class="col-md-3 col-sm-4 col-6">
+      <single-item class="mb-2" :item="item"/>
     </div>
+  </div>
+</div>
 </template>
 
 <script>
-const emptyFile = new File([], 'Emptyfile')
+import SingleItem from '@/components/SingleItem'
+import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
+  name: 'MyItems',
+  components: {
+    SingleItem
+  },
   data () {
     return {
-      fileName: 'data2.txt',
-      getOptions: {
-        decrypt: true
-      },
-      fileGet: [emptyFile]
     }
   },
+  mounted () {
+    this.loading = false
+    this.$store.dispatch('myItemStore/fetchItems')
+  },
   methods: {
-    getData () {
-      console.log('Fonction lancée')
-      // this.fileGet = getData(this.fileName, this.getOptions)
+  },
+  computed: {
+    myItems () {
+      const myItems = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEMS]
+      if (myItems) return myItems
+      return []
     }
   }
 }
