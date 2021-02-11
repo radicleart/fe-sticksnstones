@@ -10,10 +10,12 @@
             placeholder="Choose a file or drop it here..."
             drop-placeholder="Drop file here..."
             @change="onFileChange"></b-form-file>
+            <div v-if="fileUrl">Your file has been send at this url : {{ fileUrl }}.</div>
         </div>
         <div v-else>
             <div> This is the hash of your file : {{ fileHash }} </div>
             <button @click="removeFile">Remove File</button>
+            <button @click="submitFile">Submit File</button>
         </div>
     </div>
 </template>
@@ -21,13 +23,20 @@
 <script>
 
 import sha256 from 'js-sha256'
+import { storeData } from '@/store/data_storage.js'
+
+const emptyFile = new File([], 'Emptyfile')
 
 export default {
   data () {
     return {
       fileUploadedYet: false,
-      fileUploaded: '',
-      fileHash: ''
+      fileUploaded: emptyFile,
+      fileHash: '',
+      storageOptions: {
+        encrypt: true
+      },
+      fileUrl: ''
     }
   },
   methods: {
@@ -49,6 +58,10 @@ export default {
     removeFile: function () {
       this.fileUploaded = ''
       this.fileUploadedYet = false
+    },
+    submitFile () {
+      this.fileUrl = Promise.resolve(storeData(this.fileUploaded.name, this.fileUploaded, this.storageOptions))
+      this.removeFile()
     }
   }
 }

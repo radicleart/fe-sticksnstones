@@ -12,6 +12,7 @@
   "dependencies": {
     "@blockstack/ui": "^2.12.14",
     "@stacks/connect": "^4.3.15",
+    "@stacks/storage": "^1.1.1-alpha.0",
     "core-js": "^3.6.5",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
