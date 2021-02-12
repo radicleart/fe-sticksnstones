@@ -51,10 +51,11 @@ const myItemStore = {
         }
       })
     },
-    fetchItems ({ state }, itemUUID: string) {
+    fetchItems ({ commit }, itemUUID: string) {
       return new Promise((resolve, reject) => {
         const profile = store.getters[APP_CONSTANTS.KEY_PROFILE]
         myItemService.fetchMyItems(profile).then((rootFile: any) => {
+          commit('rootFile', rootFile)
           resolve(rootFile.records)
         }).catch((error) => {
           reject(error)
