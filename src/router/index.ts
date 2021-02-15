@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import MainNavbar from '@/components/layout/MainNavbar.vue'
 import Home from '../views/Home.vue'
-import Upload from '../views/Upload.vue'
 import UploadItem from '../views/UploadItem.vue'
 import MyItems from '../views/MyItems.vue'
 
@@ -13,11 +12,6 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'home',
     components: { default: Home, header: MainNavbar }
-  },
-  {
-    path: '/upload',
-    name: 'upload',
-    components: { default: Upload, header: MainNavbar }
   },
   {
     path: '/upload-item',
