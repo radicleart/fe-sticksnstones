@@ -10,7 +10,7 @@
             <div class="mb-2">
               <div :style="bannerImage" v-if="files && files.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
                 <div class="mt-5 my-auto text-center">
-                  <media-upload class="" :dims="dims" :contentModel="contentModel1" :showFiles="true" :mediaFiles="mediaFiles1" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @updateMedia="setByEventLogo1($event)"/>
+                  <media-upload class="" :dims="dims" :contentModel="contentModelCoverImage" :showFiles="true" :mediaFiles="mediaFiles1" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @updateMedia="setByEventLogo1($event)"/>
                 </div>
               </div>
               <div v-else :style="bannerImage" class="d-flex align-items-end flex-column" style="width: auto; min-height: 250px;">
@@ -22,6 +22,11 @@
           </div>
           <div class="col-md-8 col-sm-12">
             <b-form>
+              <div class="mb-4">
+                <div class="mt-5 my-auto text-center">
+                  <media-upload class="" :dims="dims" :contentModel="contentModelMusicFile" :showFiles="true" :mediaFiles="mediaFiles1" :limit="1" :sizeLimit="2000000" :mediaTypes="'music'" @updateMedia="setByEventLogo1($event)"/>
+                </div>
+              </div>
               <div class="mb-4">
                 <div class="text2">Name of Item</div>
                 <b-input
@@ -89,10 +94,15 @@ export default {
         name: '',
         description: ''
       },
-      contentModel1: {
-        title: 'Upload artwork image <br/> (250x250 px)',
-        errorMessage: 'A file is required.',
-        popoverBody: 'Your artwork image.'
+      contentModelCoverImage: {
+        title: 'Upload cover image <br/> (250x250 px)',
+        errorMessage: 'A image file is required.',
+        popoverBody: 'Your cover image.'
+      },
+      contentModelMusicFile: {
+        title: 'Upload here your mp3 file',
+        errorMessage: 'A mp3 file is required',
+        popoverBody: 'Your music file.'
       },
       files: [],
       doValidate: true,

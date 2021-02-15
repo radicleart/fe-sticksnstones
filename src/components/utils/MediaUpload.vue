@@ -1,19 +1,8 @@
 <template>
 <div class="">
-<!--
-  <b-form-file
-    ref="file-input"
-    v-model="file1"
-    placeholder="Choose a file or drop it here..."
-    drop-placeholder="Drop file here..."
-    accept="image/*"
-  ></b-form-file>
-  <div class="mt-3">Selected file: {{ file1 ? file1.name : '' }}</div>
-  <b-button @click="clearFiles" class="mr-2">Reset via method</b-button>
-  -->
   <div class="">
       <label style="cursor: pointer;">
-        <b-button variant="info" v-html="contentModel.title" @click="chooseFiles()"></b-button> <input type="file" hidden id="file-input" @change.prevent="loadMediaObjects"/>
+        <b-button variant="outline-info" v-html="contentModel.title" @click="chooseFiles()"></b-button> <input type="file" hidden id="file-input" @change.prevent="loadMediaObjects"/>
       </label>
     <div class="invalid-feedback d-block" v-if="showError">
       {{contentModel.errorMessage}}
@@ -185,24 +174,26 @@ export default {
     },
     isVideo (file) {
       try {
-        const image = file.type.indexOf('video') > -1
-        return image
+        const video = file.type.indexOf('video') > -1
+        return video
       } catch (err) {
         return false
       }
     },
     isAudio (file) {
       try {
-        const image = file.type.indexOf('audio') > -1
-        return image
+        const audio = file.type.indexOf('audio') > -1 ||
+              file.type.indexOf('wav')
+        return audio
       } catch (err) {
         return false
       }
     },
     isMusic (file) {
       try {
-        const image = file.type.indexOf('mp3') > -1
-        return image
+        const music = file.type.indexOf('mp3') > -1 ||
+              file.type.indexOf('wma')
+        return music
       } catch (err) {
         return false
       }
@@ -242,7 +233,7 @@ export default {
           allowed = $self.isImage(fileObject)
         }
         if ($self.mediaTypes.indexOf('plain') > -1) {
-          allowed = $self.isPlain(fileObject)
+          allowed = allowed || $self.isPlain(fileObject)
         }
         if ($self.mediaTypes.indexOf('video') > -1) {
           allowed = allowed || $self.isVideo(fileObject)
@@ -252,6 +243,9 @@ export default {
         }
         if ($self.mediaTypes.indexOf('doc') > -1) {
           allowed = allowed || $self.ispdf(fileObject)
+        }
+        if ($self.mediaTypes.indexOf('mp3') > -1 || $self.mediaTypes.indexOf('music') > -1) {
+          allowed = allowed || $self.isMusic(fileObject)
         }
         if (!allowed) {
           $self.internalError = 'Files of type ' + fileObject.type + ' are not allowed here.'
