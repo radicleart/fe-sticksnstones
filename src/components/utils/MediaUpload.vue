@@ -2,7 +2,7 @@
 <div class="">
   <div class="">
       <label style="cursor: pointer;">
-        <b-button variant="outline-info" v-html="contentModel.title" @click="chooseFiles()"></b-button> <input type="file" hidden id="file-input" @change.prevent="loadMediaObjects"/>
+        <b-button variant="outline-info" v-html="contentModel.title" @click="chooseFiles()"></b-button> <input class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
       </label>
     <div class="invalid-feedback d-block" v-if="showError">
       {{contentModel.errorMessage}}
@@ -29,6 +29,11 @@ export default {
       type: Boolean,
       default: () => (false),
       required: false
+    },
+    myUploadId: {
+      type: String,
+      default: () => ('file-input'),
+      required: true
     },
     imageUrl: {
       type: String,
@@ -60,11 +65,6 @@ export default {
       default: () => ({ width: 250, height: 250 }),
       required: true
     },
-    showFiles: {
-      type: Boolean,
-      default: () => (true),
-      required: true
-    },
     mediaFiles: {
       type: Array,
       default: () => ([]),
@@ -73,15 +73,17 @@ export default {
   },
   data () {
     return {
+      loaded: false,
       file1: null,
       mediaObjects: [],
       internalError: null,
       missing: '/img/pdf-holding.png'
     }
   },
-  created () {
+  mounted () {
     if (this.mediaFiles && this.mediaFiles.length > 0) {
       Object.assign(this.mediaObjects, this.mediaFiles)
+      this.loaded = true
     }
   },
   computed: {
@@ -96,11 +98,15 @@ export default {
     }
   },
   methods: {
+    getUploadId: function () {
+      return this.myUploadId
+    },
     chooseFiles: function () {
-      document.getElementById('file-input').click()
+      // document.getElementById(this.uploadId).click()
+      this.$refs[this.myUploadId].click()
     },
     clearFiles () {
-      this.$refs['file-input'].reset()
+      this.$refs[this.myUploadId].reset()
     },
     clearMediaObject: function (fsize) {
       const index = _.findIndex(this.mediaObjects, function (mo) {
@@ -183,7 +189,7 @@ export default {
     isAudio (file) {
       try {
         const audio = file.type.indexOf('audio/mpeg') > -1 ||
-              file.type.indexOf('wav')
+              file.type.indexOf('wav') > -1
         return audio
       } catch (err) {
         return false
@@ -224,8 +230,8 @@ export default {
           type: fileObject.type
         }
         const ksize = fileObject.size / 1000
-        if (ksize > Number(this.sizeLimit)) {
-          this.internalError = 'This file (' + ksize + ' Kb) exceeds the size limit of ' + this.sizeLimit + ' Kb'
+        if (ksize > Number($self.sizeLimit)) {
+          $self.internalError = 'This file (' + ksize + ' Kb) exceeds the size limit of ' + this.sizeLimit + ' Kb'
           return
         }
         let allowed = false
@@ -278,6 +284,12 @@ export default {
 }
 </script>
 <style scoped>
+.input-file {
+  opacity: 0;
+  min-width: 300px;
+  position: relative;
+  top: -40px;
+}
 .drop-area {
   width: 100%;
   border: 1px dashed rgba(0, 0, 0, 0.24);

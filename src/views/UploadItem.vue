@@ -10,7 +10,7 @@
             <div class="mb-2">
               <div :style="bannerImage" v-if="coverImage && coverImage.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
                 <div class="mt-5 my-auto text-center">
-                  <media-upload class="" :dims="dims" :contentModel="contentModelCoverImage" :showFiles="true" :mediaFiles="mediaFilesCoverImage" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @updateMedia="setByEventLogoCoverImage($event)"/>
+                  <media-upload class="" :myUploadId="'input1'" :dims="dims" :contentModel="contentModelCoverImage" :mediaFiles="mediaFilesCoverImage" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @updateMedia="setByEventLogoCoverImage($event)"/>
                 </div>
               </div>
               <div v-else :style="bannerImage" class="d-flex align-items-end flex-column" style="width: auto; min-height: 250px;">
@@ -25,7 +25,7 @@
               <div class="mb-4">
                 <div v-if="musicFile && musicFile.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
                   <div class="mt-5 my-auto text-center">
-                    <media-upload class="" :dims="dims" :contentModel="contentModelMusicFile" :showFiles="false" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="2000000" :mediaTypes="'audio'" @updateMedia="setByEventLogoMusicFile($event)"/>
+                    <media-upload class="" :myUploadId="'input2'" :dims="dims" :contentModel="contentModelMusicFile" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="2000000" :mediaTypes="'audio'" @updateMedia="setByEventLogoMusicFile($event)"/>
                   </div>
                 </div>
                 <div v-else class="d-flex align-items-end flex-column" style="width: auto; min-height: 250px;">
