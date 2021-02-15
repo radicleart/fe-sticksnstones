@@ -8,14 +8,14 @@
         <div class="row">
           <div class="col-md-4 col-sm-12">
             <div class="mb-2">
-              <div :style="bannerImage" v-if="files && files.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
+              <div :style="bannerImage" v-if="coverImage && coverImage.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
                 <div class="mt-5 my-auto text-center">
-                  <media-upload class="" :dims="dims" :contentModel="contentModelCoverImage" :showFiles="true" :mediaFiles="mediaFiles1" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @updateMedia="setByEventLogo1($event)"/>
+                  <media-upload class="" :dims="dims" :contentModel="contentModelCoverImage" :showFiles="true" :mediaFiles="mediaFilesCoverImage" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @updateMedia="setByEventLogoCoverImage($event)"/>
                 </div>
               </div>
               <div v-else :style="bannerImage" class="d-flex align-items-end flex-column" style="width: auto; min-height: 250px;">
                 <span class="bg-dark p-1 mt-auto" style="position: relative; bottom: 0;">
-                  <a class="text-white" href="#" @click.prevent="files = []" v-if="files && files.length > 0">change</a>
+                  <a class="text-white" href="#" @click.prevent="coverImage = []" v-if="coverImage && coverImage.length > 0">change</a>
                 </span>
               </div>
             </div>
@@ -23,8 +23,15 @@
           <div class="col-md-8 col-sm-12">
             <b-form>
               <div class="mb-4">
-                <div class="mt-5 my-auto text-center">
-                  <media-upload class="" :dims="dims" :contentModel="contentModelMusicFile" :showFiles="true" :mediaFiles="mediaFiles1" :limit="1" :sizeLimit="2000000" :mediaTypes="'music'" @updateMedia="setByEventLogo1($event)"/>
+                <div v-if="musicFile && musicFile.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
+                  <div class="mt-5 my-auto text-center">
+                    <media-upload class="" :dims="dims" :contentModel="contentModelMusicFile" :showFiles="false" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="2000000" :mediaTypes="'audio'" @updateMedia="setByEventLogoMusicFile($event)"/>
+                  </div>
+                </div>
+                <div v-else class="d-flex align-items-end flex-column" style="width: auto; min-height: 250px;">
+                  <span class="bg-dark p-1 mt-auto" style="position: relative; bottom: 0;"> {{ musicFile.name }}
+                    <a class="text-white" href="#" @click.prevent="musicFile = []" v-if="musicFile && musicFile.length > 0">change</a>
+                  </span>
                 </div>
               </div>
               <div class="mb-4">
@@ -104,7 +111,8 @@ export default {
         errorMessage: 'A mp3 file is required',
         popoverBody: 'Your music file.'
       },
-      files: [],
+      coverImage: [],
+      musicFile: [],
       doValidate: true,
       defaultBadge: require('@/assets/img/risidio_collection_logo.svg'),
       defaultBadgeData: null
@@ -132,8 +140,11 @@ export default {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       this.item.creatorDID = profile.username
     },
-    setByEventLogo1 (data) {
-      this.files = data.media
+    setByEventLogoCoverImage (data) {
+      this.coverImage = data.media
+    },
+    setByEventLogoMusicFile (data) {
+      this.musicFile = data.media
     },
     setImage (trialImage) {
       if (!trialImage) {
@@ -146,11 +157,18 @@ export default {
         }]
       })
     },
-    fileName () {
-      if (this.files && this.files.length === 0) {
+    fileNameCoverImage () {
+      if (this.coverImage && this.coverImage.length === 0) {
         return
       }
-      const filename = this.files[0].name
+      const filename = this.coverImage[0].name
+      return filename.split(/\./)[0]
+    },
+    fileNameMusicFile () {
+      if (this.musicFile && this.musicFile.length === 0) {
+        return
+      }
+      const filename = this.musicFile[0].name
       return filename.split(/\./)[0]
     },
     validate: function () {
@@ -159,7 +177,7 @@ export default {
         this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter the name of your artwork' })
         result = false
       }
-      if (!this.files || this.files.length === 0) {
+      if (!this.coverImage || this.coverImage.length === 0) {
         this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an image to list with your item' })
         result = false
       }
@@ -167,7 +185,7 @@ export default {
         this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter a short description of your artwork' })
         result = false
       }
-      if (!this.files.length > 0) {
+      if (!this.coverImage.length > 0) {
         this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an artwork image or accompanying image' })
         result = false
       }
@@ -179,13 +197,13 @@ export default {
     saveApplication: function () {
       if (this.doValidate && !this.validate()) return
       let imageData = this.defaultBadgeData
-      if (this.files && this.files.length === 1) {
-        imageData = utils.getBase64FromImageUrl(this.files[0].dataUrl)
+      if (this.coverImage && this.coverImage.length === 1) {
+        imageData = utils.getBase64FromImageUrl(this.coverImage[0].dataUrl)
       }
       this.showWaitingModal = true
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       this.item.owner = profile.username
-      this.item.filename = this.files[0].name
+      this.item.filename = this.coverImage[0].name
       this.$root.$emit('bv::show::modal', 'waiting-modal')
       this.$store.dispatch('myItemStore/saveItem', { item: this.item, imageData: imageData }).then(() => {
         // this.$router.push('/my-app/' + item.itemUUID)
@@ -199,10 +217,17 @@ export default {
     }
   },
   computed: {
-    mediaFiles1 () {
+    mediaFilesCoverImage () {
       let files = []
-      if (this.files.length > 0) {
-        files = this.files
+      if (this.coverImage.length > 0) {
+        files = this.coverImage
+      }
+      return files
+    },
+    mediaFilesMusicFile () {
+      let files = []
+      if (this.musicFile.length > 0) {
+        files = this.musicFile
       }
       return files
     },
@@ -210,7 +235,7 @@ export default {
       return this.$store.getters[APP_CONSTANTS.KEY_PROFILE].stxAddress
     },
     bannerImage () {
-      if (!this.files || this.files.length === 0) {
+      if (!this.coverImage || this.coverImage.length === 0) {
         return
       }
       return {
@@ -218,7 +243,7 @@ export default {
         'min-height': '250px',
         width: '100%',
         'background-repeat': 'no-repeat',
-        'background-image': `url(${this.files[0].dataUrl})`,
+        'background-image': `url(${this.coverImage[0].dataUrl})`,
         'background-position': 'center center',
         '-webkit-background-size': 'cover',
         '-moz-background-size': 'cover',

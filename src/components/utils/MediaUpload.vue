@@ -182,7 +182,7 @@ export default {
     },
     isAudio (file) {
       try {
-        const audio = file.type.indexOf('audio') > -1 ||
+        const audio = file.type.indexOf('audio/mpeg') > -1 ||
               file.type.indexOf('wav')
         return audio
       } catch (err) {
