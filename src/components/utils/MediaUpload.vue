@@ -261,17 +261,21 @@ export default {
         reader.onload = function (e) {
           thisFile.dataUrl = e.target.result
           arrayToLoad.push(thisFile)
-          const img = new Image()
-          img.onload = function () {
-            if (this.width !== $self.dims.width || this.height !== $self.dims.height) {
-              const msg = 'Logo Dimensions: expected ' + $self.dims.height + 'x' + $self.dims.height + ' but found ' + this.width + 'x' + this.height
-              $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
-              $self.$emit('updateMedia', { media: arrayToLoad })
-            } else {
-              $self.$emit('updateMedia', { media: arrayToLoad })
+          if ($self.isImage(thisFile)) {
+            const img = new Image()
+            img.onload = function () {
+              if (this.width !== $self.dims.width || this.height !== $self.dims.height) {
+                const msg = 'Logo Dimensions: expected ' + $self.dims.height + 'x' + $self.dims.height + ' but found ' + this.width + 'x' + this.height
+                $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
+                $self.$emit('updateMedia', { media: arrayToLoad })
+              } else {
+                $self.$emit('updateMedia', { media: arrayToLoad })
+              }
             }
+            img.src = thisFile.dataUrl
+          } else {
+            $self.$emit('updateMedia', { media: arrayToLoad })
           }
-          img.src = thisFile.dataUrl
           if ($self.isVideo(thisFile)) {
             // On selecting a video file
             // document.querySelector('#video-element source').setAttribute('src', URL.createObjectURL(document.querySelector('#file-input').thisFile))
