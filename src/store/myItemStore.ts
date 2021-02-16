@@ -69,15 +69,17 @@ const myItemStore = {
     },
     saveItem ({ state, commit }: any, data: any) {
       return new Promise((resolve, reject) => {
-        if (!data.imageData || !data.item.owner ||
+        if (!data.coverImage || !data.item.owner || !data.musicFile ||
           !data.item.name ||
           !data.item.description) {
+          console.log(data.musicFile)
+          console.log(data.coverImage)
           reject(new Error('Unable to save your data...'))
           return
         }
-        myItemService.uploadImageData(data.item.filename, data.imageData).then((gaiaUrl: string) => {
+        myItemService.uploadMusicData(data.item.filename, data.musicFile).then((gaiaUrl: string) => {
           const item = data.item
-          item.logo = null
+          item.logo = data.coverImage
           item.domain = location.hostname
           item.imageUrl = gaiaUrl
           item.objType = 'multi-media'

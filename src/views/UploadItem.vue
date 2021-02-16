@@ -180,16 +180,15 @@ export default {
         this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter the name of your artwork' })
         result = false
       }
+      if (!this.musicFile || this.musicFile.length === 0) {
+        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload a music' })
+      }
       if (!this.coverImage || this.coverImage.length === 0) {
-        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an image to list with your item' })
+        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an cover image for your music' })
         result = false
       }
       if (!this.item.description) {
-        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter a short description of your artwork' })
-        result = false
-      }
-      if (!this.coverImage.length > 0) {
-        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an artwork image or accompanying image' })
+        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter a short description of your music' })
         result = false
       }
       return result
@@ -199,20 +198,24 @@ export default {
     },
     saveApplication: function () {
       if (this.doValidate && !this.validate()) return
-      let imageData = this.defaultBadgeData
+      let coverImage = this.defaultBadgeData
       if (this.coverImage && this.coverImage.length === 1) {
-        imageData = utils.getBase64FromImageUrl(this.coverImage[0].dataUrl)
+        coverImage = utils.getBase64FromImageUrl(this.coverImage[0].dataUrl)
       }
       this.showWaitingModal = true
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      this.item.owner = profile.username
-      this.item.filename = this.coverImage[0].name
+      if (!profile.username) {
+        this.item.owner = this.item.creatorDID
+      } else {
+        this.item.owner = profile.username
+      }
+      this.item.filename = this.musicFile[0].name
       this.$root.$emit('bv::show::modal', 'waiting-modal')
-      this.$store.dispatch('myItemStore/saveItem', { item: this.item, imageData: imageData }).then(() => {
+      this.$store.dispatch('myItemStore/saveItem', { item: this.item, musicFile: this.musicFile[0], coverImage: coverImage }).then(() => {
         // this.$router.push('/my-app/' + item.itemUUID)
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')
-        this.$store.commit('setModalMessage', 'Your artwork is now uploaded to your personal cloud.')
+        this.$store.commit('setModalMessage', 'Your music is now uploaded to your personal cloud.')
       }).catch((error) => {
         this.$store.commit('setModalMessage', 'Error occurred processing transaction.')
         this.result = error

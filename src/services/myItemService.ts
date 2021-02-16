@@ -86,17 +86,17 @@ const myItemService = {
       })
     })
   },
-  uploadImageData: function (filename, imageData) {
+  uploadMusicData: function (filename, musicFile) {
     return new Promise((resolve) => {
       // const artwork = Buffer.from(imageData.imageBuffer).toString('base64') // imageDataURI.decode(dataUrl)
       const path = filename
       const options = {
-        contentType: imageData.mimeType,
+        contentType: musicFile.mimeType,
         encrypt: false
       }
       getFile(path).then((file) => {
         if (file) console.log('overwriting file: ' + file)
-        storage.putFile(path, imageData.imageBuffer, options).then(function () {
+        storage.putFile(path, musicFile.imageBuffer, options).then(function () {
           storage.getFileUrl(path).then((gaiaUrl) => {
             resolve(gaiaUrl)
           }).catch(() => {
