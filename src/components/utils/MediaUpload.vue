@@ -74,7 +74,6 @@ export default {
   data () {
     return {
       loaded: false,
-      file1: null,
       mediaObjects: [],
       internalError: null,
       missing: '/img/pdf-holding.png'
@@ -265,9 +264,15 @@ export default {
             const img = new Image()
             img.onload = function () {
               if (this.width !== $self.dims.width || this.height !== $self.dims.height) {
-                const msg = 'Logo Dimensions: expected ' + $self.dims.height + 'x' + $self.dims.height + ' but found ' + this.width + 'x' + this.height
-                $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
-                $self.$emit('updateMedia', { media: arrayToLoad })
+                if (this.width !== this.height) {
+                  const msg = 'Your image must be a square and not ' + this.width + 'x' + this.height
+                  $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
+                  $self.$emit('updateMedia', { media: arrayToLoad })
+                } else {
+                  this.width = '250px'
+                  this.height = '250px'
+                  $self.$emit('updateMedia', { media: arrayToLoad })
+                }
               } else {
                 $self.$emit('updateMedia', { media: arrayToLoad })
               }
