@@ -82,8 +82,8 @@
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
-import utils from '@/services/utils'
 import MediaUpload from '@/components/utils/MediaUpload'
+import utils from '@/services/utils'
 
 export default {
   name: 'UpdateApplication',
@@ -122,11 +122,11 @@ export default {
     }
   },
   mounted () {
-    this.itemUUID = this.$route.params.itemUUID
-    if (!this.itemUUID) {
+    this.assetHash = this.$route.params.assetHash
+    if (!this.assetHash) {
       this.loaded = true
     } else {
-      this.$store.dispatch('myItemStore/findItemByUUID', this.itemUUID).then((item) => {
+      this.$store.dispatch('myItemStore/findItemByUUID', this.assetHash).then((item) => {
         if (!item) {
           this.$router.push('/404')
           return
@@ -198,20 +198,9 @@ export default {
     },
     saveApplication: function () {
       if (this.doValidate && !this.validate()) return
-      let coverImage = this.defaultBadgeData
-      if (this.coverImage && this.coverImage.length === 1) {
-        coverImage = utils.getBase64FromImageUrl(this.coverImage[0].dataUrl)
-      }
       this.showWaitingModal = true
-      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      if (!profile.username) {
-        this.item.owner = this.item.creatorDID
-      } else {
-        this.item.owner = profile.username
-      }
-      this.item.filename = this.musicFile[0].name
       this.$root.$emit('bv::show::modal', 'waiting-modal')
-      this.$store.dispatch('myItemStore/saveItem', { item: this.item, musicFile: this.musicFile[0], coverImage: coverImage }).then(() => {
+      this.$store.dispatch('myItemStore/saveItem', { item: this.item, musicFile: this.musicFile[0], coverImage: this.coverImage[0] }).then(() => {
         // this.$router.push('/my-app/' + item.itemUUID)
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')

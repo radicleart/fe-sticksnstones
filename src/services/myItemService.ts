@@ -8,6 +8,7 @@
 import { UserSession } from '@stacks/connect'
 import { Storage } from '@stacks/storage'
 import moment from 'moment'
+import utils from '@/services/utils'
 
 const ITEM_ROOT_PATH = process.env.VUE_APP_ITEM_ROOT_PATH
 const userSession = new UserSession()
@@ -26,7 +27,7 @@ const getFile = function (path) {
     storage.getFile(path).then((gaiaFile) => {
       resolve(gaiaFile)
     }).catch(() => {
-      resolve()
+      resolve(null)
     })
   })
 }
@@ -56,7 +57,7 @@ const myItemService = {
     return new Promise((resolve, reject) => {
       storage.getFile(ITEM_ROOT_PATH, { username: username, decrypt: false }).then((file: string) => {
         if (!file) {
-          resolve()
+          resolve(null)
         } else {
           const rootFile = JSON.parse(file)
           resolve(rootFile.projects)
@@ -86,25 +87,26 @@ const myItemService = {
       })
     })
   },
-  uploadMusicData: function (filename, musicFile) {
+  uploadFileData: function (filename, file) {
     return new Promise((resolve) => {
       // const artwork = Buffer.from(imageData.imageBuffer).toString('base64') // imageDataURI.decode(dataUrl)
+      const encodedFile = utils.getBase64FromImageUrl(file.dataUrl)
       const path = filename
       const options = {
-        contentType: musicFile.mimeType,
+        contentType: file.type,
         encrypt: false
       }
       getFile(path).then((file) => {
         if (file) console.log('overwriting file: ' + file)
-        storage.putFile(path, musicFile.imageBuffer, options).then(function () {
+        storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
           storage.getFileUrl(path).then((gaiaUrl) => {
             resolve(gaiaUrl)
           }).catch(() => {
-            resolve()
+            resolve(null)
           })
         }).catch((error) => {
           console.log(error)
-          resolve()
+          resolve(null)
         })
       })
     })

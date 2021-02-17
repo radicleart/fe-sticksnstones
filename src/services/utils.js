@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import dataUriToBuffer from 'data-uri-to-buffer'
 import {
   hexToCV
@@ -6,6 +7,9 @@ import {
 const precision = 1000000
 
 const utils = {
+  buildHash: function (hashable) {
+    return crypto.createHash('sha256').update(hashable).digest('hex')
+  },
   copyAddress: function (document, flasher, target) {
     const tempInput = document.createElement('input')
     tempInput.style = 'position: absolute; left: -1000px; top: -1000px'
