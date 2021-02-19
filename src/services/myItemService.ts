@@ -53,6 +53,11 @@ const myItemService = {
       })
     })
   },
+  deleteItem: function (itemName) {
+    storage.deleteFile(itemName).then(() => {
+      window.location.reload()
+    })
+  },
   fetchUserItems: function (username) {
     return new Promise((resolve, reject) => {
       storage.getFile(ITEM_ROOT_PATH, { username: username, decrypt: false }).then((file: string) => {

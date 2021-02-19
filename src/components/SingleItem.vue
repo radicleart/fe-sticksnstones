@@ -1,8 +1,13 @@
 <template>
-<div>
+<div class="mt-3">
 <router-link :to="assetUrl">
   <div id="result-item" class="mb-4">
-    <img style="max-width: 300px;" width="100%" :src="item.imageUrl"/>
+    <div v-if="item.imageUrl">
+      <img style="max-width: 300px;" width="100%" :src="item.imageUrl"/>
+    </div>
+    <div v-else-if="item.logo">
+      <img style="max-width: 300px;" width="100%" :src="item.logo"/>
+    </div>
     <!-- <div style="position: absolute; top: -20px; left: 15px; font-size: 2rem;"><b-badge variant="light">{{result.nftIndex}} <span class="sr-only">NFT</span></b-badge></div> -->
     <div><a style="position: absolute; top: 0px; right: 0; font-size: 2rem; z-index: 10;" @click.prevent="toggleFavourite()" href="#"><img ref="lndQrcode" :src="likeIconPurple" alt="like-icon"></a></div>
     <!--<div class="result__item--description" v-if="dHover[index]" v-html="item.b1_text1[0].text"></div>-->
@@ -18,6 +23,7 @@
     </div>
   </div>
 </router-link>
+<button class="text-danger" @click="deleteItem">Delete</button>
 <!-- {{created(result.created)}} / {{created(result.updated)}} -->
 </div>
 </template>
@@ -45,6 +51,9 @@ export default {
     },
     toggleFavourite () {
       utils.makeFlasher(this.$refs.lndQrcode)
+    },
+    deleteItem () {
+      this.$store.dispatch('myItemStore/deleteItem', this.item)
     }
   },
   computed: {

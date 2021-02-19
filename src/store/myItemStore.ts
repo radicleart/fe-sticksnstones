@@ -56,6 +56,28 @@ const myItemStore = {
         }
       })
     },
+    deleteItem ({ state, commit }, item) {
+      return new Promise((resolve) => {
+        let musicUrl = item.musicFileUrl
+        let imageUrl = item.imageUrl
+        const indexMusic = musicUrl.lastIndexOf('/') + 1
+        const indexImage = imageUrl.lastIndexOf('/') + 1
+        musicUrl = musicUrl.substring(indexMusic)
+        imageUrl = imageUrl.substring(indexImage)
+        myItemService.deleteItem(musicUrl)
+        myItemService.deleteItem(imageUrl)
+
+        const extractHash = musicUrl.substr(0, musicUrl.indexOf('.'))
+        const index = state.rootFile.records.findIndex((o) => o.assetHash === extractHash)
+        state.rootFile.records.slice(index, 1)
+
+        const ITEM_ROOT_PATH = process.env.VUE_APP_ITEM_ROOT_PATH
+        myItemService.deleteItem(ITEM_ROOT_PATH)
+        myItemService.saveItem(state.rootFile).then((rootFile) => {
+          commit('rootFile', rootFile)
+        })
+      })
+    },
     fetchItems ({ commit }) {
       return new Promise((resolve, reject) => {
         const profile = store.getters[APP_CONSTANTS.KEY_PROFILE]
@@ -78,12 +100,11 @@ const myItemStore = {
         const item = data.item
         const profile = store.getters[APP_CONSTANTS.KEY_PROFILE]
         item.owner = profile.username
+        if (!item.owner) item.owner = item.creatorDID
         if (!item.creatorDID) item.creatorDID = item.owner
         if (!data.coverImage || !item.owner || !data.musicFile ||
           !item.name ||
           !item.description) {
-          console.log(data.musicFile)
-          console.log(data.coverImage)
           reject(new Error('Unable to save your data...'))
           return
         }

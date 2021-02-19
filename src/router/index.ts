@@ -4,6 +4,7 @@ import MainNavbar from '@/components/layout/MainNavbar.vue'
 import Home from '../views/Home.vue'
 import UploadItem from '../views/UploadItem.vue'
 import MyItems from '../views/MyItems.vue'
+import HowItWorks from '../views/HowItWorks.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes: Array<RouteConfig> = [
     path: '/my-items',
     name: 'my-items',
     components: { default: MyItems, header: MainNavbar }
+  },
+  {
+    path: '/how-it-works',
+    name: 'how-it-works',
+    components: { default: HowItWorks, header: MainNavbar }
   }
 ]
 

@@ -19,14 +19,17 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar class="ml-auto">
         <b-navbar-nav class="ml-auto ">
+          <b-nav-item><router-link class="text-white" to="/how-it-works">How does it all work</router-link></b-nav-item>
           <b-nav-item><router-link class="text-white" to="/upload-item">Upload Item</router-link></b-nav-item>
-          <b-nav-item><router-link class="text-white" to="/my-items">My Items</router-link></b-nav-item>
           <b-nav-item-dropdown class="nav-text" right v-if="loggedIn" caret>
             <template v-slot:button-content>
               Account
             </template>
             <b-dropdown-item>{{username()}}</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item>
+              <router-link class="text-dark" to="/my-items">My Items</router-link>
+            </b-dropdown-item>
             <b-dropdown-item>
               <span @click="logout()">Logout</span>
             </b-dropdown-item>
