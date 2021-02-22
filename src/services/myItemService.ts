@@ -101,18 +101,15 @@ const myItemService = {
         contentType: file.type,
         encrypt: false
       }
-      getFile(path).then((file) => {
-        if (file) console.log('overwriting file: ' + file)
-        storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
-          storage.getFileUrl(path).then((gaiaUrl) => {
-            resolve(gaiaUrl)
-          }).catch(() => {
-            resolve(null)
-          })
-        }).catch((error) => {
-          console.log(error)
+      storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
+        storage.getFileUrl(path).then((gaiaUrl) => {
+          resolve(gaiaUrl)
+        }).catch(() => {
           resolve(null)
         })
+      }).catch((error) => {
+        console.log(error)
+        resolve(null)
       })
     })
   },

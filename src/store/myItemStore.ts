@@ -56,7 +56,7 @@ const myItemStore = {
         }
       })
     },
-    deleteItem ({ state, commit }, item) {
+    deleteItem ({ state }, item) {
       return new Promise((resolve) => {
         let musicUrl = item.musicFileUrl
         let imageUrl = item.imageUrl
@@ -69,13 +69,10 @@ const myItemStore = {
 
         const extractHash = musicUrl.substr(0, musicUrl.indexOf('.'))
         const index = state.rootFile.records.findIndex((o) => o.assetHash === extractHash)
-        state.rootFile.records.slice(index, 1)
+        state.rootFile.records.splice(index, 1)
 
-        const ITEM_ROOT_PATH = process.env.VUE_APP_ITEM_ROOT_PATH
-        myItemService.deleteItem(ITEM_ROOT_PATH)
-        myItemService.saveItem(state.rootFile).then((rootFile) => {
-          commit('rootFile', rootFile)
-        })
+        console.log(state.rootFile.records)
+        myItemService.saveItem(state.rootFile)
       })
     },
     fetchItems ({ commit }) {
