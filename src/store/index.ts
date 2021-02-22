@@ -8,13 +8,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import authStore from './authStore'
 import myItemStore from './myItemStore'
+import publicItemsStore from './publicItemsStore'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     myItemStore,
-    authStore
+    authStore,
+    publicItemsStore
   },
   state: {
     modalMessage: 'Your request is being processed'
