@@ -1,6 +1,9 @@
 <template>
     <div>
         <h1>Informations :</h1>
+        <div v-if="item.imageUrl">
+          <img style="max-width: 300px;" width="100%" :src="item.imageUrl"/>
+        </div>
         <div> Name : {{ item.name }} <br>
           <div id="name">
             <input type=text v-model="itemNewValue.name">
