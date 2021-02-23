@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import UploadItem from '../views/UploadItem.vue'
 import MyItems from '../views/MyItems.vue'
 import HowItWorks from '../views/HowItWorks.vue'
+import EditItem from '../views/EditItem.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes: Array<RouteConfig> = [
     path: '/how-it-works',
     name: 'how-it-works',
     components: { default: HowItWorks, header: MainNavbar }
+  },
+  {
+    path: '/edit-item/:hash',
+    name: 'edit-item',
+    components: { default: EditItem, header: MainNavbar }
   }
 ]
 

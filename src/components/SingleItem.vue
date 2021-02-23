@@ -58,10 +58,7 @@ export default {
   },
   computed: {
     assetUrl () {
-      let assetUrl = '/assets/' + this.item.assetHash
-      if (this.$route.name === 'my-assets') {
-        assetUrl = '/my-assets/' + this.item.assetHash
-      }
+      const assetUrl = '/edit-item/' + this.item.assetHash
       return assetUrl
     }
   }

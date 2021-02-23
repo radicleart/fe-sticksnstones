@@ -92,6 +92,29 @@ const myItemStore = {
         resolve(state.rootFile.records[index])
       })
     },
+    saveModifications ({ state, commit }, item) {
+      return new Promise((resolve, reject) => {
+        const index = state.rootFile.records.findIndex((o) => o.assetHash === item.assetHash)
+        if (index < 0) {
+          state.rootFile.records.splice(0, 0, item)
+        } else {
+          state.rootFile.records.splice(index, 1, item)
+        }
+        myItemService.saveItem(state.rootFile).then((rootFile) => {
+          commit('rootFile', rootFile)
+          resolve(item)
+          if (!item.private) {
+            searchIndexService.addRecord(item).then((result) => {
+              console.log(result)
+            }).catch((error) => {
+              console.log(error)
+            })
+          }
+        }).catch((error) => {
+          reject(error)
+        })
+      })
+    },
     saveItem ({ state, commit }: any, data: any) {
       return new Promise((resolve, reject) => {
         const item = data.item
