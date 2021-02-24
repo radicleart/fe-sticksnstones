@@ -1,20 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <Header/>
-    </div>
-    <router-view/>
+    <router-view name="header"/>
+    <router-view class="container mt-5"/>
+    <notifications :duration="10000" classes="r-notifs" position="bottom right" width="30%"/>
+    <waiting-modal/>
+    <success-modal />
   </div>
 </template>
 
 <script>
-
-import Header from './components/Header.vue'
+import SuccessModal from '@/components/utils/SuccessModal'
+import WaitingModal from '@/components/utils/WaitingModal'
 
 export default {
   name: 'App',
   components: {
-    Header
+    SuccessModal,
+    WaitingModal
   },
   methods: {
     scrollMeTo (data) {
