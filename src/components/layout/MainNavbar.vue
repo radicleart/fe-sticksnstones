@@ -1,12 +1,9 @@
 <template>
 <div class="page-nav">
-<b-navbar toggleable="lg" type="dark" variant="info">
+<b-navbar toggleable="lg" style="background-color: #FF0552">
     <b-navbar-brand href="#">
-      <div class="d-block d-md-none">
-        <router-link to="/" class="navbar-brand"><img height="30px" :src="logo" alt="risidio-logo"/></router-link>
-      </div>
-      <div class="d-none d-md-block">
-        <router-link to="/" class="navbar-brand"><img height="50px" :src="logo" alt="risidio-logo"/></router-link>
+      <div class="ml-3 mt-2">
+        <router-link to="/" class="navbar-brand"><h1 class="NavbarTitle">Stick n'Tones</h1></router-link>
       </div>
     </b-navbar-brand>
     <b-navbar-toggle class="" target="nav-collapse">
@@ -20,7 +17,7 @@
       <b-navbar class="ml-auto">
         <b-navbar-nav class="ml-auto ">
           <b-nav-item><router-link class="text-white" to="/how-it-works">How does it all work</router-link></b-nav-item>
-          <b-nav-item><router-link class="text-white" to="/upload-item">Upload Item</router-link></b-nav-item>
+          <b-nav-item><router-link class="text-white" to="/upload-item">Protect my music</router-link></b-nav-item>
           <b-nav-item-dropdown class="nav-text" right v-if="loggedIn" caret>
             <template v-slot:button-content>
               Account
@@ -99,9 +96,13 @@ body {
   margin: 0;
 }
 .page-nav {
+    font-family: 'Montserrat', sans-serif;
     margin-right: 0;
     margin-left: 0;
     border-width: .2rem;
     height: 120px;
+}
+.NavbarTitle {
+  color: white
 }
 </style>
