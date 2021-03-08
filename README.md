@@ -1,5 +1,12 @@
 # sticksnstones
 
+## References
+
+Stacks Network - Clarity Development
+https://explorer.stacks.co/?chain=testnet
+https://docs.blockstack.org/write-smart-contracts/overview
+https://docs.blockstack.org/references/language-overview
+
 ## Project setup
 ```
 npm install

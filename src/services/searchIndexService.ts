@@ -61,7 +61,11 @@ const searchIndexService = {
     return new Promise(function (resolve, reject) {
       if (!indexable.domain) indexable.domain = location.hostname
       if (!indexable.objType) indexable.objType = 'artwork'
-      if (indexable.keywords && !Array.isArray(indexable.keywords)) {
+      if (indexable.keywords && typeof indexable.keywords === 'string') {
+        indexable.keywords = indexable.keywords.split(' ')
+      } else if (indexable.keywords && Array.isArray(indexable.keywords)) {
+        // indexable.keywords = indexable.keywords
+      } else {
         indexable.keywords = []
       }
       if (!indexable.privacy) {

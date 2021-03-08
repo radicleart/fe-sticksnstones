@@ -6,6 +6,7 @@
 import { AppConfig, UserSession, authenticate, showConnect } from '@stacks/connect'
 import store from '@/store'
 
+const origin = window.location.origin
 const appConfig = new AppConfig(['store_write', 'publish_data'])
 const userSession = new UserSession({ appConfig })
 const NETWORK = process.env.VUE_APP_NETWORK
@@ -20,8 +21,8 @@ const authOptions = {
   manifestPath: '/manifest.json',
   finished: authFinished,
   appDetails: {
-    name: 'Risidio Auctions',
-    icon: origin + '/img/sticksnstones_logo.8217b8f7.png'
+    name: 'Risidio Music NFTs',
+    icon: origin + '/img/logo.png'
   }
 }
 const getProfile = function () {
@@ -62,7 +63,7 @@ const authStore = {
       loggedIn: false,
       showAdmin: false
     },
-    appName: 'Risidio Mesh',
+    appName: 'Risidio Music NFTs',
     appLogo: '/img/sticksnstones_logo.8217b8f7.png'
   },
   getters: {

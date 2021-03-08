@@ -1,79 +1,22 @@
 <template>
-<div v-if="loaded">
-  <div class="row">
-    <div class="col-9 py-5 admin-app">
-      <div class="container">
-        <p class="text-40-300">Connect Your Own Work</p>
-        <p class="text2">About your Item</p>
-        <div class="row">
-          <div class="col-md-4 col-sm-12">
-            <div class="mb-2">
-              <div :style="bannerImage" v-if="coverImage && coverImage.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
-                <div class="mt-5 my-auto text-center">
-                  <media-upload class="" :myUploadId="'CoverImageInput'" :dims="dims" :contentModel="contentModelCoverImage" :mediaFiles="mediaFilesCoverImage" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @updateMedia="setByEventLogoCoverImage($event)"/>
-                </div>
-              </div>
-              <div v-else :style="bannerImage" class="d-flex align-items-end flex-column" style="width: auto; min-height: 250px;">
-                <span class="bg-dark p-1 mt-auto" style="position: relative; bottom: 0;">
-                  <a class="text-white" href="#" @click.prevent="coverImage = []" v-if="coverImage && coverImage.length > 0">change</a>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-8 col-sm-12">
-            <b-form>
-              <div class="mb-4">
-                <div v-if="musicFile && musicFile.length === 0" class="d-flex align-items-center flex-column m-2 p-2 bg-white border" style="width: auto; min-height: 250px;">
-                  <div class="mt-5 my-auto text-center">
-                    <media-upload class="" :myUploadId="'MusicFileInput'" :dims="dims" :contentModel="contentModelMusicFile" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="2000000" :mediaTypes="'audio'" @updateMedia="setByEventLogoMusicFile($event)"/>
-                  </div>
-                </div>
-                <div v-else class="d-flex align-items-end flex-column" style="width: auto; min-height: 250px;">
-                  <div class="p-1 mt-auto">
-                    {{ musicFile[0].name }}
-                  </div>
-                  <span class="bg-dark p-1 mt-auto" style="position: relative; bottom: 0;">
-                    <a class="text-white" href="#" @click.prevent="musicFile = []" v-if="musicFile && musicFile.length > 0">change</a>
-                  </span>
-                </div>
-              </div>
-              <div class="mb-4">
-                <div class="text2">Name of Item</div>
-                <b-input
-                  id="name"
-                  v-model="item.name"
-                  ></b-input>
-              </div>
-              <div class="mb-4">
-                <b-form-checkbox size="lg" v-model="item.private" name="check-button" switch>
-                  <span v-if="!item.private"><b>make it public</b> the item will be listed on our marketplace</span>
-                  <span v-else><b>keep it private for now</b></span>
-                </b-form-checkbox>
-              </div>
-              <div class="mb-4">
-                <div class="text2">Short Description</div>
-                <b-textarea
-                  ref="description"
-                  v-model="item.description"
-                  rows="5"
-                  style="padding: 20px 20px;"
-                  ></b-textarea>
-              </div>
-              <div class="mb-4">
-                <div class="text2">Creator D-ID <a href="#" @click.prevent="useMyAddress()">(use my username)</a></div>
-                <b-input
-                  id="creatorDID"
-                  ref="creatorDID"
-                  v-model="item.creatorDID"
-                  ></b-input>
-              </div>
-              <div class="mb-2" v-if="valid">
-                <b-button variant="info" class="mt-3 mr-3 btn-lg" style="text-transform: capitalize; font-size: 1.4rem;" @click.prevent="saveApplication()">Save Application</b-button>
-                <!-- <b-button variant="danger" class="mt-3 btn-lg" style="text-transform: capitalize; font-size: 14px;" to="/admin-app">Back</b-button> -->
-              </div>
-            </b-form>
-          </div>
+<div id="upload-item" class="mb-5 pb-5 container" v-if="loaded">
+  <div class="" :key="componentKey">
+    <div class="row mt-4">
+      <div class="col-md-6 col-sm-12">
+        <h4>{{contextTitle()}}</h4>
+        <item-form-nav :item="item" @upload-state="updateUploadState" :uploadState="uploadState"/>
+        <div class="drop-zone" v-if="uploadState === 1">
+          <media-upload class="" :myUploadId="'MusicFileInput'" :dims="dims" :contentModel="contentModelMusicFile" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="2000000" :mediaTypes="'audio'" @startLoad="startLoad" @updateMedia="setByEventLogoMusicFile($event)"/>
         </div>
+        <div class="drop-zone" v-if="uploadState === 2">
+          <media-upload :myUploadId="'CoverImageInput'" :dims="dims" :contentModel="contentModelCoverImage" :mediaFiles="mediaFilesCoverImage" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @startLoad="startLoad" @updateMedia="setByEventLogoCoverImage($event)"/>
+        </div>
+          <item-form-part1 v-if="uploadState === 3" @upload-state="updateUploadState" :item="item" :formSubmitted="formSubmitted"/>
+          <item-form-part2 v-if="uploadState === 4" @upload-state="updateUploadState" :item="item" :formSubmitted="formSubmitted"/>
+          <item-form-part3 v-if="uploadState === 5" @upload-state="updateUploadState" :item="item" :formSubmitted="formSubmitted"/>
+      </div>
+      <div class="px-4 col-md-6 col-sm-12" v-if="uploadState > 1">
+        <item-summary class="upload-preview" :itemSummary="itemSummary" @upload-item="uploadItem"/>
       </div>
     </div>
   </div>
@@ -82,16 +25,30 @@
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
+import ItemFormPart1 from '@/components/items/ItemFormPart1'
+import ItemFormPart2 from '@/components/items/ItemFormPart2'
+import ItemFormPart3 from '@/components/items/ItemFormPart3'
+import ItemFormNav from '@/components/items/ItemFormNav'
+import ItemSummary from '@/components/items/ItemSummary'
 import MediaUpload from '@/components/utils/MediaUpload'
 import utils from '@/services/utils'
 
 export default {
   name: 'UpdateApplication',
   components: {
-    MediaUpload
+    MediaUpload,
+    ItemSummary,
+    ItemFormPart1,
+    ItemFormPart2,
+    ItemFormPart3,
+    ItemFormNav
   },
   data () {
     return {
+      formSubmitted: false,
+      componentKey: 0,
+      uploadState: 1,
+      showHash: false,
       loading: true,
       itemUUID: null,
       loaded: false,
@@ -99,23 +56,29 @@ export default {
       result: 'Saving data to your storage - back in a mo!',
       item: {
         owner: null,
+        coverArtist: null,
         private: false,
-        creatorDID: null,
         name: '',
-        description: ''
+        description: '',
+        editions: null,
+        keywords: '',
+        coverImage: {},
+        musicFile: {}
       },
       contentModelCoverImage: {
-        title: 'Upload a square </br> cover image',
+        title: 'Cover Image',
+        buttonName: 'Choose File',
+        iconName: 'brush',
         errorMessage: 'A image file is required.',
         popoverBody: 'Your cover image.'
       },
       contentModelMusicFile: {
-        title: 'Upload here your mp3 file',
+        title: 'Music File',
+        buttonName: 'Choose File',
+        iconName: 'music-note-beamed',
         errorMessage: 'A mp3 file is required',
         popoverBody: 'Your music file.'
       },
-      coverImage: [],
-      musicFile: [],
       doValidate: true,
       defaultBadge: require('@/assets/img/risidio_collection_logo.svg'),
       defaultBadgeData: null
@@ -126,12 +89,18 @@ export default {
     if (!this.assetHash) {
       this.loaded = true
     } else {
-      this.$store.dispatch('myItemStore/findItemByUUID', this.assetHash).then((item) => {
+      this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
         if (!item) {
           this.$router.push('/404')
           return
         }
         this.item = item
+        if (!this.item.coverImage) {
+          this.item.coverImage = {}
+        }
+        if (!this.item.musicFile) {
+          this.item.musicFile = {}
+        }
         this.setImage(item.imageUrl)
         if (item.imageUrl) this.item.imageUrl = item.imageUrl
         this.loaded = true
@@ -139,15 +108,65 @@ export default {
     }
   },
   methods: {
-    useMyAddress: function () {
-      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      this.item.creatorDID = profile.username
+    updateUploadState: function (data) {
+      if (data.change === 'done') {
+        this.$router.push('/item-preview/:assetHash')
+      }
+      if (data.change === 'up') {
+        this.uploadState++
+      } else {
+        this.uploadState--
+      }
+    },
+    isValidParam: function (param) {
+      if (param === 'music') {
+        return (this.item.musicFile && this.item.musicFile.dataUrl)
+      } else if (param === 'cover') {
+        return (this.item.coverImage && this.item.coverImage.dataUrl)
+      }
+    },
+    startLoad: function (data) {
+      if (data && data.file.type.indexOf('audio') > -1) {
+        this.$store.commit('setModalMessage', 'Loading ' + data.file.name + ' a ' + data.file.type + ' type file into browser - shouldn\'t be long...')
+        this.$root.$emit('bv::show::modal', 'waiting-modal')
+      }
+    },
+    isValid: function () {
+      const valid = this.isValidParam('creator') &&
+              this.isValidParam('editions') &&
+              this.isValidParam('music') &&
+              this.isValidParam('name') &&
+              this.isValidParam('cover')
+      return valid
     },
     setByEventLogoCoverImage (data) {
-      this.coverImage = data.media
+      if (!data.media || data.media.length === 0) return
+      this.item.coverImage = data.media[data.media.length - 1]
+      this.$root.$emit('bv::hide::modal', 'waiting-modal')
+      if (this.item.coverImage.dataUrl) {
+        this.$store.commit('setModalMessage', 'Uploading ' + this.item.coverImage.name + ' to your storage.')
+        this.$store.dispatch('myItemStore/saveCoverFile', this.item).then((item) => {
+          this.item = item
+          this.uploadState = 3
+          this.$root.$emit('bv::hide::modal', 'waiting-modal')
+        })
+      }
+      this.uploadState = 3
     },
     setByEventLogoMusicFile (data) {
-      this.musicFile = data.media
+      if (!data.media || data.media.length === 0) return
+      this.item.musicFile = data.media[0]
+      if (this.item.musicFile.name) {
+        this.item.name = utils.getFileNameNoExtension(this.item.musicFile.name)
+      }
+      if (this.item.musicFile.dataUrl) {
+        this.$store.commit('setModalMessage', 'Uploading ' + this.item.musicFile.name + ' to your storage.')
+        this.$store.dispatch('myItemStore/saveMusicFile', this.item).then((item) => {
+          this.item = item
+          this.uploadState = 2
+          this.$root.$emit('bv::hide::modal', 'waiting-modal')
+        })
+      }
     },
     setImage (trialImage) {
       if (!trialImage) {
@@ -161,46 +180,34 @@ export default {
       })
     },
     fileNameCoverImage () {
-      if (this.coverImage && this.coverImage.length === 0) {
+      if (this.item.coverImage.name) {
         return
       }
-      const filename = this.coverImage[0].name
+      const filename = this.item.coverImage.name
       return filename.split(/\./)[0]
     },
     fileNameMusicFile () {
-      if (this.musicFile && this.musicFile.length === 0) {
+      if (this.item.musicFile && this.item.musicFile.length === 0) {
         return
       }
-      const filename = this.musicFile[0].name
+      const filename = this.item.musicFile.name
       return filename.split(/\./)[0]
     },
-    validate: function () {
-      let result = true
-      if (!this.item.name) {
-        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter the name of your artwork' })
-        result = false
-      }
-      if (!this.musicFile || this.musicFile.length === 0) {
-        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload a music' })
-      }
-      if (!this.coverImage || this.coverImage.length === 0) {
-        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please upload an cover image for your music' })
-        result = false
-      }
-      if (!this.item.description) {
-        this.$notify({ type: 'error', title: 'Upload Item', text: 'Please enter a short description of your music' })
-        result = false
-      }
-      return result
+    contextTitle: function () {
+      if (this.uploadState === 1) return 'Upload your music'
+      else if (this.uploadState === 2) return 'Add cover art'
+      else if (this.uploadState === 3) return 'Help people find it..'
     },
-    valid () {
-      return this.item.name && this.item.description
-    },
-    saveApplication: function () {
-      if (this.doValidate && !this.validate()) return
+    uploadItem: function () {
+      if (this.item.editions) this.item.editions = parseInt(this.item.editions)
+      if (this.doValidate && !this.isValid()) {
+        this.$notify({ type: 'error', title: 'Upload Error', text: 'Please enter missing data' })
+        return
+      }
       this.showWaitingModal = true
+      this.$store.commit('setModalMessage', 'Uploading files - this can sometimes take a while depending on network traffic and file size. We don\'t store your data in our infrastructure - instead we are doing something new that gives you control over the data you load into applications.. <a target="_blank" href="https://radiclesociety.medium.com/radicle-peer-to-peer-marketplaces-whats-the-deal-767960da195b">read more</a>')
       this.$root.$emit('bv::show::modal', 'waiting-modal')
-      this.$store.dispatch('myItemStore/saveItem', { item: this.item, musicFile: this.musicFile[0], coverImage: this.coverImage[0] }).then(() => {
+      this.$store.dispatch('myItemStore/saveItem', { item: this.item, musicFile: this.item.musicFile[0], coverImage: this.item.coverImage[0] }).then(() => {
         // this.$router.push('/my-app/' + item.itemUUID)
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')
@@ -212,43 +219,47 @@ export default {
     }
   },
   computed: {
+    itemSummary () {
+      return {
+        uploadState: this.uploadState,
+        displayTitle: 'Preview',
+        item: this.item,
+        isValid: this.isValid(),
+        context: 'upload'
+      }
+    },
     mediaFilesCoverImage () {
-      let files = []
-      if (this.coverImage.length > 0) {
-        files = this.coverImage
+      const files = []
+      if (this.item.coverImage && this.item.coverImage.dataUrl) {
+        files.push(this.item.coverImage)
       }
       return files
     },
     mediaFilesMusicFile () {
-      let files = []
-      if (this.musicFile.length > 0) {
-        files = this.musicFile
+      const files = []
+      if (this.item.musicFile && this.item.musicFile.dataUrl) {
+        files.push(this.item.musicFile)
       }
       return files
     },
     contractAddressUser () {
       return this.$store.getters[APP_CONSTANTS.KEY_PROFILE].stxAddress
-    },
-    bannerImage () {
-      if (!this.coverImage || this.coverImage.length === 0) {
-        return
-      }
-      return {
-        padding: '0 0 0 0',
-        'min-height': '250px',
-        width: '100%',
-        'background-repeat': 'no-repeat',
-        'background-image': `url(${this.coverImage[0].dataUrl})`,
-        'background-position': 'center center',
-        '-webkit-background-size': 'cover',
-        '-moz-background-size': 'cover',
-        '-o-background-size': 'cover',
-        'background-size': 'cover',
-        opacity: 1
-      }
     }
   }
 }
 </script>
 <style lang="scss" >
+#upload-item .drop-zone {
+  min-width: 300px;
+  min-height: 300px;
+  padding: 20px;
+  height: auto;
+  border-radius: 18px;
+  border: 1pt dashed rgb(146, 146, 38);
+  text-align: center;
+}
+#upload-item .badge {
+  cursor: pointer;
+  padding: 5px !important;
+}
 </style>

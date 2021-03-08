@@ -10,6 +10,14 @@ const utils = {
   buildHash: function (hashable) {
     return crypto.createHash('sha256').update(hashable).digest('hex')
   },
+  getFileExtension: function (filename) {
+    const index = filename.lastIndexOf('.')
+    return filename.substring(index)
+  },
+  getFileNameNoExtension: function (filename) {
+    const index = filename.lastIndexOf('.')
+    return filename.substring(0, index)
+  },
   copyAddress: function (document, flasher, target) {
     const tempInput = document.createElement('input')
     tempInput.style = 'position: absolute; left: -1000px; top: -1000px'

@@ -1,21 +1,25 @@
 <template>
-<div>
-  <h1>
-      Welcome to my items !
-  </h1>
-  <div v-if="!isLoggedIn">
-    You have to be connected to see your items
-  </div>
-  <div class="row mb-4">
-    <div v-for="(item, index) in myItems" :key="index" class="mt-5 col-md-3 col-sm-4 col-6">
-      <single-item class="mb-2" :item="item"/>
+<div class="container" style="height: 100vh;">
+  <div v-if="myItems && myItems.length > 0" style="height: 100vh;">
+    <div class="d-flex justify-content-end">
+      <b-button class="ml-3" :variant="(filter === 'none') ? 'outline-danger' : 'outline-dark'" @click="filter = 'none'">All</b-button>
+      <b-button class="ml-3" :variant="(filter === 'minted') ? 'outline-danger' : 'outline-dark'" @click="filter = 'minted'">Minted</b-button>
+      <b-button class="ml-3" :variant="(filter === 'not-minted') ? 'outline-danger' : 'outline-dark'" @click="filter = 'not-minted'">Not Minted</b-button>
     </div>
+    <div class="row mb-4">
+      <div v-for="(item, index) in myItems" :key="index" class="mt-5 col-md-3 col-sm-4 col-6">
+        <single-item class="mb-2" :item="item" v-if="item.assetHash"/>
+      </div>
+    </div>
+  </div>
+  <div v-else class="m-5">
+    Nothing to see here so far - <b-button to="/upload-item" variant="outline-danger">Get Started</b-button>
   </div>
 </div>
 </template>
 
 <script>
-import SingleItem from '@/components/SingleItem'
+import SingleItem from '@/components/items/SingleItem'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
@@ -25,6 +29,7 @@ export default {
   },
   data () {
     return {
+      filter: 'none'
     }
   },
   mounted () {
@@ -38,10 +43,6 @@ export default {
       const myItems = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEMS]
       if (myItems) return myItems
       return []
-    },
-    isLoggedIn () {
-      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      return profile.loggedIn
     }
   }
 }

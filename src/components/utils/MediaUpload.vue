@@ -1,9 +1,16 @@
 <template>
-<div class="">
-  <div class="">
-      <label style="cursor: pointer;">
-        <b-button variant="outline-info" v-html="contentModel.title" @click="chooseFiles()"></b-button> <input class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
-      </label>
+<div class="text-center">
+  <div class="text-danger d-flex flex-column align-items-center">
+      <div class="mt-5"><b-icon scale="3" :icon="contentModel.iconName"/></div>
+      <div class="mt-4 mb-5 text-center">{{contentModel.title}}</div>
+      <div class="mt-auto" style="position: relative; top: 90px;">
+        <div>
+          <b-button variant="light" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
+        </div>
+        <div>
+          <input class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
+        </div>
+      </div>
     <div class="invalid-feedback d-block" v-if="showError">
       {{contentModel.errorMessage}}
     </div>
@@ -207,6 +214,7 @@ export default {
       this.load(e, this.mediaObjects, 1)
     },
     load: function (e, arrayToLoad, limit) {
+      this.clearMediaObjects()
       const $self = this
       this.internalError = null
       let userFiles
@@ -228,6 +236,7 @@ export default {
           size: fileObject.size,
           type: fileObject.type
         }
+        this.$emit('startLoad', { file: thisFile })
         const ksize = fileObject.size / 1000
         if (ksize > Number($self.sizeLimit)) {
           $self.internalError = 'This file (' + ksize + ' Kb) exceeds the size limit of ' + this.sizeLimit + ' Kb'

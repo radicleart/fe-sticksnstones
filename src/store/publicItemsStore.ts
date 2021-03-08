@@ -1,4 +1,5 @@
 import searchIndexService from '@/services/searchIndexService'
+import keywordService from '@/services/keywordService'
 
 const publicItemsStore = {
   namespaced: true,
@@ -11,13 +12,18 @@ const publicItemsStore = {
     }
   },
   actions: {
-    fetchPublicItems ({ commit }) {
+    fetchPublicItems () {
       return new Promise((resolve, reject) => {
         searchIndexService.fetchAllNamesIndex().then((details) => {
           resolve(details)
         }).catch((error) => {
           reject(error)
         })
+      })
+    },
+    fetchKeywords () {
+      return new Promise((resolve) => {
+        resolve(keywordService.getFixedKeywords())
       })
     }
   }

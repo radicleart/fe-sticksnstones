@@ -22,16 +22,6 @@ const getNewRootFile = function () {
   }
   return newRootFile
 }
-const getFile = function (path) {
-  return new Promise((resolve) => {
-    storage.getFile(path).then((gaiaFile) => {
-      resolve(gaiaFile)
-    }).catch(() => {
-      resolve(null)
-    })
-  })
-}
-
 const myItemService = {
   initItemSchema: function (profile) {
     return new Promise((resolve) => {
