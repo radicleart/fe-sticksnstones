@@ -2,17 +2,11 @@
 <section id="deep-logos">
   <div class="row">
     <div class="col-6">
-      <logo-risidio :model="model" :scale="scale"/>
+      <logo-risidio :model="currentModel" :scale="scale"/>
     </div>
     <div class="col-6">
       <ul>
-        <li @click="model = model1">Risidio logo</li>
-        <li @click="model = model2">Stacks logo</li>
-        <li @click="model = model3">StackRisidio logo</li>
-        <li @click="model = model4">Bitcoin logo</li>
-        <li @click="model = model5">BitcoinRisidio logo</li>
-        <li @click="model = model6">Lightning logo</li>
-        <li @click="model = model7">LightningRisidio logo</li>
+        <li v-for="( model, index) in gltfModels" :key="index" @click="currentModel = rootPath + model.name">{{model.name}}</li>
       </ul>
     </div>
   </div>
@@ -29,18 +23,35 @@ export default {
   },
   data () {
     return {
+      currentModel: 'https://test.risidio.com/gltf/3dLogos/Risidio/bicoinres.gltf',
       scale: [0.8, 0.8, 0.8],
-      model: 'https://test.risidio.com/gltf/3dLogos/Risidio/bicoinres.gltf',
-      model1: 'https://test.risidio.com/gltf/3dLogos/Risidio/bicoinres.gltf',
-      model2: 'https://test.risidio.com/gltf/3dLogos/Stack/bicoinres.gltf',
-      model3: 'https://test.risidio.com/gltf/3dLogos/StackRisidio/bicoinres.gltf',
-      model4: 'https://test.risidio.com/gltf/3dLogos/Bitcoin/lendres.gltf',
-      model5: 'https://test.risidio.com/gltf/3dLogos/BitcoinRisidio/bicoinres.gltf',
-      model6: 'https://test.risidio.com/gltf/3dLogos/Lightning/untitled.gltf',
-      model7: 'https://test.risidio.com/gltf/3dLogos/LightningRisidio/lendres.gltf'
+      rootPath: 'https://test.risidio.com/gltf/3dLogos/',
+      gltfModels: [
+        { name: 'risidio/bicoinres.gltf' },
+        { name: 'risidio/residio black.gltf' },
+        { name: 'risidio/residio white.gltf' },
+        { name: 'stack/bicoinres.gltf' },
+        { name: 'stack + risidio/stacksblack+risidioblack.gltf' },
+        { name: 'stack + risidio/stackswhite+risidiowhite.gltf' },
+        { name: 'bitcoin/lendres.gltf' },
+        { name: 'Bitcoin + risidio/bitcoin+residio black.gltf' },
+        { name: 'Bitcoin + risidio/bitcoin+residio white.gltf' },
+        { name: 'Bitcoin + risidio/bitcoin+residio.gltf' },
+        { name: 'lightning/untitled.gltf' },
+        { name: 'lightning + residio/bitcoinlightning+residio black.gltf' },
+        { name: 'lightning + residio/bitcoinlightning+residio white.gltf' },
+        { name: 'lightning + residio/lendres.gltf' },
+        { name: 'swain logo/swain.gltf' },
+        { name: 'swain+risidio/swain+risidioblack.gltf' },
+        { name: 'swain+risidio/swain+risidiowhite.gltf' },
+        { name: 'swain+risidio/swain+risidio.gltf' }
+      ]
     }
   },
   methods: {
+    changeModel (name) {
+      this.currentModel = this.rootPath + name
+    }
   },
   computed: {
   }

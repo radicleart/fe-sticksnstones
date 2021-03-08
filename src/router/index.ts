@@ -39,7 +39,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/item-preview/:assetHash',
     name: 'item-preview',
-    components: { default: UploadItem, header: MainNavbar, footer: MainFooter },
+    components: { default: ItemPreview, header: MainNavbar, footer: MainFooter },
     meta: { requiresAuth: true }
   },
   {

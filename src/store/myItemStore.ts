@@ -28,7 +28,7 @@ const myItemStore = {
     },
     myItem: state => assetHash => {
       let item
-      if (assetHash) {
+      if (state.myItems && assetHash) {
         item = state.myItems.find(myItem => myItem.assetHash === assetHash)
       }
       return item
@@ -150,6 +150,12 @@ const myItemStore = {
         const coverImageFileName = item.assetHash + utils.getFileExtension(item.coverImage.name)
         myItemService.uploadFileData(coverImageFileName, item.coverImage).then((gaiaUrl: string) => {
           item.imageUrl = gaiaUrl
+          item.musicFile.dataUrl = null
+          item.coverImage.dataUrl = null
+          dispatch('saveItem', item).then((item) => {
+            resolve(item)
+          })
+        }).catch(() => {
           item.musicFile.dataUrl = null
           item.coverImage.dataUrl = null
           dispatch('saveItem', item).then((item) => {

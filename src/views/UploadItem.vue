@@ -85,11 +85,11 @@ export default {
     }
   },
   mounted () {
-    this.assetHash = this.$route.params.assetHash
-    if (!this.assetHash) {
+    const assetHash = this.$route.params.assetHash
+    if (!assetHash) {
       this.loaded = true
     } else {
-      this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
+      this.$store.dispatch('myItemStore/findItemByAssetHash', assetHash).then((item) => {
         if (!item) {
           this.$router.push('/404')
           return
@@ -110,9 +110,8 @@ export default {
   methods: {
     updateUploadState: function (data) {
       if (data.change === 'done') {
-        this.$router.push('/item-preview/:assetHash')
-      }
-      if (data.change === 'up') {
+        this.$router.push('/item-preview/' + this.item.assetHash)
+      } else if (data.change === 'up') {
         this.uploadState++
       } else {
         this.uploadState--

@@ -83,7 +83,7 @@ const myItemService = {
     })
   },
   uploadFileData: function (filename, file) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       // const artwork = Buffer.from(imageData.imageBuffer).toString('base64') // imageDataURI.decode(dataUrl)
       const encodedFile = utils.getBase64FromImageUrl(file.dataUrl)
       const path = filename
@@ -91,15 +91,21 @@ const myItemService = {
         contentType: file.type,
         encrypt: false
       }
-      storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
-        storage.getFileUrl(path).then((gaiaUrl) => {
+      storage.getFileUrl(path).then((gaiaUrl) => {
+        // first check for files existence - if yes return
+        if (gaiaUrl) {
           resolve(gaiaUrl)
-        }).catch(() => {
-          resolve(null)
-        })
-      }).catch((error) => {
-        console.log(error)
-        resolve(null)
+        } else {
+          storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
+            storage.getFileUrl(path).then((gaiaUrl) => {
+              resolve(gaiaUrl)
+            }).catch((error) => {
+              reject(new Error('Url not available: ' + error))
+            })
+          }).catch((error) => {
+            reject(new Error('Uanble to put file: ' + error))
+          })
+        }
       })
     })
   },

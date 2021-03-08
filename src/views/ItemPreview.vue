@@ -31,7 +31,7 @@ export default {
     return {
       showHash: false,
       assetHash: null,
-      message: null
+      message: 'No item available...'
     }
   },
   mounted () {
