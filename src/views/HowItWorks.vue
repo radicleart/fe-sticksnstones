@@ -1,9 +1,9 @@
 <template>
-  <section id="section1" class="container home-content" v-if="slices">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="home-content text-white">{{title}}</h1>
-        <slices-block :rootId="'slice-'" :slices="slices" :columns="columns" class="container-fluid"/>
+  <section id="section1" class="container-fluid home-content p-0" v-if="slices">
+    <div class="row m-0 p-0">
+      <div class="col-12 m-0 p-0">
+        <h1 class="home-content text-white title">{{title}}</h1>
+        <slices-block :rootId="'slice-'" :slices="slices" :columns="columns" class="container-fluid m-0 p-0"/>
       </div>
     </div>
   </section>
@@ -36,24 +36,47 @@ export default {
 </script>
 <style lang="scss">
 @import "@/assets/scss/custom.scss";
+div {
+  max-width: 100%;
+}
+.title {
+  font-weight: bold;
+  margin-left: 10%;
+  font-size: 400%;
+  margin-bottom: 0;
+}
 .my-header {
   position: absolute;
   top: 15vh;
   left: 10vw;
 }
+.protectButton{
+  border-radius: 16px;
+  align-content: center;
+  background-color: #FF0752;
+  text-align: center;
+  color: white;
+  max-width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 .home-content {
   position: relative;
   top: 40px;
 }
-
 #slice-0 {
   margin-top: 100vh;
   background-color: #fff;
-  padding: 60px 40px;
+  padding: 0 4%;
+  background-image: url('../assets/img/Groupe 16193.png');
+  background-repeat: no-repeat;
 }
 #slice-0 h1 {
   margin-bottom: 60px;
   font-size: 1.8rem;
+  font-weight: bold;
 }
 #slice-0 h2 {
   margin-left: 45px;
@@ -62,6 +85,7 @@ export default {
 }
 #slice-0 p {
   margin-left: 30px;
+  padding-bottom: 5%;
 }
 
 #slice-1 {
@@ -70,11 +94,14 @@ export default {
   left: 100px;
   background-color: #fff;
   padding: 60px 40px;
-  max-width: 40%
+  max-width: 40%;
+  box-shadow: 10px 10px 30px #E0585869;
+  max-height: 700px;
 }
 #slice-1 h1 {
   margin-bottom: 30px;
   font-size: 2.4rem;
+  font-weight: bold;
 }
 
 #slice-2 {
@@ -88,13 +115,18 @@ export default {
 #slice-2 h1 {
   margin-bottom: 30px;
   font-size: 2.4rem;
+  font-weight: bold;
 }
 
 #slice-3 {
   margin: 50px 0;
-}
-#slice-3 {
   text-align: center;
+}
+.card {
+  border-color: #FC14552E;
+  box-shadow: 10px 10px 30px #FC14552E;
+  border-radius: 16px;
+  width: auto;
 }
 #slice-4 {
   text-align: center;
