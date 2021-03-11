@@ -11,6 +11,9 @@
     <template v-else-if="slice.slice_type === 'image_with_caption'">
       <image-caption-slice :slice="slice"></image-caption-slice>
     </template>
+    <template v-else-if="slice.slice_type === 'slides'">
+      <slides-slice :slice="slice"></slides-slice>
+    </template>
   </div>
 </section>
 </section>
@@ -20,13 +23,15 @@
 const QuoteSlice = () => import('@/components/prismic/QuoteSlice.vue')
 const TextSlice = () => import('@/components/prismic/TextSlice.vue')
 const ImageCaptionSlice = () => import('@/components/prismic/ImageCaptionSlice.vue')
+const SlidesSlice = () => import('@/components/prismic/SlidesSlice.vue')
 
 export default {
   name: 'SlicesBlock',
   components: {
     QuoteSlice,
     TextSlice,
-    ImageCaptionSlice
+    ImageCaptionSlice,
+    SlidesSlice
   },
   props: ['rootId', 'slices', 'columns'],
   methods: {

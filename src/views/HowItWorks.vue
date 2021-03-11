@@ -72,6 +72,7 @@ div {
   padding: 0 4%;
   background-image: url('../assets/img/Groupe 16193.png');
   background-repeat: no-repeat;
+  margin-bottom: 50px;
 }
 #slice-0 h1 {
   margin-bottom: 60px;
@@ -105,7 +106,8 @@ div {
 }
 
 #slice-2 {
-  background-color: $danger;
+  background: rgb(255,5,82);
+  background: linear-gradient(112deg, rgba(255,5,82,1) 0%, rgba(236,119,107,1) 100%);
   color: #fff;
   padding: 50px;
   z-index: 2;
@@ -125,12 +127,13 @@ div {
 .card {
   border-color: #FC14552E;
   box-shadow: 10px 10px 30px #FC14552E;
-  border-radius: 16px;
+  border-radius: 34px;
   width: auto;
 }
 #slice-4 {
   text-align: center;
-  background-color: $danger;
+  background: rgb(255,5,82);
+  background: linear-gradient(103deg, rgba(255,5,82,1) 0%, rgba(236,119,107,1) 100%);
   color: #fff;
   padding: 50px;
   z-index: 2;
