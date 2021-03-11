@@ -3,7 +3,6 @@
   <Scene id="logo-risidio" name="logo-risidio">
     <Asset :src="model"></Asset>
     <!--
-    <HemisphericLight></HemisphericLight>
     <Property name="clearColor" color="#fefefe"></Property>
     <Camera type="arcRotate" :position="[0, 1, 0]" ></Camera>
     <Asset
