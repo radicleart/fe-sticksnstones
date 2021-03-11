@@ -1,7 +1,7 @@
 <template>
 <section>
   <Scene id="logo-risidio" name="logo-risidio">
-    <Asset :src="model"></Asset>
+    <Asset :scaling="scale" :position="position" :src="model"></Asset>
     <!--
     <Property name="clearColor" color="#fefefe"></Property>
     <Camera type="arcRotate" :position="[0, 1, 0]" ></Camera>
@@ -47,7 +47,7 @@ export default {
   name: 'Donate',
   components: {
   },
-  props: ['model', 'scale'],
+  props: ['model', 'scale', 'position'],
   data () {
     return {
       environment: {

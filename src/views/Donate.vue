@@ -2,7 +2,7 @@
 <section id="deep-logos">
   <div class="row">
     <div class="col-10">
-      <logo-risidio :model="currentModel" :scale="scale"/>
+      <logo-risidio :model="currentModel" :scale="scale" :position="position"/>
     </div>
     <div class="col-2">
       <ul>
@@ -15,7 +15,6 @@
 
 <script>
 import LogoRisidio from '@/components/scenes/LogoRisidio.vue'
-
 export default {
   name: 'Donate',
   components: {
@@ -23,28 +22,39 @@ export default {
   },
   data () {
     return {
-      currentModel: 'https://test.risidio.com/gltf/3dLogos/test.glb',
-      scale: [0.8, 0.8, 0.8],
+      currentModel: 'https://test.risidio.com/gltf/3dLogos/Stacks/stacks_w.gltf',
+      scale: [0.15, 0.15, 0.15],
+      position: [0, 0, 0],
       rootPath: 'https://test.risidio.com/gltf/3dLogos/',
       gltfModels: [
-        { name: 'risidio/bicoinres.gltf' },
-        { name: 'risidio/residio black.gltf' },
-        { name: 'risidio/residio white.gltf' },
-        { name: 'stack/bicoinres.gltf' },
-        { name: 'stack + risidio/stacksblack+risidioblack.gltf' },
-        { name: 'stack + risidio/stackswhite+risidiowhite.gltf' },
-        { name: 'bitcoin/lendres.gltf' },
-        { name: 'Bitcoin + risidio/bitcoin+residio black.gltf' },
-        { name: 'Bitcoin + risidio/bitcoin+residio white.gltf' },
-        { name: 'Bitcoin + risidio/bitcoin+residio.gltf' },
-        { name: 'lightning/untitled.gltf' },
-        { name: 'lightning + residio/bitcoinlightning+residio black.gltf' },
-        { name: 'lightning + residio/bitcoinlightning+residio white.gltf' },
-        { name: 'lightning + residio/lendres.gltf' },
-        { name: 'swain logo/swain.gltf' },
-        { name: 'swain+risidio/swain+risidioblack.gltf' },
-        { name: 'swain+risidio/swain+risidiowhite.gltf' },
-        { name: 'swain+risidio/swain+risidio.gltf' }
+        { name: 'bitcoin/bitcoin.gltf' },
+        { name: 'bitcoin/with risidio/bitcoin_b_color.gltf' },
+        { name: 'bitcoin/with risidio/bitcoin_b.gltf' },
+        { name: 'bitcoin/with risidio/bitcoin_w_color.gltf' },
+        { name: 'bitcoin/with risidio/bitcoin_w.gltf' },
+        { name: 'light/light.gltf' },
+        { name: 'light/with risidio/light_b_color.gltf' },
+        { name: 'light/with risidio/light_b.gltf' },
+        { name: 'light/with risidio/light_w_color.gltf' },
+        { name: 'light/with risidio/light_w.gltf' },
+
+        { name: 'Risidio/risidio_b_color.gltf' },
+        { name: 'Risidio/risidio_b.gltf' },
+        { name: 'Risidio/risidio_color.gltf' },
+        { name: 'Risidio/risidio_w.gltf' },
+
+        { name: 'Stacks/stacks_b.gltf' },
+        { name: 'Stacks/stacks_w.gltf' },
+        { name: 'Stacks/with_risidio/stacks_b_color.gltf' },
+        { name: 'Stacks/with_risidio/stacks_b.gltf' },
+        { name: 'Stacks/with_risidio/stacks_w_color.gltf' },
+        { name: 'Stacks/with_risidio/stacks_w.gltf' },
+
+        { name: 'Swan/swan.gltf' },
+        { name: 'Swan/With_risidio/Swan_b_color.gltf' },
+        { name: 'Swan/With_risidio/swan_b.gltf' },
+        { name: 'Swan/With_risidio/swan_w_color.gltf' },
+        { name: 'Swan/With_risidio/swan_w.gltf' }
       ]
     }
   },
