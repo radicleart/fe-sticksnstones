@@ -14,16 +14,16 @@
     <b-form-invalid-feedback id="item-editions-feedback">
       Editions maybe be required
     </b-form-invalid-feedback>
-    <b-form-text id="item-keywords-help">How many editions in this print run shall we allow to be minted?</b-form-text>
+    <b-form-text id="item-keywords-help">Any number of editions to be created - must be at least 1?</b-form-text>
   </div>
-  <div class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="$emit('upload-state', { change: 'up' })">Next</b-button></div>
+  <div v-if="upload && itemEditionsState" class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="$emit('upload-state', { change: 'up' })">Next</b-button></div>
 </div>
 </template>
 
 <script>
 export default {
   name: 'ItemFormPart1',
-  props: ['item', 'formSubmitted'],
+  props: ['upload', 'item', 'formSubmitted'],
   data: function () {
     return {
     }

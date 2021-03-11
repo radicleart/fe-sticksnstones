@@ -1,22 +1,37 @@
 <template>
-<div id="upload-item" class="mb-5 pb-5 container" v-if="loaded">
+<div id="update-item" class="mb-5 pb-5 container" v-if="loaded">
   <div class="" :key="componentKey">
     <div class="row mt-4">
       <div class="col-md-6 col-sm-12">
-        <h4>{{contextTitle()}}</h4>
-        <item-form-nav :item="item" @upload-state="updateUploadState" :uploadState="uploadState"/>
-        <div class="drop-zone" v-if="uploadState === 1">
-          <media-upload class="" :myUploadId="'MusicFileInput'" :dims="dims" :contentModel="contentModelMusicFile" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="2000000" :mediaTypes="'audio'" @startLoad="startLoad" @updateMedia="setByEventLogoMusicFile($event)"/>
+        <h4>Update NFT Information</h4>
+        <div class="my-4 bg-danger p-3" v-if="invalidItems.length > 0">
+          Invalid fields: <span class="mr-1 text-white" v-for="(field, index) in invalidItems" :key="index">{{field}}</span>
         </div>
-        <div class="drop-zone" v-if="uploadState === 2">
+        <div v-if="hasFile('music')">
+          <div class="mb-4">
+            <h6><b-icon icon="music-note-beamed"/> Music File</h6>
+            <b-icon  v-if="item.loadingState === 1" icon="cylon-vertical"/>
+            <a class="text-success" href="#" @click.prevent="showHash = !showHash"> {{ item.musicFile.name }}</a>
+            <div v-if="showHash">{{ item.assetHash }}</div>
+          </div>
+        </div>
+        <div class="drop-zone" v-if="editCoverFile">
           <media-upload :myUploadId="'CoverImageInput'" :dims="dims" :contentModel="contentModelCoverImage" :mediaFiles="mediaFilesCoverImage" :limit="1" :sizeLimit="2000000" :mediaTypes="'image'" @startLoad="startLoad" @updateMedia="setByEventLogoCoverImage($event)"/>
         </div>
-          <item-form-part1 v-if="uploadState === 3" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
-          <item-form-part2 v-if="uploadState === 4" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
-          <item-form-part3 v-if="uploadState === 5" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
-      </div>
-      <div class="px-4 col-md-6 col-sm-12" v-if="uploadState > 1">
-        <item-summary class="upload-preview" :itemSummary="itemSummary" @upload-item="uploadItem"/>
+        <div class="" v-else>
+          <div v-if="hasFile('cover')" class="mb-4 d-flex justify-content-start">
+            <div class="border mr-3"><img width="150px" :src="item.imageUrl"/></div>
+            <div class="">
+              <h6><b-icon icon="brush"/> Cover Art (<a href="#" @click.prevent="editCoverFile = true">edit</a>)</h6>
+              <span class="text-success">{{ item.coverImage.name }}</span>
+              <div class="mb-2" v-if="item.coverArtist"><span class="text-success">{{ item.coverArtist }}</span></div>
+            </div>
+          </div>
+        </div>
+        <item-form-part1 @upload-state="updateUploadState" :item="item" :upload="false" :formSubmitted="formSubmitted"/>
+        <item-form-part2 @upload-state="updateUploadState" :item="item" :upload="false" :formSubmitted="formSubmitted"/>
+        <item-form-part3 @upload-state="updateUploadState" :item="item" :upload="false" :formSubmitted="formSubmitted"/>
+        <div class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="updateUploadState({ change: 'done' })">Save</b-button></div>
       </div>
     </div>
   </div>
@@ -28,29 +43,24 @@ import { APP_CONSTANTS } from '@/app-constants'
 import ItemFormPart1 from '@/components/items/ItemFormPart1'
 import ItemFormPart2 from '@/components/items/ItemFormPart2'
 import ItemFormPart3 from '@/components/items/ItemFormPart3'
-import ItemFormNav from '@/components/items/ItemFormNav'
-import ItemSummary from '@/components/items/ItemSummary'
 import MediaUpload from '@/components/utils/MediaUpload'
 import utils from '@/services/utils'
 
 export default {
-  name: 'UploadItem',
+  name: 'UpdateItem',
   components: {
     MediaUpload,
-    ItemSummary,
     ItemFormPart1,
     ItemFormPart2,
-    ItemFormPart3,
-    ItemFormNav
+    ItemFormPart3
   },
   data () {
     return {
+      editCoverFile: false,
       formSubmitted: false,
       componentKey: 0,
       uploadState: 1,
       showHash: false,
-      loading: true,
-      itemUUID: null,
       loaded: false,
       dims: { width: 250, height: 250 },
       result: 'Saving data to your storage - back in a mo!',
@@ -110,23 +120,27 @@ export default {
   },
   methods: {
     updateUploadState: function (data) {
-      if (data.change === 'done') {
-        this.$router.push('/item-preview/' + this.item.assetHash)
-      } else if (data.change === 'up') {
-        this.uploadState++
-      } else {
-        this.uploadState--
+      this.$store.dispatch('myItemStore/saveItem', this.item).then(() => {
+        if (data.change === 'done') {
+          this.$router.push('/item-preview/' + this.item.assetHash)
+        } else if (data.change === 'up') {
+          this.uploadState++
+        } else {
+          this.uploadState--
+        }
+      })
+    },
+    hasFile: function (type) {
+      if (type === 'music') {
+        return (this.itemSummary.item.musicFile) ? this.itemSummary.item.musicFile.name : null
       }
+      return (this.itemSummary.item.coverImage) ? this.itemSummary.item.coverImage.name : null
     },
     startLoad: function (data) {
       if (data && data.file.type.indexOf('audio') > -1) {
         this.$store.commit('setModalMessage', 'Loading ' + data.file.name + ' a ' + data.file.type + ' type file into browser - shouldn\'t be long...')
         this.$root.$emit('bv::show::modal', 'waiting-modal')
       }
-    },
-    isValid: function () {
-      const invalidItems = this.$store.getters[APP_CONSTANTS.KEY_ITEM_VALIDITY](this.item)
-      return invalidItems.length === 0
     },
     setByEventLogoCoverImage (data) {
       if (!data.media || data.media.length === 0) return
@@ -136,7 +150,7 @@ export default {
         this.$store.commit('setModalMessage', 'Uploading ' + this.item.coverImage.name + ' to your storage.')
         this.$store.dispatch('myItemStore/saveCoverFile', this.item).then((item) => {
           this.item = item
-          this.uploadState = 3
+          this.editCoverFile = false
           this.$root.$emit('bv::hide::modal', 'waiting-modal')
         })
       }
@@ -188,8 +202,9 @@ export default {
       else if (this.uploadState === 3) return 'Help people find it..'
     },
     uploadItem: function () {
+      const invalidItems = this.$store.getters[APP_CONSTANTS.KEY_ITEM_VALIDITY](this.item)
       if (this.item.editions) this.item.editions = parseInt(this.item.editions)
-      if (this.doValidate && !this.isValid()) {
+      if (this.doValidate && invalidItems.length > 0) {
         this.$notify({ type: 'error', title: 'Upload Error', text: 'Please enter missing data' })
         return
       }
@@ -197,7 +212,6 @@ export default {
       this.$store.commit('setModalMessage', 'Uploading files - this can sometimes take a while depending on network traffic and file size. We don\'t store your data in our infrastructure - instead we are doing something new that gives you control over the data you load into applications.. <a target="_blank" href="https://radiclesociety.medium.com/radicle-peer-to-peer-marketplaces-whats-the-deal-767960da195b">read more</a>')
       this.$root.$emit('bv::show::modal', 'waiting-modal')
       this.$store.dispatch('myItemStore/saveItem', { item: this.item, musicFile: this.item.musicFile[0], coverImage: this.item.coverImage[0] }).then(() => {
-        // this.$router.push('/my-app/' + item.itemUUID)
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')
         this.$store.commit('setModalMessage', 'Your music is now uploaded to your personal cloud.')
@@ -208,12 +222,17 @@ export default {
     }
   },
   computed: {
+    invalidItems: function () {
+      const invalidItems = this.$store.getters[APP_CONSTANTS.KEY_ITEM_VALIDITY](this.item)
+      return invalidItems
+    },
     itemSummary () {
+      const invalidItems = this.$store.getters[APP_CONSTANTS.KEY_ITEM_VALIDITY](this.item)
       return {
         uploadState: this.uploadState,
         displayTitle: 'Preview',
         item: this.item,
-        isValid: this.isValid(),
+        isValid: invalidItems.length === 0,
         context: 'upload'
       }
     },

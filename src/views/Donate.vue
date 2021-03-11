@@ -1,10 +1,10 @@
 <template>
 <section id="deep-logos">
   <div class="row">
-    <div class="col-6">
+    <div class="col-10">
       <logo-risidio :model="currentModel" :scale="scale"/>
     </div>
-    <div class="col-6">
+    <div class="col-2">
       <ul>
         <li v-for="( model, index) in gltfModels" :key="index" @click="currentModel = rootPath + model.name">{{model.name}}</li>
       </ul>
@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      currentModel: 'https://test.risidio.com/gltf/3dLogos/Risidio/bicoinres.gltf',
+      currentModel: 'https://test.risidio.com/gltf/3dLogos/test.glb',
       scale: [0.8, 0.8, 0.8],
       rootPath: 'https://test.risidio.com/gltf/3dLogos/',
       gltfModels: [

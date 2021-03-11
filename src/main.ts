@@ -12,6 +12,8 @@ import htmlSerializer from './prismic/html-serializer'
 import vb from 'vue-babylonjs'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import RisidioPay from 'risidio-pay'
+import './assets/scss/rpay-pay-card.css'
 
 Vue.config.productionTip = false
 
@@ -24,12 +26,15 @@ Vue.use(PrismicVue, {
   linkResolver,
   htmlSerializer
 })
+Vue.use(RisidioPay)
+
+declare global {
+  interface Window { eventBus: any }
+}
+window.eventBus = new Vue()
 
 new Vue({
   router,
   store,
-  render: h => h(App),
-  beforeCreate () {
-    store.dispatch('initApplication')
-  }
+  render: h => h(App)
 }).$mount('#app')

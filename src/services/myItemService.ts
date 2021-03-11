@@ -5,14 +5,17 @@
  * Schema for the data stored by this service is in the PRD on confluence...
  * https://mijoco.atlassian.net/wiki/spaces/RP/pages/2182709258/PRD+Sticksnstones
  */
-import { UserSession } from '@stacks/connect'
+import { AppConfig, UserSession } from '@stacks/connect'
 import { Storage } from '@stacks/storage'
 import moment from 'moment'
 import utils from '@/services/utils'
 
 const ITEM_ROOT_PATH = process.env.VUE_APP_ITEM_ROOT_PATH
-const userSession = new UserSession()
+
+const appConfig = new AppConfig(['store_write', 'publish_data'])
+const userSession = new UserSession({ appConfig })
 const storage = new Storage({ userSession })
+
 const getNewRootFile = function () {
   const now = moment({}).valueOf()
   const newRootFile = {
@@ -46,6 +49,15 @@ const myItemService = {
   deleteItem: function (itemName) {
     storage.deleteFile(itemName).then(() => {
       window.location.reload()
+    })
+  },
+  deleteFile: function (fileName) {
+    return new Promise((resolve, reject) => {
+      storage.deleteFile(fileName).then(() => {
+        resolve(null)
+      }).catch((error) => {
+        reject(error)
+      })
     })
   },
   fetchUserItems: function (username) {
@@ -89,23 +101,23 @@ const myItemService = {
       const path = filename
       const options = {
         contentType: file.type,
-        encrypt: false
+        encrypt: false,
+        dangerouslyIgnoreEtag: true
       }
-      storage.getFileUrl(path).then((gaiaUrl) => {
-        // first check for files existence - if yes return
-        if (gaiaUrl) {
-          resolve(gaiaUrl)
-        } else {
-          storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
-            storage.getFileUrl(path).then((gaiaUrl) => {
-              resolve(gaiaUrl)
-            }).catch((error) => {
-              reject(new Error('Url not available: ' + error))
-            })
+      storage.getFileUrl(path).then(() => {
+        storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
+          storage.getFileUrl(path).then((gaiaUrl) => {
+            resolve(gaiaUrl)
           }).catch((error) => {
-            reject(new Error('Uanble to put file: ' + error))
+            reject(new Error('Url not available: ' + error))
           })
-        }
+        }).catch((error) => {
+          reject(new Error('Uanble to put file: ' + error))
+        })
+        // if (gaiaUrl) {
+        //  resolve(gaiaUrl)
+        // } else {
+        // }
       })
     })
   },

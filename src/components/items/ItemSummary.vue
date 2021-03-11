@@ -20,13 +20,15 @@
         <div class="mb-2" v-if="itemSummary.item.coverArtist">Cover Art: <span class="text-success">{{ itemSummary.item.coverArtist }}</span></div>
       </div>
     </div>
-    <div class="upload-preview mb-2" v-if="itemSummary.item.description"><span class="text-small">{{itemSummary.item.description}}</span></div>
+    <div class="mb-2" v-if="itemSummary.item.description"><span class="text-small">{{itemSummary.item.description}}</span></div>
     <div class="mb-2 text-small" v-if="itemSummary.item.keywords"><span  class="mr-1" :class="(itemSummary.item.keywords) ? 'text-success' : ''" v-for="(kw, index) in itemSummary.item.keywords" :key="index">#{{kw.name}}</span></div>
     <div class="mb-2 text-small" v-if="hasEditions()"><span :class="(hasEditions()) ? 'text-success' : 'text-success'">Editions: {{itemSummary.item.editions}}</span></div>
     <div class="my-4 text-small" v-if="itemSummary.isValid"><b-button class="w-100" variant="success" @click.prevent="$emit('upload-item')">Upload</b-button></div>
   </div>
   <div class="col-6">
-    <div :style="bannerImage"></div>
+    <div :style="bannerImage" class="text-right">
+      <a @click.prevent="deleteCoverFile()" href="#" class="p-3 text-danger"><b-icon icon="x-circle"/></a>
+    </div>
   </div>
 </div>
 </template>
@@ -43,6 +45,11 @@ export default {
     }
   },
   methods: {
+    deleteCoverFile: function () {
+      this.$store.dispatch('myItemStore/deleteCoverFile', this.itemSummary.item).then(() => {
+        this.$emit('delete-cover')
+      })
+    },
     hasEditions: function () {
       if (this.itemSummary.item.editions) {
         const numbE = parseInt(this.itemSummary.item.editions)

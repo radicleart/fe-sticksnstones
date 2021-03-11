@@ -15,7 +15,7 @@
     </b-form-invalid-feedback>
     <b-form-text id="item-creator-help">The cover artist or maker of the artwork</b-form-text>
   </div>
-  <div class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="$emit('upload-state', { change: 'done' })">Continue</b-button></div>
+  <div v-if="upload" class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="$emit('upload-state', { change: 'done' })">Continue</b-button></div>
 </div>
 </template>
 
@@ -23,7 +23,7 @@
 import { APP_CONSTANTS } from '@/app-constants'
 export default {
   name: 'ItemFormPart1',
-  props: ['item', 'formSubmitted'],
+  props: ['upload', 'item', 'formSubmitted'],
   data: function () {
     return {
       systemKeywords: null

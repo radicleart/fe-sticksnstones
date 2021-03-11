@@ -50,7 +50,7 @@
       Keywords maybe be required
     </b-form-invalid-feedback>
     <b-form-text id="item-keywords-help">The keywords needed to identify this music</b-form-text>
-    <div class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="$emit('upload-state', { change: 'up' })">Next</b-button></div>
+    <div v-if="upload" class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="$emit('upload-state', { change: 'up' })">Next</b-button></div>
   </div>
 </div>
 </template>
@@ -58,7 +58,7 @@
 <script>
 export default {
   name: 'ItemFormPart1',
-  props: ['item', 'formSubmitted'],
+  props: ['upload', 'item', 'formSubmitted'],
   data: function () {
     return {
       systemKeywords: null,

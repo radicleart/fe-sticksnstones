@@ -57,33 +57,44 @@ const searchIndexService = {
     })
   },
 
-  addRecord: function (indexable: any) {
+  addRecord: function (asset: any) {
     return new Promise(function (resolve, reject) {
-      if (!indexable.domain) indexable.domain = location.hostname
-      if (!indexable.objType) indexable.objType = 'artwork'
-      if (indexable.keywords && typeof indexable.keywords === 'string') {
-        indexable.keywords = indexable.keywords.split(' ')
-      } else if (indexable.keywords && Array.isArray(indexable.keywords)) {
-        // indexable.keywords = indexable.keywords
-      } else {
-        indexable.keywords = []
+      const indexable: any = {}
+      indexable.assetHash = asset.assetHash
+      indexable.tokenId = asset.tokenId
+      indexable.objType = asset.objType
+      indexable.nftIndex = asset.nftIndex
+      indexable.privacy = asset.privacy
+      indexable.projectId = asset.projectId
+      indexable.imageUrl = asset.imageUrl
+      indexable.assetProjectUrl = asset.assetProjectUrl
+      indexable.name = asset.name
+      indexable.owner = asset.owner
+      indexable.description = asset.description
+      indexable.artist = asset.owner
+      indexable.mintedOn = (asset.musicFile) ? asset.musicFile.mintedOn : null
+      indexable.domain = location.hostname
+      indexable.domain = location.hostname
+      indexable.objType = 'artwork'
+      if (asset.objType) {
+        indexable.objType = asset.objType
       }
-      if (!indexable.privacy) {
-        indexable.privacy = 'public'
-      }
-      if (!indexable.category) {
+      indexable.metaData = asset.metaData
+      if (!asset.category) {
         indexable.category = {
           id: 'zero',
           name: 'artwork',
           level: 1
         }
+      } else {
+        indexable.category = asset.category
       }
       indexable.tradeInfo = {
-        saleType: (indexable.tradeInfo) ? indexable.tradeInfo.saleType : 0,
-        buyNowOrStartingPrice: (indexable.tradeInfo) ? indexable.tradeInfo.buyNowOrStartingPrice : 0,
-        reservePrice: (indexable.tradeInfo) ? indexable.tradeInfo.reservePrice : 0,
-        biddingEndTime: (indexable.tradeInfo) ? indexable.tradeInfo.biddingEndTime : 0,
-        incrementPrice: (indexable.tradeInfo) ? indexable.tradeInfo.incrementPrice : 0
+        saleType: (asset.tradeInfo) ? asset.tradeInfo.saleType : 0,
+        buyNowOrStartingPrice: (asset.tradeInfo) ? asset.tradeInfo.buyNowOrStartingPrice : 0,
+        reservePrice: (asset.tradeInfo) ? asset.tradeInfo.reservePrice : 0,
+        biddingEndTime: (asset.tradeInfo) ? asset.tradeInfo.biddingEndTime : 0,
+        incrementPrice: (asset.tradeInfo) ? asset.tradeInfo.incrementPrice : 0
       }
       axios.post(SEARCH_API_PATH + '/addRecord', indexable).then((result) => {
         resolve(result)

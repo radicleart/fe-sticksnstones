@@ -8,7 +8,7 @@ import Home from '../views/Home.vue'
 import Donate from '../views/Donate.vue'
 import ItemPreview from '../views/ItemPreview.vue'
 import UploadItem from '../views/UploadItem.vue'
-import EditItem from '../views/EditItem.vue'
+import UpdateItem from '../views/UpdateItem.vue'
 import MyItems from '../views/MyItems.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import store from '@/store'
@@ -24,7 +24,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/donate',
     name: 'donate',
-    components: { default: Donate, header: MainNavbar }
+    components: { default: Donate, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/login',
@@ -45,7 +45,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/edit-item/:assetHash',
     name: 'edit-item',
-    components: { default: EditItem, header: MainNavbar, footer: MainFooter },
+    components: { default: UpdateItem, header: MainNavbar, footer: MainFooter },
     meta: { requiresAuth: true }
   },
   {
@@ -64,12 +64,6 @@ const routes: Array<RouteConfig> = [
     path: '/how-it-works',
     name: 'how-it-works',
     components: { default: HowItWorks, header: MainNavbar, footer: MainFooter }
-  },
-  {
-    path: '/edit-item/:assetHash',
-    name: 'edit-item',
-    components: { default: EditItem, header: MainNavbar, footer: MainFooter },
-    meta: { requiresAuth: true }
   }
 ]
 

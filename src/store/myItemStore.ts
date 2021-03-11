@@ -10,26 +10,50 @@ import store from '@/store'
 import moment from 'moment'
 import utils from '@/services/utils'
 
+const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
+const STX_CONTRACT_NAME = process.env.VUE_APP_STACKS_CONTRACT_NAME
+
 const myItemStore = {
   namespaced: true,
   state: {
-    rootFile: null,
-    myProfile: {
-      username: null,
-      loggedIn: false,
-      showAdmin: false
-    },
-    appName: 'Risidio Mesh',
-    appLogo: '/img/sticksnstones_logo.8217b8f7.png'
+    rootFile: null
   },
   getters: {
     getMyItems: state => {
       return (state.rootFile) ? state.rootFile.records : []
     },
+    getItemParamValidity: state => (item, param) => {
+      if (!state.rootFile) return
+      if (param === 'music') {
+        return ((item.musicFile && item.musicFile.dataUrl) || item.musicFileUrl)
+      } else if (param === 'cover') {
+        return ((item.coverImage && item.coverImage.dataUrl) || item.imageUrl)
+      } else if (param === 'name') {
+        return (item.name && item.name.length > 2)
+      } else if (param === 'keywords') {
+        return (item.keywords && item.keywords.length > 0)
+      } else if (param === 'editions') {
+        return (item.editions > 0)
+      } else if (param === 'coverArtist') {
+        return (item.coverArtist && item.coverArtist.length > 1)
+      }
+      return true
+    },
+    getItemValidity: (state, getters) => item => {
+      if (!state.rootFile || state.rootFile.records.length === 0) return false
+      const invalidParams = []
+      const myGetter = 'getItemParamValidity'
+      if (!getters[myGetter](item, 'uploader')) invalidParams.push('uploader')
+      if (!getters[myGetter](item, 'editions')) invalidParams.push('editions')
+      if (!getters[myGetter](item, 'music')) invalidParams.push('music')
+      if (!getters[myGetter](item, 'cover')) invalidParams.push('cover')
+      if (!getters[myGetter](item, 'keywords')) invalidParams.push('keywords')
+      return invalidParams
+    },
     myItem: state => assetHash => {
       let item
-      if (state.myItems && assetHash) {
-        item = state.myItems.find(myItem => myItem.assetHash === assetHash)
+      if (state.rootFile && assetHash) {
+        item = state.rootFile.records.find(myItem => myItem.assetHash === assetHash)
       }
       return item
     }
@@ -66,8 +90,8 @@ const myItemStore = {
         const indexImage = imageUrl.lastIndexOf('/') + 1
         musicUrl = musicUrl.substring(indexMusic)
         imageUrl = imageUrl.substring(indexImage)
-        myItemService.deleteItem(musicUrl)
-        myItemService.deleteItem(imageUrl)
+        myItemService.deleteFile(musicUrl)
+        myItemService.deleteFile(imageUrl)
 
         const extractHash = musicUrl.substr(0, musicUrl.indexOf('.'))
         const index = state.rootFile.records.findIndex((o) => o.assetHash === extractHash)
@@ -75,6 +99,31 @@ const myItemStore = {
 
         console.log(state.rootFile.records)
         myItemService.saveItem(state.rootFile)
+      })
+    },
+    deleteCoverFile ({ dispatch }, item) {
+      return new Promise((resolve, reject) => {
+        if (!item.assetHash || !item.musicFileUrl || !item.coverImage) {
+          reject(new Error('Unable to save your data...'))
+          return
+        }
+        const lio = item.imageUrl.lastIndexOf('/')
+        const coverImageFileName = item.imageUrl.substring(lio + 1)
+        myItemService.deleteFile(coverImageFileName).then(() => {
+          item.imageUrl = null
+          item.musicFile.dataUrl = null
+          item.coverImage.dataUrl = null
+          dispatch('saveItem', item).then((item) => {
+            resolve(item)
+          })
+        }).catch(() => {
+          item.imageUrl = null
+          item.musicFile.dataUrl = null
+          item.coverImage.dataUrl = null
+          dispatch('saveItem', item).then((item) => {
+            resolve(item)
+          })
+        })
       })
     },
     fetchItems ({ commit }) {
@@ -168,11 +217,15 @@ const myItemStore = {
       return new Promise((resolve, reject) => {
         const profile = store.getters[APP_CONSTANTS.KEY_PROFILE]
         item.uploader = profile.username
+        if (!item.owner) item.owner = profile.username
         if (!profile.loggedIn || !item.assetHash || !item.musicFileUrl || !item.coverImage || !item.musicFile || !item.name) {
           reject(new Error('Unable to save your data...'))
           return
         }
-        if (!item.nftIndex) item.nftIndex = -1
+        if (typeof item.nftIndex === 'undefined') item.nftIndex = -1
+        const mintedUrl = encodeURI(item.imageUrl)
+        item.externalUrl = location.origin + '/display?asset=' + mintedUrl
+        item.projectId = STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME
         item.musicFile.dataUrl = null
         item.coverImage.dataUrl = null
         item.domain = location.hostname

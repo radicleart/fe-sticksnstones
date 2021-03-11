@@ -79,6 +79,21 @@ const utils = {
       return 0
     }
   },
+  audioToBase64: function (audioFile) {
+    return new Promise((resolve) => {
+      const request = new XMLHttpRequest()
+      request.open('GET', audioFile, true)
+      request.responseType = 'blob'
+      request.onload = function () {
+        const reader = new FileReader()
+        reader.readAsDataURL(request.response)
+        reader.onload = function (e) {
+          resolve(e.target.result)
+        }
+      }
+      request.send()
+    })
+  },
   fetchBase64FromImageUrl: function (url, document) {
     return new Promise((resolve) => {
       const img = new Image()

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :style="bannerImage">
+  <div id="app" :style="bannerImage" v-if="!loading">
     <div :key="componentKey">
       <div id="guitarMan" :style="guitarMan"></div>
       <router-view name="header"/>
@@ -24,12 +24,16 @@ export default {
   },
   data () {
     return {
+      loading: true,
       componentKey: 0,
       manWithGuitar: 'https://images.prismic.io/radsoc/dcda9455-1a85-4dd2-a172-7c07dd8a71dc_Download+%284%29.png?auto=compress,format',
       background: 'https://images.prismic.io/radsoc/acaba7f7-b0b7-4149-948e-d4814a8ca873_bg_img.png?auto=compress,format'
     }
   },
   mounted () {
+    this.$store.dispatch('initApplication').then(() => {
+      this.loading = false
+    })
     const $self = this
     let resizeTimer
     window.addEventListener('resize', function () {

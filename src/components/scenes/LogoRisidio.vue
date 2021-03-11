@@ -41,7 +41,8 @@
 </template>
 
 <script>
-
+// var hdrTexture = new BABYLON.CubeTexture.CreateFromPrefilteredData("textures/environment.env", scene);
+// scene.environmentTexture = hdrTexture;
 export default {
   name: 'Donate',
   components: {
@@ -49,6 +50,10 @@ export default {
   props: ['model', 'scale'],
   data () {
     return {
+      environment: {
+        mySkyBox: false,
+        hgrFile: 'http://asdfsdfadsfcsd'
+      },
       loading: true,
       box: null,
       sphere: null,
