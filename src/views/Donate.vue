@@ -22,7 +22,8 @@ export default {
   },
   data () {
     return {
-      currentModel: 'https://test.risidio.com/gltf/3dLogos/Stacks/stacks_w.gltf',
+      currentModel0: 'https://test.risidio.com/gltf/3dLogos/Stacks/stacks_w.gltf',
+      currentModel: '/gltf/P1.gltf',
       scale: [0.15, 0.15, 0.15],
       position: [0, 0, 0],
       rootPath: 'https://test.risidio.com/gltf/3dLogos/',

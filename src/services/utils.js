@@ -182,6 +182,7 @@ const utils = {
         biddingEndTime: res.value.data['bidding-end-time'].value.toNumber(),
         incrementPrice: this.fromMicroAmount(res.value.data['increment-stx'].value.toNumber()),
         reservePrice: this.fromMicroAmount(res.value.data['reserve-stx'].value.toNumber()),
+        auctionId: this.fromMicroAmount(res.value.data['auction-id'].value.toNumber()),
         buyNowOrStartingPrice: this.fromMicroAmount(res.value.data['amount-stx'].value.toNumber()),
         saleType: res.value.data['sale-type'].value.toNumber()
       }
