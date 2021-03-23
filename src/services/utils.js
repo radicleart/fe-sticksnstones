@@ -133,7 +133,7 @@ const utils = {
     }
     if (method === 'get-mint-price') {
       return res.value.value.toNumber()
-    } else if (method === 'get-index') {
+    } else if (method === 'get-token-by-hash') {
       return res.value.value.toNumber()
     } else if (method === 'get-mint-counter') {
       return res.value.value.toNumber()
@@ -146,13 +146,7 @@ const utils = {
         status: res.value.data.status.value.toNumber(),
         storageModel: res.value.data['storage-model'].value.toNumber()
       }
-    } else if (method === 'get-token-info') {
-      return {
-        // owner: td.decode(res.value.data.owner.buffer),
-        assetHash: res.value.data['asset-hash'].buffer.toString('hex'),
-        date: res.value.data.date.value.toNumber()
-      }
-    } else if (method === 'get-token-info-full') {
+    } else if (method === 'get-token-by-index') {
       const clarityAsset = {}
       if (res.value.data.owner) {
         clarityAsset.owner = res.value.data.owner.address.hash160
