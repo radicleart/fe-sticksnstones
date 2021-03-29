@@ -7,6 +7,11 @@
         <p><b-button variant="light" to="/upload-item">Protect Your Music</b-button></p>
       </div>
     </div>
+    <div class="video_test">
+      <video class="video-js vjs-big-play-centered" muted controls data-setup='{}'>
+        <source src="@/assets/img/test_video.mp4">
+      </video>
+    </div>
   </div>
 </section>
 </template>
