@@ -58,7 +58,7 @@ export default {
           $self.$store.dispatch('myItemStore/saveItem', item).then((item) => {
             $self.mintResult = item.name + ' (#' + item.nftIndex + ') has been saved to your storage'
           })
-        } else if (data.opcode === 'save-mint-data') {
+        } else if (data.opcode === 'stx-save-and-close-mint-data') {
           $self.$bvModal.hide('minting-modal')
           $self.showRpay = false
         } else {
