@@ -76,12 +76,12 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    let myProfile = store.getters['authStore/getMyProfile']
+    let myProfile = store.getters['rpayAuthStore/getMyProfile']
     if (myProfile.loggedIn) {
       return next()
     } else {
       setTimeout(function () {
-        myProfile = store.getters['authStore/getMyProfile']
+        myProfile = store.getters['rpayAuthStore/getMyProfile']
         if (myProfile.loggedIn) {
           return next()
         } else {
