@@ -3,30 +3,30 @@
 <div class="mt-3" v-if="!item">
   {{message}}
 </div>
-<div class="mt-3" v-else>
+<div class="mt-3 text-white" v-else>
   <div class="row">
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-7 col-sm-12">
       <div id="result-item" class="mb-4">
-        <div :style="bannerImage">
-          <audio controls :src="musicData" v-if="musicData">
-            Your browser does not support the
-            <code>audio</code> element.
-          </audio>
-        </div>
-      </div>
-      <div>
-        <div class="mb-2 d-flex justify-content-between">
-          <div class="">{{item.name}}</div>
-          <div class=""><router-link :to="'/edit-item/' + item.assetHash"><b-icon icon="pencil"/></router-link></div>
-        </div>
-        <div class="text-small">Uploaded by : {{item.uploader}}</div>
+        <media-item :videoOptions="videoOptions" :nftMedia="nftMedia" :targetItem="targetItem()" :dims="dims"/>
       </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-      <div class="mb-2 text-bold">Editions {{item.editions}}</div>
-      <span class="text-small mr-1" v-for="(kw, index) in item.keywords" :key="index">#{{kw.name}}</span>
+    <div class="col-md-5 col-sm-12">
+      <div class="mb-4">
+        <div class="mb-2 d-flex justify-content-between">
+          <div class=""><h1>{{item.name}}</h1></div>
+          <div class="">
+            <router-link class="mr-2" :to="'/edit-item/' + item.assetHash"><b-icon icon="pencil"></b-icon></router-link>
+            <a v-if="!contractAsset" href="#" @click.prevent="deleteItem" class="text-danger"><b-icon icon="trash"></b-icon></a>
+          </div>
+        </div>
+        <h6 class="text-small">By : {{item.artist}}</h6>
+      </div>
+      <!--
+        <div class="mb-2 text-bold">Editions {{item.editions}}</div>
+        <span class="text-small mr-1" v-for="(kw, index) in item.keywords" :key="index">#{{kw.name}}</span>
+      -->
       <div class="text-small">{{item.description}}</div>
-      <item-mint-info :item="item" />
+      <minting-tools class="text-center w-100" :assetHash="item.assetHash" />
     </div>
   </div>
 </div>
@@ -34,18 +34,19 @@
 </template>
 
 <script>
+import MintingTools from '@/components/toolkit/MintingTools'
+import MediaItem from '@/components/utils/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
-import utils from '@/services/utils'
-import ItemMintInfo from '@/components/items/ItemMintInfo'
 
 export default {
   name: 'ItemPreview',
   components: {
-    ItemMintInfo
+    MintingTools,
+    MediaItem
   },
   data: function () {
     return {
-      musicData: null,
+      dims: { width: 768, height: 432 },
       showHash: false,
       assetHash: null,
       message: 'No item available...'
@@ -54,30 +55,47 @@ export default {
   mounted () {
     this.loading = false
     this.assetHash = this.$route.params.assetHash
-    const $self = this
     this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
       if (!item) {
         this.$router.push('/404')
-      } else {
-        utils.audioToBase64(item.musicFileUrl).then((data) => {
-          $self.musicData = data
-        })
       }
     })
   },
   methods: {
+    targetItem: function () {
+      const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
+      return this.$store.getters[APP_CONSTANTS.KEY_TARGET_FILE_FOR_DISPLAY](item)
+    }
   },
   computed: {
-    item () {
+    videoOptions () {
       const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
+      const videoOptions = {
+        autoplay: false,
+        showMeta: true,
+        controls: true,
+        poster: (item.nftMedia.coverImage) ? item.nftMedia.coverImage.fileUrl : null,
+        sources: [
+          { src: item.nftMedia.artworkFile.fileUrl, type: item.nftMedia.artworkFile.type }
+        ],
+        fluid: true
+      }
+      return videoOptions
+    },
+    contractAsset () {
+      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.item.assetHash)
+      return contractAsset
+    },
+    item () {
+      const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       return item
+    },
+    nftMedia () {
+      const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
+      return item.nftMedia
     },
     keywords () {
       return this.$store.getters['myItemStore/myItem'](this.assetHash)
-    },
-    bannerImage () {
-      const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
-      return this.$store.getters[APP_CONSTANTS.KEY_WAITING_IMAGE](item.imageUrl)
     }
   }
 }

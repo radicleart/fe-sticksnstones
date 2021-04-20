@@ -1,16 +1,27 @@
 <template>
 <div class="text-center">
-  <div class="text-danger d-flex flex-column align-items-center">
-      <div class="mt-5"><b-icon scale="3" :icon="contentModel.iconName"/></div>
-      <div class="mt-4 mb-5 text-center">{{contentModel.title}}</div>
-      <div class="mt-auto" style="position: relative; top: 90px;">
-        <div>
-          <b-button variant="light" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
-        </div>
-        <div>
-          <input class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
-        </div>
+  <div @drop.prevent="loadMediaObjects" @dragover.prevent class="p-4 drop-zone text-danger d-flex flex-column align-items-center">
+    <div class="mt-5"><b-icon scale="3" :icon="contentModel.iconName"/></div>
+    <div class="mt-4 mb-5" v-html="contentModel.title"></div>
+    <div class="text-center mx-auto" style="position: relative; top: 10px;">
+      <div>
+        <input style="width: 80%;" class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
       </div>
+      <div>
+        <b-button style="width: 80%;" variant="light" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
+      </div>
+      <div style="width: 100%;" class="text-left mt-4 mb-3" role="group">
+        <label for="item-name">or paste a link</label>
+        <b-form-input
+          id="item-name"
+          v-model="directUrl"
+          @keyup="startDownload()"
+          aria-describedby="item-name-help item-name-feedback"
+          placeholder="Enter URL"
+          trim
+        ></b-form-input>
+      </div>
+    </div>
     <div class="invalid-feedback d-block" v-if="showError">
       {{contentModel.errorMessage}}
     </div>
@@ -24,7 +35,7 @@
 
 <script>
 import _ from 'lodash'
-// import { BFormFile } from 'bootstrap-vue'
+import utils from '@/services/utils'
 
 export default {
   name: 'MediaUpload',
@@ -71,25 +82,16 @@ export default {
       type: Object,
       default: () => ({ width: 250, height: 250 }),
       required: true
-    },
-    mediaFiles: {
-      type: Array,
-      default: () => ([]),
-      required: false
     }
   },
   data () {
     return {
+      mediaItem: null,
+      directUrl: null,
       loaded: false,
       mediaObjects: [],
       internalError: null,
       missing: '/img/pdf-holding.png'
-    }
-  },
-  mounted () {
-    if (this.mediaFiles && this.mediaFiles.length > 0) {
-      Object.assign(this.mediaObjects, this.mediaFiles)
-      this.loaded = true
     }
   },
   computed: {
@@ -98,14 +100,14 @@ export default {
     },
     columns  () {
       return 'col-' + this.size
-    },
-    hasMedia () {
-      return this.mediaFiles && this.mediaFiles.length > 0
     }
   },
   methods: {
     getUploadId: function () {
       return this.myUploadId
+    },
+    startDownload: function () {
+      this.load()
     },
     chooseFiles: function () {
       // document.getElementById(this.uploadId).click()
@@ -119,32 +121,19 @@ export default {
         return mo.size === fsize
       })
       this.mediaObjects.splice(index, 1)
-      this.$emit('updateMedia', { media: this.mediaObjects })
+      this.$emit('updateMedia', { clear: true })
     },
     clearMediaObjects: function () {
       this.mediaObjects = []
-      this.$emit('updateMedia', { media: this.mediaObjects })
+      this.$emit('updateMedia', { clear: true })
     },
-    fileSizeM: function (fsize) {
-      return fsize / 1000000
-    },
-    fileType: function (ftype) {
-      if (ftype && ftype.startsWith('image')) {
-        return ftype.substring(6)
-      }
-      return ftype
-    },
-    cover: function (switcher) {
-      if (!switcher) {
-        return
-      }
+    cover: function () {
       const vid = document.querySelector('#video1')
       const cvs = document.querySelector('#canvas1')
       cvs.width = vid.clientWidth
       cvs.height = vid.clientHeight
       const cvsCtx = cvs.getContext('2d')
       vid.currentTime = 0
-      const $self = this
       document.querySelector('#video1').addEventListener('timeupdate', function () {
         // You are now ready to grab the thumbnail from the <canvas> element
         cvsCtx.drawImage(vid, 0, 0, cvs.width, cvs.height)
@@ -152,7 +141,8 @@ export default {
           dataUrl: cvs.toDataURL(),
           type: 'image/cover'
         }
-        $self.$emit('updateMedia', { media: $self.mediaObjects, coverImage: coverImage })
+        // $self.$emit('updateMedia', { media: $self.mediaObjects, coverImage: coverImage })
+        return coverImage
       })
       // cvsCtx.drawImage(vid, 0, 0, cvs.width, cvs.height)
     },
@@ -210,6 +200,47 @@ export default {
         return false
       }
     },
+    isAllowed (fileObject, checkLimit) {
+      let ksize = fileObject.size / 1000000
+      ksize = Math.round(ksize * 100) / 100
+      if (checkLimit && ksize > Number(this.sizeLimit)) {
+        this.internalError = 'This file (' + ksize + ' M) exceeds the size limit of ' + this.sizeLimit + ' M - try dropping in a of a file url - we can create the NFT from this and serve the content from the URL'
+        this.$emit('updateMedia', { errorMessage: this.internalError })
+        return false
+      }
+      let allowed = false
+      if (this.mediaTypes.indexOf('image') > -1) {
+        allowed = this.isImage(fileObject)
+      }
+      if (this.mediaTypes.indexOf('text') > -1) {
+        allowed = allowed || this.isPlain(fileObject)
+      }
+      if (this.mediaTypes.indexOf('video') > -1) {
+        allowed = allowed || this.isVideo(fileObject)
+      }
+      if (this.mediaTypes.indexOf('audio') > -1) {
+        allowed = allowed || this.isAudio(fileObject)
+      }
+      if (this.mediaTypes.indexOf('doc') > -1) {
+        allowed = allowed || this.ispdf(fileObject)
+      }
+      if (this.mediaTypes.indexOf('mp3') > -1 || this.mediaTypes.indexOf('music') > -1 || this.mediaTypes.indexOf('audio') > -1) {
+        allowed = allowed || this.isMusic(fileObject)
+      }
+      if (!allowed) {
+        this.$emit('updateMedia', { errorMessage: 'Files of type ' + fileObject.type + ' are not allowed here.' })
+        this.internalError = 'Files of type ' + fileObject.type + ' are not allowed here.'
+        allowed = false
+      }
+      return allowed
+    },
+    isValidUrl (url1) {
+      try {
+        return new URL(url1)
+      } catch (e) {
+        return false
+      }
+    },
     loadMediaObjects: function (e) {
       this.load(e, this.mediaObjects, 1)
     },
@@ -218,6 +249,29 @@ export default {
       const $self = this
       this.internalError = null
       let userFiles
+      if (this.directUrl || (e && e.dataTransfer && e.dataTransfer.getData)) {
+        let data = this.directUrl
+        if (!data) data = e.dataTransfer.getData('Text')
+        if (this.isValidUrl(data)) {
+          this.$emit('updateMedia', { startLoad: 'Fetching file from ' + data })
+          userFiles = data
+          utils.readFileFromUrlToDataURL(data).then((fileObject) => {
+            if (!$self.isAllowed(fileObject, false)) return
+            fileObject.id = $self.contentModel.id
+            fileObject.storage = 'external'
+            fileObject.fileUrl = data
+            fileObject.dataHash = utils.buildHash(fileObject.dataUrl)
+            fileObject.dataUrl = null
+            $self.$emit('updateMedia', { media: fileObject })
+          }).catch((error) => {
+            $self.$store.commit('setModalMessage', 'Error occurred processing transaction.')
+            $self.result = error
+          })
+          return
+        } else {
+          return
+        }
+      }
       if (e.dataTransfer) {
         userFiles = e.dataTransfer.files
       } else {
@@ -229,6 +283,7 @@ export default {
           break
         }
         fileObject = userFiles[i]
+        $self.isAllowed(fileObject, true)
         const thisFile = {
           lastModified: fileObject.lastModified,
           lastModifiedDate: fileObject.lastModifiedDate,
@@ -236,38 +291,13 @@ export default {
           size: fileObject.size,
           type: fileObject.type
         }
-        this.$emit('startLoad', { file: thisFile })
-        const ksize = fileObject.size / 1000
-        if (ksize > Number($self.sizeLimit)) {
-          $self.internalError = 'This file (' + ksize + ' Kb) exceeds the size limit of ' + this.sizeLimit + ' Kb'
-          return
-        }
-        let allowed = false
-        if ($self.mediaTypes.indexOf('image') > -1) {
-          allowed = $self.isImage(fileObject)
-        }
-        if ($self.mediaTypes.indexOf('plain') > -1) {
-          allowed = allowed || $self.isPlain(fileObject)
-        }
-        if ($self.mediaTypes.indexOf('video') > -1) {
-          allowed = allowed || $self.isVideo(fileObject)
-        }
-        if ($self.mediaTypes.indexOf('audio') > -1) {
-          allowed = allowed || $self.isAudio(fileObject)
-        }
-        if ($self.mediaTypes.indexOf('doc') > -1) {
-          allowed = allowed || $self.ispdf(fileObject)
-        }
-        if ($self.mediaTypes.indexOf('mp3') > -1 || $self.mediaTypes.indexOf('music') > -1) {
-          allowed = allowed || $self.isMusic(fileObject)
-        }
-        if (!allowed) {
-          $self.internalError = 'Files of type ' + fileObject.type + ' are not allowed here.'
-          return
-        }
+        this.$emit('updateMedia', { startLoad: 'Loading from file system ' + thisFile.name + ' size is ' + Math.round(thisFile.size * 100) / 100 + ' bytes' })
         const reader = new FileReader()
         reader.onload = function (e) {
           thisFile.dataUrl = e.target.result
+          thisFile.id = $self.contentModel.id
+          thisFile.storage = 'gaia'
+          thisFile.dataHash = utils.buildHash(thisFile.dataUrl)
           arrayToLoad.push(thisFile)
           if ($self.isImage(thisFile)) {
             const img = new Image()
@@ -276,19 +306,19 @@ export default {
                 if (this.width !== this.height) {
                   const msg = 'Your image must be a square and not ' + this.width + 'x' + this.height
                   $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
-                  $self.$emit('updateMedia', { media: arrayToLoad })
+                  $self.$emit('updateMedia', { media: thisFile })
                 } else {
                   this.width = '250px'
                   this.height = '250px'
-                  $self.$emit('updateMedia', { media: arrayToLoad })
+                  $self.$emit('updateMedia', { media: thisFile })
                 }
               } else {
-                $self.$emit('updateMedia', { media: arrayToLoad })
+                $self.$emit('updateMedia', { media: thisFile })
               }
             }
             img.src = thisFile.dataUrl
           } else {
-            $self.$emit('updateMedia', { media: arrayToLoad })
+            $self.$emit('updateMedia', { media: thisFile })
           }
           if ($self.isVideo(thisFile)) {
             // On selecting a video file
@@ -304,7 +334,6 @@ export default {
 <style scoped>
 .input-file {
   opacity: 0;
-  min-width: 300px;
   position: relative;
   top: -40px;
 }
@@ -316,8 +345,12 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.drop-zone {
+  border-radius: 20px;
+  border: 1pt dashed #fff;
+}
 .drop-label {
-  color: rgba(0, 0, 0, 0.2);
+  color: #fff;
   font-size: 0.9rem;
   margin-bottom: 0;
 }

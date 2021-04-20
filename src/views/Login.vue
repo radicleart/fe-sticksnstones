@@ -21,7 +21,21 @@ export default {
       loading: true
     }
   },
+  mounted () {
+    this.startLoginNew()
+  },
   methods: {
+    startLoginNew () {
+      // this.$emit('updateEventCode', { eventCode: 'connect-login' })
+      const myProfile = this.$store.getters['rpayAuthStore/getMyProfile']
+      if (myProfile.loggedIn) {
+        this.$emit('connect-login', myProfile)
+      } else {
+        this.$store.dispatch('rpayAuthStore/startLogin').then(() => {
+          this.$router.push(this.$route.query.redirect)
+        })
+      }
+    }
   },
   computed: {
   }

@@ -15,11 +15,36 @@ import store from '@/store'
 
 Vue.use(VueRouter)
 
+const isPermitted = function (to, profile) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (to.matched.some(record => record.meta.requiresAdmin)) {
+      return profile.superAdmin
+    }
+    return profile.loggedIn
+  } else {
+    return true
+  }
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (profile.superAdmin) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return true
+  }
+}
+
 const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'home',
-    components: { default: Home, header: MainNavbar }
+    components: { default: Home, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/start-minting',
+    name: 'home',
+    components: { default: Home, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/donate',
@@ -77,13 +102,21 @@ router.beforeEach((to, from, next) => {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     let myProfile = store.getters['rpayAuthStore/getMyProfile']
-    if (myProfile.loggedIn) {
-      return next()
+    if (myProfile && myProfile.loggedIn) {
+      if (isPermitted(to, myProfile)) {
+        return next()
+      } else {
+        return next({ path: '/404', query: { redirect: to.fullPath } })
+      }
     } else {
       setTimeout(function () {
         myProfile = store.getters['rpayAuthStore/getMyProfile']
         if (myProfile.loggedIn) {
-          return next()
+          if (isPermitted(to, myProfile)) {
+            return next()
+          } else {
+            return next({ path: '/404', query: { redirect: to.fullPath } })
+          }
         } else {
           return next({
             path: '/login',

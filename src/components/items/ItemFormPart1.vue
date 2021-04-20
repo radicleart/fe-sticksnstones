@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="mb-3" role="group">
-    <label for="item-name">Name of Item</label>
+    <label for="item-name">Name of Artwork</label>
     <b-form-input
       id="item-name"
       v-model="item.name"
@@ -15,14 +15,29 @@
     </b-form-invalid-feedback>
     <b-form-text id="item-name-help">A name is needed to upload this item</b-form-text>
   </div>
-
+  <div class="mb-3" role="group">
+    <label for="item-name">Name of Artist</label>
+    <b-form-input
+      id="artist-name"
+      v-model="item.artist"
+      :state="itemArtistState"
+      aria-describedby="item-artist-help item-artist-feedback"
+      placeholder="Enter artist name"
+      trim
+    ></b-form-input>
+    <b-form-invalid-feedback id="item-artist-feedback">
+      Enter the name of the artist
+    </b-form-invalid-feedback>
+    <b-form-text id="item-name-help">The artists name is needed to upload this item</b-form-text>
+  </div>
+  <!--
   <div class="text-right mb-4">
     <b-form-checkbox class="" id="item-private" size="sm" v-model="item.private" name="check-button" switch>
       <label for="item-private"><span :class="(!item.private) ? 'text-success' : ''">public</span> / <span :class="(item.private) ? 'text-danger' : ''">private</span></label>
       <b-icon class="ml-2" v-b-tooltip.hover :title="'Private to encrypt the file'" icon="question-circle"/>
     </b-form-checkbox>
-
   </div>
+  -->
 
   <div class="mb-4" role="group">
     <label for="item-name">Enter a short description - good for search results!</label>
@@ -50,7 +65,6 @@
       Keywords maybe be required
     </b-form-invalid-feedback>
     <b-form-text id="item-keywords-help">The keywords needed to identify this music</b-form-text>
-    <div v-if="upload" class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="$emit('upload-state', { change: 'up' })">Next</b-button></div>
   </div>
 </div>
 </template>
@@ -111,6 +125,10 @@ export default {
     itemNameState () {
       if (!this.formSubmitted && !this.item.name) return null
       return (this.item.name && this.item.name.length > 2)
+    },
+    itemArtistState () {
+      if (!this.formSubmitted && !this.item.artist) return null
+      return (this.item.artist && this.item.artist.length > 2)
     },
     itemKeywordsState () {
       if (!this.formSubmitted && !this.item.keywords) return null

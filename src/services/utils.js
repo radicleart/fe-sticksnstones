@@ -3,16 +3,23 @@ import dataUriToBuffer from 'data-uri-to-buffer'
 import {
   hexToCV
 } from '@stacks/transactions'
+import { c32address } from 'c32check'
 
 const precision = 1000000
+const NETWORK = process.env.VUE_APP_NETWORK
 
 const utils = {
   buildHash: function (hashable) {
     return crypto.createHash('sha256').update(hashable).digest('hex')
   },
-  getFileExtension: function (filename) {
-    const index = filename.lastIndexOf('.')
-    return filename.substring(index)
+  getFileExtension: function (filename, type) {
+    if (filename && filename.lastIndexOf('.') > 0) {
+      const index = filename.lastIndexOf('.')
+      return filename.substring(index)
+    } else {
+      const index = type.lastIndexOf('/') + 1
+      return '.' + type.substring(index)
+    }
   },
   getFileNameNoExtension: function (filename) {
     const index = filename.lastIndexOf('.')
@@ -49,6 +56,12 @@ const utils = {
       }, 300)
     }, 300)
   },
+  convertAddress: function (b160Address) {
+    let version = 26
+    if (NETWORK === 'mainnet') version = 22
+    const address = c32address(version, b160Address) // 22 for mainnet
+    return address
+  },
   fromMicroAmount: function (amountMicroStx) {
     try {
       if (amountMicroStx === 0) return 0
@@ -58,6 +71,21 @@ const utils = {
       return 0
     }
   },
+  /**
+  fromOnChainAmount: function (amountMicroStx) {
+    try {
+      amountMicroStx = parseInt(amountMicroStx, 16)
+      if (typeof amountMicroStx === 'string') {
+        amountMicroStx = Number(amountMicroStx)
+      }
+      if (amountMicroStx === 0) return 0
+      amountMicroStx = amountMicroStx / precision
+      return Math.round(amountMicroStx * precision) / precision
+    } catch {
+      return 0
+    }
+  },
+  **/
   toOnChainAmount: function (amount) {
     try {
       amount = amount * precision
@@ -83,7 +111,7 @@ const utils = {
   },
   fetchBase64FromImageUrl: function (url, document) {
     return new Promise((resolve) => {
-      const img = new Image()
+      const img = new File()
       img.setAttribute('crossOrigin', 'anonymous')
       img.onload = function () {
         const canvas = document.createElement('canvas')
@@ -97,6 +125,26 @@ const utils = {
         resolve({ dataURL: dataURL, imageBuffer: imageBuffer, mimeType: mimeType })
       }
       img.src = url
+    })
+  },
+  readFileFromUrlToDataURL: function (url) {
+    return new Promise((resolve) => {
+      const request = new XMLHttpRequest()
+      request.open('GET', url, true)
+      request.responseType = 'blob'
+      request.onload = function () {
+        const reader = new FileReader()
+        reader.readAsDataURL(request.response)
+        const file = {
+          size: request.response.size,
+          type: request.response.type
+        }
+        reader.onload = function (e) {
+          file.dataUrl = e.target.result
+          resolve(file)
+        }
+      }
+      request.send()
     })
   },
   getBase64FromImageUrl: function (dataURL) {

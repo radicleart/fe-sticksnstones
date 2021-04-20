@@ -41,11 +41,6 @@ export default {
   top: 15vh;
   left: 10vw;
 }
-.home-content {
-  position: relative;
-  top: 40px;
-}
-
 #slice-0 {
   margin-top: 100vh;
   background-color: #fff;
