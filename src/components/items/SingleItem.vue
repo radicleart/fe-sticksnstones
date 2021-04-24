@@ -69,9 +69,12 @@ export default {
       }
       if (!file) return {}
       const videoOptions = {
+        emitOnHover: true,
+        playOnHover: true,
         assetHash: this.item.assetHash,
         showMeta: false,
         autoplay: false,
+        muted: true,
         aspectRatio: '1:1',
         controls: true,
         poster: (this.item.nftMedia.coverImage) ? this.item.nftMedia.coverImage.fileUrl : null,

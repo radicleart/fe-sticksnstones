@@ -19,10 +19,11 @@
   </b-navbar-nav>
 
   <b-collapse id="nav-collapse" is-nav>
-    <!-- Right aligned nav items -->
+    <!-- Right aligned nav items -->marketplaceUrl
     <b-navbar-nav class="ml-xl-auto align-items-xl-center">
+      <b-nav-item><a :href="getMarketplaceUrl()" target="_blank" class="text-white">Risidio Xchange</a></b-nav-item>
       <b-nav-item><router-link class="text-white" to="/start-minting">Mint a File</router-link></b-nav-item>
-      <b-nav-item><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
+      <b-nav-item><router-link class="text-white" to="/my-items">My NFTs</router-link></b-nav-item>
     </b-navbar-nav>
 
     <b-navbar-nav class="navbar__login d-flex">
@@ -50,10 +51,16 @@ export default {
   data () {
     return {
       query: null,
-      logo: require('@/assets/img/risidio_white.png')
+      logo: require('@/assets/img/risidio_white.png'),
+      marketplaceUrl: process.env.VUE_APP_MARKETPLACE_URL,
+      contractAddress: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,
+      contractName: process.env.VUE_APP_STACKS_CONTRACT_NAME
     }
   },
   methods: {
+    getMarketplaceUrl () {
+      return this.marketplaceUrl + '/marketplace?filter=application&contractId=' + this.contractAddress + '.' + this.contractName
+    },
     logout () {
       // this.$emit('updateEventCode', { eventCode: 'connect-logout' })
       this.$store.dispatch('rpayAuthStore/startLogout')

@@ -123,7 +123,7 @@ export default {
         if (data && data.txId) $self.mintTxId = data.txId
         if (data.opcode === 'save-selling-data') {
           $self.$bvModal.hide('rpay-modal')
-        } else if (data.opcode === 'stx-mint-success' || data.opcode === 'eth-mint-success') {
+        } else if (data.opcode === 'stx-transaction-finished' || data.opcode === 'eth-mint-success') {
           $self.showRpay = false
           $self.$bvModal.hide('rpay-modal')
           $self.mintResult = 'This item has been successfully minted - now saving the off-chain data'

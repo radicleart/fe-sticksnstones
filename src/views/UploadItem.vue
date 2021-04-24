@@ -86,9 +86,12 @@ export default {
       const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       if (!myAsset) return
       const videoOptions = {
+        emitOnHover: true,
+        playOnHover: true,
         assetHash: this.assetHash,
         showMeta: true,
         autoplay: false,
+        muted: true,
         controls: true,
         poster: (myAsset.nftMedia.coverImage) ? myAsset.nftMedia.coverImage.fileUrl : null,
         sources: [

@@ -54,9 +54,8 @@ export default {
             // $self.$store.dispatch('rpaySearchStore/fetchContractData')
             $self.configured = true
           })
-        } else if (data.opcode === 'stx-transaction-mint') {
-          // commit it straight away to avoid double clicks on the minting button
-        } else if (data.opcode === 'stx-transaction-mint-error') {
+        } else if (data.opcode === 'stx-transaction-sent') {
+        } else if (data.opcode === 'stx-transaction-error') {
         } else if (data.opcode === 'configured-logged-in') {
           $self.$store.commit('rpayAuthStore/setAuthResponse', data.session)
           $self.$store.dispatch('rpayAuthStore/fetchMyAccount')
