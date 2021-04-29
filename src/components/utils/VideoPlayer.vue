@@ -39,10 +39,20 @@ export default {
   },
   methods: {
     playMe: function () {
-      this.player.play()
+      if (this.options.emitOnHover) {
+        this.$emit('videoHover', this.options)
+      }
+      if (this.options.playOnHover) {
+        this.player.play()
+      }
     },
     pauseMe: function () {
-      this.player.pause()
+      if (this.options.emitOnHover) {
+        this.$emit('videoHoverOut', this.options)
+      }
+      if (this.options.playOnHover) {
+        this.player.pause()
+      }
     },
     clickedMe: function () {
       this.player.pause()
@@ -58,7 +68,6 @@ export default {
 </script>
 
 <style>
-  @import '../../assets/scss/video-js.css';
   .video-js {
     position: relative !important;
     width: 100% !important;

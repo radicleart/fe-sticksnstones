@@ -1,27 +1,27 @@
 <template>
 <div class="text-center">
   <div @drop.prevent="loadMediaObjects" @dragover.prevent class="p-4 drop-zone text-danger d-flex flex-column align-items-center">
-    <div class="mt-5"><b-icon scale="3" :icon="contentModel.iconName"/></div>
-    <div class="mt-4 mb-5" v-html="contentModel.title"></div>
-    <div class="text-center mx-auto" style="position: relative; top: 10px;">
-      <div>
-        <input style="width: 80%;" class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
+      <div class="mt-5"><b-icon scale="3" :icon="contentModel.iconName"/></div>
+      <div class="mt-4 mb-5" v-html="contentModel.title"></div>
+      <div class="text-center mx-auto" style="position: relative; top: 10px;">
+        <div>
+          <input style="width: 80%;" class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
+        </div>
+        <div>
+          <b-button style="width: 80%;" variant="light" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
+        </div>
+        <div style="width: 100%;" class="text-left mt-4 mb-3" role="group">
+          <label for="item-name">or paste a link</label>
+          <b-form-input
+            id="item-name"
+            v-model="directUrl"
+            @keyup="startDownload()"
+            aria-describedby="item-name-help item-name-feedback"
+            placeholder="Enter URL"
+            trim
+          ></b-form-input>
+        </div>
       </div>
-      <div>
-        <b-button style="width: 80%;" variant="light" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
-      </div>
-      <div style="width: 100%;" class="text-left mt-4 mb-3" role="group">
-        <label for="item-name">or paste a link</label>
-        <b-form-input
-          id="item-name"
-          v-model="directUrl"
-          @keyup="startDownload()"
-          aria-describedby="item-name-help item-name-feedback"
-          placeholder="Enter URL"
-          trim
-        ></b-form-input>
-      </div>
-    </div>
     <div class="invalid-feedback d-block" v-if="showError">
       {{contentModel.errorMessage}}
     </div>
@@ -82,6 +82,11 @@ export default {
       type: Object,
       default: () => ({ width: 250, height: 250 }),
       required: true
+    },
+    mediaFiles: {
+      type: Array,
+      default: () => ([]),
+      required: false
     }
   },
   data () {
@@ -92,6 +97,12 @@ export default {
       mediaObjects: [],
       internalError: null,
       missing: '/img/pdf-holding.png'
+    }
+  },
+  mounted () {
+    if (this.mediaFiles && this.mediaFiles.length > 0) {
+      Object.assign(this.mediaObjects, this.mediaFiles)
+      this.loaded = true
     }
   },
   computed: {
@@ -126,6 +137,15 @@ export default {
     clearMediaObjects: function () {
       this.mediaObjects = []
       this.$emit('updateMedia', { clear: true })
+    },
+    fileSizeM: function (fsize) {
+      return fsize / 1000000
+    },
+    fileType: function (ftype) {
+      if (ftype && ftype.startsWith('image')) {
+        return ftype.substring(6)
+      }
+      return ftype
     },
     cover: function () {
       const vid = document.querySelector('#video1')
@@ -200,39 +220,40 @@ export default {
         return false
       }
     },
-    isAllowed (fileObject, checkLimit) {
+    getFileType (fileObject) {
+      let type = fileObject.type
+      if (!fileObject.type || fileObject.type.length === 0) {
+        if (fileObject.name) {
+          type = utils.getFileExtension(fileObject.name)
+        }
+        if (type.indexOf('gltf') > -1 || type.indexOf('glb') > -1 || type.indexOf('obj') > -1) {
+          type = 'threed'
+        }
+      }
+      return type
+    },
+    isTooBig (fileObject) {
       let ksize = fileObject.size / 1000000
       ksize = Math.round(ksize * 100) / 100
-      if (checkLimit && ksize > Number(this.sizeLimit)) {
+      if (ksize > Number(this.sizeLimit)) {
         this.internalError = 'This file (' + ksize + ' M) exceeds the size limit of ' + this.sizeLimit + ' M - try dropping in a of a file url - we can create the NFT from this and serve the content from the URL'
         this.$emit('updateMedia', { errorMessage: this.internalError })
         return false
       }
+    },
+    isForbidden (type) {
       let allowed = false
-      if (this.mediaTypes.indexOf('image') > -1) {
-        allowed = this.isImage(fileObject)
-      }
-      if (this.mediaTypes.indexOf('text') > -1) {
-        allowed = allowed || this.isPlain(fileObject)
-      }
-      if (this.mediaTypes.indexOf('video') > -1) {
-        allowed = allowed || this.isVideo(fileObject)
-      }
-      if (this.mediaTypes.indexOf('audio') > -1) {
-        allowed = allowed || this.isAudio(fileObject)
-      }
-      if (this.mediaTypes.indexOf('doc') > -1) {
-        allowed = allowed || this.ispdf(fileObject)
-      }
-      if (this.mediaTypes.indexOf('mp3') > -1 || this.mediaTypes.indexOf('music') > -1 || this.mediaTypes.indexOf('audio') > -1) {
-        allowed = allowed || this.isMusic(fileObject)
+      const types = this.mediaTypes.split(',').find((o) => type.indexOf(o.trim() > -1))
+      for (let i = 0; i < types.length; i++) {
+        if (type.indexOf(types[i]) > -1) {
+          allowed = true
+        }
       }
       if (!allowed) {
-        this.$emit('updateMedia', { errorMessage: 'Files of type ' + fileObject.type + ' are not allowed here.' })
-        this.internalError = 'Files of type ' + fileObject.type + ' are not allowed here.'
-        allowed = false
+        this.$emit('updateMedia', { errorMessage: 'Files of type ' + type + ' are not allowed here.' })
+        this.internalError = 'Files of type ' + type + ' are not allowed here.'
       }
-      return allowed
+      return !allowed
     },
     isValidUrl (url1) {
       try {
@@ -256,8 +277,10 @@ export default {
           this.$emit('updateMedia', { startLoad: 'Fetching file from ' + data })
           userFiles = data
           utils.readFileFromUrlToDataURL(data).then((fileObject) => {
-            if (!$self.isAllowed(fileObject, false)) return
+            const type = $self.getFileType(fileObject)
+            if ($self.isForbidden(type)) return
             fileObject.id = $self.contentModel.id
+            fileObject.type = type
             fileObject.storage = 'external'
             fileObject.fileUrl = data
             fileObject.dataHash = utils.buildHash(fileObject.dataUrl)
@@ -283,13 +306,15 @@ export default {
           break
         }
         fileObject = userFiles[i]
-        $self.isAllowed(fileObject, true)
+        const type = $self.getFileType(fileObject)
+        if ($self.isTooBig(fileObject)) return
+        if ($self.isForbidden(type)) return
         const thisFile = {
           lastModified: fileObject.lastModified,
           lastModifiedDate: fileObject.lastModifiedDate,
           name: fileObject.name,
-          size: fileObject.size,
-          type: fileObject.type
+          type: type,
+          size: fileObject.size
         }
         this.$emit('updateMedia', { startLoad: 'Loading from file system ' + thisFile.name + ' size is ' + Math.round(thisFile.size * 100) / 100 + ' bytes' })
         const reader = new FileReader()
@@ -306,7 +331,7 @@ export default {
                 if (this.width !== this.height) {
                   const msg = 'Your image must be a square and not ' + this.width + 'x' + this.height
                   $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
-                  $self.$emit('updateMedia', { media: thisFile })
+                  // $self.$emit('updateMedia', { media: thisFile })
                 } else {
                   this.width = '250px'
                   this.height = '250px'
@@ -351,7 +376,7 @@ export default {
 }
 .drop-label {
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   margin-bottom: 0;
 }
 select {

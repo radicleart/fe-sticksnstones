@@ -1,26 +1,21 @@
 <template>
-<div v-if="videoOptions">
-  <div class="row text-left" v-if="!videoOptions.hideArtworkFile">
-    <div class="col-md-4 col-sm-12 mb-4" >
-      <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="nftMedia" :targetItem="'artworkFile'"/>
-    </div>
+<div class="row" v-if="assetHash">
+  <div class="col-md-4 col-sm-12 mb-4">
+    <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="nftMedia" :targetItem="'artworkFile'"/>
   </div>
-  <div class="row text-left">
-    <div class="col-md-4 col-sm-12 mb-4" v-if="!videoOptions.hideArtworkClip">
-      <media-item :videoOptions="videoOptions" v-if="hasFile('artworkClip')" :dims="dims" :nftMedia="nftMedia" :targetItem="'artworkClip'" v-on="$listeners"/>
-      <media-upload v-else :myUploadId="'artworkClip'" :dims="dims" :contentModel="contentModelClip" :limit="1" :sizeLimit="4" :mediaTypes="mediaTypesAllowed" @updateMedia="updateMedia($event)"/>
-    </div>
-    <div class="col-md-4 col-sm-12 mb-4">
-      <media-item :videoOptions="videoOptions" v-if="hasFile('coverImage')" :dims="dims" :nftMedia="nftMedia" :targetItem="'coverImage'" v-on="$listeners"/>
-      <media-upload v-else :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModelCoverImage" :limit="1" :sizeLimit="2" :mediaTypes="mediaTypesAllowed" @updateMedia="updateMedia($event)"/>
-    </div>
+  <div class="col-md-4 col-sm-12 mb-4">
+    <media-item :videoOptions="videoOptions" v-if="hasFile('artworkClip')" :dims="dims" :nftMedia="nftMedia" :targetItem="'artworkClip'" v-on="$listeners"/>
+    <media-upload v-else :myUploadId="'artworkClip'" :dims="dims" :contentModel="contentModelClip" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="4" :mediaTypes="'video,image'" @updateMedia="updateMedia($event)"/>
+  </div>
+  <div class="col-md-4 col-sm-12 mb-4">
+    <media-item :videoOptions="videoOptions" v-if="hasFile('coverImage')" :dims="dims" :nftMedia="nftMedia" :targetItem="'coverImage'" v-on="$listeners"/>
+    <media-upload v-else :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModelCoverImage" :mediaFiles="mediaFilesCoverImage" :limit="1" :sizeLimit="2" :mediaTypes="'image'" @updateMedia="updateMedia($event)"/>
   </div>
 </div>
-<div v-else>
-  <div class="row mb-4">
-    <div class="col-sm-12 col-md-4 offset-md-4 mb-3">
-      <media-upload :myUploadId="'artworkFile'" :dims="dims" :contentModel="contentModelArtwork" :limit="1" :sizeLimit="20" :mediaTypes="mediaTypesAllowed" @updateMedia="updateMedia($event)"/>
-    </div>
+<div class="row mb-4" v-else>
+  <div class="col-sm-12 col-md-4 offset-md-4 mb-3">
+    <media-item :videoOptions="videoOptions" v-if="hasFile('artworkFile')" :dims="dims" :nftMedia="nftMedia" :targetItem="'artworkFile'"/>
+    <media-upload v-else :myUploadId="'artworkFile'" :dims="dims" :contentModel="contentModelArtwork" :mediaFiles="mediaFilesMusicFile" :limit="1" :sizeLimit="20" :mediaTypes="'video'" @updateMedia="updateMedia($event)"/>
   </div>
 </div>
 </template>
@@ -35,7 +30,7 @@ export default {
     MediaUpload,
     MediaItem
   },
-  props: ['uploadState', 'nftMedia', 'mediaTypesAllowed', 'videoOptions'],
+  props: ['uploadState', 'nftMedia', 'videoOptions'],
   data: function () {
     return {
       artworkFileUrl: null,
@@ -50,7 +45,7 @@ export default {
       },
       contentModelClip: {
         id: 'artworkClip',
-        title: 'Artwork Clip (up to 2M)',
+        title: 'Artwork Clip (up to 2M)<br/>up to 2M',
         buttonName: 'Choose Movie Clip',
         iconName: 'film',
         errorMessage: 'A image file is required.',
@@ -80,9 +75,23 @@ export default {
     }
   },
   computed: {
+    mediaFilesCoverImage () {
+      const files = []
+      if (this.nftMedia.coverImage && this.nftMedia.coverImage.dataUrl) {
+        files.push(this.nftMedia.coverImage)
+      }
+      return files
+    },
     assetHash () {
       const assetHash = this.$route.params.assetHash
       return assetHash
+    },
+    mediaFilesMusicFile () {
+      const files = []
+      if (this.nftMedia.musicFile && this.nftMedia.musicFile.dataUrl) {
+        files.push(this.nftMedia.musicFile)
+      }
+      return files
     }
   }
 }

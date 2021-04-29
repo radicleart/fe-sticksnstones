@@ -9,13 +9,14 @@
       <div id="result-item" class="mb-4">
         <media-item :videoOptions="videoOptions" :nftMedia="nftMedia" :targetItem="targetItem()" :dims="dims"/>
       </div>
+
     </div>
     <div class="col-md-5 col-sm-12">
-      <div class="mb-4">
+      <div>
         <div class="mb-2 d-flex justify-content-between">
-          <div class=""><h1>{{item.name}}</h1></div>
+          <div class="">{{item.name}}</div>
           <div class="">
-            <router-link class="mr-2" :to="'/edit-item/' + item.assetHash"><b-icon icon="pencil"></b-icon></router-link>
+            <router-link v-if="!contractAsset" class="mr-2" :to="'/edit-item/' + item.assetHash"><b-icon icon="pencil"></b-icon></router-link>
             <a v-if="!contractAsset" href="#" @click.prevent="deleteItem" class="text-danger"><b-icon icon="trash"></b-icon></a>
           </div>
         </div>
@@ -26,7 +27,7 @@
         <span class="text-small mr-1" v-for="(kw, index) in item.keywords" :key="index">#{{kw.name}}</span>
       -->
       <div class="text-small">{{item.description}}</div>
-      <minting-tools class="text-center w-100" :assetHash="item.assetHash" />
+      <minting-tools class="w-100" :assetHash="item.assetHash" />
     </div>
   </div>
 </div>
@@ -57,7 +58,7 @@ export default {
     this.assetHash = this.$route.params.assetHash
     this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
       if (!item) {
-        this.$router.push('/404')
+        this.$router.push('/my-items')
       }
     })
   },
@@ -73,9 +74,10 @@ export default {
       const videoOptions = {
         emitOnHover: true,
         playOnHover: true,
-        autoplay: false,
-        muted: true,
+        assetHash: this.assetHash,
         showMeta: true,
+        autoplay: false,
+        muted: false,
         controls: true,
         poster: (item.nftMedia.coverImage) ? item.nftMedia.coverImage.fileUrl : null,
         sources: [
