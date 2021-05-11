@@ -1,10 +1,10 @@
 <template>
-<b-container fluid v-if="loading" :style="'min-height: 100vh; background-image: url(' + background + ')'">
+<b-container fluid v-if="loading" :style="'min-height: 100vh;'">
   <b-row class="splash-screen vh-100 text-center" align-v="center">
     <b-col><b-button class="main-navigation-button" variant="transparent"><img :src="threedotsr"/></b-button></b-col>
   </b-row>
 </b-container>
-<div id="app" v-else :style="'min-height: 100vh; background-image: url(' + background + ')'">
+<div id="app" v-else :style="'min-height: 100vh;'">
   <div v-if="!configured">
     <risidio-pay :configuration="configuration"/>
   </div>

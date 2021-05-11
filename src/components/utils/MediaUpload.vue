@@ -331,7 +331,7 @@ export default {
                 if (this.width !== this.height) {
                   const msg = 'Your image must be a square and not ' + this.width + 'x' + this.height
                   $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
-                  // $self.$emit('updateMedia', { media: thisFile })
+                  $self.$emit('updateMedia', { media: thisFile })
                 } else {
                   this.width = '250px'
                   this.height = '250px'

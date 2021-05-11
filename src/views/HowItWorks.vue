@@ -35,7 +35,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "@/assets/scss/custom.scss";
 .my-header {
   position: absolute;
   top: 15vh;
@@ -73,7 +72,7 @@ export default {
 }
 
 #slice-2 {
-  background-color: $danger;
+  background-color: red;
   color: #fff;
   padding: 50px;
   z-index: 2;
@@ -93,7 +92,7 @@ export default {
 }
 #slice-4 {
   text-align: center;
-  background-color: $danger;
+  background-color: red;
   color: #fff;
   padding: 50px;
   z-index: 2;

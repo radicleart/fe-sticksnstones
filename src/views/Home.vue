@@ -2,7 +2,7 @@
 <section id="homeSection" v-if="slices">
   <div class="container my-5">
     <div class="row">
-      <div class="col-md-6 col-sm-12 text-white">
+      <div class="col-md-6 col-sm-12">
         <slices-block :rootId="'home-slice-'" :slices="slices" class="outer-container"/>
       </div>
     </div>

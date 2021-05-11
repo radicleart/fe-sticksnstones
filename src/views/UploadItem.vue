@@ -3,7 +3,7 @@
   <div class="container" :key="componentKey">
     <div class="row mt-5">
       <div class="col-12">
-        <div class="text-white" v-html="contextTitle()"></div>
+        <div class="" v-html="contextTitle()"></div>
       </div>
       <div class="col-md-12">
         <media-handler :videoOptions="videoOptions()" :uploadState="uploadState" :mediaTypesAllowed="mediaTypesAllowed" :nftMedia="item.nftMedia" @updateMedia="updateMedia"/>
@@ -86,6 +86,7 @@ export default {
       const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       if (!myAsset) return
       const videoOptions = {
+        allowClip: false,
         emitOnHover: true,
         playOnHover: true,
         assetHash: this.assetHash,

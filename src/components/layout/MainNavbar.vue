@@ -19,7 +19,7 @@
   </b-navbar-nav>
 
   <b-collapse id="nav-collapse" is-nav>
-    <!-- Right aligned nav items -->marketplaceUrl
+    <!-- Right aligned nav items -->
     <b-navbar-nav class="ml-xl-auto align-items-xl-center">
       <b-nav-item><a :href="getMarketplaceUrl()" target="_blank" class="text-white">Risidio Xchange</a></b-nav-item>
       <b-nav-item><router-link class="text-white" to="/start-minting">Mint a File</router-link></b-nav-item>

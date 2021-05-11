@@ -3,7 +3,7 @@
 <div class="mt-3" v-if="!item">
   {{message}}
 </div>
-<div class="mt-3 text-white" v-else>
+<div class="mt-3" v-else>
   <div class="row">
     <div class="col-md-7 col-sm-12">
       <div id="result-item" class="mb-4">

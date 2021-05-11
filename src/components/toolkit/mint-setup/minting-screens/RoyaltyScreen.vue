@@ -8,7 +8,7 @@
     <template v-slot:footer>
       <div class="">
         <div>
-          <div class="bg-dark p-3 d-flex justify-content-between">
+          <div class="p-3 d-flex justify-content-between">
             <square-button @clickButton="saveData()" :theme="'light'" :label1="'CANCEL'" :icon="'eye'"/>
             <square-button @clickButton="mintToken()" :theme="'light'" :label1="'MINT NOW'" :icon="'eye'"/>
           </div>
@@ -32,10 +32,9 @@ export default {
     ItemDisplay,
     SquareButton
   },
-  props: ['item', 'beneficiaries'],
+  props: ['item', 'beneficiaries', 'errorMessage'],
   data () {
     return {
-      errorMessage: null,
       mintedMessage: null
     }
   },

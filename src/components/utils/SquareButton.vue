@@ -1,6 +1,6 @@
 <template>
   <b-button-group class="text-white" v-if="loaded">
-    <b-button @click="$emit('clickButton')" class="btn-square" :style="(usePixelBg) ? 'background-image: url(' + pixelBg + ')' : ''">
+    <b-button @click="$emit('clickButton')" class="btn-square text-white bg-dark">
       <span class="" v-if="icon">
         <b-icon class="text-warning" style="width: 30px; height: 30px;" :icon="icon"/>
       </span>
@@ -8,7 +8,7 @@
         <img class="text-warning" style="width: 30px; height: 30px;" :src="svgImage"/>
       </span>
     </b-button>
-    <b-button @click="$emit('clickButton')" class="btn-rectangle" :class="bigButtonTheme">{{label1}}</b-button>
+    <b-button @click="$emit('clickButton')" class="btn-rectangle btn-dark">{{label1}}</b-button>
   </b-button-group>
 </template>
 
@@ -54,8 +54,10 @@ export default {
   border: 1pt solid #fff !important;
 }
 .btn-rectangle {
+  min-width: 200px;
   font-size: 1.5rem;
   text-transform: uppercase;
+  border: 1pt solid #ccc;
 }
 .btn-dark {
   color: #000;

@@ -14,7 +14,7 @@
     <template v-slot:footer>
       <div class="">
         <div>
-          <div class="bg-dark p-3 d-flex justify-content-between">
+          <div class="p-3 d-flex justify-content-between">
             <square-button @clickButton="backData()" :theme="'light'" :label1="'BACK'" :icon="'eye'"/>
          </div>
         </div>

@@ -32,7 +32,7 @@ const marketConfig = {
   oneLayout: true,
   searchMenu: false,
   sideMenu: false,
-  projectId: 'ST1ESYCGJB5Z5NBHS39XPC70PGC14WAQK5XXNQYDW.thisisnumberone'
+  projectId: null
 }
 const beneficiariesDefault = [
   {
