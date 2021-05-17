@@ -1,19 +1,19 @@
 export const APP_CONSTANTS = {
-  SET_RPAY_FLOW: 'setRpayFlow',
   KEY_RPAY_CONFIGURATION: 'getRpayConfiguration',
-  KEY_PUBLIC_ITEMS: 'publicItemsStore/getPublicItems',
-  KEY_MODAL_MESSAGE: 'getModalMessage',
-  KEY_WAITING_IMAGE: 'contentStore/getWaitingCSS',
+  KEY_CONFIGURATION: 'getRpayConfiguration',
+  SET_RPAY_FLOW: 'setRpayFlow',
+  KEY_TRACKING_URL: 'getTrackingUrl',
+  KEY_SECTION_HEIGHT: 'getSectionHeight',
 
-  KEY_TARGET_FILE_FOR_DISPLAY: 'rpayStacksContractStore/getTargetFileForDisplay',
+  KEY_CONTENT_ABOUT: 'contentStore/getAbout',
+
   KEY_MY_ITEMS: 'myItemStore/getMyItems',
+  KEY_MY_UNMINTED_ITEMS: 'myItemStore/getMyUnmintedItems',
+  KEY_MY_MINTED_ITEMS: 'myItemStore/getMyMintedItems',
+  KEY_MY_PURCHASED_ITEMS: 'myItemStore/getMyPurchasedItems',
   KEY_MY_ITEM: 'myItemStore/myItem',
+  KEY_MODAL_MESSAGE: 'getModalMessage',
   KEY_ITEM_VALIDITY: 'myItemStore/getItemValidity',
-
-  KEY_PROFILE: 'rpayAuthStore/getMyProfile',
-  KEY_GAIA_STORAGE: 'rpayAuthStore/getMyProfile',
-  KEY_ACCOUNT_INFO: 'rpayAuthStore/getAccountInfo',
-  KEY_ACCOUNTS: 'rpayAuthStore/getAccounts',
 
   KEY_BIDDING_CURRENT_BID: 'rpayPurchaseStore/getCurrentBid',
   KEY_BIDDING_NEXT_BID: 'rpayPurchaseStore/getNextBid',
@@ -21,7 +21,43 @@ export const APP_CONSTANTS = {
   KEY_SALES_BADGE_LABEL: 'rpayPurchaseStore/getSalesBadgeLabel',
   KEY_SALES_INFO_TEXT: 'rpayPurchaseStore/getSalesInfoText',
   KEY_FORMATTED_BIDDING_END_TIME: 'rpayPurchaseStore/getFormattedBiddingEndTime',
+  KEY_RECIPIENT: 'rpayPurchaseStore/getRecipientAddress',
 
+  KEY_TRANSACTION_DIALOG_MESSAGE: 'contentStore/getTransactionDialogMessage',
+  KEY_WAITING_IMAGE: 'contentStore/getWaitingCSS',
+  KEY_TOOL_TIP: 'contentStore/getTooltip',
+  KEY_DIALOG_CONTENT: 'contentStore/getDialog',
+  KEY_CONTENT_CHARITY_BY_ARTIST_ID: 'contentStore/getCharityByArtistId',
+  KEY_CONTENT_ARTIST_BY_ID: 'contentStore/getArtistById',
+  KEY_CONTENT_ARTIST_ID: 'contentStore/getArtistId',
+  KEY_CONTENT_ARTISTS: 'contentStore/getArtists',
+  KEY_CONTENT_CHARITIES: 'contentStore/getCharities',
+  KEY_CONTENT_INFO_PAGE: 'contentStore/getInformationById',
+  KEY_BREAK_LINE: 'contentStore/getBreakLine',
+  KEY_PIXEL_BACKGROUND: 'contentStore/getPixelBackground',
+
+  KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
+  KEY_PROFILE: 'rpayAuthStore/getMyProfile',
+  KEY_GAIA_STORAGE: 'rpayAuthStore/getMyProfile',
+  KEY_ACCOUNT_INFO: 'rpayAuthStore/getAccountInfo',
+  KEY_ACCOUNTS: 'rpayAuthStore/getAccounts',
+  KEY_AUTH_HEADERS: 'rpayAuthStore/getAuthHeaders',
+
+  KEY_TICKER_RATES: 'rpayStore/getTickerRates',
+  KEY_DISPLAY_CARD: 'rpayStore/getDisplayCard',
+  KEY_MINTING_MESSAGE: 'rpayStore/getMintingMessage',
+  SET_MINTING_MESSAGE: 'rpayStore/setMintingMessage',
+  KEY_PREFERRED_NETWORK: 'rpayStore/getPreferredNetwork',
+  KEY_PAYMENT_OPTION_VALUE: 'rpayStore/getCurrentPaymentOption',
+  SET_PAYMENT_OPTION_VALUE: 'rpayStore/setCurrentCryptoPaymentOption',
+  KEY_ENABLED_NETWORKS: 'rpayStore/getEnabledNetworks',
+  SET_PREFERRED_NETWORK_VALUE: 'rpayStore/setPreferredNetwork',
+  KEY_PAYMENT_OPTIONS: 'rpayStore/getPaymentOptions',
+
+  KEY_MACS_WALLET: 'rpayStacksStore/getMacsWallet',
+  KEY_SKYS_WALLET: 'rpayStacksStore/getSkysWallet',
+
+  KEY_TARGET_FILE_FOR_DISPLAY: 'rpayStacksContractStore/getTargetFileForDisplay',
   KEY_GAIA_ASSET_BY_HASH: 'rpayStacksContractStore/getGaiaAssetByHash',
   KEY_GAIA_ASSETS: 'rpayStacksContractStore/getGaiaAssets',
   KEY_GAIA_ASSETS_BY_OWNER: 'rpayStacksContractStore/getGaiaAssetsByOwner',
@@ -39,4 +75,5 @@ export const APP_CONSTANTS = {
   KEY_CURRENT_SEARCH: 'rpaySearchStore/getCurrentSearch',
   KEY_ASSET: 'rpaySearchStore/getAsset',
   KEY_SEARCH_RESULTS: 'rpaySearchStore/getSearchResults'
+
 }

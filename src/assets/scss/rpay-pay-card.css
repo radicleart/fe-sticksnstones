@@ -2,8 +2,35 @@
   color: #000;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 20px #00000029;
-  border-radius: 14px;
+  border-radius: 0px;
 }
+#rpay-modal .modal-content {
+  border: none !important;
+  background-color: transparent !important;
+}
+#rpay-modal .modal-content {
+  border-radius: 0px;
+  min-height: 200px;
+  color: #000;
+  border: none;
+}
+#rpay-modal .modal-header {
+  display: none;
+  border-bottom: 0px solid #dee2e6;
+  border-radius: 0px;
+}
+#rpay-modal .modal-footer {
+  display: none;
+  border-top: 0px solid #dee2e6;
+  border-radius: 0px;
+}
+#rpay-modal .card-text {
+  text-align: center;
+}
+#rpay-modal .footer-container {
+  background: transparent !important;
+}
+
 #rpay-pay-card .footer-container {
   height: 80px;
 }
@@ -23,22 +50,31 @@
   color: #ffd54f;
 }
 #rpay-pay-card .co-option-on {
-  color: #ffffff;
   padding: 5px 15px;
   margin: 8px;
   text-transform: capitalize;
-  font-size: 12px;
-  font-weight: 700;
+}
+#rpay-pay-card .btn {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  font-weight: 7500;
+  border: none;
+}
+#rpay-pay-card label {
+  text-align: left;
+}
+#rpay-pay-card .btn-danger {
+  background-color: #000;
+  border: 1pt solid #000 !important;
+  color: #fff;
 }
 #rpay-pay-card .co-option-off {
   color: #000000;
-  border: #cccccc;
-  background-color: #cccccc;
+  border: 1pt solid #000 !important;
+  background-color: #fff;
   padding: 5px 15px;
   margin: 8px;
   text-transform: capitalize;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 #rpay-pay-card .no-option-on {
@@ -46,13 +82,13 @@
   padding: 5px 15px;
   margin: 8px;
   text-transform: capitalize;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 700;
   min-width: 70%;
   border-radius: 18px;
 }
 #rpay-pay-card .round-btn {
-  border-radius: 18px;
+  border-radius: 0px;
   width: 50% !important;
   white-space: 'nowrap';
 }
@@ -64,7 +100,7 @@
   padding: 5px 15px;
   margin: 8px;
   text-transform: capitalize;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 700;
   min-width: 70%;
   border-radius: 18px;
@@ -96,10 +132,10 @@
   box-shadow: none !important;
 }
 #rpay-pay-card .text-small {
-  font-size: 10px;
+  font-size: 1rem;
 }
 #rpay-pay-card a {
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: normal;
   color: #000000;
 }
@@ -115,11 +151,11 @@
 }
 #rpay-pay-card h1 {
   font-weight: 300;
-  font-size: 15px;
+  font-size: 1.5rem;
 }
 #rpay-pay-card .text-bold {
   font-weight: 700;
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 #rpay-pay-card .text-300 {
   font-weight: 300;
@@ -149,9 +185,8 @@
 #rpay-pay-card .cp-btn-order {
   width: 100%;
   color: white;
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 700;
-  border-radius: 18px;
   height: 46px;
 }
 #rpay-pay-card .sq-btn-order {
@@ -159,9 +194,8 @@
   top: 40px;
   width: 100%;
   color: white;
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 700;
-  border-radius: 18px;
   height: 46px;
 }
 
@@ -169,10 +203,10 @@
   font-weight: 200;
 }
 #rpay-pay-card .rpay-text-secondary {
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 #rpay-pay-card .text-h2 {
-  font-size: 24px;
+  font-size: 2.4rem;
   font-weight: 300;
 }
 #rpay-pay-card .rpay-sq-logo {
@@ -191,7 +225,7 @@
   position: relative;
   top: 0px;
   text-align: left;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 200;
   letter-spacing: 0px;
   opacity: 1;

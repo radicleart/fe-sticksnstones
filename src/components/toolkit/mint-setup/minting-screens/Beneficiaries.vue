@@ -3,7 +3,7 @@
   <div class="mb-3" role="group">
     <b-form v-on:submit.prevent inline>
       <label class="sr-only" for="chain-address">Editions</label>
-      <b-input-group prepend="Editions" class="mb-2 mr-sm-2 mb-sm-0">
+      <b-input-group prepend="Editions" class="bg-white mb-2 mr-sm-2 mb-sm-0">
         <b-form-input
           style="border-radius: none !important;"
           id="chain-address"
@@ -24,6 +24,14 @@
     <span v-for="(beneficiary, index) in beneficiaries" :key="index">
       <beneficiary v-on="$listeners" :beneficiary="beneficiary"/>
     </span>
+    <div style="font-size: 1.6rem;" class="d-flex justify-content-between">
+      <div>Sum</div>
+      <div class=" d-flex justify-content-between">
+        <div class="mr-5">{{getRoyaltySum()}} %</div>
+        <div style="width: 40px;">
+        </div>
+      </div>
+    </div>
     <div class="mt-4 text-right">Add a contributer <a href="#" class="ml-2 text-two" style="font-size: 24px;" @click="addBeneficiary"><b-icon scale="1em" icon="plus-circle"/></a></div>
   </div>
 </b-card-text>
@@ -54,6 +62,14 @@ export default {
       this.$emit('addNewBeneficiary')
       // this.$store.commit('rpayStore/setEditBeneficiary', null)
       // this.$store.commit('rpayStore/setDisplayCard', 102)
+    },
+    getRoyaltySum () {
+      let sum = 0
+      this.beneficiaries.forEach((o) => {
+        sum += o.royalty
+      })
+      sum = Math.round(sum * 100) / 100
+      return sum
     },
     updateEditions: function () {
       if (!this.editions || this.editions < 1) {

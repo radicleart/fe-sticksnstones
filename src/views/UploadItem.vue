@@ -1,59 +1,40 @@
 <template>
-<div id="upload-item" v-if="loaded">
-  <div class="container" :key="componentKey">
-    <div class="row mt-5">
-      <div class="col-12">
-        <div class="" v-html="contextTitle()"></div>
-      </div>
-      <div class="col-md-12">
-        <media-handler :videoOptions="videoOptions()" :uploadState="uploadState" :mediaTypesAllowed="mediaTypesAllowed" :nftMedia="item.nftMedia" @updateMedia="updateMedia"/>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-md-6 offset-md-3 col-sm-12">
-        <div>
-          <item-form-nav :item="item" @upload-state="updateUploadState" :uploadState="uploadState"/>
-          <item-form-part1 v-if="uploadState === 3" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
-          <item-form-part2 v-if="uploadState === 4" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
-          <item-form-part3 v-if="uploadState === 5" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
+<section class="" id="section-upload">
+  <b-container class="mt-5 pt-5">
+    <b-row style="min-height: 40vh" >
+      <b-col md="6" sm="12" align-self="start" class=" text-center">
+        <div  class="bg-white" style="width:80%;">
+          <media-upload :myUploadId="'artworkFile'" :dims="dims" :contentModel="contentModelArtwork" :limit="1" :sizeLimit="20" :mediaTypes="'video'" @updateMedia="updateMedia($event)"/>
         </div>
-      </div>
-      <div class="px-4 col-md-6 col-sm-12" v-if="uploadState > 1">
-        <item-summary class="upload-preview" :itemSummary="itemSummary" @upload-item="uploadItem"/>
-      </div>
-    </div>
-  </div>
-</div>
+      </b-col>
+      <b-col md="6" sm="12" align-self="end"  class="mb-4 text-white">
+        <h1 class="border-bottom mb-5">Upload Item</h1>
+        <div>First step to creating your NFT is to upload it here.</div>
+      </b-col>
+    </b-row>
+  </b-container>
+</section>
 </template>
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
-import ItemFormPart1 from '@/components/items/ItemFormPart1'
-import ItemFormPart2 from '@/components/items/ItemFormPart2'
-import ItemFormPart3 from '@/components/items/ItemFormPart3'
-import ItemFormNav from '@/components/items/ItemFormNav'
-import ItemSummary from '@/components/items/ItemSummary'
-import MediaHandler from '@/components/items/MediaHandler'
+import MediaUpload from '@/components/utils/MediaUpload'
 import utils from '@/services/utils'
 
 export default {
   name: 'UploadItem',
   components: {
-    ItemSummary,
-    ItemFormPart1,
-    ItemFormPart2,
-    ItemFormPart3,
-    ItemFormNav,
-    MediaHandler
+    MediaUpload
   },
   data () {
     return {
       formSubmitted: false,
+      dims: { width: 360, height: 202 },
       componentKey: 0,
       uploadState: 0,
       showHash: false,
       loading: true,
-      mediaTypesAllowed: null,
+      itemUUID: null,
       loaded: false,
       item: {
         owner: null,
@@ -68,11 +49,19 @@ export default {
       result: 'Saving data to your storage - back in a mo!',
       doValidate: true,
       defaultBadge: require('@/assets/img/risidio_white.png'),
-      defaultBadgeData: null
+      defaultBadgeData: null,
+      contentModelArtwork: {
+        id: 'artworkFile',
+        title: 'UPLOAD FILE',
+        buttonName: 'CHOOSE A FILE',
+        message: '<span class="text-small">Up to 20M</span><br/>Main Artwork File',
+        iconName: 'film',
+        errorMessage: 'A mp4 file is required',
+        popoverBody: 'The artwork file.'
+      }
     }
   },
   mounted () {
-    this.mediaTypesAllowed = this.$route.query.mediaTypesAllowed
     const assetHash = this.$route.params.assetHash
     if (assetHash) {
       this.assetHash = assetHash
@@ -81,16 +70,22 @@ export default {
     this.loaded = true
   },
   methods: {
+    hasFile (file) {
+      if (file === 'artworkFile') return this.nftMedia.artworkFile && this.nftMedia.artworkFile.fileUrl
+      else if (file === 'artworkClip') return this.nftMedia.artworkClip && this.nftMedia.artworkClip.fileUrl
+      else if (file === 'coverImage') return this.nftMedia.coverImage && this.nftMedia.coverImage.fileUrl
+    },
     videoOptions () {
-      if (!this.assetHash) return
+      if (this.assetHash) return
       const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       if (!myAsset) return
       const videoOptions = {
-        allowClip: false,
+        allowClip: true,
         emitOnHover: true,
         playOnHover: true,
-        assetHash: this.assetHash,
+        bigPlayer: false,
         showMeta: true,
+        assetHash: this.assetHash,
         autoplay: false,
         muted: true,
         controls: true,
@@ -98,7 +93,7 @@ export default {
         sources: [
           { src: myAsset.nftMedia.artworkFile.fileUrl, type: myAsset.nftMedia.artworkFile.type }
         ],
-        fluid: true
+        fluid: false
       }
       return videoOptions
     },
@@ -118,7 +113,6 @@ export default {
           throw new Error('not allowed - use UpdatItem instead')
         }
         const $self = this
-        if (!data.type || data.type.length === 0) data.type = this.mediaTypesAllowed
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
         this.$store.dispatch('myItemStore/saveNftMediaObject', { assetHash: data.media.dataHash, nftMedia: data.media }).then((nftMedia) => {
           const myAsset = {
@@ -162,15 +156,10 @@ export default {
       })
     },
     contextTitle: function () {
-      let title = '<h1>'
-      if (this.uploadState === 0) title += 'Upload artwork'
-      else if (this.uploadState === 1) title += 'Upload your music'
-      else if (this.uploadState === 2) title += 'Add cover art'
-      else if (this.uploadState === 3) title += 'Help people find it..'
-      title += '</h1>'
-      title += '<p>Minting a file of type <span class="text-danger">' + this.mediaTypesAllowed + '</span></p>'
-      title += '<p>Either paste a link to the file or choose a file from your computer</p>'
-      return title
+      if (this.uploadState === 0) return 'Upload artwork'
+      else if (this.uploadState === 1) return 'Upload your music'
+      else if (this.uploadState === 2) return 'Add cover art'
+      else if (this.uploadState === 3) return 'Help people find it..'
     },
     uploadItem: function () {
       if (this.item.editions) this.item.editions = parseInt(this.item.editions)

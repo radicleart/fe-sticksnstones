@@ -90,7 +90,7 @@ $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
 $red:     #FF0552 !default; //#dc3545 !default;
 $orange:  #f57c00 !default;
-$yellow:  #FDA800 !default;
+$yellow:  #FF9900 !default;
 $green:   #28a745 !default;
 $teal:    #00695c !default;
 /*
@@ -125,7 +125,7 @@ $colors: map-merge(
 $primary:       $stylish !default;
 $secondary:     $indigo !default;
 $success:       $teal !default;
-$info:          #50B1B5 !default; //$cyan !default;
+$info:          #2255A4 !default; //$cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $gray-200 !default;
@@ -138,7 +138,7 @@ $text-primary: #cbcbcb;
 //body colour
 $body-color: #707070;
 
-$headings-font-family: Roboto;
-$font-family-sans-serif:  Roboto, Helvetica, Arial, sans-serif !default;
+$headings-font-family: 'Baloo Bhaina 2';
+$font-family-sans-serif:  'Baloo Bhaina 2', Helvetica, Arial, sans-serif !default;
 
-$headings-font-weight: 500 !default;
+$headings-font-weight: 400 !default;

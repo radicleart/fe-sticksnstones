@@ -1,5 +1,5 @@
 <template>
-  <section id="section1" class="container home-content" v-if="slices">
+  <section class="container home-content" v-if="slices">
     <div class="row">
       <div class="col-12">
         <h1 class="home-content text-white">{{title}}</h1>
@@ -35,11 +35,17 @@ export default {
 }
 </script>
 <style lang="scss">
+//@import "@/assets/scss/custom.scss";
 .my-header {
   position: absolute;
   top: 15vh;
   left: 10vw;
 }
+.home-content {
+  position: relative;
+  top: 40px;
+}
+
 #slice-0 {
   margin-top: 100vh;
   background-color: #fff;
@@ -47,11 +53,11 @@ export default {
 }
 #slice-0 h1 {
   margin-bottom: 60px;
-  font-size: 1.8rem;
+  font-size: 2.3rem;
 }
 #slice-0 h2 {
   margin-left: 45px;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   margin-bottom: 20px;
 }
 #slice-0 p {
@@ -68,11 +74,11 @@ export default {
 }
 #slice-1 h1 {
   margin-bottom: 30px;
-  font-size: 2.4rem;
+  font-size: 3rem;
 }
 
 #slice-2 {
-  background-color: red;
+  background-color: #dc3545;
   color: #fff;
   padding: 50px;
   z-index: 2;
@@ -81,7 +87,7 @@ export default {
 }
 #slice-2 h1 {
   margin-bottom: 30px;
-  font-size: 2.4rem;
+  font-size: 3rem;
 }
 
 #slice-3 {
@@ -92,7 +98,7 @@ export default {
 }
 #slice-4 {
   text-align: center;
-  background-color: red;
+  background-color: #dc3545;
   color: #fff;
   padding: 50px;
   z-index: 2;

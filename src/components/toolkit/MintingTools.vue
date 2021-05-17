@@ -37,6 +37,9 @@
                 <b-tab title="Gaia">
                   <gaia-hub-relay :assetHash="assetHash"/>
                 </b-tab>
+                <b-tab title="Next" v-if="contractNameNext">
+                  <square-button @clickButton="mintToken()" :theme="'light'" :label1="'MINT ITEM'" :icon="'eye'"/>
+                </b-tab>
               </b-tabs>
             </div>
           </div>
@@ -48,34 +51,10 @@
           </div>
         </b-tab>
         <b-tab :title="contractAsset.offerCounter + ' Offers'">
-          <div class="upload-preview text-small">
-            <div class="row mb-4" v-for="(offer, index1) in contractAsset.offerHistory" :key="index1">
-              <div class="col-2">Offerer</div>
-              <div class="col-10">{{offer.offerer}}</div>
-              <div class="col-2">Amount</div>
-              <div class="col-10">{{offer.amount}} STX</div>
-              <div class="col-2">Made</div>
-              <div class="col-10">{{offerMade(offer.appTimestamp)}}</div>
-              <div class="col-2"></div>
-            </div>
-          </div>
+          <OfferHistory :assetHash="assetHash"/>
         </b-tab>
         <b-tab :title="contractAsset.bidCounter + ' Bids'">
-          <div class="upload-preview text-small">
-            <div class="row mb-4" v-for="(bid, index1) in contractAsset.bidHistory" :key="index1">
-              <div class="col-2">Bidder</div>
-              <div class="col-10">{{bid.bidder}}</div>
-              <div class="col-2">Amount</div>
-              <div class="col-10">{{bid.amount}} STX</div>
-              <div class="col-2">Made</div>
-              <div class="col-10">{{offerMade(bid.appTimestamp)}}</div>
-              <div class="col-2"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6"><a class="text-white" href="#" @click.prevent="closeBidding(1)">refund and close</a></div>
-            <div class="col-6"><a class="text-white" href="#" @click.prevent="closeBidding(2)">transfer and close</a></div>
-          </div>
+          <BidHistory :assetHash="assetHash"/>
         </b-tab>
       </b-tabs>
     </div>
@@ -83,19 +62,19 @@
 
   <b-modal size="md" id="accept-offer-modal">
     <accept-offer :item="item" :offerData="offerData"/>
-    <template #modal-footer class="text-center"></template>
+    <template #modal-footer class="text-center"><div class="w-100"></div></template>
   </b-modal>
   <b-modal id="result-modal">
     <div v-html="mintResult"></div>
-    <template #modal-footer class="text-center"></template>
+    <template #modal-footer class="text-center"><div class="w-100"></div></template>
   </b-modal>
   <b-modal size="md" id="minting-modal">
     <minting-flow :assetHash="assetHash" />
-    <template #modal-footer class="text-center"></template>
+    <template #modal-footer class="text-center"><div class="w-100"></div></template>
   </b-modal>
   <b-modal size="md" id="selling-modal">
     <risidio-pay v-if="showRpay" :configuration="configuration"/>
-    <template #modal-footer class="text-center"></template>
+    <template #modal-footer class="text-center"><div class="w-100"></div></template>
   </b-modal>
 </div>
 </template>
@@ -103,7 +82,6 @@
 <script>
 import MintingFlow from './mint-setup/MintingFlow'
 import SquareButton from '@/components/utils/SquareButton'
-import RisidioPay from 'risidio-pay'
 import moment from 'moment'
 import { APP_CONSTANTS } from '@/app-constants'
 import AcceptOffer from '@/components/toolkit/AcceptOffer'
@@ -111,6 +89,10 @@ import ManageEditions from '@/components/toolkit/editions/ManageEditions'
 import TransferNft from '@/components/toolkit/TransferNft'
 import ListBeneficiaries from '@/components/toolkit/ListBeneficiaries'
 import GaiaHubRelay from '@/components/toolkit/GaiaHubRelay'
+import OfferHistory from '@/components/toolkit/offers/OfferHistory'
+import BidHistory from '@/components/toolkit/bids/BidHistory'
+
+const RisidioPay = () => import('risidio-pay')
 
 const NETWORK = process.env.VUE_APP_NETWORK
 
@@ -118,6 +100,8 @@ export default {
   name: 'MintingTools',
   components: {
     MintingFlow,
+    OfferHistory,
+    BidHistory,
     RisidioPay,
     AcceptOffer,
     TransferNft,
@@ -129,6 +113,7 @@ export default {
   props: ['assetHash'],
   data: function () {
     return {
+      contractNameNext: process.env.VUE_APP_STACKS_CONTRACT_NAME_NEXT,
       showRpay: false,
       showTransfers: false,
       showBeneficiaries: false,
@@ -145,11 +130,6 @@ export default {
     this.$store.commit(APP_CONSTANTS.SET_RPAY_FLOW, { flow: 'minting-flow', asset: item })
     if (window.eventBus && window.eventBus.$on) {
       window.eventBus.$on('rpayEvent', function (data) {
-        if (data.opcode === 'stx-transaction-error' || data.opcode === 'stx-mint-error') {
-          $self.$store.commit('setModalMessage', data.opcode + ' ' + data.message)
-          $self.$root.$emit('bv::show::modal', 'waiting-modal')
-          return
-        }
         if (data && data.txId) $self.mintTxId = data.txId
         const txResult = $self.$store.getters[APP_CONSTANTS.KEY_TRANSACTION_DIALOG_MESSAGE]({ dKey: data.opcode, txId: data.txId })
         if (data.opcode === 'save-selling-data') {
@@ -159,7 +139,7 @@ export default {
           $self.$bvModal.hide('selling-modal')
           $self.$bvModal.hide('minting-modal')
           $self.mintResult = txResult
-          $self.$bvModal.show('result-modal')
+          // $self.$bvModal.show('result-modal')
         } else if (data.opcode === 'stx-update-mint-data') {
           // $self.$bvModal.hide('minting-modal')
         } else if (data.opcode === 'stx-save-and-close-mint-data') {
@@ -168,7 +148,7 @@ export default {
           $self.$bvModal.hide('selling-modal')
           $self.$bvModal.hide('minting-modal')
           $self.mintResult = txResult
-          $self.$bvModal.show('result-modal')
+          // $self.$bvModal.show('result-modal')
         } else if (data.opcode === 'cancel-minting') {
           $self.$bvModal.hide('selling-modal')
           $self.$bvModal.hide('minting-modal')
@@ -205,20 +185,6 @@ export default {
         nftIndex: contractAsset.nftIndex
       }
       this.$bvModal.show('accept-offer-modal')
-    },
-    closeBidding: function (closeType) {
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      const data = {
-        contractAddress: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,
-        contractName: process.env.VUE_APP_STACKS_CONTRACT_NAME,
-        nftIndex: contractAsset.nftIndex,
-        closeType: closeType,
-        functionName: 'close-bidding'
-      }
-      this.$store.dispatch('rpayPurchaseStore/closeBidding', data).then((result) => {
-        this.result = result
-        this.$store.dispatch('myItemStore/initSchema', true)
-      })
     },
     offerAmount: function (amount) {
       return (amount)
@@ -278,7 +244,7 @@ export default {
 }
 #minting-modal .modal-content {
   border: none !important;
-  background-color: transparent !important;
+  background-color: #fff !important;
 }
 #minting-tools  .nav-link.active {
   color: #000;

@@ -1,16 +1,19 @@
 <template>
 <div v-if="item && item.nftMedia" class="mt-1">
   <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="targetItem()"/>
-  <div class="">
+  <div class="text-white">
     <div class="mt-5 mb-2 d-flex justify-content-between">
-      <div class="text-bold">
-        <router-link :to="assetUrl">{{item.name}}</router-link>
+      <div class="">
+        <b-link router-tag="a" :to="assetUrl">{{item.name}}</b-link>
       </div>
       <div>
-        <router-link v-if="!contractAsset" class="mr-2" :to="'/edit-item/' + item.assetHash"><b-icon icon="pencil"></b-icon></router-link>
+        <b-link class="mr-2" :to="'/edit-item/' + item.assetHash"><b-icon icon="pencil"></b-icon></b-link>
         <a v-if="!contractAsset" href="#" @click.prevent="deleteItem" class="text-danger"><b-icon icon="trash"></b-icon></a>
       </div>
     </div>
+      <div class="text-small text-right">
+        <div><b-link router-tag="a" :to="assetUrl">{{salesButtonLabel()}}</b-link></div>
+      </div>
   </div>
 </div>
 </template>
@@ -34,6 +37,11 @@ export default {
     }
   },
   methods: {
+    salesButtonLabel () {
+      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.item.assetHash)
+      if (!contractAsset) return 'NOT MINTED'
+      return this.$store.getters[APP_CONSTANTS.KEY_SALES_BUTTON_LABEL](contractAsset.saleData.saleType)
+    },
     targetItem: function () {
       return this.$store.getters[APP_CONSTANTS.KEY_TARGET_FILE_FOR_DISPLAY](this.item)
     },
@@ -70,18 +78,19 @@ export default {
       if (!file) return {}
       const videoOptions = {
         emitOnHover: true,
-        playOnHover: true,
+        playOnHover: false,
+        bigPlayer: false,
         assetHash: this.item.assetHash,
-        showMeta: false,
         autoplay: false,
         muted: true,
+        controls: false,
+        showMeta: false,
         aspectRatio: '1:1',
-        controls: true,
         poster: (this.item.nftMedia.coverImage) ? this.item.nftMedia.coverImage.fileUrl : null,
         sources: [
           { src: file.fileUrl, type: file.type }
         ],
-        fluid: true
+        fluid: false
       }
       return videoOptions
     },
@@ -102,4 +111,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+a {
+  color: #fff;
+}
 </style>

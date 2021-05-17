@@ -1,8 +1,8 @@
 <template>
-<section id="homeSection">
-  <div class="container home-content">
+<section id="homeSection" style="min-height: 85vh;">
+  <div class="container text-center home-content">
     <div class="row">
-      <div class="col-md-6 col-sm-12 text-white">
+      <div class="col-12 text-white">
         <h1>Please login to continue</h1>
       </div>
     </div>
@@ -21,21 +21,7 @@ export default {
       loading: true
     }
   },
-  mounted () {
-    this.startLoginNew()
-  },
   methods: {
-    startLoginNew () {
-      // this.$emit('updateEventCode', { eventCode: 'connect-login' })
-      const myProfile = this.$store.getters['rpayAuthStore/getMyProfile']
-      if (myProfile.loggedIn) {
-        this.$emit('connect-login', myProfile)
-      } else {
-        this.$store.dispatch('rpayAuthStore/startLogin').then(() => {
-          this.$router.push(this.$route.query.redirect)
-        })
-      }
-    }
   },
   computed: {
   }

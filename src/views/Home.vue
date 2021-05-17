@@ -1,42 +1,54 @@
 <template>
-<section id="homeSection" v-if="slices">
-  <div class="container my-5">
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-        <slices-block :rootId="'home-slice-'" :slices="slices" class="outer-container"/>
-      </div>
-    </div>
-    <choose-handler class="row" />
-  </div>
-</section>
+<b-row class="my-xs-4" style="min-height: 85vh">
+  <b-col cols="12" class="text-center p-0 m-0" align-self="center" v-if="resultSet" >
+    <result-grid class="container text-center" :key="componentKey" :resultSet="resultSet"/>
+  </b-col>
+</b-row>
 </template>
 
 <script>
-import SlicesBlock from '@/components/prismic/SlicesBlock'
-import ChooseHandler from '@/components/items/ChooseHandler'
+import ResultGrid from '@/components/marketplace/ResultGrid'
+import { APP_CONSTANTS } from '@/app-constants'
+
+const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
+const STX_CONTRACT_NAME = process.env.VUE_APP_STACKS_CONTRACT_NAME
 
 export default {
   name: 'Home',
   components: {
-    SlicesBlock,
-    ChooseHandler
+    ResultGrid
   },
   data () {
     return {
-      loading: true
+      componentKey: 0,
+      loading: true,
+      useSearchIndex: false
     }
   },
+  mounted () {
+    this.findAssets()
+  },
   methods: {
+    findAssets () {
+      this.$store.dispatch('rpaySearchStore/findByProjectId', STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME).then((results) => {
+        this.results = results
+      })
+    }
   },
   computed: {
-    slices () {
-      const content = this.$store.getters['contentStore/getHomepage']
-      return (content) ? content.body : null
+    resultSetFromSearch () {
+      const results = this.$store.getters[APP_CONSTANTS.KEY_SEARCH_RESULTS]
+      if (!results) return
+      const resultSet = results.filter((o) => o.nftMedia.artworkFile.type.indexOf('video') > -1)
+      return resultSet
     },
-    buttonLabel () {
-      const content = this.$store.getters['contentStore/getHomepage']
-      if (!content) return null
-      return content.credits[0].text
+    resultSet () { // FromIndex
+      const resultSet = this.$store.getters[APP_CONSTANTS.KEY_GAIA_ASSETS]
+      return resultSet
+    },
+    configuration () {
+      const configuration = this.$store.getters[APP_CONSTANTS.KEY_RPAY_CONFIGURATION]
+      return configuration
     }
   }
 }

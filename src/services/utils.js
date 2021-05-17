@@ -10,18 +10,36 @@ const utils = {
   buildHash: function (hashable) {
     return crypto.createHash('sha256').update(hashable).digest('hex')
   },
+  toDecimals: function (amount, precision) {
+    if (!precision) precision = 100
+    if (!amount) return
+    if (typeof amount === 'string') {
+      amount = Number(amount)
+    }
+    return Math.round(amount * precision) / precision // amount.toFixed(2)
+  },
   getFileExtension: function (filename, type) {
     if (filename && filename.lastIndexOf('.') > 0) {
       const index = filename.lastIndexOf('.')
-      return filename.substring(index)
-    } else {
+      return filename.substring(index + 1)
+    } else if (type) {
       const index = type.lastIndexOf('/') + 1
       return '.' + type.substring(index)
     }
   },
   getFileNameNoExtension: function (filename) {
-    const index = filename.lastIndexOf('.')
-    return filename.substring(0, index)
+    if (filename && filename.lastIndexOf('.') > 0) {
+      const index = filename.lastIndexOf('.')
+      return filename.substring(index + 1)
+    }
+    return ''
+  },
+  getTypeFromFileExtension: function (filename) {
+    const extension = this.getFileNameNoExtension(filename)
+    if (extension === 'mp4') {
+      return 'video/mp4'
+    }
+    return ''
   },
   copyAddress: function (document, flasher, target) {
     const tempInput = document.createElement('input')
@@ -99,6 +117,64 @@ const utils = {
         }
       }
       request.send()
+    })
+  },
+  readFileChunks: function (fileUrl) {
+    return new Promise((resolve) => {
+      const myRequest = new Request(fileUrl)
+      const fileObject = { fileUrl: fileUrl }
+      fileObject.dataHash = ''
+      // fetch returns a promise
+      const $self = this
+      fetch(myRequest).then((response) => {
+        const contentLength = parseInt(response.headers.get('Content-Length'))
+        // response.body is a readable stream
+        // @link https://docs.microsoft.com/en-us/microsoft-edge/dev-guide/performance/streams-api
+        const myReader = response.body.getReader()
+        // the reader result will need to be decoded to text
+        // @link https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder/TextDecoder
+        const decoder = new TextDecoder()
+        // add decoded text to buffer for decoding
+        let buffer = ''
+        // you could use the number of bytes received to implement a progress indicator
+        let received = 0
+        // read() returns a promise
+        myReader.read().then(function processResult (result) {
+          // the result object contains two properties:
+          // done  - true if the stream is finished
+          // value - the data
+          if (result.done) {
+            fileObject.type = $self.getTypeFromFileExtension(fileUrl)
+            fileObject.size = contentLength
+            fileObject.received = received
+            resolve(fileObject)
+            return
+          }
+          // update the number of bytes received total
+          received += result.value.length
+          // result.value is a Uint8Array so it will need to be decoded
+          // buffer the decoded text before processing it
+          buffer = decoder.decode(result.value, { stream: true })
+          // buffer += result.value
+          /* process the buffer string */
+
+          // read the next piece of the stream and process the result
+          fileObject.dataHash = utils.buildHash(buffer + fileObject.dataHash)
+          return myReader.read().then(processResult)
+          /**
+          myReader.read().then(() => {
+            // processResult(result)
+             * this is how to read the whole file - we'll just take the first chunk, hash it and save the fileUrl.
+            if (received >= contentLength) {
+              const type = $self.getTypeFromFileExtension(fileUrl)
+              resolve({ fileUrl: fileUrl, type: type, size: contentLength, received: received })
+            } else {
+              processResult(result)
+            }
+          })
+          **/
+        })
+      })
     })
   },
   fetchBase64FromImageUrl: function (url, document) {

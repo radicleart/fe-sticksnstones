@@ -1,16 +1,28 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+
+// templates
 import MainNavbar from '@/components/layout/MainNavbar.vue'
 import MainFooter from '@/components/layout/MainFooter.vue'
+
+// public pages
+import HomeFooter from '@/components/layout/HomeFooter.vue'
 import Login from '../views/Login.vue'
-// import Profile from '../views/Profile.vue'
-import Home from '../views/Home.vue'
-import Donate from '../views/Donate.vue'
+import Information from '../views/Information.vue'
+import Charity from '../views/Charity.vue'
+import AssetDetails from '../views/AssetDetails.vue'
+import About from '../views/About.vue'
+import NumberOne from '../views/NumberOne.vue'
+
+// private pages
+import Admin from '../views/Admin.vue'
+import OfferAdmin from '../views/OfferAdmin.vue'
+import AdminNavbar from '@/components/layout/AdminNavbar.vue'
 import ItemPreview from '../views/ItemPreview.vue'
 import UploadItem from '../views/UploadItem.vue'
 import UpdateItem from '../views/UpdateItem.vue'
 import MyItems from '../views/MyItems.vue'
-import HowItWorks from '../views/HowItWorks.vue'
+
 import store from '@/store'
 
 Vue.use(VueRouter)
@@ -24,37 +36,33 @@ const isPermitted = function (to, profile) {
   } else {
     return true
   }
-  if (to.matched.some(record => record.meta.requiresAdmin)) {
-    if (profile.superAdmin) {
-      return true
-    } else {
-      return false
-    }
-  } else {
-    return true
-  }
 }
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'home',
-    components: { default: Home, header: MainNavbar, footer: MainFooter }
+    name: 'splash',
+    components: { default: NumberOne, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/start-minting',
+    path: '/home',
     name: 'home',
-    components: { default: Home, header: MainNavbar, footer: MainFooter }
+    components: { default: NumberOne, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/donate',
-    name: 'donate',
-    components: { default: Donate, header: MainNavbar, footer: MainFooter }
+    path: '/number-one',
+    name: 'number-one',
+    components: { default: NumberOne, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/about',
+    name: 'about',
+    components: { default: About, footer: MainFooter }
   },
   {
     path: '/login',
     name: 'login',
-    components: { default: Login, header: MainNavbar }
+    components: { default: Login, header: AdminNavbar, footer: HomeFooter }
   },
   {
     path: '/profile',
@@ -62,40 +70,106 @@ const routes: Array<RouteConfig> = [
     components: { default: ItemPreview, header: MainNavbar, footer: MainFooter }
   },
   {
+    path: '/information/:infoId',
+    name: 'info-page',
+    components: { default: Information, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/charity/:charityId',
+    name: 'charity-page',
+    components: { default: Charity, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/assets/:assetHash',
+    name: 'asset-by-hash',
+    components: { default: AssetDetails, header: MainNavbar, footer: MainFooter }
+  },
+  // admin routes
+  {
     path: '/item-preview/:assetHash',
     name: 'item-preview',
-    components: { default: ItemPreview, header: MainNavbar, footer: MainFooter },
-    meta: { requiresAuth: true }
+    components: { default: ItemPreview, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/offers/:assetHash',
+    name: 'offers',
+    components: { default: OfferAdmin, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/create',
+    name: 'create',
+    components: { default: UploadItem, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    components: { default: Admin, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   },
   {
     path: '/edit-item/:assetHash',
     name: 'edit-item',
-    components: { default: UpdateItem, header: MainNavbar, footer: MainFooter },
-    meta: { requiresAuth: true }
+    components: { default: UpdateItem, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   },
   {
     path: '/upload-item',
     name: 'upload-item',
-    components: { default: UploadItem, header: MainNavbar, footer: MainFooter },
-    meta: { requiresAuth: true }
+    components: { default: UploadItem, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   },
   {
     path: '/my-items',
     name: 'my-items',
-    components: { default: MyItems, header: MainNavbar, footer: MainFooter },
-    meta: { requiresAuth: true }
+    components: { default: MyItems, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   },
   {
-    path: '/how-it-works',
-    name: 'how-it-works',
-    components: { default: HowItWorks, header: MainNavbar, footer: MainFooter }
+    path: '/my-items/:filter',
+    name: 'my-items-filter',
+    components: { default: MyItems, header: AdminNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -106,7 +180,7 @@ router.beforeEach((to, from, next) => {
       if (isPermitted(to, myProfile)) {
         return next()
       } else {
-        return next({ path: '/404', query: { redirect: to.fullPath } })
+        return next({ path: '/home', query: { redirect: to.fullPath } })
       }
     } else {
       setTimeout(function () {
@@ -115,7 +189,7 @@ router.beforeEach((to, from, next) => {
           if (isPermitted(to, myProfile)) {
             return next()
           } else {
-            return next({ path: '/404', query: { redirect: to.fullPath } })
+            return next({ path: '/home', query: { redirect: to.fullPath } })
           }
         } else {
           return next({

@@ -1,8 +1,8 @@
 <template>
 <div class="d-flex justify-content-center" v-if="!loading">
   <div class="mx-auto">
-    <royalty-screen :errorMessage="errorMessage" :item="item" @mintToken="mintToken" @editBeneficiary="editBeneficiary" @removeBeneficiary="removeBeneficiary" @updateBeneficiary="updateBeneficiary" @addNewBeneficiary="addNewBeneficiary" :beneficiaries="beneficiaries" v-if="!isMinted && displayCard !== 102"/>
-    <add-beneficiary-screen :errorMessage="errorMessage" :eBen="eBen" @addBeneficiary="addBeneficiary" :beneficiaries="beneficiaries" :item="item" v-if="!isMinted && displayCard === 102"/>
+    <royalty-screen :errorMessage="errorMessage" :item="item" @mintToken="mintToken" @editBeneficiary="editBeneficiary" @removeBeneficiary="removeBeneficiary" @updateBeneficiary="updateBeneficiary" @addNewBeneficiary="addNewBeneficiary" :beneficiaries="beneficiaries" v-if="displayCard !== 102"/>
+    <add-beneficiary-screen :errorMessage="errorMessage" :eBen="eBen" @addBeneficiary="addBeneficiary" :beneficiaries="beneficiaries" :item="item" v-if="displayCard === 102"/>
   </div>
 </div>
 </template>
@@ -50,11 +50,16 @@ export default {
   methods: {
     mintToken: function () {
       this.errorMessage = 'Minting non fungible token - takes a minute or so..'
-      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      // the post condition applies to the address the funds are going to not from!!!
+      // when minting the funds go to the contract admin.
+      // const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      let contractName = process.env.VUE_APP_STACKS_CONTRACT_NAME
+      if (process.env.VUE_APP_STACKS_CONTRACT_NAME_NEXT) {
+        contractName = process.env.VUE_APP_STACKS_CONTRACT_NAME_NEXT
+      }
       const data = {
         mintingFee: 1.1,
-        owner: profile.stxAddress, // process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,
-        // methos: 'rpayStacksStore/callContractBlockstack',
+        owner: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS, // profile.stxAddress,
         assetHash: this.item.assetHash,
         metaDataUrl: this.item.metaDataUrl,
         beneficiaries: this.item.beneficiaries,
@@ -62,12 +67,13 @@ export default {
         editionCost: (this.item.editionCost) ? this.item.editionCost : 0,
         sendAsSky: true,
         contractAddress: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,
-        contractName: process.env.VUE_APP_STACKS_CONTRACT_NAME,
+        contractName: contractName,
         functionName: 'mint-token'
       }
       this.$store.dispatch('rpayPurchaseStore/mintToken', data).then((result) => {
         this.result = result
-        this.$store.dispatch('myItemStore/initSchema', true)
+      }).catch((err) => {
+        this.errorMessage = 'Minting error: ' + err
       })
     },
     addNewBeneficiary: function () {
@@ -100,11 +106,11 @@ export default {
         this.errorMessage = 'Bad value for beneficiary'
         return
       }
-      if (beneficiary.chainAddress === this.beneficiaries[0].chainAddress) {
-        this.errorMessage = 'Can not have the same address as owner!'
-        return
-      }
-      this.beneficiaries[0].royalty = this.beneficiaries[0].royalty - beneficiary.royalty
+      // if (beneficiary.chainAddress === this.beneficiaries[0].chainAddress) {
+      //  this.errorMessage = 'Can not have the same address as owner!'
+      //  return
+      // }
+      // this.beneficiaries[0].royalty = this.beneficiaries[0].royalty - beneficiary.royalty
       const index = this.beneficiaries.findIndex((obj) => obj.chainAddress === beneficiary.chainAddress)
       if (index > -1) {
         this.beneficiaries.splice(index, 1, beneficiary)
@@ -115,7 +121,7 @@ export default {
           this.beneficiaries.push(beneficiary)
         }
       }
-      this.setBaseRoyalty()
+      // this.setBaseRoyalty()
       this.updateItem()
       this.$store.commit('rpayStore/setDisplayCard', 100)
     },

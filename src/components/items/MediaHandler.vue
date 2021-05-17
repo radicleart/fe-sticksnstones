@@ -30,7 +30,7 @@ export default {
     MediaUpload,
     MediaItem
   },
-  props: ['uploadState', 'nftMedia', 'videoOptions'],
+  props: ['uploadState', 'nftMedia', 'videoOptions', 'useClip'],
   data: function () {
     return {
       artworkFileUrl: null,

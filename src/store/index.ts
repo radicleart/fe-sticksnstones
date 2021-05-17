@@ -7,6 +7,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import myItemStore from './myItemStore'
+import assetGeneralStore from './assetGeneralStore'
 import contentStore from './contentStore'
 import publicItemsStore from './publicItemsStore'
 
@@ -31,8 +32,7 @@ const selling = {
 const marketConfig = {
   oneLayout: true,
   searchMenu: false,
-  sideMenu: false,
-  projectId: null
+  sideMenu: false
 }
 const beneficiariesDefault = [
   {
@@ -154,14 +154,16 @@ const setup = function (data) {
 
 export default new Vuex.Store({
   modules: {
+    assetGeneralStore,
     contentStore,
     myItemStore,
     publicItemsStore
   },
   state: {
-    windims: { innerWidth: window.innerWidth, innerHeight: window.innerHeight },
     configuration: setup({}),
-    modalMessage: 'Your request is being processed'
+    windims: { innerWidth: window.innerWidth, innerHeight: window.innerHeight },
+    modalMessage: 'Your request is being processed',
+    stacksPath: 'extended/v1/tx/'
   },
   getters: {
     getRpayConfiguration: state => {
@@ -172,6 +174,12 @@ export default new Vuex.Store({
     },
     getModalMessage: state => {
       return state.modalMessage
+    },
+    getTrackingUrl: state => txId => {
+      return RISIDIO_STACKS_API + state.stacksPath + txId
+    },
+    getSectionHeight: state => {
+      return (state.windims.innerHeight)
     }
   },
   mutations: {

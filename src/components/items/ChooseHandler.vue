@@ -1,62 +1,19 @@
 <template>
 <div>
-  <div class="row">
-    <div class="col-2 text-white">
-      <b-card title="3D Assets" tag="article" style="max-width: 20rem;" class="mb-2">
-        <b-card-text class="text-center">
-          <b-icon style="width:100px; height:100px;" icon="bricks"/>
-        </b-card-text>
-        <b-card-text style="height: 100px;">
-          Mint 3D assets and trade this on out marketplace.
-        </b-card-text>
-        <b-button @click="uploadContinue('threed')" class="w-100" href="#" variant="primary">Continue</b-button>
-      </b-card>
-    </div>
-    <div class="col-2 text-white">
-      <b-card title="Documents" tag="article" style="max-width: 20rem;" class="mb-2">
-        <b-card-text class="text-center">
-          <b-icon style="width:100px; height:100px;" icon="file-earmark"/>
-        </b-card-text>
-        <b-card-text style="height: 100px;">
-          Mint PDF files and provide general proofs of oownership.
-        </b-card-text>
-        <b-button @click="uploadContinue('text')" class="w-100" href="#" variant="primary">Continue</b-button>
-      </b-card>
-    </div>
-    <div class="col-2 text-white">
-      <b-card title="Music / Audio" tag="article" style="max-width: 20rem;" class="mb-2">
-        <b-card-text class="text-center">
-          <b-icon style="width:100px; height:100px;" icon="file-earmark-music"/>
-        </b-card-text>
-        <b-card-text style="height: 100px;">
-          Mint music or any audio file including podcasts, interviews etc.
-        </b-card-text>
-        <b-button @click="uploadContinue('audio')" class="w-100" href="#" variant="primary">Continue</b-button>
-      </b-card>
-    </div>
-    <div class="col-2 text-white">
-      <b-card title="Images" tag="article" style="max-width: 20rem;" class="mb-2">
-        <b-card-text class="text-center">
-          <b-icon style="width:100px; height:100px;" icon="file-image"/>
-        </b-card-text>
-        <b-card-text style="height: 100px;">
-          Mint any kind of image file.
-        </b-card-text>
-        <b-button @click="uploadContinue('image')" class="w-100" href="#" variant="primary">Continue</b-button>
-      </b-card>
-    </div>
-    <div class="col-2 text-white">
-      <b-card title="Video" tag="article" style="max-width: 20rem;" class="mb-2">
-        <b-card-text class="text-center">
-          <b-icon style="width:100px; height:100px;" icon="camera-video"/>
-        </b-card-text>
-        <b-card-text style="height: 100px;">
-          Mint video files. We accept mp4 ad other popular video file formats.
-        </b-card-text>
-        <b-button @click="uploadContinue('video')" class="w-100" href="#" variant="primary">Continue</b-button>
-      </b-card>
-    </div>
-  </div>
+  <p>We need the following to make the NFT..
+    <ul>
+      <li>The Artwork File - max size ??</li>
+      <li>The Artwork Clip - max size 1M</li>
+    </ul>
+  </p>
+  <p>We support the following methods for handling your artwork - please choose!
+    <ul>
+      <li><a href="#" @click.prevent="$emit('setHandler', { handler: 1 })">Decentralised file storage</a> - we upload to <i>your</i> storage linked to your decentralised login.
+        the maximum file size limit for this is 20M</li>
+      <li><a href="#" @click.prevent="$emit('setHandler', { handler: 2 })">You host it somewhere</a> - just provide us a download link (not a streaming link!)</li>
+      <!--<li><a href="#" @click.prevent="setHandler(3)">Conventional file storage</a> we will upload to conventional storage - using the Cloudinary file storage service</li>-->
+    </ul>
+  </p>
 </div>
 </template>
 
@@ -68,9 +25,6 @@ export default {
     }
   },
   methods: {
-    uploadContinue (mediaTypesAllowed) {
-      this.$router.push('/upload-item?mediaTypesAllowed=' + mediaTypesAllowed)
-    }
   },
   computed: {
   }
