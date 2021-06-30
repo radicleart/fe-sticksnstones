@@ -77,7 +77,7 @@ export default {
       }
       if (this.result.nftMedia.artworkFile) {
         videoOptions.sources = [
-          { src: this.result.nftMedia.artworkClip.fileUrl, type: this.result.nftMedia.artworkClip.type }
+          { src: this.result.nftMedia.artworkFile.fileUrl, type: this.result.nftMedia.artworkFile.type }
         ]
       }
       if (this.outerOptions) {

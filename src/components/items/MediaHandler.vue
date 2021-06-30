@@ -53,11 +53,11 @@ export default {
       },
       contentModelArtwork: {
         id: 'artworkFile',
-        title: 'Artwork File<br/>drop a url - up to 200M',
+        title: 'Main NFT File<br/>drop a url - up to 200M',
         buttonName: 'Choose NFT File',
         iconName: 'film',
         errorMessage: 'A mp4 file is required',
-        popoverBody: 'The artwork file.'
+        popoverBody: 'The NFT file.'
       }
     }
   },

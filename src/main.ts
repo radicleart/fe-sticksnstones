@@ -25,7 +25,7 @@ Vue.use(VueSocialSharing)
 Vue.use(IconsPlugin)
 Vue.use(Notifications, { closeOnClick: true, duration: 6000 })
 Vue.use(PrismicVue, {
-  endpoint: 'https://dbid.cdn.prismic.io/api/v2',
+  endpoint: 'https://digirad.prismic.io/api/v2',
   linkResolver,
   htmlSerializer
 })

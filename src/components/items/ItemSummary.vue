@@ -6,7 +6,7 @@
     <div class="upload-preview mb-2">
       <div v-if="hasFile('music')">
         <div class="mb-4">
-          <h6><b-icon icon="film"/> Artwork File</h6>
+          <h6><b-icon icon="film"/> Main NFT File</h6>
           <b-icon  v-if="itemSummary.loadingState === 1" icon="cylon-vertical"/>
           <a class="text-success" href="#" @click.prevent="showHash = !showHash"> {{ itemSummary.item.nftMedia.musicFile.name }}</a>
           <div v-if="showHash">{{ itemSummary.item.assetHash }}</div>

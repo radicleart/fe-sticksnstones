@@ -1,11 +1,10 @@
 <template>
-<splash v-if="loading"/>
-<div id="app" v-else :style="'z-index: -40; min-height: 90vh; background-size: contain; background-image: url(' + getPixelBackground + ')'">
+<div id="app">
   <div v-if="!configured">
     <risidio-pay :configuration="configuration"/>
   </div>
   <div :key="componentKey" v-else>
-    <router-view name="header" style="z-index: 10;"/>
+    <router-view name="header" style="height: 128px; z-index: 10;"/>
     <router-view style="min-height: 90vh;" />
     <router-view name="footer"/>
     <notifications :duration="10000" classes="r-notifs" position="bottom right" width="30%"/>
@@ -16,7 +15,6 @@
 </template>
 
 <script>
-import Splash from '@/views/Splash'
 import SuccessModal from '@/components/utils/SuccessModal'
 import WaitingModal from '@/components/utils/WaitingModal'
 // import RisidioPay from 'risidio-pay'
@@ -27,7 +25,6 @@ const RisidioPay = () => import('risidio-pay')
 export default {
   name: 'App',
   components: {
-    Splash,
     SuccessModal,
     WaitingModal,
     RisidioPay
@@ -141,12 +138,6 @@ export default {
     }
   },
   computed: {
-    getPixelBackground () {
-      if (this.$route.name === 'about') {
-        return this.aboutBackground
-      }
-      return this.$store.getters[APP_CONSTANTS.KEY_PIXEL_BACKGROUND]
-    },
     configuration () {
       const configuration = this.$store.getters[APP_CONSTANTS.KEY_RPAY_CONFIGURATION]
       return configuration

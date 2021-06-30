@@ -12,7 +12,7 @@
           <b-button variant="dark" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
         </div>
       </div>
-      <div class="mt-5 pt-5">for big files paste a link</div>
+      <div class="mt-5 pt-5">for big files (> 20M) paste a link to a publicly accessible file we can download e.g. see <a href="https://ipfs.io/" target="_blanK">IPFS</a> or <a href="https://cloudinary.com/" target="_blanK">Cloudinary</a></div>
       <div class="mt-5 text-left mt-4 mb-3" style="font-size: 1.2rem; width: 100%;">
         <label for="item-name">enter url</label>
         <b-form-input
@@ -93,11 +93,11 @@ export default {
   data () {
     return {
       myContentModel: {
-        title: 'Artwork File<br/>drop a url - up to 200M',
+        title: 'NFT File<br/>drop a url - up to 200M',
         buttonName: 'Choose NFT File',
         iconName: 'film',
         errorMessage: 'A mp4 file is required',
-        popoverBody: 'The artwork file.'
+        popoverBody: 'The main NFT file.'
       },
       mediaItem: null,
       directUrl: null,
@@ -246,7 +246,7 @@ export default {
       let ksize = fileObject.size / 1000000
       ksize = Math.round(ksize * 100) / 100
       if (ksize > Number(this.sizeLimit)) {
-        this.internalError = 'This file (' + ksize + ' M) exceeds the size limit of ' + this.sizeLimit + ' M - try dropping in a of a file url - we can create the NFT from this and serve the content from the URL'
+        this.internalError = 'This file (' + ksize + ' M) exceeds the size limit of ' + this.sizeLimit + ' M - try entering a URL to a file we can download'
         this.$emit('updateMedia', { errorMessage: this.internalError })
         return true
       }
@@ -337,9 +337,9 @@ export default {
             img.onload = function () {
               if (this.width !== $self.dims.width || this.height !== $self.dims.height) {
                 if (this.width !== this.height) {
-                  const msg = 'Your image must be a square and not ' + this.width + 'x' + this.height
+                  const msg = 'Square images are good - this one is like ' + this.width + 'x' + this.height
                   $self.$notify({ type: 'error', title: 'Logo Upload', text: msg })
-                  // $self.$emit('updateMedia', { media: thisFile })
+                  $self.$emit('updateMedia', { media: thisFile })
                 } else {
                   this.width = '250px'
                   this.height = '250px'

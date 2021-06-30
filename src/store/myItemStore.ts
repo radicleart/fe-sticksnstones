@@ -75,8 +75,6 @@ const myItemStore = {
       if (!state.rootFile) return
       if (param === 'artworkFile') {
         return ((item.nftMedia.artworkFile && item.nftMedia.artworkFile.fileUrl))
-      } else if (param === 'artworkClip') {
-        return ((item.nftMedia.artworkClip && item.nftMedia.artworkClip.fileUrl))
       } else if (param === 'coverImage') {
         return ((item.nftMedia.coverImage && item.nftMedia.coverImage.fileUrl))
       } else if (param === 'artist') {

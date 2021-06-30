@@ -2,8 +2,8 @@
 <div>
   <p>We need the following to make the NFT..
     <ul>
-      <li>The Artwork File - max size ??</li>
-      <li>The Artwork Clip - max size 1M</li>
+      <li>The NFT File - max size ??</li>
+      <li>The NFT Clip - max size 1M</li>
     </ul>
   </p>
   <p>We support the following methods for handling your artwork - please choose!

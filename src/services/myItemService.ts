@@ -117,10 +117,16 @@ const myItemService = {
         }).catch((error) => {
           reject(new Error('Uanble to put file: ' + error))
         })
-        // if (gaiaUrl) {
-        //  resolve(gaiaUrl)
-        // } else {
-        // }
+      }).catch(() => {
+        storage.putFile(path, encodedFile.imageBuffer, options).then(function () {
+          storage.getFileUrl(path).then((gaiaUrl) => {
+            resolve(gaiaUrl)
+          }).catch((error) => {
+            reject(new Error('Url not available: ' + error))
+          })
+        }).catch((error) => {
+          reject(new Error('Uanble to put file: ' + error))
+        })
       })
     })
   },

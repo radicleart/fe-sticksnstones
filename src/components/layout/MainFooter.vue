@@ -1,220 +1,233 @@
 <template>
-  <div class="bg-black" v-if="content">
-    <div class="footer-break-line" :style="'background-image: url(' + getBreakLine + ')'"></div>
-
-    <div class="footer-container">
-
-      <div class="row footer-top">
-
-        <div class="footer-logo col-12 col-lg-4">
-          <b-link to="/home"><img :src="logo" alt="logo"/></b-link>
+<div v-if="content">
+  <footer id="footer" class="text-white">
+    <div class="container">
+      <div class="row m-0 d-flex">
+        <div class="col-lg-5 col-12 d-flex flex-column justify-content-center align-items-lg-start align-items-center">
+          <router-link to="/" class="navbar-brand text-white"><img :src="logo" alt="risidio-logo" class="footer-logo"/></router-link>
+          <p class="footer__pitch">Risidio Auctions is a marketplace for digital assets registered via the Bitcoin blockchain using Clarity Contracts and the Stacks 2.0 network. We are looking for partners and clients to help get the platform to the next level and make it a production ready viable alternative to similar projects like Open Sea on Ethereum.</p>
         </div>
-
-        <div class="col-3 offset-2 col-lg-2 footer-top--content">
-          <div class="column-header">About</div>
-          <div v-scroll-to="{ offset: -60, element: '#thisisone', duration: 1000 }">
-            <b-link to="/about">About This is #1</b-link>
-          </div>
-          <div v-scroll-to="{ offset: -60, element: '#chemicalx', duration: 1000 }">
-            <b-link to="/about">Chemical X</b-link>
-          </div>
-          <div v-scroll-to="{ offset: -60, element: '#charity-grid', duration: 1000 }">
-            <b-link to="/about">Charities</b-link>
-          </div>
-          <div v-scroll-to="{ offset: -60, element: '#collaborate', duration: 1000 }">
-            <b-link to="/about">Collaborate</b-link>
-          </div>
-          <!--
-          <div v-for="(item,index) of content.column_about" :key="index">
-            <div v-if="item.title_of_the_link[0].type === 'paragraph'"><a :href="item.link.url" target="_blank">{{ item.title_of_the_link[0].text }}</a></div>
-            <div v-else-if="item.title_of_the_link[0].type === 'image'">
-              <a :href="item.link.url" target="_blank"><img width="50px" :src=item.title_of_the_link[0].url :alt=item.title_of_the_link[0].alt></a>
+        <div class="col-lg-7 col-12 d-flex columns3-content__container">
+            <div class="footer__column-content ml-lg-auto">
+              <div><router-link to="/marketplace">Marketplace</router-link></div>
+              <div><router-link to="/marketplace">Gallery</router-link></div>
+              <div><router-link to="/marketplace">Collections</router-link></div>
+              <div><router-link to="/marketplace">Artists</router-link></div>
+              <div><router-link to="/marketplace">Applications</router-link></div>
             </div>
-          </div>
-          -->
-        </div>
-
-        <!--
-          <div class="col-3 col-lg-2 footer-top--content">
-          <div class="column-header">#1</div>
-          <div v-for="(item,index) of content.column__1" :key="index">
-            <div v-if="item.title_of_the_link[0].type === 'paragraph'"><a :href="item.link.url" target="_blank">{{ item.title_of_the_link[0].text }}</a></div>
-            <div v-else-if="item.title_of_the_link[0].type === 'image'">
-              <a :href="item.link.url" target="_blank" ><img width="50px" :src=item.title_of_the_link[0].url :alt=item.title_of_the_link[0].alt></a>
+            <div class="footer__column-content">
+              <div>How It Works</div>
+              <div><router-link to="/community?uid=self-owned-identity">Self Owned Identity</router-link></div>
+              <div><router-link to="/community?uid=user-journeys-stx-funds">Getting Testnet STX</router-link></div>
+              <div><router-link to="/community?uid=user-journeys-buying">Buying and Selling</router-link></div>
+              <div><router-link to="/community?uid=tech-tales-clarity-registry">Clarity Contracts</router-link></div>
             </div>
-          </div>
-        </div>
-        -->
-
-        <div class="col-3 col-lg-2 footer-top--content">
-          <div class="column-header">Contact</div>
-          <div>
-            <a :href="'mailto:press@thisisnumberone.com'" target="_blank">Press enquiries</a>
-          </div>
-          <div>
-            <a :href="'mailto:enquiries@thisisnumberone.com'" target="_blank">Get in touch</a>
-          </div>
-          <!--
-          <div v-for="(item,index) of content.news_column" :key="index">
-            <div v-if="item.title_of_the_link[0].type === 'paragraph'"><a :href="item.link.url" target="_blank">{{ item.title_of_the_link[0].text }}</a></div>
-            <div v-else-if="item.title_of_the_link[0].type === 'image'">
-              <a :href="item.link.url" target="_blank"><img width="50px" :src=item.title_of_the_link[0].url :alt=item.title_of_the_link[0].alt></a>
+            <div class="footer__column-content">
+              <div>What we do</div>
+              <div><router-link to="/get-in-touch">Get in Touch</router-link></div>
+              <div><router-link to="/admin-app">Developers</router-link></div>
+              <div class="text-secondary">leveller</div>
+              <div class="text-secondary">leveller</div>
             </div>
-          </div>
-          -->
-          <div class="social-links">
-            <!--
-            <a href="#"><b-icon width="23px" height="23px" icon="facebook"></b-icon></a>
-            <a href="#"><b-icon width="23px" height="23px" icon="twitter"></b-icon></a>
-            -->
-            <a class="mr-3" href="https://www.instagram.com/this_is_no.1" target="_blank"><b-icon width="20px" height="20px" icon="instagram"></b-icon></a>
-            <a :href="'mailto:enquiries@thisisnumberone.com'" target="_blank"><b-icon width="23px" height="23px" icon="mailbox"></b-icon></a>
-          </div>
-        </div>
-
-        <div class="col-3 col-lg-2 footer-top--content">
-          <div class="column-header">Partners</div>
-          <div v-for="(item,index) of content.partners_column" :key="index">
-            <div v-if="item.title_of_the_link[0].type === 'paragraph'"><a :href="item.link.url" target="_blank">{{ item.title_of_the_link[0].text }}</a></div>
-            <div v-else-if="item.title_of_the_link[0].type === 'image'">
-              <a :href="item.link.url" target="_blank"><img width="50px" :src=item.title_of_the_link[0].url :alt=item.title_of_the_link[0].alt></a>
-            </div>
-          </div>
         </div>
       </div>
-
-      <div class="d-none d-sm-flex justify-content-between footer-bottom">
-        <div class="footer-bottom--left">
-          {{ content.left_bottom_corner[0].text }}
+      <div class="footer__divider"></div>
+      <div class="col-12 d-lg-flex d-none justify-content-between footer__bottom-row">
+        <div>
+          &copy; &nbsp; {{ year }} Risidio Ltd. All right reserved.
+        </div>
+        <div>
+          <a href="https://discord.gg/qvuxB9P"><img :src="discordLogo" alt="discord-logo"></a>
+          <a href="https://www.instagram.com/risidio_official/"><img :src="instagramLogo" alt="instagram-logo"></a>
+          <a href="https://twitter.com/Risidio1"><img :src="twitterLogo" alt="twitter-logo"></a>
+          <a href="https://www.youtube.com/channel/UCrMDxxhMvpeyErw7m92IIXA/featured"><img :src="youtubeLogo" alt="youtube-logo"></a>
+        </div>
+        <div>
+          <span>Privacy Policy</span>
+          <span>Terms Of Use</span>
         </div>
       </div>
-        <!--
-      <div class="d-none d-sm-flex justify-content-between footer-bottom">
-        <div class="footer-bottom--left">
-          {{ content.left_bottom_corner[0].text }}
+      <!-- MOBILE DESIGN LAST ROW -->
+      <div class="col-12 d-flex d-lg-none flex-column align-items-center footer__bottom-row">
+        <div>
+          <a href="https://discord.gg/qvuxB9P"><img :src="discordLogo" alt="discord-logo"></a>
+          <a href="https://www.instagram.com/risidio_official/"><img :src="instagramLogo" alt="instagram-logo"></a>
+          <a href="https://twitter.com/Risidio1"><img :src="twitterLogo" alt="twitter-logo"></a>
+          <a href="https://www.youtube.com/channel/UCrMDxxhMvpeyErw7m92IIXA/featured"><img :src="youtubeLogo" alt="youtube-logo"></a>
         </div>
-
-        <div class="footer-bottom--right">
-          <b-link to="/information/info-terms">Term of use</b-link>
-          <b-link to="/information/info-privacy-policy">Privacy policy</b-link>
+        <div>
+          &copy; &nbsp; {{ year }} Risidio Ltd. All right reserved.
         </div>
-      </div>
-
-      <div class="d-block d-sm-none text-center footer-bottom">
-        <div class="footer-bottom--left mb-1">
-          <b-link to="/information/info-terms">Term of use</b-link>
-          <b-link to="/information/info-privacy-policy">Privacy policy</b-link>
-        </div>
-
-        <div class="footer-bottom--right">
-          {{ content.left_bottom_corner[0].text }}
+        <div>
+          <span>Privacy Policy</span>
+          <span>Terms Of Use</span>
         </div>
       </div>
-        -->
-
     </div>
-  </div>
+  </footer>
+</div>
 </template>
-
 <script>
-import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'MainFooter',
+  components: {
+  },
+  props: {
+    backgroundColor: String,
+    type: String
+  },
   data () {
     return {
-      logo: require('@/assets/img/navbar-footer/logo-footer.svg')
+      logo: require('@/assets/img/risidio_white.png'),
+      year: new Date().getFullYear(),
+      discordLogo: require('@/assets/img/discord-logo.svg'),
+      instagramLogo: require('@/assets/img/instagram-logo.svg'),
+      twitterLogo: require('@/assets/img/twitter-logo.svg'),
+      youtubeLogo: require('@/assets/img/youtube-logo.svg')
     }
   },
   methods: {
+    getContent (contentType) {
+      const content = this.$store.getters['contentStore/getHomepage']
+      if (content) {
+        let sitecontent = ''
+        content.footer[0][contentType].forEach(function (option) {
+          sitecontent += option.text
+        })
+        return sitecontent
+      }
+      return {}
+    }
   },
   computed: {
-    getBreakLine () {
-      return this.$store.getters[APP_CONSTANTS.KEY_BREAK_LINE]
-    },
     content () {
-      const content = this.$store.getters['contentStore/getMainFooter']
+      const content = this.$store.getters['contentStore/getHomepage']
       return content
     }
   }
 }
 </script>
-
 <style>
-/* TOP BREAK LINE */
-.footer-break-line {
-  height: 10px;
+/* FOOTER STYLE */
+footer {
+  /*height: 440px;*/
+  background-color: #5154A1;
 }
 
-/* FOOTER GENERAL STYLE */
-.footer-container {
-  font-size: 1.4rem;
-  padding: 90px 24px 24px;
-  color: #ffffff;
-}
-.footer-container a, .footer-container a:hover {
-  color: #ffffff;
+footer .container {
+  padding-top: 90px;
+  padding-bottom: 50px;
 }
 
-/* FOOTER TOP ROW STYLE */
-.footer-top--content {
-  text-align: center;
+footer a {
+  color: #fff;
 }
-.footer-top--content div:not(:last-child) {
+
+/* FOOTER LOGO COLUMN */
+.footer-logo {
+  width: auto;
+  height: 71px;
+}
+
+footer .navbar-brand {
+  width: auto;
+  height: 80px;
+}
+
+.footer__pitch {
+  margin: 30px 0;
+  font-size: 1.2rem;
+}
+
+/* FOOTER CONTENT COLUMN */
+.columns3-content__container {
+  align-items: flex-end;
+}
+
+.footer__column-content:not(:last-child) {
+  padding-right: 100px;
+}
+
+.footer__column-content {
+  font-size: 1.2rem;
+}
+
+.footer__column-content div:first-child {
+  font-weight: 300;
+  color: #E3E3E3;
   margin-bottom: 15px;
 }
-/* Column headers */
-.footer-container .footer-top--content .column-header {
-  font-weight: 700;
-  margin-bottom: 25px;
-}
-/* Social icons */
-.social-links {
-  margin-top: 30px;
-}
-.social-links a:not(:last-child){
-  margin-right: 30px;
-}
-/* Logo */
-.footer-logo {
-  text-align: center;
-}
-.footer-logo img {
-  margin-left: 0;
-  margin-bottom: 50px;
+
+.footer__column-content div {
+  margin-bottom: 9px;
 }
 
-/* FOOTER BOTTOM ROW STYLE */
-.footer-bottom {
-  margin-top: 50px;
-}
-.footer-bottom a:first-child {
-  margin-right: 27px;
-}
-
-/* MOBILE STYLE */
-@media only screen and (min-width: 992px) {
-  .footer-logo {
-    text-align: left;
-  }
-  .footer-logo img {
-    margin-left: 40px;
-    margin-bottom: 0;
-  }
-  .footer-top--content {
-    text-align: left;
-  }
+/* FOOTER DIVIDER AND BOTTOM ROW */
+.footer__divider {
+  margin: 60px 15px 50px;
+  border-top: 1px solid #E3E3E3;
+  opacity: 0.2;
 }
 
-@media only screen and (max-width: 700px) {
-  .social-links {
-    display: flex;
-    flex-flow: column;
-    margin-top: 0;
+.footer__bottom-row {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.footer__bottom-row a, .footer__bottom-row a:hover {
+  color: #fff;
+}
+
+.footer__bottom-row a:not(:last-child) {
+  margin-right: 15px;
+}
+
+.footer__bottom-row span:first-child {
+  margin-right: 40px;
+}
+
+/* FOOTER ON MOBILE */
+@media only screen and (max-width: 991px) {
+  footer .container {
+    padding-top: 60px;
   }
-  .social-links a:not(:last-child){
-    margin-right: 0;
-    margin-bottom: 15px;
+  .footer__pitch {
+    margin: 30px 0 60px;
+    text-align: center;
+  }
+  .columns3-content__container {
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .footer__divider {
+    margin: 40px 15px;
+  }
+  .footer__bottom-row div:first-child {
+    margin-bottom: 40px;
+  }
+  .footer__bottom-row div:nth-child(2) {
+    margin-bottom: 20px;
+  }
+  .footer__bottom-row span:first-child {
+    margin-right: 49px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .footer__column-content:not(:last-child) {
+    padding-right: 40px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .footer__column-content:not(:last-child) {
+    padding-right: 25px;
+  }
+}
+
+@media only screen and (max-width: 359px) {
+  .footer__column-content {
+    font-size: 0.9rem;
   }
 }
 </style>

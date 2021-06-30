@@ -42,10 +42,6 @@ const contentStore = {
         return state.content.charities
       }
     },
-    getPixelBackground: state => {
-      if (!state.content.homepage) return
-      return state.content.homepage.pixelbackground.url
-    },
     getBreakLine: state => {
       if (!state.content.homepage) return
       return state.content.homepage.breakline.url

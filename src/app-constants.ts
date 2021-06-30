@@ -34,7 +34,6 @@ export const APP_CONSTANTS = {
   KEY_CONTENT_CHARITIES: 'contentStore/getCharities',
   KEY_CONTENT_INFO_PAGE: 'contentStore/getInformationById',
   KEY_BREAK_LINE: 'contentStore/getBreakLine',
-  KEY_PIXEL_BACKGROUND: 'contentStore/getPixelBackground',
 
   KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
   KEY_PROFILE: 'rpayAuthStore/getMyProfile',

@@ -1,11 +1,15 @@
 <template>
 <section class="" id="section-upload">
   <b-container class="mt-5 pt-5">
-    <b-row style="min-height: 40vh" >
+    <b-row class="p-4 bg-secondary" style="min-height: 40vh">
       <b-col md="6" sm="12" align-self="start" class=" text-center">
-        <div  class="bg-white" style="width:80%;">
-          <media-upload :myUploadId="'artworkFile'" :dims="dims" :contentModel="contentModelArtwork" :limit="1" :sizeLimit="20" :mediaTypes="'video'" @updateMedia="updateMedia($event)"/>
+    <b-card-group>
+      <b-card class="p-4 bg-secondary">
+        <div  class="bg-white">
+          <media-upload :myUploadId="'artworkFile'" :dims="dims" :contentModel="contentModelArtwork" :limit="1" :sizeLimit="20" :mediaTypes="'video,image,threed,audio'" @updateMedia="updateMedia($event)"/>
         </div>
+      </b-card>
+    </b-card-group>
       </b-col>
       <b-col md="6" sm="12" align-self="end"  class="mb-4 text-white">
         <h1 class="border-bottom mb-5">Upload Item</h1>
@@ -54,14 +58,16 @@ export default {
         id: 'artworkFile',
         title: 'UPLOAD FILE',
         buttonName: 'CHOOSE A FILE',
-        message: '<span class="text-small">Up to 20M</span><br/>Main Artwork File',
+        message: 'Your NFT File',
         iconName: 'film',
         errorMessage: 'A mp4 file is required',
-        popoverBody: 'The artwork file.'
+        popoverBody: 'The NFT file.'
       }
     }
   },
   mounted () {
+    const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+    if (!profile.loggedIn) this.$router.push('/')
     const assetHash = this.$route.params.assetHash
     if (assetHash) {
       this.assetHash = assetHash
@@ -121,7 +127,7 @@ export default {
           }
           myAsset.nftMedia[nftMedia.id] = data.media
           $self.$store.dispatch('myItemStore/saveItem', myAsset).then(() => {
-            $self.$store.commit('setModalMessage', 'Saved artwork file.')
+            $self.$store.commit('setModalMessage', 'Saved NFT file.')
             this.$root.$emit('bv::hide::modal', 'waiting-modal')
             $self.$router.push('/edit-item/' + data.media.dataHash)
           }).catch((error) => {

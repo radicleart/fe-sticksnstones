@@ -1,58 +1,54 @@
 <template>
-<b-row class="my-xs-4" style="min-height: 85vh">
-  <b-col cols="12" class="text-center p-0 m-0" align-self="center" v-if="resultSet" >
-    <result-grid class="container text-center" :key="componentKey" :resultSet="resultSet"/>
-  </b-col>
-</b-row>
+<section class="" id="section-upload">
+  <b-container class="mt-5 pt-5">
+    <b-row style="min-height: 40vh" v-if="nftState === 1">
+      You need to download the we b wallet to get going!
+    </b-row>
+    <b-row style="min-height: 40vh" v-if="nftState === 2">
+      Please login to get started!
+    </b-row>
+  </b-container>
+</section>
 </template>
 
 <script>
-import ResultGrid from '@/components/marketplace/ResultGrid'
 import { APP_CONSTANTS } from '@/app-constants'
-
-const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
-const STX_CONTRACT_NAME = process.env.VUE_APP_STACKS_CONTRACT_NAME
 
 export default {
   name: 'Home',
   components: {
-    ResultGrid
   },
   data () {
     return {
-      componentKey: 0,
-      loading: true,
-      useSearchIndex: false
+      nftState: 0
     }
   },
   mounted () {
-    this.findAssets()
+    const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+    if (profile.loggedIn) {
+      this.$router.push('/create')
+    } else {
+      this.nftState = 1
+    }
   },
   methods: {
-    findAssets () {
-      this.$store.dispatch('rpaySearchStore/findByProjectId', STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME).then((results) => {
-        this.results = results
-      })
-    }
   },
   computed: {
-    resultSetFromSearch () {
-      const results = this.$store.getters[APP_CONSTANTS.KEY_SEARCH_RESULTS]
-      if (!results) return
-      const resultSet = results.filter((o) => o.nftMedia.artworkFile.type.indexOf('video') > -1)
-      return resultSet
-    },
-    resultSet () { // FromIndex
-      const resultSet = this.$store.getters[APP_CONSTANTS.KEY_GAIA_ASSETS]
-      return resultSet
-    },
-    configuration () {
-      const configuration = this.$store.getters[APP_CONSTANTS.KEY_RPAY_CONFIGURATION]
-      return configuration
-    }
   }
 }
 </script>
-
-<style>
+<style lang="scss" >
+#upload-item .drop-zone {
+  min-width: 300px;
+  min-height: 300px;
+  padding: 20px;
+  height: auto;
+  border-radius: 18px;
+  border: 1pt dashed rgb(146, 146, 38);
+  text-align: center;
+}
+#upload-item .badge {
+  cursor: pointer;
+  padding: 5px !important;
+}
 </style>

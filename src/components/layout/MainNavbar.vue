@@ -1,54 +1,37 @@
 <template>
-<div id="one-nav" class="px-2" @mouseover="transme" @mouseout="transbackme">
-<b-navbar class="p-4" variant="transparent">
-  <b-navbar-brand href="#">
-    <div class="">
-      <router-link to="/home" class="navbar-brand"><img height="30px" :src="getLogo()" alt="logo"/></router-link>
-    </div>
-  </b-navbar-brand>
-  <b-navbar-nav class="ml-auto">
-    <!--<b-nav-item class="d-xs-none d-sm-block" v-if="loggedIn"><b-link class="mr-4 text-white top-content" to="/my-items/minted">My NFTs</b-link></b-nav-item>-->
-    <b-nav-item><b-link class="text-white top-content" to="/about"><img height="30px" :src="wtf" alt="about link"/></b-link></b-nav-item>
-  </b-navbar-nav>
-  <!--
-  <b-navbar-nav class="ml-auto toggle-icon">
-    <b-nav-item v-b-toggle.collapse @click="collapsed = !collapsed, noScroll()">
-      <img style="width: 40px; height: 40px;" :src="toggleIcon">
+<div class="d-flex justify-content-center">
+<b-navbar variant="transparent" id="navbar" :style="bannerImage" toggleable="xl" class="my-nav">
+
+  <b-navbar-brand><router-link class="navbar-brand" to="/"><img :src="logo" alt="risidio-logo"/></router-link></b-navbar-brand>
+  <b-navbar-toggle target="nav-collapse" @click="mobileMenuExpandClass(); noScroll();">
+    <span> </span>
+    <span> </span>
+    <span> </span>
+  </b-navbar-toggle>
+  <!-- Mobile Design for login menu -->
+  <b-navbar-nav class="navbar__login d-xl-none">
+    <b-nav-item v-if="loggedIn">
+      <div v-if="avatar" v-b-toggle.login-sidebar class="navbar__account"><span v-html="avatar"></span><span class="text-info navbar__account--text">Account</span></div>
+      <div v-else v-b-toggle.login-sidebar class="navbar__account"><span><b-icon icon="person" class="navbar__default-account-icon"/></span><span class="text-info navbar__account--text">Account</span></div>
     </b-nav-item>
+    <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary">Login</button></b-nav-item>
   </b-navbar-nav>
-    <b-collapse id="collapse" :style="'background-image: url(' + getPixelBackground + ')'">
-      <b-navbar-nav class="top-content">
-        <b-navbar-brand v-b-toggle.collapse @click="noScroll()" class="mr-0" href="#">
-          <div class="">
-            <router-link to="/home" class="navbar-brand mr-0"><img :src="logo" alt="logo"/></router-link>
-          </div>
-        </b-navbar-brand>
-        <b-nav-item v-b-toggle.collapse @click="noScroll()"><router-link to="/number-one"><img :src="hollowWhiteOne"/></router-link></b-nav-item>
-        <b-nav-item v-b-toggle.collapse @click="noScroll()"><router-link to="/about">About</router-link></b-nav-item>
-        <b-nav-item v-b-toggle.collapse @click="noScroll()" v-if="!loggedIn"><b-link variant="light" @click.prevent="startLogin()">Login</b-link></b-nav-item>
-        <b-nav-item v-b-toggle.collapse @click="noScroll()" v-else><b-link variant="light" @click.prevent="startLogout()">Logout</b-link></b-nav-item>
-      </b-navbar-nav>
 
-      <div class="break-line"><img :src="getBreakLine"></div>
+  <b-collapse id="nav-collapse" is-nav>
+    <!-- Right aligned nav items -->
+    <b-navbar-nav class="ml-xl-auto align-items-xl-center">
+      <b-nav-item><router-link class="text-white" to="/community?uid=lambda-v-stacks">How It Works</router-link></b-nav-item>
+    </b-navbar-nav>
 
-      <b-navbar-nav class="bottom-content">
-        <div class="bottom-content--container">
-          <b-nav-item v-b-toggle.collapse @click="gotoLink('https://www.chemicalx.co.uk/')"><router-link to="#">Chemical X</router-link></b-nav-item>
-          <b-nav-item v-b-toggle.collapse @click="gotoLink('https://discord.com/')"><router-link to="#">Get In Touch</router-link></b-nav-item>
-        </div>
-        <div class="bottom-content--container">
-          <b-nav-item><b-icon @click="gotoLink('https://facebook.com/')" width="27px" height="27px" icon="facebook"></b-icon></b-nav-item>
-          <b-nav-item><b-icon @click="gotoLink('https://instagram.com/')" width="27px" height="27px" icon="instagram"></b-icon></b-nav-item>
-          <b-nav-item><b-icon @click="gotoLink('https://twitter.com/')" width="27px" height="27px" icon="twitter"></b-icon></b-nav-item>
-        </div>
-        <div class="bottom-content--container">
-          <b-nav-item v-b-toggle.collapse @click="gotoLink('https://stacks.org/')"><router-link to="#">Stacks Foundation</router-link></b-nav-item>
-          <b-nav-item v-b-toggle.collapse @click="gotoLink('https://tchange.risidio.com/')"><router-link to="#">Risidio Xchange</router-link></b-nav-item>
-        </div>
-      </b-navbar-nav>
-    </b-collapse>
-  -->
-  </b-navbar>
+    <b-navbar-nav class="navbar__login d-flex">
+      <b-nav-item class="navbar__login--loogedin" v-if="loggedIn">
+        <div v-if="avatar" v-b-toggle.login-sidebar class="navbar__account d-flex align-items-center"><span v-html="avatar"></span><span class="text-white navbar__account--text">Account</span></div>
+        <div v-else v-b-toggle.login-sidebar class="navbar__account d-flex align-items-center"><span><b-icon icon="person" class="navbar__default-account-icon"/></span><span class="text-white navbar__account--text">Account</span></div>
+      </b-nav-item>
+      <b-nav-item @click.prevent="startLogin()" href="#" v-else><button class="login-button button-secondary">Login</button></b-nav-item>
+    </b-navbar-nav>
+  </b-collapse>
+</b-navbar>
 </div>
 </template>
 
@@ -61,61 +44,94 @@ export default {
   },
   data () {
     return {
-      wtf: 'https://images.prismic.io/dbid/5b31fbd1-ca16-4fa0-bd5c-2d82b3ef98cc_WTF.png?auto=compress,format',
-      logo: require('@/assets/img/navbar-footer/logo.svg'),
-      hollowWhiteOne: require('@/assets/img/Group 97.svg'),
-      rainbowOne: require('@/assets/img/Group 76.svg'),
-      grid: require('@/assets/img/navbar-footer/grid.svg'),
-      cross: require('@/assets/img/navbar-footer/cross.svg'),
-      collapsed: true,
-      webWalletNeeded: false
+      query: null,
+      logo: require('@/assets/img/ruma/ruma-logo.svg')
     }
   },
   methods: {
-    // test methods - just anticipating the design...
-    gotoLink (link) {
-      window.open(link)
-    },
-    getLogo () {
-      if (this.$route.name === 'about') return this.rainbowOne
-      return this.logo
-    },
-    transme () {
-      const nav = document.getElementById('one-nav')
-      if (nav) nav.style.depth = '100px'
-    },
-    transbackme () {
-      const nav = document.getElementById('one-nav')
-      if (nav) nav.style.depth = '100px'
-    },
-    headerClass () {
-      return (this.$route.name === 'home' || this.$route.name === 'login') ? '' : 'header-class'
-    },
-    username () {
-      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      return profile.username
-    },
-    noScroll () {
-      document.body.classList.toggle('no-scroll')
-    },
-    startLogout () {
+    logout () {
+      // this.$emit('updateEventCode', { eventCode: 'connect-logout' })
       this.$store.dispatch('rpayAuthStore/startLogout').then(() => {
         // localStorage.clear()
         // sessionStorage.clear()
-        this.$router.push('/')
       })
     },
     startLogin () {
-      this.$store.dispatch('rpayAuthStore/startLogin').then((profile) => {
-        console.log(profile)
-      }).catch((err) => {
-        console.log(err)
-        // https://www.hiro.so/wallet/install-web
-        this.webWalletNeeded = true
-      })
+      // this.$emit('updateEventCode', { eventCode: 'connect-login' })
+      const myProfile = this.$store.getters['rpayAuthStore/getMyProfile']
+      if (myProfile.loggedIn) {
+        this.$emit('connect-login', myProfile)
+      } else {
+        this.$store.dispatch('rpayAuthStore/startLogin')
+      }
+    },
+    mobileMenuExpandClass () {
+      const element = document.getElementById('navbar')
+      element.classList.toggle('navbar__mobile-design')
+    },
+    noScroll () {
+      const element = document.getElementById('app')
+      element.classList.toggle('no-scroll')
+      document.body.classList.toggle('no-scroll')
     }
   },
   computed: {
+    projects () {
+      const appmap = this.$store.getters[APP_CONSTANTS.KEY_REGISTRY]
+      if (appmap) return appmap.apps
+      return []
+    },
+    content () {
+      const content = this.$store.getters['contentStore/getHomepage']
+      return content
+    },
+    bannerImage () {
+      if (this.$route.name === 'homepage') {
+        return ''
+      }
+      const content = this.$store.getters['contentStore/getHomepage']
+      if (!content) {
+        return
+      }
+      return {
+        height: '128px',
+        width: '100%',
+        'background-repeat': 'no-repeat',
+        'background-image': `url(${content.marketplace_image.url})`,
+        'background-position': 'center center',
+        '-webkit-background-size': 'cover',
+        '-moz-background-size': 'cover',
+        '-o-background-size': 'cover',
+        'background-size': 'cover'
+      }
+    },
+    showAdmin () {
+      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      return profile.showAdmin || location.origin.indexOf('local') > -1
+    },
+    balance () {
+      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      return (profile && profile.wallet) ? profile.wallet.balance : 0
+    },
+    stxAddress () {
+      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      if (profile.wallet && profile.wallet.keyInfo.address) {
+        return profile.wallet.keyInfo.address.substring(0, 5) + '...' + profile.wallet.keyInfo.address.substring(profile.wallet.keyInfo.address.length - 5)
+      }
+      return 'n/a'
+    },
+    username () {
+      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      if (!profile) {
+        return 'unknown'
+      } else if (profile.name && profile.name.length > 0) {
+        return profile.name
+      } else if (profile.username && profile.username.length > 0) {
+        return profile.username
+      } else {
+        return profile.identityAddress
+      }
+    },
     avatar () {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       if (profile.loggedIn) {
@@ -129,149 +145,295 @@ export default {
       }
       return null
     },
-    getPixelBackground () {
-      return this.$store.getters[APP_CONSTANTS.KEY_PIXEL_BACKGROUND]
-    },
-    myAssets () {
-      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      if (profile.loggedIn) {
-        const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
-        const assets = this.$store.getters[APP_CONSTANTS.KEY_ASSETS_BY_CONTRACT_ID_AND_OWNER]({ stxAddress: profile.stxAddress, contractId: STX_CONTRACT_ADDRESS })
-        return assets
-      }
-      return null
-    },
-    getBreakLine () {
-      return this.$store.getters[APP_CONSTANTS.KEY_BREAK_LINE]
-    },
     loggedIn () {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       return profile.loggedIn
-    },
-    toggleIcon () {
-      return this.collapsed ? this.grid : this.cross
     }
   }
 }
 </script>
 
 <style lang="scss">
-/* NAVBAR GENERAL STYLE */
-.top-content {
-  font-size: 2.6rem;
-}
-#one-nav nav {
-  height: 60px;
-}
-.navbar-light .navbar-nav .nav-link {
-    color: #fff;
-}
-
-.navbar-nav {
-  z-index: 4;
+/* NAVBAR PADDING AND WIDTH */
+nav.navbar {
+  width: 100%;
+  padding-right: 50px;
+  padding-left: 50px;
+  position: absolute!important;
+  top: 0;
+  left: 0;
 }
 
-#one-nav .toggle-icon .nav-link {
+/* NAV ITEMS STYLE */
+nav a {
+  color: #000;
+}
+nav ul {
+  font-size: 1.2rem;
+}
+#nav-collapse ul.navbar-nav:first-child {
+  font-weight: 600;
+}
+#nav-collapse ul.navbar-nav:last-child {
+  font-weight: 300;
+}
+.navbar-nav .nav-item:not(:last-child) {
+  margin-right: 30px;
+}
+#nav-collapse ul li a {
+  padding: 0;
+}
+#nav-collapse ul:first-child li.text-info a {
+  font-weight: 700;
+}
+.navbar__account--text {
+  margin-left: 13px;
+  font-weight: 700;
+}
+.navbar__account:focus {
+  outline: none;
+}
+nav .nav-link {
+  color: #fff !important;
+}
+
+/* NAV LOGIN */
+nav .login-button {
+  width: 97px;
+  margin-left: 40px;
+  font-size: 1.2rem;
+}
+
+nav .navbar__default-account-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+nav .navbar__account {
+  margin-left: 30px;
+}
+
+nav .navbar__login .nav-link {
   padding: 0;
 }
 
-/* COLLAPSIBLE PART OF NAVBAR STYLE */
-#collapse {
-  position: absolute;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
+.v-nav-user {
   height: 100vh;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  background-color: #000000;
-  color: #ffffff;
-  top: 0px;
-  text-align: center;
-  z-index: 3;
-  background-repeat: no-repeat;
-  background-size: cover;
-  transition: all 0.3s ease-out;
-}
-#collapse a {
-  color: #ffffff;
+  width: 232px;
+  background: #fff;
 }
 
-/* Top collapse section style */
-#collapse .top-content li {
-  list-style: none;
-  padding-top: 50px;
+/* NAV LOGO */
+nav .navbar-brand {
+  height: 84px;
 }
-#collapse .top-content li a {
-  font-size: 3.5rem;
-}
-#collapse .top-content {
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  padding-top: 60px;
+nav .navbar-brand img {
+  width: auto;
+  height: 71px;
 }
 
-/* Bottom collapse section style */
-#collapse .bottom-content {
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
-  padding: 50px 0;
+/* DROPDOWN MENUS */
+nav .dropdown-menu li:first-child a {
+  font-weight: 300;
 }
-#collapse .bottom-content--container {
-  display: flex;
+nav .navbar__gallery-item .dropdown-menu li:not(:last-child) {
+  margin-bottom: 15px;
 }
-#collapse .bottom-content--container .nav-item:not(:last-child) {
-  padding-right: 20px;
+nav .navbar__applications-item .dropdown-menu li:first-child {
+  margin-bottom: 30px;
 }
-
-/* Break line img style */
-#collapse .break-line {
-  padding-top: 50px;
-  width: 75%;
-}
-#collapse .break-line img {
-  max-width: 100%;
+nav .navbar__applications-item .dropdown-menu li:not(:last-child):not(:first-child) {
+  margin-bottom: 15px;
 }
 
 /* MOBILE DESIGN */
-@media only screen and (max-width: 700px) {
-  #collapse .bottom-content {
-    width: 90%;
+nav .navbar-toggler {
+  border: none;
+  margin-left: auto;
+  width: auto;
+}
+
+@media only screen and (max-width: 1199px) {
+
+  /* MOBILE NAVBAR LOGIN */
+  nav .login-button {
+    margin-left: 0px;
+    font-size: 1.4rem;
+  }
+  nav .navbar-collapse .navbar__login {
+    margin: auto 0 0;
+  }
+
+  nav .navbar__account {
+    margin-left: 20px;
+  }
+
+  nav .navbar__login--loogedin {
+    display: none;
+  }
+
+  nav .navbar__login .navbar__account--text {
+    display: none;
+  }
+
+  /* MOBILE COLLAPSE MENU */
+  .navbar__mobile-design {
+    position: fixed !important;
+    right: 0;
+    left: 0;
+    top: 0;
+  }
+
+  .navbar-collapse {
+    background-color: #2C0D99;
+    z-index: -1;
+    height: 100vh;
+    width: 100%;
     display: flex;
     flex-flow: column;
-    align-items: center;
-    padding: 20px 0;
+    -webkit-transition: height 0.5s ease-out;
+    -moz-transition: height 0.5s ease-out;
+    -ms-transition: height 0.5s ease-out;
+    -o-transition: height 0.5s ease-out;
+    transition: height 0.5s ease-out;
   }
-  #collapse .bottom-content--container:not(:last-child) {
+
+  .navbar-collapse.collapse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  }
+  .navbar-collapse.collapse::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+  }
+
+  #nav-collapse .navbar-nav {
+    width: 100%;
+    padding: 0 50px;
+  }
+
+  #nav-collapse .navbar-nav:first-child {
+    margin-top: 130px;
+  }
+
+  #nav-collapse .navbar-nav .nav-item {
+    margin: 0 0 20px;
+    font-size: 1.4rem;
+  }
+
+  #nav-collapse .navbar-nav:first-child .nav-item:last-child {
     padding-bottom: 20px;
+    border-bottom: 1px solid #E5E5E5;
+  }
+
+  /* MOBILE DROPDOWN MENU */
+  #nav-collapse {
+
+    & .navbar-nav .dropdown-menu {
+      padding: 0;
+      margin: 0;
+      font-size: 1.4rem;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    & .navbar-nav .dropdown-menu .dropdown-item {
+      color: #fff;
+      margin-left: 20px;
+    }
+
+    & .navbar-nav .dropdown-menu .dropdown-item a {
+      color: #fff;
+    }
+
+    & .navbar-nav .dropdown-menu .dropdown-item:first-child {
+      margin-top: 20px;
+    }
+
+    & .navbar-nav .dropdown-menu .dropdown-item:hover, .navbar-nav .dropdown-menu .dropdown-item:focus  {
+      background-color: transparent;
+    }
+
+  }
+
+}
+
+/* MOBILE NAVBAR PADDING & MARGIN */
+@media only screen and (max-width: 576px) {
+
+  nav.navbar {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  #nav-collapse .navbar-nav {
+    padding: 0 20px;
   }
 }
 
-@media only screen and (max-width: 500px) {
-  #collapse .bottom-content--container:not(:last-child) {
-    padding-bottom: 0;
+@media only screen and (max-width: 359px) {
+
+  nav .navbar-brand img {
+    width: 140px;
   }
 }
 
-@media only screen and (max-width: 376px) {
-  #collapse .top-content li {
-    padding-top: 30px;
-  }
+/*  TOGGLER ANIMATION */
+nav .navbar-toggler span {
+   display: block;
+   background-color: #fff;
+   height: 2px;
+   width: 25px;
+   margin-top: 6px;
+   margin-bottom: 6px;
+   -webkit-transform: rotate(0deg);
+   -moz-transform: rotate(0deg);
+   -o-transform: rotate(0deg);
+   transform: rotate(0deg);
+   position: relative;
+   left: 0;
+   opacity: 1;
 }
 
-@media only screen and (max-width: 350px) {
-  #collapse .break-line {
-    padding-top: 0;
-  }
-  #collapse .top-content li {
-    padding-top: 20px;
-    font-size: 3rem;
-  }
+nav .navbar-toggler span:nth-child(1),
+nav .navbar-toggler span:nth-child(3) {
+   -webkit-transition: transform .35s ease-in-out;
+   -moz-transition: transform .35s ease-in-out;
+   -o-transition: transform .35s ease-in-out;
+   transition: transform .35s ease-in-out;
+}
+
+nav .navbar-toggler:not(.collapsed) span:nth-child(1) {
+    position: relative;
+    left: 0px;
+    top: 11px;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    transform: rotate(135deg);
+}
+
+nav .navbar-toggler:not(.collapsed) span:nth-child(2) {
+    height: 12px;
+    visibility: hidden;
+    background-color: transparent;
+}
+
+nav .navbar-toggler:not(.collapsed) span:nth-child(3) {
+    position: relative;
+    left: 0px;
+    top: -15px;
+    -webkit-transform: rotate(-135deg);
+    -moz-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    transform: rotate(-135deg);
 }
 
 </style>

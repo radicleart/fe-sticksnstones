@@ -4,7 +4,7 @@
     <b-row style="min-height: 40vh" >
       <b-col md="4" sm="12" align-self="center" class=" text-center">
         <div  class="bg-white" style="width:100%;">
-          <p class="p-3">Artwork File</p>
+          <p class="p-3">NFT File</p>
           <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'artworkFile'"/>
           <div v-if="superAdmin">
             <a href="#" @click.prevent="showAFUpload = !showAFUpload">show af</a>
@@ -16,7 +16,7 @@
           <media-item :videoOptions="videoOptions" v-if="hasFile('coverImage')" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'coverImage'" @deleteMediaItem="deleteMediaItem"/>
           <media-upload v-else :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModelCoverImage" :mediaFiles="mediaFilesCoverImage()" :limit="1" :sizeLimit="2" :mediaTypes="'image'" @updateMedia="updateMedia($event)"/>
         </div>
-        <div  class="mt-5 bg-white" style="width:100%;">
+        <div  class="mt-5 bg-white" style="width:100%;" v-if="requireClip">
           <p class="p-3">Artwork Clip</p>
           <media-item :videoOptions="videoOptions" v-if="hasFile('artworkClip')" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'artworkClip'" @deleteMediaItem="deleteMediaItem"/>
           <media-upload v-else :myUploadId="'artworkClip'" :dims="dims" :contentModel="contentModelClip" :mediaFiles="mediaFilesMusicFile()" :limit="1" :sizeLimit="4" :mediaTypes="'video,image'" @updateMedia="updateMedia($event)"/>
@@ -91,6 +91,7 @@ export default {
   data () {
     return {
       showAFUpload: false,
+      requireClip: false,
       formSubmitted: false,
       dims: { width: 360, height: 202 },
       showErrors: false,
@@ -114,12 +115,12 @@ export default {
       },
       contentModelArtwork: {
         id: 'artworkFile',
-        title: 'UPLOAD FILE',
+        title: 'UPLOAD NFT FILE',
         buttonName: 'CHOOSE A FILE',
-        message: '<span class="text-small">Up to 20M</span><br/>Main Artwork File',
+        message: 'Your NFT File',
         iconName: 'film',
-        errorMessage: 'A mp4 file is required',
-        popoverBody: 'The artwork file.'
+        errorMessage: 'An image / audio / video / gltf file is required',
+        popoverBody: 'The main NFT file.'
       },
       contentModelCoverImage: {
         id: 'coverImage',
