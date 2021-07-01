@@ -7,7 +7,7 @@
         <b-alert show variant="success">Minted: Series Number {{contractAsset.nftIndex}} : Edition {{contractAsset.tokenInfo.edition}} of {{contractAsset.tokenInfo.maxEditions}} / Cost {{contractAsset.tokenInfo.editionCost}} STX</b-alert>
       </div>
       <div v-else-if="isValid" show variant="danger">
-        <square-button @clickButton="mintToken()" :theme="'light'" :label1="'MINT ITEM'" :icon="'eye'"/>
+        <b-button variant="outline-primary" @click="mintToken()">Mint File</b-button>
       </div>
       <b-alert v-else show variant="danger">not valid - information required</b-alert>
     </div>
@@ -38,7 +38,7 @@
                   <gaia-hub-relay :assetHash="assetHash"/>
                 </b-tab>
                 <b-tab title="Next" v-if="contractNameNext">
-                  <square-button @clickButton="mintToken()" :theme="'light'" :label1="'MINT ITEM'" :icon="'eye'"/>
+                  <b-button @click="mintToken()" :theme="'light'" :label1="'MINT ITEM'" :icon="'eye'"/>
                 </b-tab>
               </b-tabs>
             </div>
@@ -47,7 +47,7 @@
         <b-tab title="Sales" class="text-white">
           <div>
             <div class="my-5">{{saleDataText}}</div>
-            <square-button @clickButton="openSaleDataDialog()" :theme="'light'" :label1="'UPDATE SALE INFO'" :icon="'eye'"/>
+            <b-button variant="outline-primary" @click="openSaleDataDialog()">Update Sale Info</b-button>
           </div>
         </b-tab>
         <b-tab :title="contractAsset.offerCounter + ' Offers'">
@@ -81,7 +81,6 @@
 
 <script>
 import MintingFlow from './mint-setup/MintingFlow'
-import SquareButton from '@/components/utils/SquareButton'
 import moment from 'moment'
 import { APP_CONSTANTS } from '@/app-constants'
 import AcceptOffer from '@/components/toolkit/AcceptOffer'
@@ -107,7 +106,6 @@ export default {
     TransferNft,
     ListBeneficiaries,
     GaiaHubRelay,
-    SquareButton,
     ManageEditions
   },
   props: ['assetHash'],

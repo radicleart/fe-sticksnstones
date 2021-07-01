@@ -5,13 +5,13 @@
   </div>
   <b-container class="my-5 pt-5" v-if="item">
     <b-row style="min-height: 40vh" >
-      <b-col md="4" sm="12" align-self="start" class=" text-center">
+      <b-col md="4" sm="12" align-self="start" class="text-center">
         <div  class="bg-white" style="width:100%;">
           <p class="p-3">Artwork File</p>
           <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'artworkFile'"/>
         </div>
       </b-col>
-      <b-col md="8" sm="12" align-self="start" class="mb-4 text-white">
+      <b-col md="8" sm="12" align-self="start" class="mb-4">
         <div>
           <div class="mb-2 d-flex justify-content-between">
             <h2 class="d-block border-bottom mb-5">{{item.name}}</h2>

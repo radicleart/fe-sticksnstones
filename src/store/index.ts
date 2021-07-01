@@ -163,11 +163,23 @@ export default new Vuex.Store({
     configuration: setup({}),
     windims: { innerWidth: window.innerWidth, innerHeight: window.innerHeight },
     modalMessage: 'Your request is being processed',
-    stacksPath: 'extended/v1/tx/'
+    stacksPath: 'extended/v1/tx/',
+    chromeLink: 'https://chrome.google.com/webstore/detail/stacks-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj',
+    firefoxLink: 'https://addons.mozilla.org/en-US/firefox/addon/stacks-wallet/',
+    webWalletNeeded: false
   },
   getters: {
+    getWebWalletLinkChrome: state => {
+      return state.chromeLink
+    },
+    getWebWalletLinkFirefox: state => {
+      return state.firefoxLink
+    },
     getRpayConfiguration: state => {
       return state.configuration
+    },
+    getWebWalletNeeded: state => {
+      return state.webWalletNeeded
     },
     getInnerWidth: state => {
       return (state.windims.innerWidth)
@@ -185,6 +197,9 @@ export default new Vuex.Store({
   mutations: {
     setRpayFlow (state, data) {
       state.configuration = setup(data)
+    },
+    setWebWalletNeeded (state) {
+      state.webWalletNeeded = true
     },
     setModalMessage (state, modalMessage) {
       state.modalMessage = modalMessage

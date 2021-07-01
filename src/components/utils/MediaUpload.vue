@@ -12,7 +12,7 @@
           <b-button variant="dark" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
         </div>
       </div>
-      <div class="mt-5 pt-5">for big files (> 20M) paste a link to a publicly accessible file we can download e.g. see <a href="https://ipfs.io/" target="_blanK">IPFS</a> or <a href="https://cloudinary.com/" target="_blanK">Cloudinary</a></div>
+      <div class="mt-5 pt-5">for big files (> 20M) paste a link to a file we can download e.g. see <a href="https://ipfs.io/" target="_blanK">IPFS</a> or <a href="https://cloudinary.com/" target="_blanK">Cloudinary</a></div>
       <div class="mt-5 text-left mt-4 mb-3" style="font-size: 1.2rem; width: 100%;">
         <label for="item-name">enter url</label>
         <b-form-input
@@ -282,7 +282,12 @@ export default {
         let data = this.directUrl
         if (!data) data = e.dataTransfer.getData('Text')
         if (this.isValidUrl(data)) {
-          this.$emit('updateMedia', { startLoad: 'Fetching file from ' + data })
+          let remoteServer = 'remote server'
+          if (data && data.lastIndexOf('/') > 0) {
+            const parts = data.split('/')
+            if (parts.length > 1) remoteServer = parts[0] + '//' + parts[2]
+          }
+          this.$emit('updateMedia', { startLoad: 'Fetching file from ' + remoteServer })
           userFiles = data
           utils.readFileChunks(data).then((fileObject) => {
             const type = $self.getFileType(fileObject)

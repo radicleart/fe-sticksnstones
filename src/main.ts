@@ -15,11 +15,13 @@ import './assets/scss/rpay-pay-card.css'
 import VueScrollTo from 'vue-scrollto'
 import VueSocialSharing from 'vue-social-sharing'
 import Vue2TouchEvents from 'vue2-touch-events'
+import browserDetect from 'vue-browser-detect-plugin'
 const RisidioPay = () => import('risidio-pay')
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
+Vue.use(browserDetect)
 Vue.use(VueScrollTo)
 Vue.use(VueSocialSharing)
 Vue.use(IconsPlugin)

@@ -1,6 +1,6 @@
 <template>
-<div v-if="content">
-  <footer id="footer" class="text-white">
+<div v-if="content" class="mt-5">
+  <footer id="footer" class="mt-5 text-white" :style="bannerImage">
     <div class="container">
       <div class="row m-0 d-flex">
         <div class="col-lg-5 col-12 d-flex flex-column justify-content-center align-items-lg-start align-items-center">
@@ -78,6 +78,7 @@ export default {
   },
   data () {
     return {
+      banner: 'https://images.prismic.io/digirad/1f147c92-5945-4d4e-a578-aa085e6603ef_Ruma_bg.png?auto=compress,format',
       logo: require('@/assets/img/risidio_white.png'),
       year: new Date().getFullYear(),
       discordLogo: require('@/assets/img/discord-logo.svg'),
@@ -100,6 +101,19 @@ export default {
     }
   },
   computed: {
+    bannerImage () {
+      return {
+        height: 'auto',
+        width: '100%',
+        'background-repeat': 'no-repeat',
+        'background-image': `url(${this.banner})`,
+        'background-position': 'center center',
+        '-webkit-background-size': 'cover',
+        '-moz-background-size': 'cover',
+        '-o-background-size': 'cover',
+        'background-size': 'cover'
+      }
+    },
     content () {
       const content = this.$store.getters['contentStore/getHomepage']
       return content

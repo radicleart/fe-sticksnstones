@@ -29,7 +29,7 @@
         </b-input-group>
       </div>
       <div class="col-12 text-right mb-5">
-        <square-button @clickButton="updateEditions()" :theme="'light'" :label1="'UPDATE'" :icon="'eye'"/>
+        <b-button variant="outline-primary" @click="updateEditions()">Update</b-button>
       </div>
       <div class="row mb-4" v-if="transferring">
         <div class="col-12 text-danger" v-html="transferring"></div>
@@ -41,7 +41,6 @@
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
-import SquareButton from '@/components/utils/SquareButton'
 
 const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
 const STX_CONTRACT_NAME = process.env.VUE_APP_STACKS_CONTRACT_NAME
@@ -50,7 +49,6 @@ const NETWORK = process.env.VUE_APP_NETWORK
 export default {
   name: 'ManageEditions',
   components: {
-    SquareButton
   },
   props: ['assetHash'],
   data: function () {
