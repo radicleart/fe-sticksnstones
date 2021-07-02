@@ -166,7 +166,8 @@ export default new Vuex.Store({
     stacksPath: 'extended/v1/tx/',
     chromeLink: 'https://chrome.google.com/webstore/detail/stacks-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj',
     firefoxLink: 'https://addons.mozilla.org/en-US/firefox/addon/stacks-wallet/',
-    webWalletNeeded: false
+    webWalletNeeded: false,
+    separator: '/'
   },
   getters: {
     getWebWalletLinkChrome: state => {
@@ -192,6 +193,10 @@ export default new Vuex.Store({
     },
     getSectionHeight: state => {
       return (state.windims.innerHeight)
+    },
+    getStacksMateUrl: state => profile => {
+      const redirect = '?stxAddress=' + profile.stxAddress + 'redirectUrl=' + location.origin
+      return process.env.VUE_APP_STACKS_MATE_URL + state.separator + profile.stxAddress + redirect
     }
   },
   mutations: {

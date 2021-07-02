@@ -11,9 +11,7 @@
   <b-collapse id="nav-collapse" is-nav>
     <!-- Right aligned nav items -->
     <b-navbar-nav class="ml-xl-auto align-items-xl-center">
-      <!-- <b-nav-item><router-link class="text-white" to="/community?uid=lambda-v-stacks">How It Works</router-link></b-nav-item> -->
-    </b-navbar-nav>
-    <b-navbar-nav>
+      <b-nav-item class="mr-5"><router-link class="text-white" to="/my-items/all">My NFTs</router-link></b-nav-item>
       <b-nav-item-dropdown class="text-white nav-text" right v-if="profile.loggedIn" no-caret>
         <template v-slot:button-content>
           <span class="text-white nav-text" style="font-size: 2.6rem;"><b-icon icon="person" class="mb-3 mr-0"/></span>
@@ -25,6 +23,10 @@
         </b-dropdown-item>
         <b-dropdown-item v-if="profile.accountInfo">
           <span>Balance: {{profile.accountInfo.balance}} STX</span>
+        </b-dropdown-item>
+        <b-dropdown-divider />
+        <b-dropdown-item v-if="profile.accountInfo">
+          <span><b-link to="/my-items/all">My Files</b-link></span>
         </b-dropdown-item>
         <b-dropdown-divider />
         <b-dropdown-item>

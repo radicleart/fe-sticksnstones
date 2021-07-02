@@ -8,6 +8,7 @@ export const APP_CONSTANTS = {
   SET_WEB_WALLET_NEEDED: 'setWebWalletNeeded',
   KEY_WEB_WALLET_LINK_CHROME: 'getWebWalletLinkChrome',
   KEY_WEB_WALLET_LINK_FIREFOX: 'getWebWalletLinkFirefox',
+  KEY_STACKS_MATE_URL: 'getStacksMateUrl',
 
   KEY_CONTENT_ABOUT: 'contentStore/getAbout',
 

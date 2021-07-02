@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="mb-3" role="group">
-    <label for="item-creator">Cover artist <a class="text-danger" href="#" @click.prevent="useMyAddress('cover')">(use my username)</a></label>
+    <label for="item-creator">Cover artist </label>
     <b-form-input
       id="item-cover-artist"
       v-model="item.nftMedia.coverArtist"
@@ -13,7 +13,7 @@
     <b-form-invalid-feedback id="item-cover-artist-feedback">
       Enter at least 3 letters
     </b-form-invalid-feedback>
-    <b-form-text id="item-creator-help">The cover artist or maker of the artwork</b-form-text>
+    <b-form-text id="item-creator-help">The cover artist <a class="text-info" href="#" @click.prevent="useMyAddress('cover')">(use my username)</a></b-form-text>
   </div>
 </div>
 </template>

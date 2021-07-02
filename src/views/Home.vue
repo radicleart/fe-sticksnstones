@@ -2,7 +2,16 @@
 <section class="" id="section-upload">
   <b-container class="mt-5 pt-5">
     <b-row style="min-height: 30vh" class="text-center" v-if="loggedIn">
-      <b-col cols="12"><b-link to="/create">Start Minting NFTs</b-link></b-col>
+      <b-col cols="12" v-if="getBalance > 0">
+        <p>You have {{getBalance}} STX tokens in this account - more than enough to pay the
+          mint fees!</p>
+        <p><b-link to="/create">Start Minting NFTs</b-link></p>
+      </b-col>
+      <b-col cols="12" v-else>
+        <p>To mint a new NFT you will need a tiny amount of STX tokens in order to pay the
+        decentralised gas fees.</p>
+        <p><a :href="getStacksMateUrl">Get some STX</a></p>
+      </b-col>
     </b-row>
     <b-row style="min-height: 30vh" class="text-center" v-else-if="webWalletNeeded">
       <b-col cols="12">You need to download the web wallet to login and start minting your very own NFTs!</b-col>
@@ -39,6 +48,14 @@ export default {
   methods: {
   },
   computed: {
+    getBalance () {
+      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      return (profile && profile.accountInfo) ? profile.accountInfo.balance : 0
+    },
+    getStacksMateUrl () {
+      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      return this.$store.getters[APP_CONSTANTS.KEY_STACKS_MATE_URL](profile)
+    },
     webWalletLink () {
       if (this.$browserDetect.isFirefox) {
         return this.$store.getters[APP_CONSTANTS.KEY_WEB_WALLET_LINK_FIREFOX]

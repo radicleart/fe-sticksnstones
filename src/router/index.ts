@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import store from '@/store'
 
 // templates
 import MainNavbar from '@/components/layout/MainNavbar.vue'
@@ -7,8 +8,8 @@ import MainFooter from '@/components/layout/MainFooter.vue'
 
 // public pages
 import Home from '../views/Home.vue'
-import store from '@/store'
 
+const MyItems = () => import('../views/MyItems.vue')
 const UploadItem = () => import('../views/UploadItem.vue')
 const UpdateItem = () => import('../views/UpdateItem.vue')
 const ItemPreview = () => import('../views/ItemPreview.vue')
@@ -52,6 +53,24 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: '/my-items',
+    name: 'my-items',
+    components: { default: MyItems, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/my-items/:filter',
+    name: 'my-items-filter',
+    components: { default: MyItems, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
     path: '/create',
     name: 'create',
     components: { default: UploadItem, header: MainNavbar, footer: MainFooter },
@@ -88,7 +107,7 @@ router.beforeEach((to, from, next) => {
     } else {
       setTimeout(function () {
         myProfile = store.getters['rpayAuthStore/getMyProfile']
-        if (myProfile.loggedIn) {
+        if (myProfile && myProfile.loggedIn) {
           if (isPermitted(to, myProfile)) {
             return next()
           } else {

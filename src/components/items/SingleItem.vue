@@ -1,7 +1,7 @@
 <template>
 <div v-if="item && item.nftMedia" class="mt-1">
   <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="targetItem()"/>
-  <div class="text-white">
+  <div class="">
     <div class="mt-5 mb-2 d-flex justify-content-between">
       <div class="">
         <b-link router-tag="a" :to="assetUrl">{{item.name}}</b-link>
@@ -111,7 +111,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-a {
-  color: #fff;
-}
 </style>
