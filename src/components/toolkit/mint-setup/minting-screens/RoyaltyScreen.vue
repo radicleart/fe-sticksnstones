@@ -1,14 +1,15 @@
 <template>
-<b-card-group class="">
-  <b-card header-tag="header" footer-tag="footer" class="rpay-card">
+<b-card-group deck v-if="item">
+  <b-card class="text-center" header-tag="header" footer-tag="footer">
     <!-- <header-screen :allowEdit="false" :item="item"/> -->
-    <item-display :item="item"/>
-    <div class="text-danger" v-html="errorMessage"></div>
-    <beneficiaries :beneficiaries="beneficiaries" v-on="$listeners" :item="item"/>
+    <item-display class="my-5" :item="item"/>
+    <b-button @click="showBeneficiaries = true" class="mb-5" variant="warning">Set Your Royalties</b-button>
+    <beneficiaries class="mb-5 text-left" v-if="showBeneficiaries" :beneficiaries="beneficiaries" v-on="$listeners" :item="item"/>
+    <div class="my-4 text-danger" v-html="errorMessage"></div>
     <b-card-text class="mx-4">
       <div class="d-flex justify-content-between">
-        <b-button @click="saveData()" class="w-50 py-4 mr-2" variant="outline-danger">CANCEL</b-button>
-        <b-button @click="mintToken()" v-if="allowMint()"  class="w-50 py-4 ml-2" variant="outline-primary">MINT NOW</b-button>
+        <b-button @click="saveData()" class="w-50 mr-4" variant="outline-light">save mint later</b-button>
+        <b-button @click="mintToken()" v-if="allowMint()"  class="w-50 ml-4" variant="outline-dark">mint now</b-button>
       </div>
     </b-card-text>
   </b-card>
@@ -29,7 +30,8 @@ export default {
   props: ['item', 'beneficiaries', 'errorMessage'],
   data () {
     return {
-      mintedMessage: null
+      mintedMessage: null,
+      showBeneficiaries: false
     }
   },
   methods: {

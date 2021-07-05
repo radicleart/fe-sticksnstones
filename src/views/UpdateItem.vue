@@ -1,92 +1,49 @@
 <template>
-<section class="" id="section-upload">
-  <b-container class="my-5 pt-5" v-if="item">
-    <b-row style="min-height: 40vh" >
-      <b-col md="4" sm="12" align-self="center" class=" text-center">
-        <div  class="bg-white" style="width:100%;">
-          <p class="p-3">NFT File</p>
-          <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'artworkFile'"/>
-          <div v-if="superAdmin">
-            <a href="#" @click.prevent="showAFUpload = !showAFUpload">show af</a>
-            <media-upload v-if="showAFUpload" :myUploadId="'artworkFile'" :dims="dims" :contentModel="contentModelArtwork" :limit="1" :sizeLimit="20" :mediaTypes="'video'" @updateMedia="updateMedia($event)"/>
-          </div>
-        </div>
-        <div  class="mt-5 bg-white" style="width:100%;">
-          <p class="p-3">Cover Image</p>
-          <media-item :videoOptions="videoOptions" v-if="hasFile('coverImage')" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'coverImage'" @deleteMediaItem="deleteMediaItem"/>
-          <media-upload v-else :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModelCoverImage" :mediaFiles="mediaFilesCoverImage()" :limit="1" :sizeLimit="2" :mediaTypes="'image'" @updateMedia="updateMedia($event)"/>
-        </div>
-        <div  class="mt-5 bg-white" style="width:100%;" v-if="requireClip">
-          <p class="p-3">Artwork Clip</p>
-          <media-item :videoOptions="videoOptions" v-if="hasFile('artworkClip')" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'artworkClip'" @deleteMediaItem="deleteMediaItem"/>
-          <media-upload v-else :myUploadId="'artworkClip'" :dims="dims" :contentModel="contentModelClip" :mediaFiles="mediaFilesMusicFile()" :limit="1" :sizeLimit="4" :mediaTypes="'video,image'" @updateMedia="updateMedia($event)"/>
-        </div>
-      </b-col>
-      <b-col md="8" sm="12" align-self="start" class="mb-4 text-white">
-        <h2>NFT Info</h2>
-        <p>Information displayed in the context of this artwork and to help people find it</p>
+<section id="section-upload">
+  <b-container v-if="item">
+    <b-row v-if="hasFile('coverImage')">
+      <b-col class="" md="8" sm="12" align-self="start">
+        <h2 class="mb-4"><b-link to="/"><b-icon class="p-2 mr-5 bg-secondary text-white" style="width: 50px; height: 50px; font-size: 1.8rem; font-weight: 900; border-radius: 50%;" icon="chevron-left"/></b-link> <span style="margin-bottom: 20px; font-size: 3.2rem;">NFT Info</span></h2>
         <div class="my-4 bg-danger p-3" v-if="invalidItems.length > 0 && showErrors">
           <div>Required fields:</div>
           <div class="mr-1" v-for="(field, index) in invalidItems" :key="index">{{field}}</div>
         </div>
-        <!--
-        <b-row  class="mb-5 text-dark" style="min-height: 0vh" >
-          <b-col md="6" sm="12" align-self="start" class=" text-center" v-if="showClip">
-          </b-col>
-          <b-col md="6" sm="12" align-self="start" class=" text-center">
-          </b-col>
-        </b-row>
-        -->
         <div>
-          <item-form-part1 v-if="uploadState > 2" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
-          <item-form-part2 v-if="uploadState > 3" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
-          <item-form-part3 v-if="uploadState > 4" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
+          <ItemFormPart1 v-if="uploadState > 2" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
+          <ItemFormPart2 v-if="uploadState > 3" @upload-state="updateUploadState" :item="item" :upload="true" :formSubmitted="formSubmitted"/>
         </div>
         <div class="my-4 bg-danger p-3" v-if="invalidItems.length > 0 && showErrors">
           <div>Required fields:</div>
           <div class="mr-1 text-white" v-for="(field, index) in invalidItems" :key="index">{{field}}</div>
         </div>
-        <div class="my-4 text-right"><b-button class="" variant="danger" @click.prevent="uploadItem()">Continue</b-button></div>
+        <div class="my-4 text-right"><b-button class="" variant="warning" @click.prevent="uploadItem()">Continue</b-button></div>
+      </b-col>
+      <b-col md="4" sm="12" >
+        <NftCoverImage :item="item" />
+      </b-col>
+    </b-row>
+    <b-row v-else>
+      <b-col md="6" offset-md="3" sm="12" align-self="start" class=" text-center">
+        <NftCoverImage :item="item" />
       </b-col>
     </b-row>
   </b-container>
 </section>
-<!--
-<div id="update-item" class="text-white" v-if="loaded && myAsset" style="min-height: 85vh;">
-  <div class="container" :key="componentKey">
-    <div class="row mt-4">
-      <div class="col-12">
-        <h4>{{contextTitle()}}</h4>
-      </div>
-    </div>
-    <media-handler :videoOptions="videoOptions()" :uploadState="uploadState" :nftMedia="item.nftMedia" @updateMedia="updateMedia" @deleteMediaItem="deleteMediaItem"/>
-    <div class="row mt-4">
-      <div class="col-md-6 offset-md-3 col-sm-12">
-      </div>
-    </div>
-  </div>
-</div>
--->
 </template>
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
+import NftCoverImage from '@/components/items/NftCoverImage'
 import ItemFormPart1 from '@/components/items/ItemFormPart1'
 import ItemFormPart2 from '@/components/items/ItemFormPart2'
-import ItemFormPart3 from '@/components/items/ItemFormPart3'
-// import MediaHandler from '@/components/items/MediaHandler'
 import utils from '@/services/utils'
-import MediaItem from '@/components/utils/MediaItem'
-import MediaUpload from '@/components/utils/MediaUpload'
 
 export default {
   name: 'UpdateItem',
   components: {
-    MediaItem,
-    MediaUpload,
+    NftCoverImage,
     ItemFormPart1,
-    ItemFormPart2,
-    ItemFormPart3
+    ItemFormPart2
   },
   data () {
     return {
@@ -110,7 +67,7 @@ export default {
         keywords: '',
         nftMedia: {
           coverImage: {},
-          musicFile: {}
+          artworkFile: {}
         }
       },
       contentModelArtwork: {
@@ -155,8 +112,8 @@ export default {
       if (!this.item.nftMedia.coverImage) {
         this.item.nftMedia.coverImage = {}
       }
-      if (!this.item.nftMedia.musicFile) {
-        this.item.nftMedia.musicFile = {}
+      if (!this.item.nftMedia.artworkFile) {
+        this.item.nftMedia.artworkFile = {}
       }
       this.setImage(item.nftMedia.imageUrl)
       if (item.nftMedia.imageUrl) this.item.nftMedia.imageUrl = item.nftMedia.imageUrl
@@ -172,21 +129,12 @@ export default {
       else if (file === 'artworkClip') return item.nftMedia.artworkClip && item.nftMedia.artworkClip.fileUrl
       else if (file === 'coverImage') return item.nftMedia.coverImage && item.nftMedia.coverImage.fileUrl
     },
-    mediaFilesMusicFile () {
+    mediaFilesArtworkFile () {
       const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       if (!item) return
       const files = []
-      if (item.nftMedia.musicFile && item.nftMedia.musicFile.dataUrl) {
-        files.push(item.nftMedia.musicFile)
-      }
-      return files
-    },
-    mediaFilesCoverImage () {
-      const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-      if (!item) return
-      const files = []
-      if (item.nftMedia.coverImage && item.nftMedia.coverImage.dataUrl) {
-        files.push(item.nftMedia.coverImage)
+      if (item.nftMedia.artworkFile && item.nftMedia.artworkFile.dataUrl) {
+        files.push(item.nftMedia.artworkFile)
       }
       return files
     },
@@ -270,28 +218,6 @@ export default {
     }
   },
   computed: {
-    videoOptions () {
-      const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-      const videoOptions = {
-        emitOnHover: true,
-        playOnHover: true,
-        bigPlayer: false,
-        showMeta: true,
-        assetHash: this.assetHash,
-        autoplay: false,
-        muted: true,
-        controls: true,
-        poster: (myAsset && myAsset.nftMedia.coverImage) ? myAsset.nftMedia.coverImage.fileUrl : null,
-        fluid: true
-      }
-      if (myAsset && myAsset.nftMedia) {
-        videoOptions.poster = (myAsset.nftMedia.coverImage) ? myAsset.nftMedia.coverImage.fileUrl : null
-        videoOptions.sources = [
-          { src: myAsset.nftMedia.artworkFile.fileUrl, type: myAsset.nftMedia.artworkFile.type }
-        ]
-      }
-      return videoOptions
-    },
     superAdmin: function () {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       return profile.superAdmin

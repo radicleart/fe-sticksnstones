@@ -21,6 +21,16 @@ body {
   background-color: #fff;
   color: #000;
 }
+
+.h1-modal {
+  font-size: 2.6rem;
+  font-weight: 300;
+}
+.h2-modal {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
 a {
   cursor: pointer;
   text-decoration: none;
@@ -28,8 +38,82 @@ a {
 a:hover {
   text-decoration: none;
 }
+label {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.card {
+  border-radius: 25px;
+}
+
 .btn {
+  font-size: 1.7rem;
+  padding: 7px 30px;
+  border-radius: 25px;
+}
+.btn-warning {
+  color: #fff;
+}
+.btn-light {
+  background: #fff !important;
+  box-shadow: 0px 6px 9px #00000029;
+  border: none;
+}
+.btn-light:hover {
+  background: #ccc !important;
+  color: #000;
+}
+.fs-16 {
+  font-size: 1.6rem;
+}
+.form-control {
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 25px;
+  background: #fefefe;
+  border: 0pt solid #000;
+  box-shadow: 0px 6px 9px #00000029;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px #00000029;
   font-size: 1.8rem;
-  padding: 5px 35px;
-  border-radius: 0px;
+  font-weight: 300;
+}
+.bg-light {
+  background-color: #eee !important;
+}
+.upload-preview {
+  padding: 10px;
+  height: auto;
+  border: 0pt dashed rgb(146, 146, 38);
+  background-color: #FCFCFC 0% 0% no-repeat padding-box;
+  box-shadow: 0px 6px 9px #00000029;
+  border-radius: 6px;
+}
+.modal-header {
+  display: none;
+}.modal-footer {
+  display: none;
+}
+.text-small {
+  font-size: 1.2rem;
+}
+.r-notifs {
+  padding: 5px;
+  margin: 5px;
+  font-size: 1.6rem
+}
+.danger {
+  background: $danger;
+  color: #fff;
+}
+.warning {
+  background: $warning;
+  color: #fff;
+}
+.center {
+  margin: auto;
+  width: 70%;
+  border: 0px solid green;
+  padding: 10px;
 }

@@ -38,14 +38,14 @@ const beneficiariesDefault = [
   {
     username: 'donation.id',
     role: 'Charitable Donation',
-    email: 'donation@thisisnumberone.com',
+    email: 'info@risidio.com',
     royalty: 10,
     chainAddress: 'STFJEDEQB1Y1CQ7F04CS62DCS5MXZVSNXXN413ZG'
   },
   {
     username: 'environment.id',
     role: 'Environment/Sustainabilty',
-    email: 'environment@thisisnumberone.com',
+    email: 'info@risidio.com',
     royalty: 5,
     chainAddress: 'STMYA5EANW6C0HNS1S57VX52M0B795HHFDBW2XBE'
   }
@@ -195,8 +195,8 @@ export default new Vuex.Store({
       return (state.windims.innerHeight)
     },
     getStacksMateUrl: state => profile => {
-      const redirect = '?stxAddress=' + profile.stxAddress + 'redirectUrl=' + location.origin
-      return process.env.VUE_APP_STACKS_MATE_URL + state.separator + profile.stxAddress + redirect
+      const redirect = '?stxAddress=' + profile.stxAddress + '&redirectUrl=' + location.origin
+      return process.env.VUE_APP_STACKS_MATE_URL + state.separator + redirect
     }
   },
   mutations: {

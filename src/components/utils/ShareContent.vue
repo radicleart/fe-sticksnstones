@@ -27,7 +27,7 @@ export default {
   methods: {
     assetUrl: function () {
       if (window.location.href.indexOf('localhost') > -1) {
-        return 'https://thisisnumberone.com' + window.location.pathname
+        return 'https://risidio.com' + window.location.pathname
       }
       return window.location.href
     }

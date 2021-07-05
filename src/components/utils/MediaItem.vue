@@ -1,45 +1,42 @@
 <template>
 <div>
-  <div :style="videoOptions.dimensions" id="video-demo-container" v-if="isThreed(mediaItem())">
-    <video-js-player v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
-    <div :style="videoOptions.dimensions" class="p-4 d-flex justify-content-between" v-if="videoOptions.showMeta">
-      <div class="text-small">{{mediaItem().type}}  ({{getSizeMeg(mediaItem().size)}})</div>
-      <div><a href="#" @click.prevent="deleteMediaItem()" v-if="!contractAsset && (mediaItem().id === 'artworkClip' || mediaItem().id === 'coverImage')" class="text-small text-danger"><b-icon icon="trash"/></a></div>
-    </div>
-    <!-- <video id="video1" controls style="max-height: 250px;" @loadedmetadata="cover"> -->
+  <div v-if="contentType === 'threed'" :style="videoOptions.dimensions" id="video-demo-container">
+    <VideoJsPlayer v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
   </div>
-
-  <div :style="videoOptions.dimensions" id="video-demo-container" v-if="isVideo(mediaItem())">
-    <video-js-player v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
-    <div class="p-4 d-flex justify-content-between" v-if="videoOptions.showMeta">
-      <div class="text-small">{{mediaItem().type}}  ({{getSizeMeg(mediaItem().size)}})</div>
-      <div><a href="#" @click.prevent="deleteMediaItem()" v-if="(mediaItem().id === 'artworkClip' || mediaItem().id === 'coverImage')" class="text-small text-danger"><b-icon icon="trash"/></a></div>
-    </div>
-    <!-- <video id="video1" controls style="max-height: 250px;" @loadedmetadata="cover"> -->
+  <div v-else-if="contentType === 'video'" :style="videoOptions.dimensions" id="video-demo-container">
+    <VideoJsPlayer v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
   </div>
-
-  <div id="audio-demo-container" v-else-if="isAudio(mediaItem())">
-    <audio v-on="$listeners" controls :src="mediaItem().fileUrl" :style="dimensions()">
+  <div v-else-if="contentType === 'audio'" id="audio-demo-container">
+    <img v-on="$listeners" :src="nftMedia.coverImage.fileUrl" @error="setAltImg" :alt="nftMedia.artworkFile.name" :style="dimensions()">
+    <audio v-on="$listeners" controls :src="nftMedia.artworkFile.fileUrl" :style="dimensions()">
       Your browser does not support the <code>audio</code> element.
     </audio>
-    <div class="p-4 d-flex justify-content-between">
-      <div class="text-small">{{mediaItem().type}}  ({{getSizeMeg(mediaItem().size)}})</div>
-      <div @click="deleteMediaItem()" class="text-small text-danger"><b-icon icon="trash"/></div>
-    </div>
- </div>
-  <div v-else-if="ispdf(mediaItem())">
-    <img v-on="$listeners" :src="missing" :alt="mediaItem().name" :title="mediaItem().name" :style="dimensions()">
-    <div @click="deleteMediaItem()" class="text-small text-info">{{mediaItem().type}}  ({{getSizeMeg(mediaItem().size)}})</div>
   </div>
-  <div v-else-if="isImage(mediaItem())">
-    <img v-on="$listeners" :src="mediaItem().fileUrl" :alt="mediaItem().name" :style="dimensions()">
-    <div class="p-4 d-flex justify-content-between" v-if="videoOptions.showMeta">
-      <div class="text-small">{{mediaItem().type}}  ({{getSizeMeg(mediaItem().size)}})</div>
-      <div><a href="#" @click.prevent="deleteMediaItem()" v-if="(mediaItem().id === 'artworkClip' || mediaItem().id === 'coverImage')" class="text-small text-danger"><b-icon icon="trash"/></a></div>
+  <div v-else-if="contentType === 'document'">
+    <img v-on="$listeners" :src="nftMedia.coverImage.fileUrl" @error="setAltImg" :alt="nftMedia.artworkFile.name" :style="dimensions()">
+  </div>
+  <div v-else-if="contentType === 'image'">
+    <img v-on="$listeners" :src="nftMedia.coverImage.fileUrl" @error="setAltImg" :alt="nftMedia.artworkFile.name" :style="dimensions()">
+  </div>
+  <div v-if="videoOptions.showMeta" :style="videoOptions.dimensions" style="font-size: 1.2rem;">
+    <div class="p-2 d-flex justify-content-start">
+      <div class="mr-3 text-small">NFT File:</div>
+      <div>{{nftMedia.artworkFile.name}}</div>
+    </div>
+    <div class="p-2 d-flex justify-content-between">
+      <div>{{contentType}}  ({{getNFTSizeMeg()}})</div>
+      <div><a v-b-tooltip.hover="{ variant: 'light' }" :title="'The NFT file requires a cover image to display in the Risidio marketplace'" href="#" class="text-small text-primary"><b-icon icon="question-circle"/></a></div>
+    </div>
+    <div class="p-2 d-flex justify-content-start" v-if="nftMedia.coverImage">
+      <div class="text-small">Cover File:</div>
+      <div>{{nftMedia.coverImage.name}}</div>
+    </div>
+    <div class="p-2 d-flex justify-content-between" v-if="nftMedia.coverImage">
+      <div>{{nftMedia.coverImage.type || 'image'}}  ({{getCoverImageSizeMeg()}})</div>
+      <div v-if="deleteAllowed()"><a v-b-tooltip.hover="{ variant: 'light' }" :title="'Replace the cover image?'" href="#" @click.prevent="deleteCoverImage()" class="text-small text-danger"><b-icon icon="trash"/></a></div>
     </div>
   </div>
 </div>
-<!--/droppable area 1 -->
 </template>
 
 <script>
@@ -50,14 +47,30 @@ export default {
   name: 'MediaItem',
   components: {
     VideoJsPlayer
-    // BFormFile
   },
   props: ['videoOptions', 'targetItem', 'nftMedia', 'dims'],
   data () {
     return {
       mediaObjects: [],
       waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format',
-      missing: '/img/pdf-holding.png'
+      missing: '/img/logo.png',
+      contentType: null
+    }
+  },
+  mounted () {
+    if (this.nftMedia && this.nftMedia.artworkFile) {
+      const aft = this.nftMedia.artworkFile.type
+      if (aft.indexOf('pdf') > -1 || aft.indexOf('plain') > -1) {
+        this.contentType = 'document'
+      } else if (aft.indexOf('video') > -1 || aft.indexOf('mp3') > -1) {
+        this.contentType = 'video'
+      } else if (aft.indexOf('audio') > -1 || aft.indexOf('mp3') > -1) {
+        this.contentType = 'audio'
+      } else if (aft.indexOf('threed') > -1 || aft.indexOf('gltf') > -1 || aft.indexOf('glb') > -1) {
+        this.contentType = 'threed'
+      } else {
+        this.contentType = 'image'
+      }
     }
   },
   computed: {
@@ -67,8 +80,11 @@ export default {
     }
   },
   methods: {
-    mediaItem: function () {
-      return this.nftMedia[this.targetItem]
+    setAltImg: function (event) {
+      event.target.src = this.waitingImage
+    },
+    deleteAllowed: function () {
+      return this.nftMedia.artworkFile.fileUrl !== this.nftMedia.coverImage.fileUrl
     },
     dimensions: function () {
       if (this.dims) {
@@ -77,76 +93,18 @@ export default {
       }
       return 'width: 100%; height: auto'
     },
-    fileSizeM: function (fsize) {
-      return fsize / 1000000
-    },
-    getSizeMeg (size) {
-      const ksize = size / 1000000
+    getNFTSizeMeg () {
+      if (!this.nftMedia.artworkFile) return 0
+      const ksize = this.nftMedia.artworkFile.size / 1000000
       return Math.round(ksize * 100) / 100 + ' Mb'
     },
-    deleteMediaItem: function () {
-      this.$emit('deleteMediaItem', this.nftMedia[this.targetItem].id)
+    getCoverImageSizeMeg () {
+      if (!this.nftMedia.coverImage) return 0
+      const ksize = this.nftMedia.coverImage.size / 1000000
+      return Math.round(ksize * 100) / 100 + ' Mb'
     },
-    ispdf (file) {
-      try {
-        return file.type.indexOf('pdf') > -1
-      } catch (err) {
-        return false
-      }
-    },
-    isThreed (file) {
-      try {
-        return !file.type === 'threed' || file.type.length === 0 || file.type === 'threed' || file.type.indexOf('gltf') > -1 || file.type.indexOf('glb') > -1
-      } catch (err) {
-        return false
-      }
-    },
-    isPlain (file) {
-      try {
-        const plain = file.type.indexOf('plain') > -1 || file.type.length === 0
-        return plain
-      } catch (err) {
-        return false
-      }
-    },
-    isImage (file) {
-      try {
-        const image = file.type.indexOf('img') > -1 ||
-              file.type.indexOf('image') > -1 ||
-              file.type.indexOf('png') > -1 ||
-              file.type.indexOf('jpeg') > -1 ||
-              file.type.indexOf('jpg') > -1 ||
-              file.type.indexOf('gif') > -1
-        return image
-      } catch (err) {
-        return false
-      }
-    },
-    isVideo (file) {
-      try {
-        const video = file.type.indexOf('video') > -1
-        return video
-      } catch (err) {
-        return false
-      }
-    },
-    isAudio (file) {
-      try {
-        const audio = file.type.indexOf('audio/mpeg') > -1 ||
-              file.type.indexOf('wav') > -1
-        return audio
-      } catch (err) {
-        return false
-      }
-    },
-    isMusic (file) {
-      try {
-        const music = file.type.indexOf('mp3') > -1 ||
-              file.type.indexOf('wma')
-        return music
-      } catch (err) {
-        return false
-      }
+    deleteCoverImage: function () {
+      this.$emit('deleteMediaItem', this.nftMedia.coverImage.id)
     }
   }
 }

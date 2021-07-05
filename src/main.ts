@@ -25,7 +25,7 @@ Vue.use(browserDetect)
 Vue.use(VueScrollTo)
 Vue.use(VueSocialSharing)
 Vue.use(IconsPlugin)
-Vue.use(Notifications, { closeOnClick: true, duration: 6000 })
+Vue.use(Notifications, { closeOnClick: true, duration: 10000 })
 Vue.use(PrismicVue, {
   endpoint: 'https://digirad.prismic.io/api/v2',
   linkResolver,

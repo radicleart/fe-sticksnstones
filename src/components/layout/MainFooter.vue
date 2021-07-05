@@ -121,7 +121,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 /* FOOTER STYLE */
 footer {
   /*height: 440px;*/

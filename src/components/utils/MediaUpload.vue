@@ -1,29 +1,28 @@
 <template>
 <div class="">
   <div @drop.prevent="loadMediaObjects" @dragover.prevent class="p-4 drop-zone d-flex flex-column align-items-center">
-      <div class="mt-4 mb-5" v-html="contentModel.title"></div>
-      <div class="mx-5 px-5 " style="border: 1pt dashed #ccc;">
-        <div class="mt-5" v-html="contentModel.message"></div>
-        <div v-if="contentModel.iconName" class="mt-5"><b-icon scale="3" :icon="contentModel.iconName"/></div>
-        <div>
-          <input style="width: 80%;" class="input-file" type="file" :ref="getUploadId()" @change.prevent="loadMediaObjects"/>
-        </div>
-        <div class="mx-auto" style="position:relative; top: 20px;">
-          <b-button variant="dark" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
-        </div>
+    <div class="mt-4 mb-5" v-html="contentModel.title"></div>
+    <div class="mx-5 px-5 " style="border: 1pt dashed #000;">
+      <div class="mt-5" v-html="contentModel.message"></div>
+      <div v-if="contentModel.iconName" class="mt-5"><b-icon class="text-warning" scale="3" :icon="contentModel.iconName"/></div>
+      <div>
+        <input style="width: 80%;" class="input-file" type="file" :ref="getUploadId()" @change="loadMediaObjects"/>
       </div>
-      <div class="mt-5 pt-5">for big files (> 20M) paste a link to a file we can download e.g. see <a href="https://ipfs.io/" target="_blanK">IPFS</a> or <a href="https://cloudinary.com/" target="_blanK">Cloudinary</a></div>
-      <div class="mt-5 text-left mt-4 mb-3" style="font-size: 1.2rem; width: 100%;">
-        <label for="item-name">enter url</label>
-        <b-form-input
-          id="item-name"
-          v-model="directUrl"
-          @keyup="startDownload()"
-          aria-describedby="item-name-help item-name-feedback"
-          placeholder="Enter URL"
-          trim
-        ></b-form-input>
+      <div class="mx-auto" style="position:relative; top: 20px;">
+        <b-button variant="light" v-html="contentModel.buttonName" @click="chooseFiles()"></b-button>
       </div>
+    </div>
+    <div class="mt-5 pt-5 text-small">for files > 20M paste a link! <br/>Need hosting? E.g. see <a href="https://docs.stacks.co/build-apps/references/gaia" target="_blank">Gaia</a>, <a href="https://ipfs.io/" target="_blanK">IPFS</a> or <a href="https://cloudinary.com/" target="_blanK">Cloudinary</a></div>
+    <div class="mt-3 text-left mt-4 mb-3" style="font-size: 1.2rem; width: 80%;">
+      <b-form-input
+        id="item-name"
+        v-model="directUrl"
+        @keyup="startDownload()"
+        aria-describedby="item-name-help item-name-feedback"
+        placeholder="Paste link"
+        trim
+      ></b-form-input>
+    </div>
     <div class="invalid-feedback d-block" v-if="showError">
       {{contentModel.errorMessage}}
     </div>
@@ -233,11 +232,52 @@ export default {
     getFileType (fileObject) {
       let type = fileObject.type
       if (!fileObject.type || fileObject.type.length === 0) {
-        if (fileObject.name) {
-          type = utils.getFileExtension(fileObject.name)
-        }
-        if (type.indexOf('gltf') > -1 || type.indexOf('glb') > -1 || type.indexOf('obj') > -1) {
-          type = 'threed'
+        if (fileObject.fileUrl) {
+          const exten = utils.getFileExtension(fileObject.fileUrl)
+          if (exten === 'jpg' ||
+              exten === 'jpeg' ||
+              exten === 'png' ||
+              exten === 'tiff' ||
+              exten === 'gif') {
+            type = 'image/' + exten
+          } else if (exten === '3ga' ||
+              exten === 'mp3' ||
+              exten === 'wav' ||
+              exten === 'bwf' ||
+              exten === 'gif') {
+            type = 'audio/' + exten
+          } else if (exten === 'mp4' ||
+              exten === 'mov' ||
+              exten === 'wmv' ||
+              exten === 'avi' ||
+              exten === 'avchd') {
+            type = 'video/' + exten
+          } else if (exten === 'glb' ||
+              exten === 'obj' ||
+              exten === 'gltf' ||
+              exten === 'glb' ||
+              exten === 'stl') {
+            type = 'threed/' + exten
+          } else if (exten === 'pdf' ||
+              exten === 'doc' ||
+              exten === 'docx' ||
+              exten === 'xls' ||
+              exten === 'ppt' ||
+              exten === 'pptx' ||
+              exten === 'txt' ||
+              exten === 'rtf' ||
+              exten === 'odt' ||
+              exten === 'html' ||
+              exten === 'htm') {
+            type = 'document/' + exten
+          } else if (exten === 'pdf' ||
+              exten === 'js' ||
+              exten === 'java' ||
+              exten === 'clar' ||
+              exten === 'c' ||
+              exten === 'net') {
+            type = 'code/' + exten
+          }
         }
       }
       return type
@@ -256,7 +296,12 @@ export default {
       if (type.indexOf('/') > -1) {
         compareTo = type.split('/')[0]
       }
-      const forbidden = this.mediaTypes.indexOf(compareTo) === -1
+      let forbidden = false
+      if (compareTo !== 'application') {
+        forbidden = this.mediaTypes.indexOf(compareTo) === -1
+      } else {
+        forbidden = this.mediaTypes.indexOf(type.split('/')[1]) === -1
+      }
       if (forbidden) {
         this.$emit('updateMedia', { errorMessage: 'Files of type ' + type + ' are not allowed here.' })
         this.internalError = 'Files of type ' + type + ' are not allowed here.'
@@ -304,14 +349,15 @@ export default {
             $self.result = error
           })
           return
-        } else {
-          return
         }
       }
+      if (!e) return
       if (e.dataTransfer) {
         userFiles = e.dataTransfer.files
-      } else {
+      } else if (e.target) {
         userFiles = e.target.files
+      } else {
+        return
       }
       let fileObject = null
       for (let i = 0; i < userFiles.length; i++) {

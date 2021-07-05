@@ -7,7 +7,6 @@
     <b-row style="min-height: 40vh" >
       <b-col md="4" sm="12" align-self="start" class="text-center">
         <div  class="bg-white" style="width:100%;">
-          <p class="p-3">Artwork File</p>
           <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'artworkFile'"/>
         </div>
       </b-col>

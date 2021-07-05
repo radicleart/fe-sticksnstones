@@ -234,13 +234,13 @@ const myItemStore = {
         })
       })
     },
-    saveItem ({ state, rootGetters, commit }: any, item: any) {
+    saveItem ({ state, rootGetters, commit, dispatch }: any, item: any) {
       return new Promise((resolve, reject) => {
-        const profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
+        let profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
         item.uploader = profile.username
         if (!item.owner) item.owner = profile.username
         // the item can be saved once there is an asset hash - all other fields can be added later..
-        // e.g. || !item.nftMedia.musicFileUrl || !item.nftMedia.coverImage || !item.nftMedia.musicFile
+        // e.g. || !item.nftMedia.artworkFile || !item.nftMedia.coverImage || !item.nftMedia.artworkFile
         if (!profile.loggedIn || !item.assetHash) {
           reject(new Error('Unable to save your data...'))
           return
@@ -267,7 +267,15 @@ const myItemStore = {
         if (item.nftMedia.coverImage && item.nftMedia.coverImage.dataUrl) item.nftMedia.coverImage.dataUrl = null
         item.updated = moment({}).valueOf()
         if (!item.metaDataUrl && !profile.gaiaHubConfig) {
-          throw new Error('profile needs to refresh - please reload current page..')
+          dispatch('rpayAuthStore/fetchMyAccount', { root: true }).then((profile) => {
+            profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
+            console.log('gaiaHubConfig', profile.gaiaHubConfig)
+          })
+          setTimeout(function () {
+            profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
+            console.log('gaiaHubConfig', profile.gaiaHubConfig)
+          }, 400)
+          // throw new Error('profile needs to refresh - please reload current page..')
         }
         item.metaDataUrl = profile.gaiaHubConfig.url_prefix + profile.gaiaHubConfig.address + '/' + item.assetHash + '.json'
         myItemService.saveAsset(item).then((item) => {

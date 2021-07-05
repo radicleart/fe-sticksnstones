@@ -1,4 +1,23 @@
 <template>
+<div>
+  <div class="py-4 bg-light text-small" :style="bannerImage">
+  </div>
+  <div class="bg-light text-small d-flex justify-content-end">
+    <b-dropdown variant="white" class="bg-none m-0 p-0" no-caret>
+      <template #button-content>
+        <b-icon icon="three-dots"/>
+      </template>
+      <b-dropdown-item><b-link :to="'/item-preview/' + item.assetHash"><span class="mb-0">open item</span></b-link></b-dropdown-item>
+      <b-dropdown-item><b-link :to="'/edit-item/' + item.assetHash"><span class="mb-0">edit item</span></b-link></b-dropdown-item>
+      <b-dropdown-item v-if="!contractAsset"><a href="#" @click.prevent="deleteItem" class="text-danger"><span class="mb-0">delete item</span></a></b-dropdown-item>
+    </b-dropdown>
+  </div>
+  <div class="text-center py-4 bg-light text-small">
+    <div class=""><h2 class="h2-modal"><b-link router-tag="a" :to="assetUrl">{{item.name}}</b-link></h2></div>
+    <div>by <span class="text-success">{{item.artist}}</span></div>
+  </div>
+</div>
+<!--
 <div v-if="item && item.nftMedia" class="mt-1">
   <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="targetItem()"/>
   <div class="">
@@ -16,21 +35,23 @@
       </div>
   </div>
 </div>
+-->
 </template>
 
 <script>
 import utils from '@/services/utils'
 import { APP_CONSTANTS } from '@/app-constants'
-import MediaItem from '@/components/utils/MediaItem'
+// import MediaItem from '@/components/utils/MediaItem'
 
 export default {
   name: 'SingleItem',
   components: {
-    MediaItem
+    // MediaItem
   },
   props: ['item'],
   data () {
     return {
+      waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format',
       dims: { width: 360, height: 360 },
       likeIconTurquoise: require('@/assets/img/Favorite_button_turquoise_empty.png'),
       likeIconPurple: require('@/assets/img/Favorite_button_purple_empty.png')
@@ -95,11 +116,21 @@ export default {
       return videoOptions
     },
     bannerImage () {
-      let imageUrl = this.item.nftMedia.imageUrl
-      if (!imageUrl) {
-        imageUrl = this.waitingImage
+      let imageUrl = this.waitingImage
+      if (this.item.nftMedia.coverImage) {
+        imageUrl = this.item.nftMedia.coverImage.fileUrl
       }
-      return this.$store.getters[APP_CONSTANTS.KEY_WAITING_IMAGE](imageUrl)
+      return {
+        height: '250px',
+        width: '100%',
+        'background-repeat': 'no-repeat',
+        'background-image': `url(${imageUrl})`,
+        'background-position': 'center center',
+        '-webkit-background-size': 'cover',
+        '-moz-background-size': 'cover',
+        '-o-background-size': 'cover',
+        'background-size': 'cover'
+      }
     },
     assetUrl () {
       if (this.item.assetHash) {

@@ -139,7 +139,7 @@ export default {
           $self.mintResult = txResult
           // $self.$bvModal.show('result-modal')
         } else if (data.opcode === 'stx-update-mint-data') {
-          // $self.$bvModal.hide('minting-modal')
+          if (data.gaiaAsset) $self.$store.dispatch('myItemStore/saveItem', data.gaiaAsset)
         } else if (data.opcode === 'stx-save-and-close-mint-data') {
           // $self.$bvModal.hide('minting-modal')
         } else if (data.opcode === 'stx-transaction-sent') {
@@ -242,7 +242,7 @@ export default {
 }
 #minting-modal .modal-content {
   border: none !important;
-  background-color: #fff !important;
+  background-color: transparent !important;
 }
 #minting-tools  .nav-link.active {
   color: #000;

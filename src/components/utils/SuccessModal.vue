@@ -1,7 +1,7 @@
 <template>
 <b-modal size="lg" id="success-modal">
   <b-container>
-    <b-row>
+    <b-row class="py-5">
       <b-col cols="8">
         <div v-html="modalMessage"></div>
       </b-col>
@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       cross: require('@/assets/img/navbar-footer/cross.svg'),
-      logoRainbow: require('@/assets/img/logo-rainbow.svg')
+      logoRainbow: require('@/assets/img/logo.png')
     }
   },
   methods: {

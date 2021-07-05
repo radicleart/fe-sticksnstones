@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="mb-3" role="group">
-    <label for="item-name">Name of Artwork</label>
+    <label for="item-name">Title :</label>
     <b-form-input
       id="item-name"
       v-model="item.name"
@@ -13,10 +13,9 @@
     <b-form-invalid-feedback id="item-name-feedback">
       Enter at least 3 letters
     </b-form-invalid-feedback>
-    <b-form-text id="item-name-help">A name is needed to upload this item</b-form-text>
   </div>
   <div class="mb-3" role="group">
-    <label for="item-name">Name of Artist</label>
+    <label for="item-name">Artist / Maker / Creator</label>
     <b-form-input
       id="artist-name"
       v-model="item.artist"
@@ -28,7 +27,6 @@
     <b-form-invalid-feedback id="item-artist-feedback">
       Enter the name of the artist
     </b-form-invalid-feedback>
-    <b-form-text id="item-name-help">The artists name is needed to upload this item</b-form-text>
   </div>
   <!--
   <div class="text-right mb-4">
@@ -40,7 +38,7 @@
   -->
 
   <div class="mb-4" role="group">
-    <label for="item-name">Enter a short description - good for search results!</label>
+    <label for="item-name">Description :</label>
     <b-form-textarea
       ref="description"
       v-model="item.description"
@@ -50,8 +48,8 @@
   </div>
 
   <div class="mb-3" role="group">
-    <label for="item-keywords">Select or Enter Keywords</label>
-    <div class="mb-3"><b-badge @click="addKeyword(kw)" class="mx-2" v-for="(kw, index) in systemKeywords" :key="index" pill variant="danger">{{kw}}</b-badge></div>
+    <label for="item-keywords">Keywords :</label>
+    <div class="mb-3"><b-badge @click="addKeyword(kw)" class="pointer mr-2 px-4 py-1" v-for="(kw, index) in systemKeywords" :key="index" pill variant="secondary">{{kw}}</b-badge></div>
     <b-form-input
       id="item-keywords"
       v-model="displayKeywords"
@@ -64,7 +62,6 @@
     <b-form-invalid-feedback id="item-keywords-feedback">
       Keywords maybe be required
     </b-form-invalid-feedback>
-    <b-form-text id="item-keywords-help">The keywords needed to identify this music</b-form-text>
   </div>
 </div>
 </template>

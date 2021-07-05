@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="mb-3" role="group text-right w-100">
-    <label>Number of editions</label>
+    <label for="item-editions">Editions</label>
     <b-form-input
       id="item-editions"
       type="number"
@@ -12,9 +12,23 @@
       trim
     ></b-form-input>
     <b-form-invalid-feedback id="item-editions-feedback">
-      Editions maybe be required
+      How many editions of this NFT do you want to allow? At least 1 - at most 100
     </b-form-invalid-feedback>
-    <b-form-text id="item-keywords-help">Any number of editions to be created - must be at least 1?</b-form-text>
+  </div>
+  <div class="mb-3" role="group text-right w-100">
+    <label for="item-edition-cost">Cost per edition (STX)</label>
+    <b-form-input
+      id="item-edition-cost"
+      type="number"
+      v-model="item.editionCost"
+      :state="itemEditionCostState"
+      aria-describedby="item-edition-cost-help item-edition-cost-feedback"
+      placeholder="Enter editions"
+      trim
+    ></b-form-input>
+    <b-form-invalid-feedback id="item-editions-feedback">
+      How much STX tokens each subsequent edition costs
+    </b-form-invalid-feedback>
   </div>
 </div>
 </template>
@@ -32,7 +46,11 @@ export default {
   computed: {
     itemEditionsState () {
       if (!this.formSubmitted && !this.item.editions) return null
-      return (this.item.editions > 0)
+      return (this.item.editions > 0 && this.item.editions < 101)
+    },
+    itemEditionCostState () {
+      if (!this.formSubmitted && !this.item.editionCost) return null
+      return (this.item.editionCost < 0)
     }
   }
 }

@@ -7,7 +7,7 @@
     <router-view name="header" style="height: 128px; z-index: 10;"/>
     <router-view class="my-5" style="min-height: 100vh;" />
     <router-view name="footer"/>
-    <notifications :duration="10000" classes="r-notifs" position="bottom right" width="30%"/>
+    <notifications :duration="10000" classes="r-notifs" position="bottom left" width="60%"/>
     <waiting-modal/>
     <success-modal />
   </div>

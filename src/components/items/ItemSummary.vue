@@ -8,7 +8,7 @@
         <div class="mb-4">
           <h6><b-icon icon="film"/> Main NFT File</h6>
           <b-icon  v-if="itemSummary.loadingState === 1" icon="cylon-vertical"/>
-          <a class="text-success" href="#" @click.prevent="showHash = !showHash"> {{ itemSummary.item.nftMedia.musicFile.name }}</a>
+          <a class="text-success" href="#" @click.prevent="showHash = !showHash"> {{ itemSummary.item.nftMedia.artworkFile.name }}</a>
           <div v-if="showHash">{{ itemSummary.item.assetHash }}</div>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default {
     },
     hasFile: function (type) {
       if (type === 'music') {
-        return (this.itemSummary.item.nftMedia.musicFile) ? this.itemSummary.item.nftMedia.musicFile.name : null
+        return (this.itemSummary.item.nftMedia.artworkFile) ? this.itemSummary.item.nftMedia.artworkFile.name : null
       }
       return (this.itemSummary.item.nftMedia.coverImage) ? this.itemSummary.item.nftMedia.coverImage.name : null
     }

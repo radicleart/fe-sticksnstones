@@ -7,23 +7,29 @@
       <b-button class="ml-3" :variant="(filter === 'purchased') ? 'info' : 'light'" @click="updateFilter('purchased')">Purchased</b-button>
       <b-button class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-button>
     </div>
-    <div :key="componentKey" class="row mb-4" v-if="filteredItems && filteredItems.length > 0">
-      <div v-for="(item, index) in filteredItems" :key="index" class="mt-5 col-md-4 col-sm-4 col-6">
-        <single-item class="mb-2" :item="item"/>
-      </div>
-    </div>
+    <b-row :key="componentKey" class="mb-4" v-if="filteredItems && filteredItems.length > 0">
+      <b-col md="3" sm="4" xs="6" v-for="(item, index) in filteredItems" :key="index" class="mt-5">
+        <SingleItem class="mb-2" :item="item"/>
+      </b-col>
+    </b-row>
   </div>
+</div>
+<div v-else class="center text-center">
+  <LoopbombSpinner />
+  <div>Makig Daisy Chains...</div>
 </div>
 </template>
 
 <script>
 import SingleItem from '@/components/items/SingleItem'
 import { APP_CONSTANTS } from '@/app-constants'
+import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
   name: 'MyItems',
   components: {
-    SingleItem
+    SingleItem,
+    LoopbombSpinner
   },
   data () {
     return {

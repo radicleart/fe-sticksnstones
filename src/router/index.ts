@@ -39,7 +39,7 @@ const routes: Array<RouteConfig> = [
     components: { default: UpdateItem, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: true,
-      requiresAdmin: true
+      requiresAdmin: false
     }
   },
   {
@@ -48,7 +48,7 @@ const routes: Array<RouteConfig> = [
     components: { default: ItemPreview, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: true,
-      requiresAdmin: true,
+      requiresAdmin: false,
       title: 'Item preview'
     }
   },
@@ -58,7 +58,7 @@ const routes: Array<RouteConfig> = [
     components: { default: MyItems, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: true,
-      requiresAdmin: true
+      requiresAdmin: false
     }
   },
   {
@@ -67,7 +67,7 @@ const routes: Array<RouteConfig> = [
     components: { default: MyItems, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: true,
-      requiresAdmin: true
+      requiresAdmin: false
     }
   },
   {
@@ -76,7 +76,7 @@ const routes: Array<RouteConfig> = [
     components: { default: UploadItem, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: true,
-      requiresAdmin: true
+      requiresAdmin: false
     }
   }
 ]
@@ -115,7 +115,7 @@ router.beforeEach((to, from, next) => {
           }
         } else {
           return next({
-            path: '/login',
+            path: '/',
             query: { redirect: to.fullPath }
           })
         }

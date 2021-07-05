@@ -5,12 +5,13 @@
       <b-col cols="12" v-if="getBalance > 0">
         <p>You have {{getBalance}} STX tokens in this account - more than enough to pay the
           mint fees!</p>
-        <p><b-link to="/create">Start Minting NFTs</b-link></p>
+        <p><b-button variant="outline-success" to="/create">Upload and Mint Your NFTs</b-button></p>
       </b-col>
       <b-col cols="12" v-else>
-        <p>To mint a new NFT you will need a tiny amount of STX tokens in order to pay the
-        decentralised gas fees.</p>
-        <p><a :href="getStacksMateUrl">Get some STX</a></p>
+        <p>Minting NFT's requires a tiny amount of STX - get some now?</p>
+        <p><b-button variant="outline-warning" @click="gotoStacksMateUrl">Get some STX</b-button></p>
+        <p class="mt-5">Get STX later - uploading files is completely free</p>
+        <p><b-button variant="outline-success" to="/create">Upload Files</b-button></p>
       </b-col>
     </b-row>
     <b-row style="min-height: 30vh" class="text-center" v-else-if="webWalletNeeded">
@@ -46,6 +47,9 @@ export default {
     }
   },
   methods: {
+    gotoStacksMateUrl: function () {
+      location.href = this.getStacksMateUrl
+    }
   },
   computed: {
     getBalance () {
