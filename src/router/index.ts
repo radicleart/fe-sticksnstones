@@ -12,6 +12,7 @@ import Home from '../views/Home.vue'
 const MyItems = () => import('../views/MyItems.vue')
 const UploadItem = () => import('../views/UploadItem.vue')
 const UpdateItem = () => import('../views/UpdateItem.vue')
+const ItemDisplay = () => import('../views/ItemDisplay.vue')
 const ItemPreview = () => import('../views/ItemPreview.vue')
 
 Vue.use(VueRouter)
@@ -50,6 +51,26 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
       requiresAdmin: false,
       title: 'Item preview'
+    }
+  },
+  {
+    path: '/assets/:assetHash',
+    name: 'assets',
+    components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: false,
+      requiresAdmin: false,
+      title: 'Item Display'
+    }
+  },
+  {
+    path: '/mesh/v2/asset/:nftIndex',
+    name: 'assets',
+    components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: false,
+      requiresAdmin: false,
+      title: 'Item Display'
     }
   },
   {

@@ -232,52 +232,55 @@ export default {
     getFileType (fileObject) {
       let type = fileObject.type
       if (!fileObject.type || fileObject.type.length === 0) {
+        let exten = ''
         if (fileObject.fileUrl) {
-          const exten = utils.getFileExtension(fileObject.fileUrl)
-          if (exten === 'jpg' ||
-              exten === 'jpeg' ||
-              exten === 'png' ||
-              exten === 'tiff' ||
-              exten === 'gif') {
-            type = 'image/' + exten
-          } else if (exten === '3ga' ||
-              exten === 'mp3' ||
-              exten === 'wav' ||
-              exten === 'bwf' ||
-              exten === 'gif') {
-            type = 'audio/' + exten
-          } else if (exten === 'mp4' ||
-              exten === 'mov' ||
-              exten === 'wmv' ||
-              exten === 'avi' ||
-              exten === 'avchd') {
-            type = 'video/' + exten
-          } else if (exten === 'glb' ||
-              exten === 'obj' ||
-              exten === 'gltf' ||
-              exten === 'glb' ||
-              exten === 'stl') {
-            type = 'threed/' + exten
-          } else if (exten === 'pdf' ||
-              exten === 'doc' ||
-              exten === 'docx' ||
-              exten === 'xls' ||
-              exten === 'ppt' ||
-              exten === 'pptx' ||
-              exten === 'txt' ||
-              exten === 'rtf' ||
-              exten === 'odt' ||
-              exten === 'html' ||
-              exten === 'htm') {
-            type = 'document/' + exten
-          } else if (exten === 'pdf' ||
-              exten === 'js' ||
-              exten === 'java' ||
-              exten === 'clar' ||
-              exten === 'c' ||
-              exten === 'net') {
-            type = 'code/' + exten
-          }
+          exten = utils.getFileExtension(fileObject.fileUrl)
+        } else if (fileObject.name) {
+          exten = utils.getFileExtension(fileObject.name)
+        }
+        if (exten === 'jpg' ||
+            exten === 'jpeg' ||
+            exten === 'png' ||
+            exten === 'tiff' ||
+            exten === 'gif') {
+          type = 'image/' + exten
+        } else if (exten === '3ga' ||
+            exten === 'mp3' ||
+            exten === 'wav' ||
+            exten === 'bwf' ||
+            exten === 'gif') {
+          type = 'audio/' + exten
+        } else if (exten === 'mp4' ||
+            exten === 'mov' ||
+            exten === 'wmv' ||
+            exten === 'avi' ||
+            exten === 'avchd') {
+          type = 'video/' + exten
+        } else if (exten === 'glb' ||
+            exten === 'obj' ||
+            exten === 'gltf' ||
+            exten === 'glb' ||
+            exten === 'stl') {
+          type = 'threed/' + exten
+        } else if (exten === 'pdf' ||
+            exten === 'doc' ||
+            exten === 'docx' ||
+            exten === 'xls' ||
+            exten === 'ppt' ||
+            exten === 'pptx' ||
+            exten === 'txt' ||
+            exten === 'rtf' ||
+            exten === 'odt' ||
+            exten === 'html' ||
+            exten === 'htm') {
+          type = 'document/' + exten
+        } else if (exten === 'pdf' ||
+            exten === 'js' ||
+            exten === 'java' ||
+            exten === 'clar' ||
+            exten === 'c' ||
+            exten === 'net') {
+          type = 'code/' + exten
         }
       }
       return type

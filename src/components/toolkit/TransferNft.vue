@@ -1,6 +1,9 @@
 <template>
-<div  class="mt-3">
+<div  class="mt-5">
   <div class="">
+    <div class="row mb-4">
+      <div class="col-12">Transfer this NFT to another address</div>
+    </div>
     <div class="row mb-4" v-if="trackingUrl">
       <div class="col-12">Transferring - <a :href="trackingUrl" target="_blank">track progress here...</a></div>
     </div>

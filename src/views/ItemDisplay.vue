@@ -14,16 +14,11 @@
         <div>
           <div class="mb-2 d-flex justify-content-between">
             <h2 class="d-block border-bottom mb-5">{{item.name}}</h2>
-            <div class="">
-              <div class="p-0 m-0 d-flex justify-content-end">
-                <ItemActionMenu @performAction="performAction" :assetHash="item.assetHash" :variant="'white'" />
-              </div>
-            </div>
           </div>
           <h6 class="text-small">By : {{item.artist}}</h6>
         </div>
         <p class="pt-4 text-small" v-html="preserveWhiteSpace(item.description)"></p>
-        <minting-tools class="w-100" :assetHash="item.assetHash" />
+        <h6 class="text-small"><a :href="marketplaceLink()" target="_blank">View on the Xchange</a></h6>
       </b-col>
     </b-row>
   </b-container>
@@ -31,17 +26,13 @@
 </template>
 
 <script>
-import MintingTools from '@/components/toolkit/MintingTools'
 import MediaItem from '@/components/utils/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
-import ItemActionMenu from '@/components/items/ItemActionMenu'
 
 export default {
-  name: 'ItemPreview',
+  name: 'ItemDisplay',
   components: {
-    MintingTools,
-    MediaItem,
-    ItemActionMenu
+    MediaItem
   },
   data: function () {
     return {
@@ -53,16 +44,32 @@ export default {
   },
   mounted () {
     this.loading = false
-    this.assetHash = this.$route.params.assetHash
-    this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
-      if (!item) {
-        this.$router.push('/my-items')
+    if (this.$route.name === 'nft-preview') {
+      this.nftIndex = Number(this.$route.params.nftIndex)
+      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_NFT_INDEX](this.nftIndex)
+      if (contractAsset) {
+        this.assetHash = contractAsset.tokenInfo.assetHash
+      } else {
+        this.$store.dispatch('rpayStacksContractStore/getAssetByNftIndex', this.nftIndex).then((contractAsset) => {
+          if (contractAsset) {
+            this.assetHash = contractAsset.tokenInfo.assetHash
+          } else {
+            this.$router.push('/')
+          }
+        })
       }
-    })
+    } else {
+      this.assetHash = this.$route.params.assetHash
+      this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
+        if (!item) {
+          this.$router.push('/my-items')
+        }
+      })
+    }
   },
   methods: {
-    performAction: function (data) {
-      console.log(data)
+    marketplaceLink: function () {
+      return process.env.VUE_APP_MARKETPLACE_URL + '/assets/' + this.assetHash
     },
     preserveWhiteSpace: function (content) {
       return '<span class="text-description" style="white-space: break-spaces;">' + content + '</span>'
@@ -83,7 +90,7 @@ export default {
         autoplay: false,
         muted: false,
         controls: true,
-        showMeta: true,
+        showMeta: false,
         poster: (item.nftMedia.coverImage) ? item.nftMedia.coverImage.fileUrl : null,
         sources: [
           { src: item.nftMedia.artworkFile.fileUrl, type: item.nftMedia.artworkFile.type }
@@ -103,9 +110,6 @@ export default {
     nftMedia () {
       const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
       return item.nftMedia
-    },
-    keywords () {
-      return this.$store.getters['myItemStore/myItem'](this.assetHash)
     }
   }
 }

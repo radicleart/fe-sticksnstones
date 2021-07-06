@@ -59,7 +59,7 @@ export default {
       const methos = (process.env.VUE_APP_NETWORK === 'local') ? 'callContractRisidio' : 'callContractBlockstack'
       const data = {
         owner: contractAsset.owner,
-        editionCost: this.currentCost + 0.1,
+        editionCost: this.currentCost,
         action: methos,
         nftIndex: contractAsset.nftIndex,
         contractAddress: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,

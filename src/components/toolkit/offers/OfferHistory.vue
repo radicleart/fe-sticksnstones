@@ -9,6 +9,7 @@
     <div class="col-10">{{offerMade(offer.appTimestamp)}}</div>
     <div class="col-2"></div>
   </div>
+  <!--
   <div class="row text-small mb-4" v-for="(dbOffer, index) in dbOffers" :key="index">
     <div class="col-2">Offerer</div>
     <div class="col-10">{{dbOffer.offerer}}</div>
@@ -18,6 +19,7 @@
     <div class="col-10">{{offerMade(dbOffer.appTimestamp)}}</div>
     <div class="col-2"></div>
   </div>
+  -->
 </div>
 </template>
 

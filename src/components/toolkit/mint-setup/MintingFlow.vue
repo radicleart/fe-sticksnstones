@@ -11,6 +11,7 @@
 import { APP_CONSTANTS } from '@/app-constants'
 import RoyaltyScreen from './minting-screens/RoyaltyScreen'
 import AddBeneficiaryScreen from './minting-screens/AddBeneficiaryScreen'
+import utils from '@/services/utils'
 
 export default {
   name: 'MintingFlow',
@@ -53,20 +54,22 @@ export default {
       // the post condition applies to the address the funds are going to not from!!!
       // when minting the funds go to the contract admin.
       // const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
+      const contractAddress = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
       let contractName = process.env.VUE_APP_STACKS_CONTRACT_NAME
       if (process.env.VUE_APP_STACKS_CONTRACT_NAME_NEXT) {
         contractName = process.env.VUE_APP_STACKS_CONTRACT_NAME_NEXT
       }
+      const application = this.$store.getters[APP_CONSTANTS.KEY_APPLICATION_FROM_REGISTRY_BY_CONTRACT_ID](contractAddress + '.' + contractName)
       const data = {
-        mintingFee: 1.1,
+        mintingFee: application.tokenContract.mintPrice,
         owner: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS, // profile.stxAddress,
         assetHash: this.item.assetHash,
         metaDataUrl: this.item.metaDataUrl,
         beneficiaries: this.item.beneficiaries,
         editions: this.item.editions,
-        editionCost: (this.item.editionCost) ? this.item.editionCost : 0,
+        editionCost: utils.toOnChainAmount(this.item.editionCost),
         sendAsSky: true,
-        contractAddress: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,
+        contractAddress: contractAddress,
         contractName: contractName,
         functionName: 'mint-token'
       }

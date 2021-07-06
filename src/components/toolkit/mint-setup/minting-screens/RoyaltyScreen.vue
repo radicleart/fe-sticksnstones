@@ -2,16 +2,16 @@
 <b-card-group deck v-if="item">
   <b-card class="text-center" header-tag="header" footer-tag="footer">
     <!-- <header-screen :allowEdit="false" :item="item"/> -->
-    <item-display class="my-5" :item="item"/>
+    <ItemDisplay class="my-5" :item="item"/>
     <b-button @click="showBeneficiaries = true" class="mb-5" variant="warning">Set Your Royalties</b-button>
     <beneficiaries class="mb-5 text-left" v-if="showBeneficiaries" :beneficiaries="beneficiaries" v-on="$listeners" :item="item"/>
     <div class="my-4 text-danger" v-html="errorMessage"></div>
-    <b-card-text class="mx-4">
+    <template v-slot:footer>
       <div class="d-flex justify-content-between">
         <b-button @click="saveData()" class="w-50 mr-4" variant="outline-light">save mint later</b-button>
         <b-button @click="mintToken()" v-if="allowMint()"  class="w-50 ml-4" variant="outline-dark">mint now</b-button>
       </div>
-    </b-card-text>
+    </template>
   </b-card>
 </b-card-group>
 </template>

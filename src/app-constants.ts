@@ -10,8 +10,6 @@ export const APP_CONSTANTS = {
   KEY_WEB_WALLET_LINK_FIREFOX: 'getWebWalletLinkFirefox',
   KEY_STACKS_MATE_URL: 'getStacksMateUrl',
 
-  KEY_CONTENT_ABOUT: 'contentStore/getAbout',
-
   KEY_MY_ITEMS: 'myItemStore/getMyItems',
   KEY_MY_UNMINTED_ITEMS: 'myItemStore/getMyUnmintedItems',
   KEY_MY_MINTED_ITEMS: 'myItemStore/getMyMintedItems',
@@ -28,6 +26,7 @@ export const APP_CONSTANTS = {
   KEY_FORMATTED_BIDDING_END_TIME: 'rpayPurchaseStore/getFormattedBiddingEndTime',
   KEY_RECIPIENT: 'rpayPurchaseStore/getRecipientAddress',
 
+  KEY_CONTENT_ABOUT: 'contentStore/getAbout',
   KEY_TRANSACTION_DIALOG_MESSAGE: 'contentStore/getTransactionDialogMessage',
   KEY_WAITING_IMAGE: 'contentStore/getWaitingCSS',
   KEY_TOOL_TIP: 'contentStore/getTooltip',
@@ -39,6 +38,8 @@ export const APP_CONSTANTS = {
   KEY_CONTENT_CHARITIES: 'contentStore/getCharities',
   KEY_CONTENT_INFO_PAGE: 'contentStore/getInformationById',
   KEY_BREAK_LINE: 'contentStore/getBreakLine',
+
+  KEY_CATEGORIES: 'rpayCategoryStore/getCategories',
 
   KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
   KEY_PROFILE: 'rpayAuthStore/getMyProfile',
@@ -74,6 +75,7 @@ export const APP_CONSTANTS = {
   KEY_ASSET_TRANSACTIONS: 'rpayStacksContractStore/getAssetTransactions',
   KEY_ASSET_LAST_TRANSACTION: 'rpayStacksContractStore/getAssetLastTransaction',
   KEY_ASSET_TRANSACTION: 'rpayStacksContractStore/getAssetTransaction',
+  KEY_ASSET_FROM_NFT_INDEX: 'rpayStacksContractStore/getContractAssetByNftIndex',
 
   SET_CURRENT_SEARCH: 'rpaySearchStore/setCurrentSearch',
   KEY_CURRENT_SEARCH: 'rpaySearchStore/getCurrentSearch',

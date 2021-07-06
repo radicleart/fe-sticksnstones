@@ -30,7 +30,9 @@ body {
   font-size: 1.4rem;
   font-weight: 600;
 }
-
+p {
+  font-size: 1.3rem;
+}
 a {
   cursor: pointer;
   text-decoration: none;
@@ -46,7 +48,12 @@ label {
 .card {
   border-radius: 25px;
 }
-
+.tab-pane {
+  font-size: 1.3rem;
+  margin: 20px 0px;
+  padding: 20px;
+  box-shadow: 0px 6px 9px #00000029;
+}
 .btn {
   font-size: 1.7rem;
   padding: 7px 30px;
@@ -99,21 +106,49 @@ label {
   font-size: 1.2rem;
 }
 .r-notifs {
-  padding: 5px;
-  margin: 5px;
-  font-size: 1.6rem
+  padding: 5px !important;
+  margin: 5px !important;
+  font-size: 1.6rem !important;
+}
+.success {
+  background: $success;
+  color: #fff !important;
+}
+.error {
+  background: $danger;
+  color: #fff !important;
 }
 .danger {
   background: $danger;
-  color: #fff;
+  color: #fff !important;
 }
 .warning {
   background: $warning;
-  color: #fff;
+  color: #fff !important;
 }
 .center {
   margin: auto;
   width: 70%;
   border: 0px solid green;
   padding: 10px;
+}
+.pointer {
+  cursor: pointer;
+}
+.input-group-append .input-group-text {
+  width: 40px;
+  color: #fff;
+  z-index: 100;
+  box-shadow: 0px 6px 9px #00000029;
+  background: $warning;
+  border: 0pt solid #000;
+}
+.input-group-prepend .input-group-text {
+  width: 80px;
+  color: #fff;
+  z-index: 100;
+  box-shadow: 0px 6px 9px #00000029;
+  background: $warning;
+  font-size: 1.4rem;
+  border: 0pt solid #000;
 }

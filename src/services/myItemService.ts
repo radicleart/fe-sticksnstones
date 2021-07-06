@@ -75,7 +75,7 @@ const myItemService = {
     })
   },
   fetchMyItems: function (profile) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (!profile.loggedIn) {
         resolve(getNewRootFile())
         return
@@ -90,7 +90,11 @@ const myItemService = {
           resolve(rootFile)
         }
       }).catch(() => {
-        reject(new Error('Failed to fetch - logged in?'))
+        const rootFile = getNewRootFile()
+        storage.putFile(ITEM_ROOT_PATH, JSON.stringify(rootFile), { encrypt: false }).then((file: string) => {
+          const rootFile = JSON.parse(file)
+          resolve(rootFile)
+        })
       })
     })
   },

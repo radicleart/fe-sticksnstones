@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="mb-3" role="group text-right w-100">
-    <label for="item-editions">Editions</label>
+    <label for="item-editions">Editions :</label>
     <b-form-input
       id="item-editions"
       type="number"
@@ -16,7 +16,7 @@
     </b-form-invalid-feedback>
   </div>
   <div class="mb-3" role="group text-right w-100">
-    <label for="item-edition-cost">Cost per edition (STX)</label>
+    <label for="item-edition-cost">Cost per edition (STX) :</label>
     <b-form-input
       id="item-edition-cost"
       type="number"
@@ -50,7 +50,7 @@ export default {
     },
     itemEditionCostState () {
       if (!this.formSubmitted && !this.item.editionCost) return null
-      return (this.item.editionCost < 0)
+      return (parseInt(this.item.editionCost) >= 0)
     }
   }
 }

@@ -1,5 +1,11 @@
 <template>
 <div>
+  <div class="text-right">
+    <b-form-checkbox v-model="item.privacy" name="check-button" switch class="text-secondary">
+      <span v-if="item.privacy"><b>Private</b> <b-link router-tag="span" v-b-tooltip.hover="{ variant: 'light' }" :title="'Not displayed in Risidio Xchange Marketplace'" class="ml-2" variant="outline-success"><b-icon icon="question-circle"/></b-link></span>
+      <span v-else><b>Public</b> <b-link router-tag="span" v-b-tooltip.hover="{ variant: 'light' }" :title="'Displayed in Risidio Xchange Marketplace'" class="ml-2" variant="outline-success"><b-icon icon="question-circle"/></b-link></span>
+    </b-form-checkbox>
+  </div>
   <div class="mb-3" role="group">
     <label for="item-name">Title :</label>
     <b-form-input
@@ -28,15 +34,6 @@
       Enter the name of the artist
     </b-form-invalid-feedback>
   </div>
-  <!--
-  <div class="text-right mb-4">
-    <b-form-checkbox class="" id="item-private" size="sm" v-model="item.private" name="check-button" switch>
-      <label for="item-private"><span :class="(!item.private) ? 'text-success' : ''">public</span> / <span :class="(item.private) ? 'text-danger' : ''">private</span></label>
-      <b-icon class="ml-2" v-b-tooltip.hover="{ variant: 'light' }" :title="'Private to encrypt the file'" icon="question-circle"/>
-    </b-form-checkbox>
-  </div>
-  -->
-
   <div class="mb-4" role="group">
     <label for="item-name">Description :</label>
     <b-form-textarea
@@ -46,79 +43,32 @@
       style="padding: 20px 20px;"
       ></b-form-textarea>
   </div>
-
-  <div class="mb-3" role="group">
-    <label for="item-keywords">Keywords :</label>
-    <div class="mb-3"><b-badge @click="addKeyword(kw)" class="pointer mr-2 px-4 py-1" v-for="(kw, index) in systemKeywords" :key="index" pill variant="secondary">{{kw}}</b-badge></div>
-    <b-form-input
-      id="item-keywords"
-      v-model="displayKeywords"
-      :state="itemKeywordsState"
-      @change="changeKeywords"
-      aria-describedby="item-keywords-help item-keywords-feedback"
-      placeholder="Enter keywords"
-      trim
-    ></b-form-input>
-    <b-form-invalid-feedback id="item-keywords-feedback">
-      Keywords maybe be required
-    </b-form-invalid-feedback>
-  </div>
+  <CategoryChoice :item="item" />
 </div>
 </template>
 
 <script>
+import { APP_CONSTANTS } from '@/app-constants'
+import CategoryChoice from '@/components/items/CategoryChoice'
+
 export default {
   name: 'ItemFormPart1',
+  components: {
+    CategoryChoice
+  },
   props: ['upload', 'item', 'formSubmitted'],
   data: function () {
     return {
-      systemKeywords: null,
-      displayKeywords: ''
     }
-  },
-  watch: {
-    'displayKeywords' () {
-      this.changeKeywords()
-    }
-  },
-  mounted () {
-    this.$store.dispatch('publicItemsStore/fetchKeywords').then((keywords) => {
-      this.systemKeywords = keywords
-    })
   },
   methods: {
-    addKeyword: function (keyword) {
-      if (!this.item.keywords) {
-        this.item.keywords = []
-      }
-      const atIndex = this.item.keywords.find(k => k.name === keyword)
-      if (!atIndex) {
-        this.item.keywords.push({
-          name: keyword.trim()
-        })
-      }
-      this.displayKeywords = ''
-      this.item.keywords.forEach((keyword) => {
-        this.displayKeywords += keyword.name + ' '
-      })
-    },
-    changeKeywords: function () {
-      if (!this.item.keywords) {
-        this.item.keywords = []
-      }
-      if (!this.displayKeywords) {
-        this.displayKeywords = ''
-      }
-      const dkw = this.displayKeywords.split(' ')
-      this.item.keywords = []
-      dkw.forEach(keyword => {
-        if (keyword && keyword.trim().length > 1) {
-          this.item.keywords.push({ name: keyword.trim() })
-        }
-      })
-    }
   },
   computed: {
+    categories () {
+      const categories = this.$store.getters[APP_CONSTANTS.KEY_CATEGORIES]
+      if (categories) return categories
+      return []
+    },
     itemNameState () {
       if (!this.formSubmitted && !this.item.name) return null
       return (this.item.name && this.item.name.length > 2)
@@ -126,10 +76,6 @@ export default {
     itemArtistState () {
       if (!this.formSubmitted && !this.item.artist) return null
       return (this.item.artist && this.item.artist.length > 2)
-    },
-    itemKeywordsState () {
-      if (!this.formSubmitted && !this.item.keywords) return null
-      return (this.item.keywords && this.item.keywords.length > 0)
     }
   }
 }

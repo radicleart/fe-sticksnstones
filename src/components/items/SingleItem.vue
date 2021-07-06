@@ -1,52 +1,30 @@
 <template>
 <div>
-  <div class="py-4 bg-light text-small" :style="bannerImage">
+  <div class="" :style="bannerImage">
   </div>
-  <div class="bg-light text-small d-flex justify-content-end">
-    <b-dropdown variant="white" class="bg-none m-0 p-0" no-caret>
-      <template #button-content>
-        <b-icon icon="three-dots"/>
-      </template>
-      <b-dropdown-item><b-link :to="'/item-preview/' + item.assetHash"><span class="mb-0">open item</span></b-link></b-dropdown-item>
-      <b-dropdown-item><b-link :to="'/edit-item/' + item.assetHash"><span class="mb-0">edit item</span></b-link></b-dropdown-item>
-      <b-dropdown-item v-if="!contractAsset"><a href="#" @click.prevent="deleteItem" class="text-danger"><span class="mb-0">delete item</span></a></b-dropdown-item>
-    </b-dropdown>
+  <div class="p-0 m-0 bg-light text-small d-flex justify-content-end">
+    <ItemActionMenu @performAction="performAction" :assetHash="item.assetHash" :variant="'white'" />
   </div>
-  <div class="text-center py-4 bg-light text-small">
-    <div class=""><h2 class="h2-modal"><b-link router-tag="a" :to="assetUrl">{{item.name}}</b-link></h2></div>
-    <div>by <span class="text-success">{{item.artist}}</span></div>
+  <div class="text-center py-1 pb-3 bg-light text-small">
+    <div v-if="item.name"><h3 class="h2-modal"><b-link router-tag="a" :to="assetUrl">{{item.name}}</b-link></h3></div>
+    <div v-else><h3 class="h2-modal">Unkown</h3></div>
+    <div v-if="item.name">by <span class="text-success">{{item.artist}}</span></div>
+    <div v-else>by <span class="text-success">TBD</span></div>
+    <div v-if="contractAsset" class="mt-4 text-dark"><span >NFT #{{contractAsset.nftIndex}}</span></div>
+    <div v-else class="mt-4 text-dark"><span >not minted</span></div>
   </div>
 </div>
-<!--
-<div v-if="item && item.nftMedia" class="mt-1">
-  <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="targetItem()"/>
-  <div class="">
-    <div class="mt-5 mb-2 d-flex justify-content-between">
-      <div class="">
-        <b-link router-tag="a" :to="assetUrl">{{item.name}}</b-link>
-      </div>
-      <div>
-        <b-link class="mr-2" :to="'/edit-item/' + item.assetHash"><b-icon icon="pencil"></b-icon></b-link>
-        <a v-if="!contractAsset" href="#" @click.prevent="deleteItem" class="text-danger"><b-icon icon="trash"></b-icon></a>
-      </div>
-    </div>
-      <div class="text-small text-right">
-        <div><b-link router-tag="a" :to="assetUrl">{{salesButtonLabel()}}</b-link></div>
-      </div>
-  </div>
-</div>
--->
 </template>
 
 <script>
 import utils from '@/services/utils'
 import { APP_CONSTANTS } from '@/app-constants'
-// import MediaItem from '@/components/utils/MediaItem'
+import ItemActionMenu from '@/components/items/ItemActionMenu'
 
 export default {
   name: 'SingleItem',
   components: {
-    // MediaItem
+    ItemActionMenu
   },
   props: ['item'],
   data () {
@@ -58,10 +36,8 @@ export default {
     }
   },
   methods: {
-    salesButtonLabel () {
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.item.assetHash)
-      if (!contractAsset) return 'NOT MINTED'
-      return this.$store.getters[APP_CONSTANTS.KEY_SALES_BUTTON_LABEL](contractAsset.saleData.saleType)
+    performAction: function (data) {
+      console.log(data)
     },
     targetItem: function () {
       return this.$store.getters[APP_CONSTANTS.KEY_TARGET_FILE_FOR_DISPLAY](this.item)
@@ -81,9 +57,6 @@ export default {
     },
     toggleFavourite () {
       utils.makeFlasher(this.$refs.lndQrcode)
-    },
-    deleteItem () {
-      this.$store.dispatch('myItemStore/deleteItem', this.item)
     }
   },
   computed: {

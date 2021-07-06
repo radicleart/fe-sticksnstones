@@ -41,6 +41,7 @@
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
+import utils from '@/services/utils'
 
 const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
 const STX_CONTRACT_NAME = process.env.VUE_APP_STACKS_CONTRACT_NAME
@@ -78,19 +79,24 @@ export default {
         this.transferring = 'cost has to be a positive number and max editions same or bigger than current number minted...'
         return
       }
+      if (!editionCost) {
+        editionCost = 0
+      }
       const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
       const data = {
         contractAddress: STX_CONTRACT_ADDRESS,
         contractName: STX_CONTRACT_NAME,
         seriesOriginal: contractAsset.nftIndex,
         maxEditions: maxEditions,
-        editionCost: editionCost
+        editionCost: utils.toOnChainAmount(editionCost)
       }
       return this.$store.dispatch('rpayPurchaseStore/setEditionCost', data).then((result) => {
         this.transferring = null
         this.result = result
+        this.$notify({ type: 'success', title: 'Editions', text: 'Transaction sent! Check the explorer for progress!' })
       }).catch((err) => {
         this.transferring = err
+        this.$notify({ type: 'error', title: 'Editions', text: 'Error setting editions!' })
       })
     }
   },
