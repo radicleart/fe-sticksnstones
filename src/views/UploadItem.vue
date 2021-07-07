@@ -38,7 +38,7 @@ export default {
         description: '',
         editions: null,
         keywords: '',
-        nftMedia: {}
+        attributes: {}
       },
       result: 'Saving data to your storage - back in a mo!',
       doValidate: true,
@@ -67,9 +67,9 @@ export default {
   },
   methods: {
     hasFile (file) {
-      if (file === 'artworkFile') return this.nftMedia.artworkFile && this.nftMedia.artworkFile.fileUrl
-      else if (file === 'artworkClip') return this.nftMedia.artworkClip && this.nftMedia.artworkClip.fileUrl
-      else if (file === 'coverImage') return this.nftMedia.coverImage && this.nftMedia.coverImage.fileUrl
+      if (file === 'artworkFile') return this.attributes.artworkFile && this.attributes.artworkFile.fileUrl
+      else if (file === 'artworkClip') return this.attributes.artworkClip && this.attributes.artworkClip.fileUrl
+      else if (file === 'coverImage') return this.attributes.coverImage && this.attributes.coverImage.fileUrl
     },
     setHandler: function (data) {
       this.handler = data.handler
@@ -88,14 +88,14 @@ export default {
         }
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
-        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: data.media.dataHash, nftMedia: data.media }).then((nftMedia) => {
+        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: data.media.dataHash, attributes: data.media }).then((attributes) => {
           const myAsset = {
             assetHash: data.media.dataHash,
-            nftMedia: {}
+            attributes: {}
           }
-          myAsset.nftMedia[nftMedia.id] = data.media
+          myAsset.attributes[attributes.id] = data.media
           if (data.media.type.indexOf('image') > -1) {
-            myAsset.nftMedia.coverImage = data.media
+            myAsset.attributes.coverImage = data.media
           }
           $self.$store.dispatch('myItemStore/saveItem', myAsset).then(() => {
             $self.$store.commit('setModalMessage', 'Saved NFT file.')
@@ -138,7 +138,7 @@ export default {
       this.showWaitingModal = true
       this.$store.commit('setModalMessage', 'Uploading files - can take a while.. <a target="_blank" href="https://radiclesociety.medium.com/radicle-peer-to-peer-marketplaces-whats-the-deal-767960da195b">read why</a>')
       this.$root.$emit('bv::show::modal', 'waiting-modal')
-      this.$store.dispatch('myItemStore/saveItem', { item: this.item, artworkFile: this.item.nftMedia.artworkFile[0], coverImage: this.item.nftMedia.coverImage[0] }).then(() => {
+      this.$store.dispatch('myItemStore/saveItem', { item: this.item, artworkFile: this.item.attributes.artworkFile[0], coverImage: this.item.attributes.coverImage[0] }).then(() => {
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')
         this.$store.commit('setModalMessage', 'Uploading... once its saved you\'ll be able to mint this artowrk - registering your ownership on the blockchain. Once registered you\'ll be able to prove you own this artwork and be able to benefit not only from its sale but also from all secondary sales.')

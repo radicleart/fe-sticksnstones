@@ -7,7 +7,7 @@
     <b-row style="min-height: 40vh" >
       <b-col md="4" sm="12" align-self="start" class="text-center">
         <div  class="bg-white" style="width:100%;">
-          <media-item :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'artworkFile'"/>
+          <media-item :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'artworkFile'"/>
         </div>
       </b-col>
       <b-col md="8" sm="12" align-self="start" class="mb-4">
@@ -91,9 +91,9 @@ export default {
         muted: false,
         controls: true,
         showMeta: false,
-        poster: (item.nftMedia.coverImage) ? item.nftMedia.coverImage.fileUrl : null,
+        poster: (item.attributes.coverImage) ? item.attributes.coverImage.fileUrl : null,
         sources: [
-          { src: item.nftMedia.artworkFile.fileUrl, type: item.nftMedia.artworkFile.type }
+          { src: item.attributes.artworkFile.fileUrl, type: item.attributes.artworkFile.type }
         ],
         fluid: true
       }
@@ -107,9 +107,9 @@ export default {
       const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       return item
     },
-    nftMedia () {
+    attributes () {
       const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
-      return item.nftMedia
+      return item.attributes
     }
   }
 }

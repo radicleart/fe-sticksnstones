@@ -65,7 +65,7 @@ export default {
         description: '',
         editions: null,
         keywords: '',
-        nftMedia: {
+        attributes: {
           coverImage: {},
           artworkFile: {}
         }
@@ -115,16 +115,16 @@ export default {
     hasFile (file) {
       const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       if (!item) return
-      if (file === 'artworkFile') return item.nftMedia.artworkFile && item.nftMedia.artworkFile.fileUrl
-      else if (file === 'artworkClip') return item.nftMedia.artworkClip && item.nftMedia.artworkClip.fileUrl
-      else if (file === 'coverImage') return item.nftMedia.coverImage && item.nftMedia.coverImage.fileUrl
+      if (file === 'artworkFile') return item.attributes.artworkFile && item.attributes.artworkFile.fileUrl
+      else if (file === 'artworkClip') return item.attributes.artworkClip && item.attributes.artworkClip.fileUrl
+      else if (file === 'coverImage') return item.attributes.coverImage && item.attributes.coverImage.fileUrl
     },
     mediaFilesArtworkFile () {
       const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
       if (!item) return
       const files = []
-      if (item.nftMedia.artworkFile && item.nftMedia.artworkFile.dataUrl) {
-        files.push(item.nftMedia.artworkFile)
+      if (item.attributes.artworkFile && item.attributes.artworkFile.dataUrl) {
+        files.push(item.attributes.artworkFile)
       }
       return files
     },
@@ -153,9 +153,9 @@ export default {
       } else if (data.media && data.media.dataHash) {
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
-        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.assetHash, nftMedia: data.media }).then((nftMedia) => {
+        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.assetHash, attributes: data.media }).then((attributes) => {
           const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-          myAsset.nftMedia[nftMedia.id] = nftMedia
+          myAsset.attributes[attributes.id] = attributes
           $self.$store.dispatch('myItemStore/saveItem', myAsset).then((item) => {
             $self.item = item
             $self.$store.commit('setModalMessage', '')

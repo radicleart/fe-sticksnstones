@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="bg-white" style="width:100%;">
-    <media-item v-if="hasFile()" :videoOptions="videoOptions" :dims="dims" :nftMedia="item.nftMedia" :targetItem="'coverImage'" @deleteMediaItem="deleteMediaItem"/>
+    <media-item v-if="hasFile()" :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'coverImage'" @deleteMediaItem="deleteMediaItem"/>
     <media-upload v-else class="text-center" :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModel" :mediaFiles="mediaFilesImage()" :limit="1" :sizeLimit="2" :mediaTypes="'image'" @updateMedia="updateMedia($event)"/>
   </div>
 </div>
@@ -42,9 +42,9 @@ export default {
       } else if (data.media && data.media.dataHash) {
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
-        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.item.assetHash, nftMedia: data.media }).then((nftMedia) => {
+        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.item.assetHash, attributes: data.media }).then((attributes) => {
           const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)
-          myAsset.nftMedia[nftMedia.id] = nftMedia
+          myAsset.attributes[attributes.id] = attributes
           $self.$store.dispatch('myItemStore/saveItem', myAsset).then((item) => {
             $self.item = item
             $self.$store.commit('setModalMessage', '')
@@ -61,13 +61,13 @@ export default {
       const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)
       if (!item) return
       const files = []
-      if (item.nftMedia.coverImage && item.nftMedia.coverImage.dataUrl) {
-        files.push(item.nftMedia.coverImage)
+      if (item.attributes.coverImage && item.attributes.coverImage.dataUrl) {
+        files.push(item.attributes.coverImage)
       }
       return files
     },
     hasFile () {
-      return this.item.nftMedia.coverImage && this.item.nftMedia.coverImage.fileUrl
+      return this.item.attributes.coverImage && this.item.attributes.coverImage.fileUrl
     },
     downable: function () {
       return this.uploadState > 2
@@ -90,16 +90,16 @@ export default {
         autoplay: false,
         muted: true,
         controls: true,
-        poster: (myAsset && myAsset.nftMedia.coverImage) ? myAsset.nftMedia.coverImage.fileUrl : null,
+        poster: (myAsset && myAsset.attributes.coverImage) ? myAsset.attributes.coverImage.fileUrl : null,
         fluid: true
       }
-      if (!myAsset.nftMedia.artworkFile && myAsset.nftMedia.coverImage) {
-        myAsset.nftMedia.artworkFile = myAsset.nftMedia.coverImage
+      if (!myAsset.attributes.artworkFile && myAsset.attributes.coverImage) {
+        myAsset.attributes.artworkFile = myAsset.attributes.coverImage
       }
-      if (myAsset && myAsset.nftMedia) {
-        videoOptions.poster = (myAsset.nftMedia.coverImage) ? myAsset.nftMedia.coverImage.fileUrl : null
+      if (myAsset && myAsset.attributes) {
+        videoOptions.poster = (myAsset.attributes.coverImage) ? myAsset.attributes.coverImage.fileUrl : null
         videoOptions.sources = [
-          { src: myAsset.nftMedia.artworkFile.fileUrl, type: myAsset.nftMedia.artworkFile.type }
+          { src: myAsset.attributes.artworkFile.fileUrl, type: myAsset.attributes.artworkFile.type }
         ]
       }
       return videoOptions

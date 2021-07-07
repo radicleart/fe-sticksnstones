@@ -7,32 +7,32 @@
     <VideoJsPlayer v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
   </div>
   <div v-else-if="contentType === 'audio'" id="audio-demo-container">
-    <img v-on="$listeners" :src="nftMedia.coverImage.fileUrl" @error="setAltImg" :alt="nftMedia.artworkFile.name" :style="dimensions()">
-    <audio v-on="$listeners" controls :src="nftMedia.artworkFile.fileUrl" :style="dimensions()">
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
+    <audio v-on="$listeners" controls :src="attributes.artworkFile.fileUrl" :style="dimensions()">
       Your browser does not support the <code>audio</code> element.
     </audio>
   </div>
   <div v-else-if="contentType === 'document'">
-    <img v-on="$listeners" :src="nftMedia.coverImage.fileUrl" @error="setAltImg" :alt="nftMedia.artworkFile.name" :style="dimensions()">
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
   </div>
   <div v-else-if="contentType === 'image'">
-    <img v-on="$listeners" :src="nftMedia.coverImage.fileUrl" @error="setAltImg" :alt="nftMedia.artworkFile.name" :style="dimensions()">
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
   </div>
   <div v-if="videoOptions.showMeta" :style="videoOptions.dimensions" style="font-size: 1.2rem;">
     <div class="p-2 d-flex justify-content-start">
       <div class="mr-3 text-small">NFT File:</div>
-      <div>{{nftMedia.artworkFile.name}}</div>
+      <div>{{attributes.artworkFile.name}}</div>
     </div>
     <div class="p-2 d-flex justify-content-between">
       <div>{{contentType}}  ({{getNFTSizeMeg()}})</div>
       <div><a v-b-tooltip.hover="{ variant: 'light' }" :title="'The NFT file requires a cover image to display in the Risidio marketplace'" href="#" class="text-small text-primary"><b-icon icon="question-circle"/></a></div>
     </div>
-    <div class="p-2 d-flex justify-content-start" v-if="nftMedia.coverImage">
+    <div class="p-2 d-flex justify-content-start" v-if="attributes.coverImage">
       <div class="text-small">Cover File:</div>
-      <div>{{nftMedia.coverImage.name}}</div>
+      <div>{{attributes.coverImage.name}}</div>
     </div>
-    <div class="p-2 d-flex justify-content-between" v-if="nftMedia.coverImage">
-      <div>{{nftMedia.coverImage.type || 'image'}}  ({{getCoverImageSizeMeg()}})</div>
+    <div class="p-2 d-flex justify-content-between" v-if="attributes.coverImage">
+      <div>{{attributes.coverImage.type || 'image'}}  ({{getCoverImageSizeMeg()}})</div>
       <div v-if="deleteAllowed()"><a v-b-tooltip.hover="{ variant: 'light' }" :title="'Replace the cover image?'" href="#" @click.prevent="deleteCoverImage()" class="text-small text-danger"><b-icon icon="trash"/></a></div>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
   components: {
     VideoJsPlayer
   },
-  props: ['videoOptions', 'targetItem', 'nftMedia', 'dims'],
+  props: ['videoOptions', 'targetItem', 'attributes', 'dims'],
   data () {
     return {
       mediaObjects: [],
@@ -58,8 +58,8 @@ export default {
     }
   },
   mounted () {
-    if (this.nftMedia && this.nftMedia.artworkFile) {
-      const aft = this.nftMedia.artworkFile.type
+    if (this.attributes && this.attributes.artworkFile) {
+      const aft = this.attributes.artworkFile.type
       if (aft.indexOf('pdf') > -1 || aft.indexOf('plain') > -1) {
         this.contentType = 'document'
       } else if (aft.indexOf('video') > -1 || aft.indexOf('mp3') > -1) {
@@ -84,7 +84,7 @@ export default {
       event.target.src = this.waitingImage
     },
     deleteAllowed: function () {
-      return this.nftMedia.artworkFile.fileUrl !== this.nftMedia.coverImage.fileUrl
+      return this.attributes.artworkFile.fileUrl !== this.attributes.coverImage.fileUrl
     },
     dimensions: function () {
       if (this.dims) {
@@ -94,17 +94,17 @@ export default {
       return 'width: 100%; height: auto'
     },
     getNFTSizeMeg () {
-      if (!this.nftMedia.artworkFile) return 0
-      const ksize = this.nftMedia.artworkFile.size / 1000000
+      if (!this.attributes.artworkFile) return 0
+      const ksize = this.attributes.artworkFile.size / 1000000
       return Math.round(ksize * 100) / 100 + ' Mb'
     },
     getCoverImageSizeMeg () {
-      if (!this.nftMedia.coverImage) return 0
-      const ksize = this.nftMedia.coverImage.size / 1000000
+      if (!this.attributes.coverImage) return 0
+      const ksize = this.attributes.coverImage.size / 1000000
       return Math.round(ksize * 100) / 100 + ' Mb'
     },
     deleteCoverImage: function () {
-      this.$emit('deleteMediaItem', this.nftMedia.coverImage.id)
+      this.$emit('deleteMediaItem', this.attributes.coverImage.id)
     }
   }
 }

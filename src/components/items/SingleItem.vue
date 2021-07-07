@@ -65,9 +65,9 @@ export default {
       return contractAsset
     },
     videoOptions () {
-      let file = this.item.nftMedia.artworkFile
+      let file = this.item.attributes.artworkFile
       if (!file) {
-        file = this.item.nftMedia.artworkClip
+        file = this.item.attributes.artworkClip
       }
       if (!file) return {}
       const videoOptions = {
@@ -80,7 +80,7 @@ export default {
         controls: false,
         showMeta: false,
         aspectRatio: '1:1',
-        poster: (this.item.nftMedia.coverImage) ? this.item.nftMedia.coverImage.fileUrl : null,
+        poster: (this.item.attributes.coverImage) ? this.item.attributes.coverImage.fileUrl : null,
         sources: [
           { src: file.fileUrl, type: file.type }
         ],
@@ -90,8 +90,8 @@ export default {
     },
     bannerImage () {
       let imageUrl = this.waitingImage
-      if (this.item.nftMedia.coverImage) {
-        imageUrl = this.item.nftMedia.coverImage.fileUrl
+      if (this.item.attributes.coverImage) {
+        imageUrl = this.item.attributes.coverImage.fileUrl
       }
       return {
         height: '250px',
