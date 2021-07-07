@@ -47,7 +47,7 @@
         <div class="col-2">Mint Fee</div><div class="col-10">{{application.tokenContract.mintCounter}}</div>
         <div class="ml-4 py-5 border-top" v-for="(token, index) in application.tokenContract.tokens" :key="index">
           <div class="row" v-if="gaiaAsset(token.tokenInfo.assetHash)">
-            <div class="col-2 my-4"><div><img width="70px" :src="gaiaAsset(token.tokenInfo.assetHash).imageUrl"/></div></div>
+            <div class="col-2 my-4"><div><img width="70px" :src="gaiaAsset(token.tokenInfo.assetHash).image"/></div></div>
             <div class="col-10 my-4">
               <div>{{gaiaAsset(token.tokenInfo.assetHash).name}}</div>
               <div>[#{{token.nftIndex}}] : Edition {{token.tokenInfo.edition}} / {{token.tokenInfo.maxEditions}} / {{token.tokenInfo.editionCost}}</div>

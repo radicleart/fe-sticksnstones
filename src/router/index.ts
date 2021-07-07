@@ -55,7 +55,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/assets/:assetHash',
-    name: 'assets',
+    name: 'asset-display',
     components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: false,
@@ -65,7 +65,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/mesh/v2/asset/:nftIndex',
-    name: 'assets',
+    name: 'asset-display',
     components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: false,

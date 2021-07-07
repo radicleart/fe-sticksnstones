@@ -6,7 +6,7 @@
       <h2 class="h2-modal">Set royalties, editions and mint</h2>
     </b-col>
     <b-col class="col-6" offset="3">
-      <img width="100%" :src="item.imageUrl"/>
+      <img width="100%" :src="item.image"/>
       <div class="py-4 bg-light text-small">
         <div class=""><h2 class="h2-modal">{{item.name}}</h2></div>
         <div>by <span class="text-success">{{item.artist}}</span></div>

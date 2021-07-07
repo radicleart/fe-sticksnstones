@@ -94,6 +94,7 @@ const myItemStore = {
       if (!state.rootFile || state.rootFile.records.length === 0) return false
       const invalidParams = []
       const myGetter = 'getItemParamValidity'
+      if (!getters[myGetter](item, 'name')) invalidParams.push('name')
       if (!getters[myGetter](item, 'uploader')) invalidParams.push('uploader')
       if (!getters[myGetter](item, 'editions')) invalidParams.push('editions')
       if (!getters[myGetter](item, 'artist')) invalidParams.push('artist')
@@ -216,7 +217,7 @@ const myItemStore = {
         resolve(state.rootFile.records[index])
       })
     },
-    saveNftMediaObject ({ state }: any, data: any) {
+    saveAttributesObject ({ state }: any, data: any) {
       return new Promise((resolve, reject) => {
         if (!data.nftMedia.dataUrl) {
           // ok the file is stored externally - carry on..
@@ -250,7 +251,13 @@ const myItemStore = {
         if (item.nftMedia && item.nftMedia.coverImage && item.nftMedia.coverImage.fileUrl) {
           const mintedUrl = encodeURI(item.nftMedia.coverImage.fileUrl)
           item.externalUrl = location.origin + '/display?asset=' + mintedUrl
-          item.imageUrl = item.nftMedia.coverImage.fileUrl
+          item.image = item.nftMedia.coverImage.fileUrl
+        }
+        if (!item.privacy) {
+          item.privacy = 'public'
+        }
+        if (item.privacy !== 'public') {
+          item.privacy = 'private'
         }
         item.projectId = STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME
         item.domain = location.hostname
@@ -278,6 +285,7 @@ const myItemStore = {
           // throw new Error('profile needs to refresh - please reload current page..')
         }
         item.metaDataUrl = profile.gaiaHubConfig.url_prefix + profile.gaiaHubConfig.address + '/' + item.assetHash + '.json'
+        item.externalUrl = location.origin + '/assets/' + item.assetHash
         myItemService.saveAsset(item).then((item) => {
           console.log(item)
         }).catch((error) => {

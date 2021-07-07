@@ -1,8 +1,8 @@
 <template>
 <div>
   <div class="text-right">
-    <b-form-checkbox v-model="item.privacy" name="check-button" switch class="text-secondary">
-      <span v-if="item.privacy"><b>Private</b> <b-link router-tag="span" v-b-tooltip.hover="{ variant: 'light' }" :title="'Not displayed in Risidio Xchange Marketplace'" class="ml-2" variant="outline-success"><b-icon icon="question-circle"/></b-link></span>
+    <b-form-checkbox @change="togglePrivacy" v-model="publicAvailable" name="check-button" switch class="text-secondary">
+      <span v-if="!publicAvailable"><b>Private</b> <b-link router-tag="span" v-b-tooltip.hover="{ variant: 'light' }" :title="'Not displayed in Risidio Xchange Marketplace'" class="ml-2" variant="outline-success"><b-icon icon="question-circle"/></b-link></span>
       <span v-else><b>Public</b> <b-link router-tag="span" v-b-tooltip.hover="{ variant: 'light' }" :title="'Displayed in Risidio Xchange Marketplace'" class="ml-2" variant="outline-success"><b-icon icon="question-circle"/></b-link></span>
     </b-form-checkbox>
   </div>
@@ -59,9 +59,25 @@ export default {
   props: ['upload', 'item', 'formSubmitted'],
   data: function () {
     return {
+      publicAvailable: true
+    }
+  },
+  mounted () {
+    if (!this.item.privacy && !this.item.privacy === 'private') {
+      this.item.privacy = 'public'
+      this.publicAvailable = true
+    } else {
+      this.publicAvailable = false
     }
   },
   methods: {
+    togglePrivacy: function () {
+      if (this.publicAvailable) {
+        this.item.privacy = 'public'
+      } else {
+        this.item.privacy = 'private'
+      }
+    }
   },
   computed: {
     categories () {

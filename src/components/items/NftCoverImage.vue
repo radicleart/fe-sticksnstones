@@ -42,7 +42,7 @@ export default {
       } else if (data.media && data.media.dataHash) {
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
-        this.$store.dispatch('myItemStore/saveNftMediaObject', { assetHash: this.item.assetHash, nftMedia: data.media }).then((nftMedia) => {
+        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.item.assetHash, nftMedia: data.media }).then((nftMedia) => {
           const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)
           myAsset.nftMedia[nftMedia.id] = nftMedia
           $self.$store.dispatch('myItemStore/saveItem', myAsset).then((item) => {

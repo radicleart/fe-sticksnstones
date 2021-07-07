@@ -44,7 +44,7 @@ export default {
   },
   mounted () {
     this.loading = false
-    if (this.$route.name === 'nft-preview') {
+    if (this.$route.name === 'asset-display') {
       this.nftIndex = Number(this.$route.params.nftIndex)
       const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_NFT_INDEX](this.nftIndex)
       if (contractAsset) {

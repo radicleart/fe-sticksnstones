@@ -66,7 +66,7 @@ export default {
   },
   computed: {
     bannerImage () {
-      let imageUrl = this.itemSummary.item.nftMedia.imageUrl
+      let imageUrl = this.itemSummary.item.image
       if (this.itemSummary.item.nftMedia.coverImage && this.itemSummary.item.nftMedia.coverImage.dataUrl) {
         imageUrl = this.itemSummary.item.nftMedia.coverImage.dataUrl
       }
