@@ -237,7 +237,7 @@ const myItemStore = {
     },
     saveItem ({ state, rootGetters, commit, dispatch }: any, item: any) {
       return new Promise((resolve, reject) => {
-        let profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
+        const profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
         item.uploader = profile.username
         if (!item.owner) item.owner = profile.username
         // the item can be saved once there is an asset hash - all other fields can be added later..
@@ -246,6 +246,7 @@ const myItemStore = {
           reject(new Error('Unable to save your data...'))
           return
         }
+        const contractAsset = rootGetters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](item.assetHash)
         if (item.contractAsset) item.contractAsset = null
         if (typeof item.nftIndex === 'undefined') item.nftIndex = -1
         if (item.attributes && item.attributes.coverImage && item.attributes.coverImage.fileUrl) {
@@ -269,41 +270,52 @@ const myItemStore = {
         } else {
           state.rootFile.records.splice(index, 1, item)
         }
-        if (item.attributes.artworkClip && item.attributes.artworkClip.dataUrl) item.attributes.artworkClip.dataUrl = null
-        if (item.attributes.artworkFile && item.attributes.artworkFile.dataUrl) item.attributes.artworkFile.dataUrl = null
-        if (item.attributes.coverImage && item.attributes.coverImage.dataUrl) item.attributes.coverImage.dataUrl = null
+        const tempAttributes = item.attributes
+        if (tempAttributes.artworkClip && tempAttributes.artworkClip.dataUrl) tempAttributes.artworkClip.dataUrl = null
+        if (tempAttributes.artworkFile && tempAttributes.artworkFile.dataUrl) tempAttributes.artworkFile.dataUrl = null
+        if (tempAttributes.coverImage && tempAttributes.coverImage.dataUrl) tempAttributes.coverImage.dataUrl = null
+        item.attributes = {
+          artworkFile: tempAttributes.artworkFile,
+          coverImage: tempAttributes.coverImage,
+          artworkClip: tempAttributes.artworkClip
+        }
         item.updated = moment({}).valueOf()
         if (!item.metaDataUrl && !profile.gaiaHubConfig) {
+          reject(new Error('Unable to load your gaia hub info - reload page and try again.'))
           dispatch('rpayAuthStore/fetchMyAccount', { root: true }).then((profile) => {
             profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
             console.log('gaiaHubConfig', profile.gaiaHubConfig)
+            setTimeout(function () {
+              profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
+              console.log('gaiaHubConfig', profile.gaiaHubConfig)
+              window.location.reload()
+            }, 400)
+          }).catch((error) => {
+            console.log(error)
           })
-          setTimeout(function () {
-            profile = rootGetters[APP_CONSTANTS.KEY_PROFILE]
-            console.log('gaiaHubConfig', profile.gaiaHubConfig)
-          }, 400)
           // throw new Error('profile needs to refresh - please reload current page..')
+        } else {
+          item.metaDataUrl = profile.gaiaHubConfig.url_prefix + profile.gaiaHubConfig.address + '/' + item.assetHash + '.json'
+          item.externalUrl = location.origin + '/assets/' + item.assetHash
+          myItemService.saveAsset(item).then((item) => {
+            console.log(item)
+          }).catch((error) => {
+            console.log(error)
+          })
+          myItemService.saveItem(state.rootFile).then((rootFile) => {
+            commit('rootFile', rootFile)
+            resolve(item)
+            if (item.privacy === 'public' && contractAsset && contractAsset.nftIndex > -1) {
+              searchIndexService.addRecord(item).then((result) => {
+                console.log(result)
+              }).catch((error) => {
+                console.log(error)
+              })
+            }
+          }).catch((error) => {
+            reject(error)
+          })
         }
-        item.metaDataUrl = profile.gaiaHubConfig.url_prefix + profile.gaiaHubConfig.address + '/' + item.assetHash + '.json'
-        item.externalUrl = location.origin + '/assets/' + item.assetHash
-        myItemService.saveAsset(item).then((item) => {
-          console.log(item)
-        }).catch((error) => {
-          console.log(error)
-        })
-        myItemService.saveItem(state.rootFile).then((rootFile) => {
-          commit('rootFile', rootFile)
-          resolve(item)
-          if (!item.private) {
-            searchIndexService.addRecord(item).then((result) => {
-              console.log(result)
-            }).catch((error) => {
-              console.log(error)
-            })
-          }
-        }).catch((error) => {
-          reject(error)
-        })
       })
     }
   }

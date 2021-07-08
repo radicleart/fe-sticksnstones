@@ -1,7 +1,7 @@
 <template>
 <div>
   <div v-if="contentType === 'threed'" :style="videoOptions.dimensions" id="video-demo-container">
-    <VideoJsPlayer v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
   </div>
   <div v-else-if="contentType === 'video'" :style="videoOptions.dimensions" id="video-demo-container">
     <VideoJsPlayer v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
@@ -84,7 +84,7 @@ export default {
       event.target.src = this.waitingImage
     },
     deleteAllowed: function () {
-      return this.attributes.artworkFile.fileUrl !== this.attributes.coverImage.fileUrl
+      return true
     },
     dimensions: function () {
       if (this.dims) {

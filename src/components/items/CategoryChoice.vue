@@ -4,7 +4,7 @@
     <div class="mb-3">
       <label for="categories">Main category :</label>
       <br/>
-      <b-badge id="categories" @click="setCategory(kw)" class="pointer mr-3 mb-3 py-2 pt-3 px-5" v-for="(kw, index) in categories" :key="index" pill :variant="(isCategory(kw)) ? 'secondary' : 'warning'">{{kw.displayName}}</b-badge>
+      <b-badge id="categories" @click="setCategory(kw)" class="pointer mr-3 mb-3 py-2 pt-3 px-5" v-for="(kw, index) in categories" :key="index" pill :variant="(item.category && item.category.name === kw.name) ? 'secondary' : 'warning'">{{kw.displayName}}</b-badge>
     </div>
     <label for="item-keywords">Keywords (comma separated) :</label>
     <b-form-input

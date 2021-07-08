@@ -1,5 +1,9 @@
 <template>
 <div>
+  <div class="bg-white" style="width:100%;" v-if="displayHeader">
+    <h1>NFT File Saved</h1>
+    <p class="text-small"><a class="text-secondary pointer" style="font-size: 1.2rem;" @click="useNftFileAsCover">click here to use the NFT file as the cover image!</a> ...or</p>
+  </div>
   <div class="bg-white" style="width:100%;">
     <media-item v-if="hasFile()" :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'coverImage'" @deleteMediaItem="deleteMediaItem"/>
     <media-upload v-else class="text-center" :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModel" :mediaFiles="mediaFilesImage()" :limit="1" :sizeLimit="2" :mediaTypes="'image'" @updateMedia="updateMedia($event)"/>
@@ -18,13 +22,13 @@ export default {
     MediaItem,
     MediaUpload
   },
-  props: ['item'],
+  props: ['item', 'displayHeader'],
   data: function () {
     return {
       dims: { width: 360, height: 202 },
       contentModel: {
         id: 'coverImage',
-        title: 'Upload a Cover Image<br/><span style="font-size: 1.2rem;">up to 1M</span>',
+        title: '<h2>Upload a Cover Image</h2><br/><span class="text-small">Up to 1M</span>',
         buttonName: 'Drop Image',
         iconName: 'file-image',
         errorMessage: 'A image file is required.',
@@ -39,7 +43,7 @@ export default {
         this.$root.$emit('bv::show::modal', 'waiting-modal')
       } else if (data.errorMessage) {
         this.$store.commit('setModalMessage', data.errorMessage)
-      } else if (data.media && data.media.dataHash) {
+      } else if (data.media) {
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
         this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.item.assetHash, attributes: data.media }).then((attributes) => {
@@ -56,6 +60,22 @@ export default {
           })
         })
       }
+    },
+    useNftFileAsCover () {
+      const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)
+      if (!item) return
+      item.attributes.coverImage = item.attributes.artworkFile
+      item.attributes.coverImage.id = 'coverImage'
+      this.updateMedia({ media: item.attributes.coverImage })
+    },
+    getContentModal () {
+      const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)
+      if (!item) return
+      if (item.attributes.artworkFile.type.indexOf('image') > -1) {
+        return this.contentModel
+      }
+      this.contentModel.title = 'The cover image for your NFT file.'
+      return this.contentModel
     },
     mediaFilesImage () {
       const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)

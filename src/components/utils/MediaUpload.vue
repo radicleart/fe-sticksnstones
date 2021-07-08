@@ -175,21 +175,6 @@ export default {
       })
       // cvsCtx.drawImage(vid, 0, 0, cvs.width, cvs.height)
     },
-    ispdf (file) {
-      try {
-        return file.type.indexOf('pdf') > -1
-      } catch (err) {
-        return false
-      }
-    },
-    isPlain (file) {
-      try {
-        const plain = file.type.indexOf('plain') > -1 || file.type.length === 0
-        return plain
-      } catch (err) {
-        return false
-      }
-    },
     isImage (file) {
       try {
         const image = file.type.indexOf('img') > -1 ||
@@ -199,32 +184,6 @@ export default {
               file.type.indexOf('jpg') > -1 ||
               file.type.indexOf('gif') > -1
         return image
-      } catch (err) {
-        return false
-      }
-    },
-    isVideo (file) {
-      try {
-        const video = file.type.indexOf('video') > -1
-        return video
-      } catch (err) {
-        return false
-      }
-    },
-    isAudio (file) {
-      try {
-        const audio = file.type.indexOf('audio/mpeg') > -1 ||
-              file.type.indexOf('wav') > -1
-        return audio
-      } catch (err) {
-        return false
-      }
-    },
-    isMusic (file) {
-      try {
-        const music = file.type.indexOf('mp3') > -1 ||
-              file.type.indexOf('wma')
-        return music
       } catch (err) {
         return false
       }
@@ -406,10 +365,6 @@ export default {
             img.src = thisFile.dataUrl
           } else {
             $self.$emit('updateMedia', { media: thisFile })
-          }
-          if ($self.isVideo(thisFile)) {
-            // On selecting a video file
-            // document.querySelector('#video-element source').setAttribute('src', URL.createObjectURL(document.querySelector('#file-input').thisFile))
           }
         }
         reader.readAsDataURL(fileObject)

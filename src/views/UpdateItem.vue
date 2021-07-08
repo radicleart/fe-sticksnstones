@@ -19,12 +19,12 @@
         <div class="my-4 text-right"><b-button class="" variant="warning" @click.prevent="uploadItem()">Continue</b-button></div>
       </b-col>
       <b-col md="4" sm="12" >
-        <NftCoverImage :item="item" />
+        <NftCoverImage :item="item" :displayHeader="false"/>
       </b-col>
     </b-row>
     <b-row v-else>
       <b-col md="6" offset-md="3" sm="12" align-self="start" class=" text-center">
-        <NftCoverImage :item="item" />
+        <NftCoverImage :item="item" :displayHeader="true" />
       </b-col>
     </b-row>
   </b-container>
