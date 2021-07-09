@@ -12,7 +12,7 @@
         </b-alert>
       </div>
       <div v-else-if="isValid" show variant="danger">
-        <b-button variant="outline-primary" @click="mintToken()">Mint File</b-button>
+        <b-button variant="outline-primary" @click="startMinting()">Mint File</b-button>
       </div>
       <b-alert v-else show variant="danger">not valid - information required</b-alert>
     </div>
@@ -42,7 +42,7 @@
           <GaiaHubRelay :assetHash="assetHash"/>
         </b-tab>
         <b-tab title="Next" v-if="contractNameNext">
-          <b-button @click="mintToken()" :theme="'light'" :label1="'MINT ITEM'" :icon="'eye'"/>
+          <b-button @click="startMinting()" :theme="'light'" :label1="'MINT ITEM'" :icon="'eye'"/>
         </b-tab>
         <b-tab title="Editions">
           <ManageEditions :assetHash="assetHash"/>
@@ -181,7 +181,7 @@ export default {
     minting: function () {
       return this.mintTxId
     },
-    mintToken: function () {
+    startMinting: function () {
       this.$store.commit(APP_CONSTANTS.SET_RPAY_FLOW, { flow: 'minting-flow', asset: this.item })
       this.$store.commit('rpayStore/setDisplayCard', 100)
       this.$bvModal.show('minting-modal')

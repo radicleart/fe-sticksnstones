@@ -5,8 +5,8 @@
     <p class="text-small"><a class="text-secondary pointer" style="font-size: 1.2rem;" @click="useNftFileAsCover">click here to use the NFT file as the cover image!</a> ...or</p>
   </div>
   <div class="bg-white" style="width:100%;">
-    <media-item v-if="hasFile()" :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'coverImage'" @deleteMediaItem="deleteMediaItem"/>
-    <media-upload v-else class="text-center" :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModel" :mediaFiles="mediaFilesImage()" :limit="1" :sizeLimit="2" :mediaTypes="'image'" @updateMedia="updateMedia($event)"/>
+    <MediaItem v-if="hasFile()" :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'coverImage'" @deleteMediaItem="deleteMediaItem"/>
+    <MediaUpload v-else class="text-center" :myUploadId="'coverImage'" :dims="dims" :contentModel="contentModel" :mediaFiles="mediaFilesImage()" :limit="1" :sizeLimit="2" :mediaTypes="'image'" @updateMedia="updateMedia($event)"/>
   </div>
 </div>
 </template>
@@ -87,7 +87,7 @@ export default {
       return files
     },
     hasFile () {
-      return this.item.attributes.coverImage && this.item.attributes.coverImage.fileUrl
+      return this.item.attributes && this.item.attributes.coverImage && this.item.attributes.coverImage.fileUrl
     },
     downable: function () {
       return this.uploadState > 2

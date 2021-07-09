@@ -1,19 +1,19 @@
 <template>
 <div class="d-flex justify-content-center">
-<b-navbar variant="transparent" id="navbar" :style="bannerImage" toggleable="xl">
+<b-navbar variant="light" id="navbar" :style="bannerImage">
   <b-navbar-brand><router-link class="navbar-brand" to="/"><img width="150px;" :src="logo" alt="risidio-logo"/></router-link></b-navbar-brand>
-  <b-navbar-toggle target="nav-collapse" @click="mobileMenuExpandClass(); noScroll();">
-    <span> </span>
-    <span> </span>
-    <span> </span>
+  <b-navbar-toggle target="nav-collapse">
+    <template #default="{ expanded }">
+      <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+      <b-icon v-else icon="chevron-bar-down"></b-icon>
+    </template>
   </b-navbar-toggle>
   <!-- Mobile Design for login menu -->
   <b-collapse id="nav-collapse" is-nav>
     <!-- Right aligned nav items -->
-    <b-navbar-nav class="ml-xl-auto align-items-xl-center">
+    <b-navbar-nav class="ml-auto">
       <b-nav-item v-if="profile.loggedIn" class="mr-5"><router-link class="text-white" to="/create">Upload</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-5"><router-link class="text-white" to="/my-items/all">My NFTs</router-link></b-nav-item>
-      <b-nav-item-dropdown class="text-white nav-text" right v-if="profile.loggedIn" no-caret>
+      <b-nav-item-dropdown class="text-white nav-text" right v-if="profile.loggedIn" caret>
         <template v-slot:button-content>
           <span class="text-white nav-text" style="font-size: 2.6rem;"><b-icon icon="person" class="mb-3 mr-0"/></span>
         </template>
@@ -27,7 +27,7 @@
         </b-dropdown-item>
         <b-dropdown-divider />
         <b-dropdown-item v-if="profile.accountInfo">
-          <span><b-link to="/my-items/all">My Files</b-link></span>
+          <span><b-link to="/my-items/all">My NFTs</b-link></span>
         </b-dropdown-item>
         <b-dropdown-divider />
         <b-dropdown-item>
@@ -183,7 +183,13 @@ nav.navbar {
   top: 0;
   left: 0;
 }
-
+.navbar-toggler svg {
+  font-size: 3.4rem;
+  font-weight: 700;
+  color: #fff;
+  z-index: 5000;
+  opacity: 1.0;
+}
 /* NAV ITEMS STYLE */
 .nav-text a {
   font-weight: 700;

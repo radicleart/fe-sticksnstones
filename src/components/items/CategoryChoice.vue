@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="mb-3" role="group">
-    <div class="mb-3">
+    <div class="mb-3" :key="componentKey">
       <label for="categories">Main category :</label>
       <br/>
       <b-badge id="categories" @click="setCategory(kw)" class="pointer mr-3 mb-3 py-2 pt-3 px-5" v-for="(kw, index) in categories" :key="index" pill :variant="(item.category && item.category.name === kw.name) ? 'secondary' : 'warning'">{{kw.displayName}}</b-badge>
@@ -31,7 +31,8 @@ export default {
   props: ['item'],
   data: function () {
     return {
-      keywords: ''
+      keywords: '',
+      componentKey: 0
     }
   },
   watch: {
@@ -47,7 +48,8 @@ export default {
     },
     setCategory: function (category) {
       this.item.category = category
-      this.$store.dispatch('myItemStore/saveItem', this.item)
+      // this.$store.dispatch('myItemStore/saveItem', this.item)
+      this.componentKey++
     },
     changeKeywords: function () {
       if (!this.keywords) {

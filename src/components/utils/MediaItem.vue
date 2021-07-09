@@ -1,22 +1,22 @@
 <template>
 <div>
   <div v-if="contentType === 'threed'" :style="videoOptions.dimensions" id="video-demo-container">
-    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg()" :alt="attributes.artworkFile.name" :style="dimensions()">
   </div>
   <div v-else-if="contentType === 'video'" :style="videoOptions.dimensions" id="video-demo-container">
-    <VideoJsPlayer v-on="$listeners" :style="videoOptions.dimensions" :options="videoOptions"/>
+    <VideoJsPlayer v-on="$listeners" :style="videoOptions.dimensions" @error="setAltImg()" :options="videoOptions"/>
   </div>
   <div v-else-if="contentType === 'audio'" id="audio-demo-container">
-    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg()" :alt="attributes.artworkFile.name" :style="dimensions()">
     <audio v-on="$listeners" controls :src="attributes.artworkFile.fileUrl" :style="dimensions()">
       Your browser does not support the <code>audio</code> element.
     </audio>
   </div>
   <div v-else-if="contentType === 'document'">
-    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg()" :alt="attributes.artworkFile.name" :style="dimensions()">
   </div>
   <div v-else-if="contentType === 'image'">
-    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg" :alt="attributes.artworkFile.name" :style="dimensions()">
+    <img v-on="$listeners" :src="attributes.coverImage.fileUrl" @error="setAltImg()" :alt="attributes.artworkFile.name" :style="dimensions()">
   </div>
   <div v-if="videoOptions.showMeta" :style="videoOptions.dimensions" style="font-size: 1.2rem;">
     <div class="p-2 d-flex justify-content-start">
@@ -60,16 +60,20 @@ export default {
   mounted () {
     if (this.attributes && this.attributes.artworkFile) {
       const aft = this.attributes.artworkFile.type
-      if (aft.indexOf('pdf') > -1 || aft.indexOf('plain') > -1) {
-        this.contentType = 'document'
-      } else if (aft.indexOf('video') > -1 || aft.indexOf('mp3') > -1) {
-        this.contentType = 'video'
-      } else if (aft.indexOf('audio') > -1 || aft.indexOf('mp3') > -1) {
-        this.contentType = 'audio'
-      } else if (aft.indexOf('threed') > -1 || aft.indexOf('gltf') > -1 || aft.indexOf('glb') > -1) {
-        this.contentType = 'threed'
-      } else {
+      if (!aft) {
         this.contentType = 'image'
+      } else {
+        if (aft.indexOf('pdf') > -1 || aft.indexOf('plain') > -1) {
+          this.contentType = 'document'
+        } else if (aft.indexOf('video') > -1 || aft.indexOf('mp3') > -1) {
+          this.contentType = 'video'
+        } else if (aft.indexOf('audio') > -1 || aft.indexOf('mp3') > -1) {
+          this.contentType = 'audio'
+        } else if (aft.indexOf('threed') > -1 || aft.indexOf('gltf') > -1 || aft.indexOf('glb') > -1) {
+          this.contentType = 'threed'
+        } else {
+          this.contentType = 'image'
+        }
       }
     }
   },

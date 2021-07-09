@@ -41,9 +41,6 @@ export default {
     this.$store.dispatch('rpayPurchaseStore/fetchOffers').then((dbOffers) => {
       this.dbOffers = dbOffers
     })
-    this.$store.dispatch('assetGeneralStore/fetchTransactions').then((transactions) => {
-      this.transactions = transactions
-    })
   },
   methods: {
     offerMade: function (madeData) {

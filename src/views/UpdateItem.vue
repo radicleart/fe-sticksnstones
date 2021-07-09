@@ -114,7 +114,7 @@ export default {
   methods: {
     hasFile (file) {
       const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-      if (!item) return
+      if (!item || !item.attributes) return
       if (file === 'artworkFile') return item.attributes.artworkFile && item.attributes.artworkFile.fileUrl
       else if (file === 'artworkClip') return item.attributes.artworkClip && item.attributes.artworkClip.fileUrl
       else if (file === 'coverImage') return item.attributes.coverImage && item.attributes.coverImage.fileUrl

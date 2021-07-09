@@ -173,6 +173,15 @@ export default new Vuex.Store({
     getWebWalletLinkChrome: state => {
       return state.chromeLink
     },
+    getContractId: () => {
+      return STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME
+    },
+    getContractAddress: () => {
+      return STX_CONTRACT_ADDRESS
+    },
+    getContractName: () => {
+      return STX_CONTRACT_NAME
+    },
     getWebWalletLinkFirefox: state => {
       return state.firefoxLink
     },

@@ -9,7 +9,7 @@
     <template v-slot:footer>
       <div class="d-flex justify-content-between">
         <b-button @click="saveData()" class="w-50 mr-4" variant="outline-light">save mint later</b-button>
-        <b-button @click="mintToken()" v-if="allowMint()"  class="w-50 ml-4" variant="outline-dark">mint now</b-button>
+        <b-button @click="sendMintEvent()" v-if="allowMint()"  class="w-50 ml-4" variant="outline-dark">mint now</b-button>
       </div>
     </template>
   </b-card>
@@ -57,7 +57,7 @@ export default {
       configuration.opcode = 'cancel-minting'
       window.eventBus.$emit('rpayEvent', configuration)
     },
-    mintToken: function () {
+    sendMintEvent: function () {
       this.$emit('mintToken')
     }
   },

@@ -90,7 +90,7 @@ export default {
     },
     bannerImage () {
       let imageUrl = this.waitingImage
-      if (this.item.attributes.coverImage) {
+      if (this.item.attributes && this.item.attributes.coverImage) {
         imageUrl = this.item.attributes.coverImage.fileUrl
       }
       return {

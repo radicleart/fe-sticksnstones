@@ -1,4 +1,7 @@
 export const APP_CONSTANTS = {
+  KEY_CONTRACT_ID: 'getContractId',
+  KEY_CONTRACT_NAME: 'getContractName',
+  KEY_CONTRACT_ADDRESS: 'getContractAddress',
   KEY_RPAY_CONFIGURATION: 'getRpayConfiguration',
   KEY_CONFIGURATION: 'getRpayConfiguration',
   SET_RPAY_FLOW: 'setRpayFlow',
@@ -40,6 +43,8 @@ export const APP_CONSTANTS = {
   KEY_BREAK_LINE: 'contentStore/getBreakLine',
 
   KEY_CATEGORIES: 'rpayCategoryStore/getCategories',
+
+  KEY_TRANSACTION: 'rpayTransactionStore/getTransaction',
 
   KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
   KEY_PROFILE: 'rpayAuthStore/getMyProfile',

@@ -8,7 +8,7 @@
       <b-button class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-button>
     </div>
     <b-row :key="componentKey" class="mb-4" v-if="filteredItems && filteredItems.length > 0">
-      <b-col md="3" sm="4" xs="6" v-for="(item, index) in filteredItems" :key="index" class="mt-5">
+      <b-col md="4" sm="4" xs="6" v-for="(item, index) in filteredItems" :key="index" class="mt-5">
         <SingleItem class="mb-2" :item="item"/>
       </b-col>
     </b-row>
@@ -16,7 +16,7 @@
 </div>
 <div v-else class="center text-center">
   <LoopbombSpinner />
-  <div>Makig Daisy Chains...</div>
+  <div>Making daisy chains... back soon.</div>
 </div>
 </template>
 

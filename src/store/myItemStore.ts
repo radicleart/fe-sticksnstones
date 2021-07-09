@@ -167,12 +167,14 @@ const myItemStore = {
           reject(new Error('Forbidden - item has been minted.'))
           return
         }
-        const artworkFile = item.attributes.artworkFile
-        if (artworkFile && artworkFile.storage === 'gaia') dispatch('deleteMediaItem', { id: 'artworkFile', item: item })
-        const artworkClip = item.attributes.artworkClip
-        if (artworkClip && artworkClip.storage === 'gaia') dispatch('deleteMediaItem', { id: 'artworkClip', item: item })
-        const coverImage = item.attributes.coverImage
-        if (coverImage && coverImage.storage === 'gaia') dispatch('deleteMediaItem', { id: 'coverImage', item: item })
+        if (item.attributes) {
+          const artworkFile = item.attributes.artworkFile
+          if (artworkFile && artworkFile.storage === 'gaia') dispatch('deleteMediaItem', { id: 'artworkFile', item: item })
+          const artworkClip = item.attributes.artworkClip
+          if (artworkClip && artworkClip.storage === 'gaia') dispatch('deleteMediaItem', { id: 'artworkClip', item: item })
+          const coverImage = item.attributes.coverImage
+          if (coverImage && coverImage.storage === 'gaia') dispatch('deleteMediaItem', { id: 'coverImage', item: item })
+        }
 
         const index = state.rootFile.records.findIndex((o) => o.assetHash === item.assetHash)
         state.rootFile.records.splice(index, 1)
