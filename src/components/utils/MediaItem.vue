@@ -93,7 +93,7 @@ export default {
     dimensions: function () {
       if (this.dims) {
         // return 'width: ' + this.dims.width + 'px; height: ' + this.dims.height + 'px;'
-        return 'width: 100%; height: auto;'
+        return 'width: 100%; height: 300px;'
       }
       return 'width: 100%; height: auto'
     },

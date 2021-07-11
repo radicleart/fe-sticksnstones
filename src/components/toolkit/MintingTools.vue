@@ -12,6 +12,7 @@
         </b-alert>
       </div>
       <div v-else-if="isValid" show variant="danger">
+        {{transaction}}
         <b-button variant="outline-primary" @click="startMinting()">Mint File</b-button>
       </div>
       <b-alert v-else show variant="danger">not valid - information required</b-alert>
@@ -161,6 +162,9 @@ export default {
           $self.$bvModal.hide('selling-modal')
           $self.$bvModal.hide('minting-modal')
           $self.mintResult = txResult
+          setInterval(function () {
+            $self.$store.dispatch('rpayTransactionStore/fetchTransactionInfo', $self.mintTxId)
+          }, 5000)
           // $self.$bvModal.show('result-modal')
         } else if (data.opcode === 'cancel-minting') {
           $self.$bvModal.hide('selling-modal')
@@ -216,6 +220,10 @@ export default {
     }
   },
   computed: {
+    transaction () {
+      const transaction = this.$store.getters[APP_CONSTANTS.KEY_TRANSACTION](this.mintTxId)
+      return transaction
+    },
     profile () {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       return profile

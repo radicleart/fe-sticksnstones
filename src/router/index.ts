@@ -8,6 +8,10 @@ import MainFooter from '@/components/layout/MainFooter.vue'
 
 // public pages
 import Home from '../views/Home.vue'
+import UserAdmin from '../views/UserAdmin.vue'
+import Post from '../views/Post.vue'
+import GetInTouch from '../views/GetInTouch.vue'
+import FourOFour from '../views/FourOFour.vue'
 
 const MyItems = () => import('../views/MyItems.vue')
 const UploadItem = () => import('../views/UploadItem.vue')
@@ -99,6 +103,34 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
       requiresAdmin: false
     }
+  },
+  {
+    path: '/user-admin',
+    name: 'user-admin',
+    components: { default: UserAdmin, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/get-in-touch',
+    name: 'get-in-touch',
+    components: { default: GetInTouch, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/:uid',
+    name: 'post',
+    components: { default: Post, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/404',
+    name: '404',
+    components: { default: FourOFour, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '*',
+    redirect: { path: '/404' }
   }
 ]
 

@@ -3,7 +3,7 @@
   <div>
     <MediaItem :videoOptions="videoOptions" :dims="dims" :attributes="result.attributes" :targetItem="'coverImage'"/>
   </div>
-  <div class="text-center py-1 pb-3 bg-light text-small">
+  <div class="text-center py-1 py-3 bg-light text-small">
     <div v-if="result.name"><h3 class="h2-modal"><b-link router-tag="a" :to="assetUrl">{{result.name}}</b-link></h3></div>
     <div v-else><h3 class="h2-modal">Unkown</h3></div>
     <div v-if="result.name">by <span class="text-success">{{result.artist}}</span></div>

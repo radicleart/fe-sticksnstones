@@ -2,41 +2,60 @@
 <div class="d-flex justify-content-center">
 <b-navbar variant="light" id="navbar" :style="bannerImage">
   <b-navbar-brand><router-link class="navbar-brand" to="/"><img width="150px;" :src="logo" alt="risidio-logo"/></router-link></b-navbar-brand>
-  <b-navbar-toggle target="nav-collapse">
+  <b-navbar-toggle target="my-sidebar">
+    <!--
     <template #default="{ expanded }">
       <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
       <b-icon v-else icon="chevron-bar-down"></b-icon>
     </template>
+    -->
+    <b-button v-b-toggle:my-collapse>
+      <span class="when-open"><b-icon icon="chevron-bar-up"></b-icon></span><span class="when-closed"><b-icon icon="chevron-bar-down"></b-icon></span>
+    </b-button>
   </b-navbar-toggle>
   <!-- Mobile Design for login menu -->
-  <b-collapse id="nav-collapse" is-nav>
-    <!-- Right aligned nav items -->
+
+  <b-sidebar id="my-sidebar" sidebar-class="border-left border-secondary" bg-variant="white" text-variant="dark" aria-label="Sidebar" right>
+    <template #default="{ hide }">
+      <div class="pb-5 mt-5 border-bottom text-center">
+        <h1>Welcome</h1>
+        <h2>{{username}}</h2>
+      </div>
+      <div class="p-3 mb-5 border-bottom text-left">
+        <h4><b-icon class="mr-3" icon="arrow-up-right"/> Navigation</h4>
+        <div class="d-flex justify-content-center">
+          <nav class="mt-4 mx-auto">
+            <b-nav vertical class="text-small">
+              <b-nav-item v-if="profile" active><b-link to="/my-items/all"><b-icon class="mr-2 mb-2" icon="files"></b-icon> My NFTs</b-link></b-nav-item>
+              <b-nav-item v-if="profile.superAdmin" active><b-link to="/user-admin"><b-icon class="mr-2 mb-2" icon="person"></b-icon> User Admin</b-link></b-nav-item>
+              <b-nav-item @click="hide"><b-link @click.prevent="logout()"><b-icon icon="person" class="mr-2 mb-2"/> Logout</b-link></b-nav-item>
+            </b-nav>
+          </nav>
+        </div>
+        <div class="mt-4 d-flex justify-content-center">
+          <b-button variant="warning" class="mr-2 mb-2"><b-link class="text-white" to="/create">Upload New Item</b-link></b-button>
+        </div>
+      </div>
+      <div class="p-3 mb-5 border-bottom text-left">
+        <h4 id="sidebar-no-header-title"><b-icon class="mr-3" icon="wallet2"/> Wallet</h4>
+        <p class="text-center">
+          <nav class="mb-3">
+            <b-nav vertical>
+              <b-nav-item><span>Address</span></b-nav-item>
+              <b-nav-item><span class="stx-address">{{profile.stxAddress}}</span></b-nav-item>
+              <b-nav-item v-if="profile.accountInfo" active><span>Balance: <span class="text-secondary">{{profile.accountInfo.balance}}</span> STX</span></b-nav-item>
+            </b-nav>
+          </nav>
+        </p>
+      </div>
+    </template>
+  </b-sidebar>
+
     <b-navbar-nav class="ml-auto">
-      <b-nav-item v-if="profile.loggedIn" class="mr-5"><router-link class="text-white" to="/create">Upload</router-link></b-nav-item>
-      <b-nav-item-dropdown class="text-white nav-text" right v-if="profile.loggedIn" caret>
-        <template v-slot:button-content>
-          <span class="text-white nav-text" style="font-size: 2.6rem;"><b-icon icon="person" class="mb-3 mr-0"/></span>
-        </template>
-        <b-dropdown-item>{{username}}</b-dropdown-item>
-        <b-dropdown-divider />
-        <b-dropdown-item>
-          <span>{{profile.stxAddress}}</span>
-        </b-dropdown-item>
-        <b-dropdown-item v-if="profile.accountInfo">
-          <span>Balance: {{profile.accountInfo.balance}} STX</span>
-        </b-dropdown-item>
-        <b-dropdown-divider />
-        <b-dropdown-item v-if="profile.accountInfo">
-          <span><b-link to="/my-items/all">My NFTs</b-link></span>
-        </b-dropdown-item>
-        <b-dropdown-divider />
-        <b-dropdown-item>
-          <span @click="logout()">Logout</span>
-        </b-dropdown-item>
-      </b-nav-item-dropdown>
-      <b-nav-item class="text-white" @click.prevent="startLogin()" href="#" v-else>Login</b-nav-item>
+      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/create">Upload Item</router-link></b-nav-item>
+      <b-nav-item v-if="profile.loggedIn" class="mr-3"><a v-b-toggle.my-sidebar class="text-white nav-text" ><b-icon icon="person" class="mb-3 mr-0"/> Account</a></b-nav-item>
+      <b-nav-item v-else class="text-white" @click.prevent="startLogin()" href="#">Login</b-nav-item>
     </b-navbar-nav>
-  </b-collapse>
 </b-navbar>
 </div>
 </template>
@@ -196,5 +215,8 @@ nav.navbar {
 }
 .navbar-light .navbar-nav .nav-link {
     color: #fff !important;
+}
+.b-sidebar > .b-sidebar-header {
+    padding: 50px 10px;
 }
 </style>

@@ -281,7 +281,6 @@ const myItemStore = {
           coverImage: tempAttributes.coverImage,
           artworkClip: tempAttributes.artworkClip
         }
-        item.updated = moment({}).valueOf()
         if (!item.metaDataUrl && !profile.gaiaHubConfig) {
           reject(new Error('Unable to load your gaia hub info - reload page and try again.'))
           dispatch('rpayAuthStore/fetchMyAccount', { root: true }).then((profile) => {

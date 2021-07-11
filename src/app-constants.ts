@@ -46,6 +46,9 @@ export const APP_CONSTANTS = {
 
   KEY_TRANSACTION: 'rpayTransactionStore/getTransaction',
 
+  KEY_AUTHORISATIONS: 'rpayPrivilegeStore/getAuthorisations',
+  KEY_AUTHORISATION: 'rpayPrivilegeStore/getAuthorisation',
+
   KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
   KEY_PROFILE: 'rpayAuthStore/getMyProfile',
   KEY_GAIA_STORAGE: 'rpayAuthStore/getMyProfile',
