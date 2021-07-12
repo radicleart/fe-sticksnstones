@@ -9,7 +9,7 @@
         </div>
         <div class="col-lg-7 col-12 d-flex columns3-content__container">
             <div class="footer__column-content ml-lg-auto">
-              <div><router-link to="/marketplace">Marketplace</router-link></div>
+              <div><router-link to="/marketplace">SIMONE WAS HERE</router-link></div>
               <div><router-link to="/marketplace">Gallery</router-link></div>
               <div><router-link to="/marketplace">Collections</router-link></div>
               <div><router-link to="/marketplace">Artists</router-link></div>
