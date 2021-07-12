@@ -10,7 +10,7 @@
         <div class="col-lg-7 col-12 d-flex columns3-content__container">
             <div class="footer__column-content ml-lg-auto">
               <div class="text-secondary">NFT</div>
-              <div><router-link to="/nft/my-nfts/:filter">Your NFTs</router-link></div>
+              <div><router-link to="/my-items/all">Your NFTs</router-link></div>
               <div><router-link to="/nft?uid=mint-a-file">Mint A File</router-link></div>
               <div><router-link to="/nft?uid=artists">Artists</router-link></div>
               <div><router-link to="/nft?uid=applications">Applications</router-link></div>
