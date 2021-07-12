@@ -13,6 +13,7 @@ import Post from '../views/Post.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import Community from '../views/Community.vue'
+import NFT from '..views/NFT.vue'
 
 const MyItems = () => import('../views/MyItems.vue')
 const UploadItem = () => import('../views/UploadItem.vue')
@@ -123,6 +124,11 @@ const routes: Array<RouteConfig> = [
     path: '/community',
     name: 'community',
     components: { default: Community, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/nft',
+    name: 'nft',
+    components: { default: NFT, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/:uid',
