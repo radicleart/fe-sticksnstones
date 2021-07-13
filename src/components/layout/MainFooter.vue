@@ -9,25 +9,25 @@
         </div>
         <div class="col-lg-7 col-12 d-flex columns3-content__container">
             <div class="footer__column-content ml-lg-auto">
-              <div><router-link to="/marketplace">Marketplace</router-link></div>
-              <div><router-link to="/marketplace">Gallery</router-link></div>
-              <div><router-link to="/marketplace">Collections</router-link></div>
-              <div><router-link to="/marketplace">Artists</router-link></div>
-              <div><router-link to="/marketplace">Applications</router-link></div>
+              <div class="text-secondary">NFT</div>
+              <div><router-link to="/my-items/all">Your NFTs</router-link></div>
+              <div><router-link to="/nft?uid=mint-a-file">Mint A File</router-link></div>
+              <div><router-link to="/nft?uid=artists">Artists</router-link></div>
+              <div><router-link to="/nft?uid=applications">Applications</router-link></div>
             </div>
             <div class="footer__column-content">
-              <div>How It Works</div>
+              <div class="text-secondary">How It Works</div>
               <div><router-link to="/community?uid=self-owned-identity">Self Owned Identity</router-link></div>
               <div><router-link to="/community?uid=user-journeys-stx-funds">Getting Testnet STX</router-link></div>
               <div><router-link to="/community?uid=user-journeys-buying">Buying and Selling</router-link></div>
               <div><router-link to="/community?uid=tech-tales-clarity-registry">Clarity Contracts</router-link></div>
             </div>
             <div class="footer__column-content">
-              <div>What we do</div>
+              <div class="text-secondary">What we do</div>
               <div><router-link to="/get-in-touch">Get in Touch</router-link></div>
               <div><router-link to="/admin-app">Developers</router-link></div>
-              <div class="text-secondary">leveller</div>
-              <div class="text-secondary">leveller</div>
+              <div class="text-secondary">placeholder</div>
+              <div class="text-secondary">placeholder</div>
             </div>
         </div>
       </div>
