@@ -13,7 +13,7 @@ import Post from '../views/Post.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import Community from '../views/Community.vue'
-import NFT from '..views/NFT.vue'
+import NFT from '../views/NFT.vue'
 
 const MyItems = () => import('../views/MyItems.vue')
 const UploadItem = () => import('../views/UploadItem.vue')
