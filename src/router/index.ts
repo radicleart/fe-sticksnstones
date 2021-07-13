@@ -121,7 +121,7 @@ const routes: Array<RouteConfig> = [
     components: { default: GetInTouch, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/community',
+    path: '/community/:uid',
     name: 'community',
     components: { default: Community, header: MainNavbar, footer: MainFooter }
   },

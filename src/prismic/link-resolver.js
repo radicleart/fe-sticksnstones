@@ -4,12 +4,20 @@
  */
 
 export default function (doc) {
+  if (doc.type === 'homepage') {
+    return '/'
+  }
+
   if (doc.isBroken) {
     return '/not-found'
   }
 
-  if (doc.type === 'blog_home') {
-    return '/blog'
+  if (doc.type === 'ruma_content' | 'ruma_vertical_block') {
+    return '/community/' + doc.uid
+  }
+
+  if (doc.type === 'ruma_content' | 'ruma_vertical_block') {
+    return '/nft/' + doc.uid
   }
 
   if (doc.type === 'post') {
@@ -20,5 +28,5 @@ export default function (doc) {
     return '/page/' + doc.uid
   }
 
-  return '/not-found'
+  return '/404'
 }
