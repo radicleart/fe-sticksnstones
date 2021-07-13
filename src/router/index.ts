@@ -126,7 +126,7 @@ const routes: Array<RouteConfig> = [
     components: { default: Community, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/nft',
+    path: '/nft/:uid',
     name: 'nft',
     components: { default: NFT, header: MainNavbar, footer: MainFooter }
   },
