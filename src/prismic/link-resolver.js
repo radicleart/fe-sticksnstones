@@ -8,10 +8,6 @@ export default function (doc) {
     return '/'
   }
 
-  if (doc.isBroken) {
-    return '/not-found'
-  }
-
   if (doc.type === 'ruma_content' | 'ruma_vertical_block') {
     return '/community/' + doc.uid
   }
@@ -24,8 +20,12 @@ export default function (doc) {
     return '/blog/' + doc.uid
   }
 
-  if (doc.type === 'page') {
-    return '/page/' + doc.uid
+  if (doc.uid) {
+    return '/' + doc.uid
+  }
+
+  if (doc.isBroken) {
+    return '/not-found'
   }
 
   return '/404'
