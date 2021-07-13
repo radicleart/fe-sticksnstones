@@ -16,6 +16,9 @@
   <b-col cols="12">You need to download the web wallet to login and start minting your very own NFTs!</b-col>
   <b-col cols="12"><a class="pointer mx-4" :href="webWalletLink" target="_blank">Stacks Web Wallet <b-icon class="ml-3" icon="arrow-up-right-square-fill"/></a></b-col>
 </b-row>
+<b-row style="min-height: 30vh" class="text-center" v-else>
+  <b-col cols="12">Login / download the Stacks Wallet to get started</b-col>
+</b-row>
 </template>
 
 <script>

@@ -131,7 +131,7 @@ const routes: Array<RouteConfig> = [
     components: { default: NFT, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/:uid',
+    path: '/post/:uid',
     name: 'post',
     components: { default: Post, header: MainNavbar, footer: MainFooter }
   },
