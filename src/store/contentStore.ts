@@ -115,20 +115,8 @@ const contentStore = {
     addAboutContent (state, o) {
       state.content.about = o
     },
-    addMainFooter (state, o) {
-      state.content.mainFooter = o
-    },
-    addNavigationContent (state, o) {
-      state.content.navigation = o
-    },
-    addCharities (state, o) {
-      state.content.charities = o
-    },
     addInformation (state, o) {
       state.content.information = o
-    },
-    addArtists (state, o) {
-      state.content.artists = o
     }
   },
   actions: {

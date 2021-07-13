@@ -90,28 +90,11 @@ export default {
           this.$store.commit('contentStore/addAboutContent', document.data)
         }
       })
-      this.$prismic.client.getSingle('mainfooter').then((document) => {
-        if (document) {
-          this.$store.commit('contentStore/addMainFooter', document.data)
-        }
-      })
       this.$prismic.client.query(
         this.$prismic.Predicates.at('document.type', 'information_page'),
         { pageSize: 40, page: 1 }
       ).then((response) => {
         this.$store.commit('contentStore/addInformation', response.results)
-      })
-      this.$prismic.client.query(
-        this.$prismic.Predicates.at('document.type', 'charity'),
-        { pageSize: 20, page: 1 }
-      ).then((response) => {
-        this.$store.commit('contentStore/addCharities', response.results)
-      })
-      this.$prismic.client.query(
-        this.$prismic.Predicates.at('document.type', 'artist'),
-        { pageSize: 20, page: 1 }
-      ).then((response) => {
-        this.$store.commit('contentStore/addArtists', response.results)
       })
     },
     resizeContainers () {
