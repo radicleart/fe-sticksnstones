@@ -6,8 +6,11 @@ const contentStore = {
       artists: [],
       applications: [],
       mainFooter: null,
+      information: null,
       navigation: null,
       homepage: null,
+      about: null,
+      tooltips: null,
       howItWorks: null,
       nft: null,
       community: null,
@@ -36,6 +39,10 @@ const contentStore = {
       if (!state.content.homepage) return
       return state.content.homepage.breakline.url
     },
+    getTooltip: state => tooltipId => {
+      if (!state.content.tooltips || !state.content.tooltips[tooltipId]) return
+      return state.content.tooltips[tooltipId]
+    },
     getApplications: state => {
       return state.content.applications
     },
@@ -61,6 +68,9 @@ const contentStore = {
     getHomepage: state => {
       return state.content.homepage
     },
+    getAbout: state => {
+      return state.content.about
+    },
     getMainFooter: state => {
       return state.content.mainFooter
     },
@@ -80,6 +90,12 @@ const contentStore = {
   mutations: {
     addHomeContent (state, o) {
       state.content.homepage = o
+    },
+    addTooltips (state, o) {
+      state.content.tooltips = o
+    },
+    addAboutContent (state, o) {
+      state.content.about = o
     },
     addNftContent (state, o) {
       state.content.nft = o
