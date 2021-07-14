@@ -16,11 +16,6 @@ export default {
     return {
     }
   },
-  mounted () {
-    this.$store.dispatch('rpayPrivilegeStore/fetchAuthorisations').then((result) => {
-      this.contractBalance = result.result
-    })
-  },
   methods: {
   },
   computed: {

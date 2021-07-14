@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="loaded">
   <div class="mb-3" role="group">
     <label for="stxAddress">STX Address :</label>
     <b-form-input
@@ -43,18 +43,31 @@
     </b-form-invalid-feedback>
   </div>
 </div>
+<div v-else>
+  <LoopbombSpinner />
+</div>
 </template>
 
 <script>
+import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
   name: 'RolesAndPrivileges',
   components: {
+    LoopbombSpinner
   },
   data () {
     return {
-      formSubmitted: false
+      formSubmitted: false,
+      loaded: false,
+      result: null
     }
+  },
+  mounted () {
+    this.$store.dispatch('rpayPrivilegeStore/fetchAuthorisations').then((result) => {
+      this.result = result
+      this.loaded = true
+    })
   },
   methods: {
   },
