@@ -121,13 +121,13 @@ const routes: Array<RouteConfig> = [
     components: { default: GetInTouch, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/community/:uid',
-    name: 'community',
+    path: '/how-it-works/:uid',
+    name: 'horizontal_block',
     components: { default: Community, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/nft/:uid',
-    name: 'nft',
+    name: 'vertical_block',
     components: { default: NFT, header: MainNavbar, footer: MainFooter }
   },
   {
