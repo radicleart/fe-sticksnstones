@@ -30,7 +30,7 @@ const RISIDIO_STACKS_API = process.env.VUE_APP_STACKS_API
 const selling = {
 }
 const marketConfig = {
-  oneLayout: false,
+  oneLayout: true,
   searchMenu: false,
   sideMenu: false
 }
