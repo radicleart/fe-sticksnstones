@@ -12,7 +12,7 @@ import UserAdmin from '../views/UserAdmin.vue'
 import Post from '../views/Post.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
-import Community from '../views/Community.vue'
+import HowItWorks from '../views/HowItWorks.vue'
 import NFT from '../views/NFT.vue'
 
 const MyItems = () => import('../views/MyItems.vue')
@@ -123,11 +123,11 @@ const routes: Array<RouteConfig> = [
   {
     path: '/how-it-works/:uid',
     name: 'horizontal_block',
-    components: { default: Community, header: MainNavbar, footer: MainFooter }
+    components: { default: HowItWorks, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/nft/:uid',
-    name: 'vertical_block',
+    name: 'horizontal_block',
     components: { default: NFT, header: MainNavbar, footer: MainFooter }
   },
   {
