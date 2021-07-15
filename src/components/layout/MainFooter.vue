@@ -17,10 +17,22 @@
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
-              <div><router-link to="/community?uid=self-owned-identity">Self Owned Identity</router-link></div>
+              <div v-scroll-to="{ offset: -60, element: '#selfowned', duration: 1000 }">
+                <b-link to="/how-it-works">Self Owned Identity</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#testnet', duration: 1000 }">
+                <b-link to="/how-it-works">Getting Testnet</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#buying', duration: 1000 }">
+                <b-link to="/how-it-works">Buying and Selling</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#clarity-contracts', duration: 1000 }">
+                <b-link to="/how-it-works">Clarity Contracts</b-link>
+              </div>
+              <!-- <div><router-link to="/community?uid=self-owned-identity">Self Owned Identity</router-link></div>
               <div><router-link to="/community?uid=user-journeys-stx-funds">Getting Testnet STX</router-link></div>
               <div><router-link to="/community?uid=user-journeys-buying">Buying and Selling</router-link></div>
-              <div><router-link to="/community?uid=tech-tales-clarity-registry">Clarity Contracts</router-link></div>
+              <div><router-link to="/community?uid=tech-tales-clarity-registry">Clarity Contracts</router-link></div> -->
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">What we do</div>
