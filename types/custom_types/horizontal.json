@@ -1,0 +1,62 @@
+{
+    "Main" : {
+      "uid" : {
+        "type" : "UID",
+        "config" : {
+          "label" : "URL UID:",
+          "placeholder" : "my-unique-content"
+        }
+      },
+      "section-heading" : {
+        "type" : "StructuredText",
+        "config" : {
+          "single" : "heading2,heading3,heading4,heading5,heading6",
+          "label" : "section-heading",
+          "placeholder" : "type whole section heading here"
+        }
+      },
+      "block" : {
+        "type" : "Group",
+        "config" : {
+          "fields" : {
+            "image" : {
+              "type" : "Image",
+              "config" : {
+                "constraint" : {
+                  "width" : 150,
+                  "height" : 75
+                },
+                "thumbnails" : [ ],
+                "label" : "Image"
+              }
+            },
+            "heading1" : {
+              "type" : "StructuredText",
+              "config" : {
+                "single" : "heading4,heading5,heading6",
+                "label" : "heading"
+              }
+            },
+            "text1" : {
+              "type" : "StructuredText",
+              "config" : {
+                "multi" : "preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+                "allowTargetBlank" : true,
+                "label" : "text",
+                "placeholder" : "Write text here"
+              }
+            }
+          },
+          "label" : "block-left"
+        }
+      },
+      "content-link" : {
+        "type" : "Link",
+        "config" : {
+          "select" : "document",
+          "label" : "content-link",
+          "placeholder" : "type any additional external link here"
+        }
+      }
+    }
+  }

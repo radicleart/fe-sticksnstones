@@ -121,12 +121,12 @@ const routes: Array<RouteConfig> = [
     components: { default: GetInTouch, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/community',
+    path: '/community/:uid',
     name: 'community',
     components: { default: Community, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/nft',
+    path: '/nft/:uid',
     name: 'nft',
     components: { default: NFT, header: MainNavbar, footer: MainFooter }
   },

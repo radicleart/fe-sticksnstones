@@ -4,21 +4,29 @@
  */
 
 export default function (doc) {
-  if (doc.isBroken) {
-    return '/not-found'
+  if (doc.type === 'homepage') {
+    return '/'
   }
 
-  if (doc.type === 'blog_home') {
-    return '/blog'
+  if (doc.type === 'ruma_content' | 'ruma_vertical_block') {
+    return '/community/' + doc.uid
+  }
+
+  if (doc.type === 'ruma_content' | 'ruma_vertical_block') {
+    return '/nft/' + doc.uid
   }
 
   if (doc.type === 'post') {
     return '/blog/' + doc.uid
   }
 
-  if (doc.type === 'page') {
-    return '/page/' + doc.uid
+  if (doc.uid) {
+    return '/' + doc.uid
   }
 
-  return '/not-found'
+  if (doc.isBroken) {
+    return '/not-found'
+  }
+
+  return '/404'
 }
