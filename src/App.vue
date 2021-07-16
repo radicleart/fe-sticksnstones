@@ -70,6 +70,11 @@ export default {
       }
     },
     readPrismicContent () {
+      this.$prismic.client.getSingle('about').then(document => {
+        if (document) {
+          // this.$store.commit('contentStore/addAbout', document.data)
+        }
+      })
       this.$prismic.client.getSingle('tooltips').then(document => {
         if (document) {
           this.$store.commit('contentStore/addTooltips', document.data)

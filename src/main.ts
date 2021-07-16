@@ -18,8 +18,6 @@ import Vue2TouchEvents from 'vue2-touch-events'
 import browserDetect from 'vue-browser-detect-plugin'
 
 const RisidioPay = () => import('risidio-pay')
-const accessToken = ''
-const endpoint = 'https://digirad.cdn.prismic.io/api/v2'
 
 Vue.config.productionTip = false
 
@@ -30,7 +28,8 @@ Vue.use(VueSocialSharing)
 Vue.use(IconsPlugin)
 Vue.use(Notifications, { closeOnClick: true, duration: 10000 })
 Vue.use(PrismicVue, {
-  endpoint,
+  accessToken: '',
+  endpoint: 'https://radsoc.cdn.prismic.io/api/v2',
   linkResolver,
   htmlSerializer
 })

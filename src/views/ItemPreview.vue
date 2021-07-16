@@ -20,6 +20,9 @@
               </div>
             </div>
           </div>
+          <div class="mb-2 d-flex justify-content-end">
+            <ItemPrivacyMenu @performAction="performAction" :assetHash="item.assetHash" :mode="update" />
+          </div>
           <h6 class="text-small">By : {{item.artist}}</h6>
         </div>
         <p class="pt-4 text-small" v-html="preserveWhiteSpace(item.description)"></p>
@@ -35,13 +38,15 @@ import MintingTools from '@/components/toolkit/MintingTools'
 import MediaItem from '@/components/utils/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
 import ItemActionMenu from '@/components/items/ItemActionMenu'
+import ItemPrivacyMenu from '@/components/items/ItemPrivacyMenu'
 
 export default {
   name: 'ItemPreview',
   components: {
     MintingTools,
     MediaItem,
-    ItemActionMenu
+    ItemActionMenu,
+    ItemPrivacyMenu
   },
   data: function () {
     return {

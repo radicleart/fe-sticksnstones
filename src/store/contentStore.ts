@@ -10,7 +10,7 @@ const contentStore = {
       homepage: null,
       howItWorks: null,
       nft: null,
-      community: null,
+      community: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -75,7 +75,7 @@ const contentStore = {
     },
     getCommunity: state => {
       return state.content.community
-    },
+    }
   },
   mutations: {
     addHomeContent (state, o) {
