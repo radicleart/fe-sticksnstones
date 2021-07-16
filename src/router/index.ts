@@ -7,6 +7,7 @@ import MainNavbar from '@/components/layout/MainNavbar.vue'
 import MainFooter from '@/components/layout/MainFooter.vue'
 
 // public pages
+
 import Home from '../views/Home.vue'
 import UserAdmin from '../views/UserAdmin.vue'
 import Post from '../views/Post.vue'
@@ -14,6 +15,7 @@ import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import Community from '../views/Community.vue'
 import NFT from '../views/NFT.vue'
+import About from '../views/About.vue'
 
 const MyItems = () => import('../views/MyItems.vue')
 const UploadItem = () => import('../views/UploadItem.vue')
