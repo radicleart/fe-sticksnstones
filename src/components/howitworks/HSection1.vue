@@ -1,12 +1,12 @@
 <template>
 <div>
   <div id="ruma"></div>
-  <section id="h-number-1" class="how-section bg-white text-black">
+  <section id="how-1" class="how-section bg-white text-black">
     <b-container style="min-height: 60vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 91vh">
         <b-col md="8" sm="10" align-self="center">
           <div class="text-center">
-            <prismic-items :prismicItems="content.section1rtf1"></prismic-items>
+            <prismic-items :prismicItems="content.section1rtf2"></prismic-items>
           </div>
         </b-col>
       </b-row>
@@ -44,16 +44,16 @@ export default {
 section {
   padding: 20px 0;
 }
-#h-number-1 p {
+#how-1 p {
   text-align: left;
 }
-#h-number-1 img {
+#how-1 img {
   text-align: center;
   width: 100px;
   margin-top: 30px;
   margin-bottom: 30px;
 }
-#h-number-1 h4 {
+#how-1 h4 {
   text-align: left;
   font-size: 1.4rem;
   font-weight: 700;
