@@ -4,7 +4,7 @@ const contentStore = {
   state: {
     content: {
       artists: [],
-      applications: [],
+      applications: null,
       mainFooter: null,
       information: null,
       navigation: null,
@@ -13,7 +13,6 @@ const contentStore = {
       tooltips: null,
       howItWorks: null,
       nft: null,
-      community: null,
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -45,9 +44,6 @@ const contentStore = {
     },
     getApplications: state => {
       return state.content.applications
-    },
-    getApplicationsById: state => id => {
-      return state.content.applications.find((o) => o.uid === id)
     },
     getArtists: state => {
       return state.content.artists
@@ -83,9 +79,6 @@ const contentStore = {
     getNft: state => {
       return state.content.nft
     },
-    getCommunity: state => {
-      return state.content.community
-    },
   },
   mutations: {
     addHomeContent (state, o) {
@@ -100,8 +93,8 @@ const contentStore = {
     addNftContent (state, o) {
       state.content.nft = o
     },
-    addCommunityContent (state, o) {
-      state.content.community = o
+    addHowItWorksContent (state, o) {
+      state.content.howItWorks = o
     },
     addInformation (state, o) {
       state.content.information = o
