@@ -11,10 +11,18 @@
             <div class="footer__column-content ml-lg-auto">
               <div class="text-secondary">NFT</div>
               <div><router-link to="/my-items/all">Your NFTs</router-link></div>
-              <div><router-link to="/nft?uid=mint-a-file">Mint A File</router-link></div>
+              <div v-scroll-to="{ offset: -60, element: '#mint', duration: 1000 }">
+                <b-link to="/nft">Mint A File</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#artists', duration: 1000 }">
+                <b-link to="/nft">Artists</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#applications', duration: 1000 }">
+                <b-link to="/nft">Applications</b-link>
+              <!-- <div><router-link to="/nft?uid=mint-a-file">Mint A File</router-link></div>
               <div><router-link to="/nft?uid=artists">Artists</router-link></div>
               <div><router-link to="/nft?uid=applications">Applications</router-link></div>
-            </div>
+            </div> -->
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
               <div v-scroll-to="{ offset: -60, element: '#selfowned', duration: 1000 }">
