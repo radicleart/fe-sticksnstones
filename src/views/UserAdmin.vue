@@ -1,6 +1,6 @@
 <template>
 <b-container class="my-5 p-4">
-  <h1>Roles and Privileges</h1>
+  <h1 class="mb-5">Application Administration</h1>
   <RolesAndPrivileges />
 </b-container>
 </template>
