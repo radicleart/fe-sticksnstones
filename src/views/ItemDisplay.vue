@@ -45,8 +45,8 @@ export default {
   mounted () {
     this.loading = false
     if (this.$route.name === 'asset-display') {
-      this.nftIndex = Number(this.$route.params.nftIndex)
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_NFT_INDEX](this.nftIndex)
+      this.assetHash = (this.$route.params.assetHash)
+      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
       if (contractAsset) {
         this.assetHash = contractAsset.tokenInfo.assetHash
       } else {
