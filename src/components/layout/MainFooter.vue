@@ -35,10 +35,6 @@
               <div>
                 <b-link to="/how-it-works/clarity">Clarity Contracts</b-link>
               </div>
-              <!-- <div><router-link to="/community?uid=self-owned-identity">Self Owned Identity</router-link></div>
-              <div><router-link to="/community?uid=user-journeys-stx-funds">Getting Testnet STX</router-link></div>
-              <div><router-link to="/community?uid=user-journeys-buying">Buying and Selling</router-link></div>
-              <div><router-link to="/community?uid=tech-tales-clarity-registry">Clarity Contracts</router-link></div> -->
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">What we do</div>
