@@ -31,7 +31,7 @@ export default {
     },
     content () {
       const pageId = this.$route.params.pageId
-      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_ABOUT](pageId)
+      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_HOW_PAGE](pageId)
       return content
     }
   }
