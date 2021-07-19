@@ -15,9 +15,9 @@ import FourOFour from '../views/FourOFour.vue'
 import Community from '../views/Community.vue'
 import NFT from '../views/NFT.vue'
 
-const MyItems = () => import('../views/MyItems.vue')
-const UploadItem = () => import('../views/UploadItem.vue')
-const UpdateItem = () => import('../views/UpdateItem.vue')
+const MyItems = () => import('../views/upload/MyItems.vue')
+const UploadItem = () => import('../views/upload/UploadItem.vue')
+const UpdateItem = () => import('../views/upload/UpdateItem.vue')
 const ItemDisplay = () => import('../views/ItemDisplay.vue')
 const ItemPreview = () => import('../views/ItemPreview.vue')
 

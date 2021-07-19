@@ -144,10 +144,6 @@ export default {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       return profile.showAdmin || location.origin.indexOf('local') > -1
     },
-    balance () {
-      const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      return (profile && profile.wallet) ? profile.wallet.balance : 0
-    },
     stxAddress () {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       if (profile.wallet && profile.wallet.keyInfo.address) {

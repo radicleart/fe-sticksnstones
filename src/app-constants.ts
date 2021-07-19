@@ -48,6 +48,7 @@ export const APP_CONSTANTS = {
 
   KEY_AUTHORISATIONS: 'rpayPrivilegeStore/getAuthorisations',
   KEY_AUTHORISATION: 'rpayPrivilegeStore/getAuthorisation',
+  KEY_AVAILABLE_PRIVILEGES: 'rpayPrivilegeStore/getAvailablePrivileges',
 
   KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
   KEY_PROFILE: 'rpayAuthStore/getMyProfile',
@@ -83,6 +84,7 @@ export const APP_CONSTANTS = {
   KEY_ASSET_LAST_TRANSACTION: 'rpayStacksContractStore/getAssetLastTransaction',
   KEY_ASSET_TRANSACTION: 'rpayStacksContractStore/getAssetTransaction',
   KEY_ASSET_FROM_NFT_INDEX: 'rpayStacksContractStore/getContractAssetByNftIndex',
+  KEY_MY_CONTRACT_ASSETS: 'rpayStacksContractStore/getMyContractAsses',
 
   SET_CURRENT_SEARCH: 'rpaySearchStore/setCurrentSearch',
   KEY_CURRENT_SEARCH: 'rpaySearchStore/getCurrentSearch',

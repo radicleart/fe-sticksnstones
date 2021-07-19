@@ -1,5 +1,5 @@
 <template>
-<div v-if="loaded">
+<div>
   <div class="mb-3" role="group">
     <h2>Roles and Privileges</h2>
     <b-tabs left content-class="mt-3 text-small">
@@ -9,35 +9,21 @@
     </b-tabs>
   </div>
 </div>
-<div v-else>
-  <LoopbombSpinner />
-</div>
 </template>
 
 <script>
-import { APP_CONSTANTS } from '@/app-constants'
 import AddPrivileges from '@/components/admin/users/AddPrivileges'
-import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
   name: 'RolesAndPrivileges',
   components: {
-    AddPrivileges,
-    LoopbombSpinner
+    AddPrivileges
   },
   data () {
     return {
       formSubmitted: false,
-      loaded: false,
       result: null
     }
-  },
-  mounted () {
-    const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-    this.$store.dispatch('rpayPrivilegeStore/fetchPrivilegesForUser', { stxAddress: profile.stxAddress }).then((result) => {
-      this.result = result
-      this.loaded = true
-    })
   },
   methods: {
   },

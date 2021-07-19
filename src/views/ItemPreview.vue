@@ -35,10 +35,10 @@
 
 <script>
 import MintingTools from '@/components/toolkit/MintingTools'
-import MediaItem from '@/components/utils/MediaItem'
+import MediaItem from '@/components/upload/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
 import ItemActionMenu from '@/components/items/ItemActionMenu'
-import ItemPrivacyMenu from '@/components/items/ItemPrivacyMenu'
+import ItemPrivacyMenu from '@/components/upload/ItemPrivacyMenu'
 
 export default {
   name: 'ItemPreview',

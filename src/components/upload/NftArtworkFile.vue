@@ -17,8 +17,8 @@
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
-import MediaItem from '@/components/utils/MediaItem'
-import MediaUpload from '@/components/utils/MediaUpload'
+import MediaItem from '@/components/upload/MediaItem'
+import MediaUpload from '@/components/upload/MediaUpload'
 
 export default {
   name: 'ArtworkFile',

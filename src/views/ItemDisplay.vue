@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import MediaItem from '@/components/utils/MediaItem'
+import MediaItem from '@/components/upload/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
@@ -50,7 +50,7 @@ export default {
       if (contractAsset) {
         this.assetHash = contractAsset.tokenInfo.assetHash
       } else {
-        this.$store.dispatch('rpayStacksContractStore/getAssetByNftIndex', this.nftIndex).then((contractAsset) => {
+        this.$store.dispatch('rpayStacksContractStore/fetchAssetByNftIndex', this.nftIndex).then((contractAsset) => {
           if (contractAsset) {
             this.assetHash = contractAsset.tokenInfo.assetHash
           } else {

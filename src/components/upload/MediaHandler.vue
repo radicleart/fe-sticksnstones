@@ -22,7 +22,7 @@
 
 <script>
 import MediaUpload from '@/components/utils/MediaUpload'
-import MediaItem from '@/components/utils/MediaItem'
+import MediaItem from '@/components/upload/MediaItem'
 
 export default {
   name: 'MediaHandler',

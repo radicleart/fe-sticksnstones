@@ -49,7 +49,7 @@
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
-import CategoryChoice from '@/components/items/CategoryChoice'
+import CategoryChoice from '@/components/upload/CategoryChoice'
 
 export default {
   name: 'ItemFormPart1',

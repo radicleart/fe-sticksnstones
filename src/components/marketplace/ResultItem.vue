@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MediaItem from '@/components/utils/MediaItem'
+import MediaItem from '@/components/upload/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
