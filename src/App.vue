@@ -101,6 +101,12 @@ export default {
       ).then((response) => {
         this.$store.commit('contentStore/addInformation', response.results)
       })
+      this.$prismic.client.query(
+        this.$prismic.Predicates.at('document.type', 'how_ruma'),
+        { pageSize: 40, page: 1 }
+      ).then((response) => {
+        this.$store.commit('contentStore/addInformation', response.results)
+      })
     },
     resizeContainers () {
       let resizeTimer
