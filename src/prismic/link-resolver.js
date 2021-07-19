@@ -7,17 +7,15 @@ export default function (doc) {
   if (doc.type === 'homepage') {
     return '/'
   }
-
-  if (doc.type === 'ruma_content' | 'ruma_vertical_block') {
-    return '/community/' + doc.uid
+  if (doc.type === 'about') {
+    return '/about'
+  }
+  if (doc.type === 'horizontal_block') {
+    return '/how-it-works/' + doc.uid
   }
 
-  if (doc.type === 'ruma_content' | 'ruma_vertical_block') {
+  if (doc.type === 'horizontal_block') {
     return '/nft/' + doc.uid
-  }
-
-  if (doc.type === 'post') {
-    return '/blog/' + doc.uid
   }
 
   if (doc.uid) {

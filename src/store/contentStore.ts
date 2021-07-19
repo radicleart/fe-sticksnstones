@@ -4,13 +4,15 @@ const contentStore = {
   state: {
     content: {
       artists: [],
-      applications: [],
+      applications: null,
       mainFooter: null,
+      information: null,
       navigation: null,
       homepage: null,
+      about: null,
+      tooltips: null,
       howItWorks: null,
       nft: null,
-      community: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -36,11 +38,12 @@ const contentStore = {
       if (!state.content.homepage) return
       return state.content.homepage.breakline.url
     },
+    getTooltip: state => tooltipId => {
+      if (!state.content.tooltips || !state.content.tooltips[tooltipId]) return
+      return state.content.tooltips[tooltipId]
+    },
     getApplications: state => {
       return state.content.applications
-    },
-    getApplicationsById: state => id => {
-      return state.content.applications.find((o) => o.uid === id)
     },
     getArtists: state => {
       return state.content.artists
@@ -61,6 +64,9 @@ const contentStore = {
     getHomepage: state => {
       return state.content.homepage
     },
+    getAbout: state => {
+      return state.content.about
+    },
     getMainFooter: state => {
       return state.content.mainFooter
     },
@@ -73,19 +79,22 @@ const contentStore = {
     getNft: state => {
       return state.content.nft
     },
-    getCommunity: state => {
-      return state.content.community
-    }
   },
   mutations: {
     addHomeContent (state, o) {
       state.content.homepage = o
     },
+    addTooltips (state, o) {
+      state.content.tooltips = o
+    },
+    addAboutContent (state, o) {
+      state.content.about = o
+    },
     addNftContent (state, o) {
       state.content.nft = o
     },
-    addCommunityContent (state, o) {
-      state.content.community = o
+    addHowItWorksContent (state, o) {
+      state.content.howItWorks = o
     },
     addInformation (state, o) {
       state.content.information = o
