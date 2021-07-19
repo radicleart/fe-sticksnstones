@@ -105,7 +105,7 @@ export default {
         this.$prismic.Predicates.at('document.type', 'how_ruma'),
         { pageSize: 40, page: 1 }
       ).then((response) => {
-        this.$store.commit('contentStore/addInformation', response.results)
+        this.$store.commit('contentStore/addHowItWorks', response.results)
       })
     },
     resizeContainers () {

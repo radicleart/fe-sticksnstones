@@ -1,4 +1,3 @@
-
 const contentStore = {
   namespaced: true,
   state: {
@@ -90,10 +89,7 @@ const contentStore = {
     addAboutContent (state, o) {
       state.content.about = o
     },
-    addNftContent (state, o) {
-      state.content.nft = o
-    },
-    addHowItWorksContent (state, o) {
+    addHowItWorks (state, o) {
       state.content.howItWorks = o
     },
     addInformation (state, o) {
