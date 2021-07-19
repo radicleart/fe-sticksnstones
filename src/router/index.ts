@@ -120,7 +120,7 @@ const routes: Array<RouteConfig> = [
     components: { default: GetInTouch, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/how-it-works/:padeId',
+    path: '/how-it-works/:pageId',
     name: 'how-it-works',
     components: { default: HowItWorks, header: MainNavbar, footer: MainFooter }
   },
