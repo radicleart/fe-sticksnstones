@@ -1,53 +1,19 @@
 <template>
-<div v-if="content">
-  <!-- <div class="p-5">
-    <b-navbar toggleable="md" class="p-5" fixed="top" type="dark" variant="black">
-      <b-navbar-brand href="#"><b-link to="/"><img height="30px" :src="logo" /></b-link></b-navbar-brand> -->
-
-      <!-- <b-navbar-toggle target="nav-collapse" class="text-white">
-        <template #default="{ expanded }">
-          <img width="60px" height="30px" class="text-white" v-if="expanded" :src="cross">
-          <img width="60px" height="30px" class="text-white" v-else :src="grid">
-        </template>
-      </b-navbar-toggle> -->
-
-      <!-- <b-collapse id="nav-collapse" is-nav align="center"> -->
-
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="mx-auto mt-3 ">
-          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#selfowned', duration: 1000 }" href="#selfowned">Self Owned Identity</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#testnet', duration: 1000 }" href="#testnet">Getting Testnet Stx</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -80, element: '#buying', duration: 1000 }" href="#buying">Buying and Selling</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#clarity-contracts', duration: 1000 }" href="#clarity-contracts">Clarity Contracts</a></b-nav-item>
-        </b-navbar-nav>
-
-        <!-- <b-navbar-nav class="ml-auto"> -->
-          <!-- <b-nav-item><b-link class="text-white top-content" to="/about"><img height="30px" :src="wtf" alt="about link"/></b-link></b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar> --> -->
-  <!-- </div> -->
-  <h-section1 :content="content"></h-section1>
-  <h-section2 :content="content"></h-section2>
-  <h-section3 :content="content"></h-section3>
-  <h-section4 :content="content"></h-section4>
-</div>
+<section v-if="content">
+  <b-container class="">
+    <PrismicItems :prismicItems="content.data.information" />
+  </b-container>
+</section>
 </template>
 
 <script>
-import HSection1 from '@/components/howitworks/HSection1'
-import HSection2 from '@/components/howitworks/HSection2'
-import HSection3 from '@/components/howitworks/HSection3'
-import HSection4 from '@/components/howitworks/HSection4'
+import PrismicItems from '@/components/prismic/PrismicItems'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'Gallery',
+  name: 'How It Works',
   components: {
-    HSection1,
-    HSection2,
-    HSection3,
-    HSection4
+    PrismicItems
   },
   data () {
     return {
@@ -64,7 +30,8 @@ export default {
       return 'min-height: ' + height + 'px; width: auto;'
     },
     content () {
-      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_ABOUT]
+      const pageId = this.$route.params.pageId
+      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_ABOUT](pageId)
       return content
     }
   }
