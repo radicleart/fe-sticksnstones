@@ -74,9 +74,6 @@ const contentStore = {
     },
     getHowItWorks: state => {
       return state.content.howItWorks
-    },
-    getNft: state => {
-      return state.content.nft
     }
   },
   mutations: {
