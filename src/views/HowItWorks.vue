@@ -1,7 +1,7 @@
 <template>
 <section v-if="content">
   <b-container class="">
-    <PrismicItems :prismicItems="content.data.information" />
+    <PrismicItems :prismicItems="content.data.how-it-works" />
   </b-container>
 </section>
 </template>
@@ -11,7 +11,7 @@ import PrismicItems from '@/components/prismic/PrismicItems'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'How It Works',
+  name: 'HowItWorks',
   components: {
     PrismicItems
   },

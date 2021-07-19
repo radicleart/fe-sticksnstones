@@ -56,6 +56,9 @@ const contentStore = {
     getInformationById: state => id => {
       return state.content.information.find((o) => o.uid === id)
     },
+    getHowItWorksById: state => id => {
+      return state.content.howItWorks.find((o) => o.uid === id)
+    },
     getArtistId: state => artist => {
       try {
         return artist.toLowerCase().replace(/ /g, '')
@@ -71,9 +74,6 @@ const contentStore = {
     },
     getNavbar: state => {
       return state.content.navigation
-    },
-    getHowItWorks: state => {
-      return state.content.howItWorks
     }
   },
   mutations: {
