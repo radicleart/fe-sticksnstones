@@ -101,18 +101,6 @@ export default {
       ).then((response) => {
         this.$store.commit('contentStore/addInformation', response.results)
       })
-      this.$prismic.client.query(
-        this.$prismic.Predicates.at('document.type', 'ruma_content'),
-        { pageSize: 40, page: 1 }
-      ).then((response) => {
-        this.$store.commit('contentStore/addNftContent', response.results)
-      })
-      this.$prismic.client.query(
-        this.$prismic.Predicates.at('document.type', 'ruma_vertical_block'),
-        { pageSize: 40, page: 1 }
-      ).then((response) => {
-        this.$store.commit('contentStore/addCommunityContent', response.results)
-      })
     },
     resizeContainers () {
       let resizeTimer

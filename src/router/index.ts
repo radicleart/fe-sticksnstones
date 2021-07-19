@@ -9,11 +9,10 @@ import MainFooter from '@/components/layout/MainFooter.vue'
 // public pages
 import Home from '../views/Home.vue'
 import UserAdmin from '../views/UserAdmin.vue'
-import Post from '../views/Post.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
-import NFT from '../views/NFT.vue'
+import InformationPage from '../views/InformationPage.vue'
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
@@ -122,18 +121,13 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/how-it-works',
-    name: 'horizontal_block',
+    name: 'how-it-works',
     components: { default: HowItWorks, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/nft',
-    name: 'horizontal_block',
-    components: { default: NFT, header: MainNavbar, footer: MainFooter }
-  },
-  {
-    path: '/post/:uid',
-    name: 'post',
-    components: { default: Post, header: MainNavbar, footer: MainFooter }
+    path: '/information/:pageId',
+    name: 'information',
+    components: { default: InformationPage, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/404',
