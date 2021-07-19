@@ -10,17 +10,37 @@
         <div class="col-lg-7 col-12 d-flex columns3-content__container">
             <div class="footer__column-content ml-lg-auto">
               <div class="text-secondary">NFT</div>
-              <div><router-link to="/my-items/all">Your NFTs</router-link></div>
-              <div><router-link to="/nft?uid=mint-a-file">Mint A File</router-link></div>
+              <div><router-link to="/my-items">Your NFTs</router-link></div>
+              <div v-scroll-to="{ offset: -60, element: '#mint', duration: 1000 }">
+                <b-link to="/nft">Mint A File</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#artists', duration: 1000 }">
+                <b-link to="/nft">Artists</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#applications', duration: 1000 }">
+                <b-link to="/nft">Applications</b-link>
+              <!-- <div><router-link to="/nft?uid=mint-a-file">Mint A File</router-link></div>
               <div><router-link to="/nft?uid=artists">Artists</router-link></div>
               <div><router-link to="/nft?uid=applications">Applications</router-link></div>
-            </div>
+            </div> -->
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
-              <div><router-link to="/community?uid=self-owned-identity">Self Owned Identity</router-link></div>
+              <div v-scroll-to="{ offset: -60, element: '#selfowned', duration: 1000 }">
+                <b-link to="/how-it-works">Self Owned Identity</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#testnet', duration: 1000 }">
+                <b-link to="/how-it-works">Getting Testnet</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#buying', duration: 1000 }">
+                <b-link to="/how-it-works">Buying and Selling</b-link>
+              </div>
+              <div v-scroll-to="{ offset: -60, element: '#clarity-contracts', duration: 1000 }">
+                <b-link to="/how-it-works">Clarity Contracts</b-link>
+              </div>
+              <!-- <div><router-link to="/community?uid=self-owned-identity">Self Owned Identity</router-link></div>
               <div><router-link to="/community?uid=user-journeys-stx-funds">Getting Testnet STX</router-link></div>
               <div><router-link to="/community?uid=user-journeys-buying">Buying and Selling</router-link></div>
-              <div><router-link to="/community?uid=tech-tales-clarity-registry">Clarity Contracts</router-link></div>
+              <div><router-link to="/community?uid=tech-tales-clarity-registry">Clarity Contracts</router-link></div> -->
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">What we do</div>

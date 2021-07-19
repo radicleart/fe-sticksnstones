@@ -15,10 +15,10 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="mx-auto mt-3 ">
-          <b-nav-item href="#"><router-link to="/my-items/all">Your NFTs</router-link></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#mint', duration: 1000 }" href="#mint">Mint A File</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -80, element: '#artists', duration: 1000 }" href="#artists">Artists</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#applications', duration: 1000 }" href="#applications">Applications</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#selfowned', duration: 1000 }" href="#selfowned">Self Owned Identity</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#testnet', duration: 1000 }" href="#testnet">Getting Testnet Stx</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -80, element: '#buying', duration: 1000 }" href="#buying">Buying and Selling</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#clarity-contracts', duration: 1000 }" href="#clarity-contracts">Clarity Contracts</a></b-nav-item>
         </b-navbar-nav>
 
         <!-- <b-navbar-nav class="ml-auto"> -->
@@ -27,24 +27,27 @@
       </b-collapse>
     </b-navbar> --> -->
   <!-- </div> -->
-  <nft-1 :content="content"></nft-1>
-  <nft-2 :content="content"></nft-2>
-  <nft-3 :content="content"></nft-3>
+  <h-section1 :content="content"></h-section1>
+  <h-section2 :content="content"></h-section2>
+  <h-section3 :content="content"></h-section3>
+  <h-section4 :content="content"></h-section4>
 </div>
 </template>
 
 <script>
-import NSection1 from '@/components/nft/NSection1'
-import NSection2 from '@/components/nft/NSection2'
-import NSection3 from '@/components/nft/NSection3'
+import HSection1 from '@/components/howitworks/HSection1'
+import HSection2 from '@/components/howitworks/HSection2'
+import HSection3 from '@/components/howitworks/HSection3'
+import HSection4 from '@/components/howitworks/HSection4'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
   name: 'Gallery',
   components: {
-    NSection1,
-    NSection2,
-    NSection3
+    HSection1,
+    HSection2,
+    HSection3,
+    HSection4
   },
   data () {
     return {
