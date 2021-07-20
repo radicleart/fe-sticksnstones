@@ -1,7 +1,9 @@
 <template>
 <section v-if="content">
   <b-container class="">
-    <PrismicItems :prismicItems="content.data.how-it-works" />
+    <PrismicItems :prismicItems="content.data.title" />
+    <PrismicItems :prismicItems="content.data.text" />
+    <PrismicItems :prismicItems="content.data.mainimg" />
   </b-container>
 </section>
 </template>
