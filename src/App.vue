@@ -50,7 +50,6 @@ export default {
         window.eventBus.$on('rpayEvent', function (data) {
           if (data.opcode === 'configured') {
             $self.$store.dispatch('initApplication').then(() => {
-              // $self.$store.dispatch('rpaySearchStore/fetchContractData')
               $self.configured = true
             })
           } else if (data.opcode === 'stx-transaction-finished') {
