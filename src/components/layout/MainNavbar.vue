@@ -27,7 +27,7 @@
           <nav class="mt-4 mx-auto">
             <b-nav vertical class="text-small">
               <b-nav-item v-if="profile" active><b-link to="/my-items/all"><b-icon class="mr-2 mb-2" icon="files"></b-icon> My NFTs</b-link></b-nav-item>
-              <b-nav-item v-if="profile.superAdmin" active><b-link to="/user-admin"><b-icon class="mr-2 mb-2" icon="person"></b-icon> User Admin</b-link></b-nav-item>
+              <b-nav-item v-if="profile.superAdmin" active><b-link to="/app-admin"><b-icon class="mr-2 mb-2" icon="person"></b-icon> App Admin</b-link></b-nav-item>
               <b-nav-item @click="hide"><b-link @click.prevent="logout()"><b-icon icon="person" class="mr-2 mb-2"/> Logout</b-link></b-nav-item>
             </b-nav>
           </nav>

@@ -231,7 +231,7 @@ export default new Vuex.Store({
           if (profile.loggedIn) {
             dispatch('rpayAuthStore/fetchAccountInfo', { stxAddress: profile.stxAddress, force: true })
             dispatch('myItemStore/initSchema').then(rootFile => {
-              dispatch('rpayStacksContractStore/fetchAssetsByOwner')
+              dispatch('rpayStacksContractStore/fetchAssetsByOwner', profile.stxAddress)
               resolve(rootFile)
             })
           } else {

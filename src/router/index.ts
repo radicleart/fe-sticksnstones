@@ -8,7 +8,7 @@ import MainFooter from '@/components/layout/MainFooter.vue'
 
 // public pages
 import Home from '../views/Home.vue'
-import UserAdmin from '../views/UserAdmin.vue'
+import ApplicationAdmin from '../views/admin/ApplicationAdmin.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
@@ -106,9 +106,9 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/user-admin',
-    name: 'user-admin',
-    components: { default: UserAdmin, header: MainNavbar, footer: MainFooter },
+    path: '/app-admin',
+    name: 'app-admin',
+    components: { default: ApplicationAdmin, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: true,
       requiresAdmin: true
