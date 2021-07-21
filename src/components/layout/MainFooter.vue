@@ -18,6 +18,9 @@
                 <b-link to="/information/nfts">About NFTs</b-link>
               </div>
               <div>
+                <b-link to="/information/artists">Artists</b-link>
+              </div>
+              <div>
                 <b-link to="/information/applications">Applications</b-link>
               </div>
             </div>
