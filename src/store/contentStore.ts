@@ -1,4 +1,3 @@
-
 const contentStore = {
   namespaced: true,
   state: {
@@ -57,6 +56,9 @@ const contentStore = {
     getInformationById: state => id => {
       return state.content.information.find((o) => o.uid === id)
     },
+    getHowItWorksById: state => id => {
+      return state.content.howItWorks.find((o) => o.uid === id)
+    },
     getArtistId: state => artist => {
       try {
         return artist.toLowerCase().replace(/ /g, '')
@@ -72,12 +74,6 @@ const contentStore = {
     },
     getNavbar: state => {
       return state.content.navigation
-    },
-    getHowItWorks: state => {
-      return state.content.howItWorks
-    },
-    getNft: state => {
-      return state.content.nft
     }
   },
   mutations: {
@@ -90,10 +86,7 @@ const contentStore = {
     addAboutContent (state, o) {
       state.content.about = o
     },
-    addNftContent (state, o) {
-      state.content.nft = o
-    },
-    addHowItWorksContent (state, o) {
+    addHowItWorks (state, o) {
       state.content.howItWorks = o
     },
     addInformation (state, o) {
