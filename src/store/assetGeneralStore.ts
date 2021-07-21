@@ -23,6 +23,16 @@ const assetGeneralStore = {
     }
   },
   actions: {
+    buildCache ({ commit }) {
+      return new Promise(function (resolve, reject) {
+        axios.get(MESH_API_PATH + '/v2/build-cache').then((result) => {
+          commit('addRegisteredEmail', result)
+          resolve(result)
+        }).catch((error) => {
+          reject(new Error('Unable to register email: ' + error))
+        })
+      })
+    },
     registerForUpdates ({ commit }, data: any) {
       return new Promise(function (resolve, reject) {
         axios.post(MESH_API_PATH + '/v2/register/email', data).then((result) => {
