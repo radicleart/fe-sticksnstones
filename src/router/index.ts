@@ -9,17 +9,21 @@ import MainFooter from '@/components/layout/MainFooter.vue'
 // public pages
 
 import Home from '../views/Home.vue'
-import UserAdmin from '../views/UserAdmin.vue'
-import Post from '../views/Post.vue'
+import ApplicationAdmin from '../views/admin/ApplicationAdmin.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
+<<<<<<< HEAD
 import Community from '../views/Community.vue'
 import NFT from '../views/NFT.vue'
 import About from '../views/About.vue'
+=======
+import HowItWorks from '../views/HowItWorks.vue'
+import InformationPage from '../views/InformationPage.vue'
+>>>>>>> 5a2dc684df7eb337d8dba03442f14b9da02f6ca1
 
-const MyItems = () => import('../views/MyItems.vue')
-const UploadItem = () => import('../views/UploadItem.vue')
-const UpdateItem = () => import('../views/UpdateItem.vue')
+const MyItems = () => import('../views/upload/MyItems.vue')
+const UploadItem = () => import('../views/upload/UploadItem.vue')
+const UpdateItem = () => import('../views/upload/UpdateItem.vue')
 const ItemDisplay = () => import('../views/ItemDisplay.vue')
 const ItemPreview = () => import('../views/ItemPreview.vue')
 
@@ -109,9 +113,9 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/user-admin',
-    name: 'user-admin',
-    components: { default: UserAdmin, header: MainNavbar, footer: MainFooter },
+    path: '/app-admin',
+    name: 'app-admin',
+    components: { default: ApplicationAdmin, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: true,
       requiresAdmin: true
@@ -123,19 +127,14 @@ const routes: Array<RouteConfig> = [
     components: { default: GetInTouch, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/community',
-    name: 'community',
-    components: { default: Community, header: MainNavbar, footer: MainFooter }
+    path: '/how-it-works/:pageId',
+    name: 'how-it-works',
+    components: { default: HowItWorks, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/nft',
-    name: 'nft',
-    components: { default: NFT, header: MainNavbar, footer: MainFooter }
-  },
-  {
-    path: '/post/:uid',
-    name: 'post',
-    components: { default: Post, header: MainNavbar, footer: MainFooter }
+    path: '/information/:pageId',
+    name: 'information',
+    components: { default: InformationPage, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/404',

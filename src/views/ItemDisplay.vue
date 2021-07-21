@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import MediaItem from '@/components/utils/MediaItem'
+import MediaItem from '@/components/upload/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
@@ -45,12 +45,12 @@ export default {
   mounted () {
     this.loading = false
     if (this.$route.name === 'asset-display') {
-      this.nftIndex = Number(this.$route.params.nftIndex)
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_NFT_INDEX](this.nftIndex)
+      this.assetHash = (this.$route.params.assetHash)
+      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
       if (contractAsset) {
         this.assetHash = contractAsset.tokenInfo.assetHash
       } else {
-        this.$store.dispatch('rpayStacksContractStore/getAssetByNftIndex', this.nftIndex).then((contractAsset) => {
+        this.$store.dispatch('rpayStacksContractStore/fetchAssetByNftIndex', this.nftIndex).then((contractAsset) => {
           if (contractAsset) {
             this.assetHash = contractAsset.tokenInfo.assetHash
           } else {

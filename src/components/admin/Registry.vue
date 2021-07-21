@@ -3,6 +3,9 @@
   <p>No applciation registry detected - are the contracts deployed?</p>
 </div>
 <div v-else>
+<div class="upload-preview bg-info text-white  my-5 p-4">
+  <b-button variant="success" @click="buildCache">Build Cache</b-button>
+</div>
 <div class="upload-preview bg-info text-white  my-5 p-4" v-if="registry">
   <div class="row mb-5 pb-2">
     <div class="col-12"><h3>Environment Variables</h3></div>
@@ -137,6 +140,9 @@ export default {
     })
   },
   methods: {
+    buildCache: function () {
+      this.$store.dispatch()
+    },
     formatDate: function (date) {
       const loaclEndM = moment(date)
       return loaclEndM.format('DD-MM-YY hh:mm')

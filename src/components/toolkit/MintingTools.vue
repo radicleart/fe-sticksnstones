@@ -11,11 +11,15 @@
           </div>
         </b-alert>
       </div>
-      <div v-else-if="isValid" show variant="danger">
-        {{transaction}}
-        <b-button variant="outline-primary" @click="startMinting()">Mint File</b-button>
+      <div v-else-if="isValid">
+        <div>
+          <b-button variant="outline-primary" @click="startMinting()">Mint File</b-button>
+        </div>
+        <div v-if="mintTxId">
+          <a :href="transactionUrl" target="_blank">Show in Explorer</a>
+        </div>
       </div>
-      <b-alert v-else show variant="danger">not valid - information required</b-alert>
+      <b-alert v-else show variant="danger">Information required - <b-link :to="'/edit-item/' + item.assetHash">edit this item</b-link></b-alert>
     </div>
 
     <div v-if="contractAsset" class="mt-5">
@@ -163,8 +167,10 @@ export default {
           $self.$bvModal.hide('minting-modal')
           $self.mintResult = txResult
           setInterval(function () {
-            $self.$store.dispatch('rpayTransactionStore/fetchTransactionInfo', $self.mintTxId)
-          }, 5000)
+            $self.$store.dispatch('rpayTransactionStore/fetchTransactionInfo', $self.mintTxId).then((txData) => {
+              $self.$notify({ type: 'warning', title: 'Transaction News', text: 'Transaction ' + txData.contract_call.function_name + ' has status ' + txData.tx_status + ' sent at ' + txData.receipt_time_iso })
+            })
+          }, 30000)
           // $self.$bvModal.show('result-modal')
         } else if (data.opcode === 'cancel-minting') {
           $self.$bvModal.hide('selling-modal')

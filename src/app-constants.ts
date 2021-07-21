@@ -40,6 +40,7 @@ export const APP_CONSTANTS = {
   KEY_CONTENT_ARTISTS: 'contentStore/getArtists',
   KEY_CONTENT_CHARITIES: 'contentStore/getCharities',
   KEY_CONTENT_INFO_PAGE: 'contentStore/getInformationById',
+  KEY_CONTENT_HOW_PAGE: 'contentStore/getHowItWorksById',
   KEY_BREAK_LINE: 'contentStore/getBreakLine',
 
   KEY_CATEGORIES: 'rpayCategoryStore/getCategories',
@@ -48,6 +49,7 @@ export const APP_CONSTANTS = {
 
   KEY_AUTHORISATIONS: 'rpayPrivilegeStore/getAuthorisations',
   KEY_AUTHORISATION: 'rpayPrivilegeStore/getAuthorisation',
+  KEY_AVAILABLE_PRIVILEGES: 'rpayPrivilegeStore/getAvailablePrivileges',
 
   KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
   KEY_PROFILE: 'rpayAuthStore/getMyProfile',
@@ -83,6 +85,7 @@ export const APP_CONSTANTS = {
   KEY_ASSET_LAST_TRANSACTION: 'rpayStacksContractStore/getAssetLastTransaction',
   KEY_ASSET_TRANSACTION: 'rpayStacksContractStore/getAssetTransaction',
   KEY_ASSET_FROM_NFT_INDEX: 'rpayStacksContractStore/getContractAssetByNftIndex',
+  KEY_MY_CONTRACT_ASSETS: 'rpayStacksContractStore/getMyContractAssets',
 
   SET_CURRENT_SEARCH: 'rpaySearchStore/setCurrentSearch',
   KEY_CURRENT_SEARCH: 'rpaySearchStore/getCurrentSearch',

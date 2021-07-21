@@ -3,7 +3,7 @@
   <b-card class="text-center" header-tag="header" footer-tag="footer">
     <!-- <header-screen :allowEdit="false" :item="item"/> -->
     <ItemDisplay class="my-5" :item="item"/>
-    <b-button @click="showBeneficiaries = true" class="mb-5" variant="warning">Set Your Royalties</b-button>
+    <div class="d-flex justify-content-center"><p class="pointer w-50 bg-warning text-white py-3 px-5 mb-5" @click="showBeneficiaries = true" variant="warning">Set Your Royalties</p></div>
     <beneficiaries class="mb-5 text-left" v-if="showBeneficiaries" :beneficiaries="beneficiaries" v-on="$listeners" :item="item"/>
     <div class="my-4 text-danger" v-html="errorMessage"></div>
     <template v-slot:footer>

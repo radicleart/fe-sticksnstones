@@ -12,7 +12,7 @@
 
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
-import MediaUpload from '@/components/utils/MediaUpload'
+import MediaUpload from '@/components/upload/MediaUpload'
 import utils from '@/services/utils'
 
 export default {

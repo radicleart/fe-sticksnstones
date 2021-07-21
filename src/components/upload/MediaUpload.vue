@@ -212,7 +212,6 @@ export default {
         } else if (exten === 'mp4' ||
             exten === 'mov' ||
             exten === 'wmv' ||
-            exten === 'avi' ||
             exten === 'avchd') {
           type = 'video/' + exten
         } else if (exten === 'glb' ||

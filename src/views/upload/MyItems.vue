@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import SingleItem from '@/components/items/SingleItem'
+import SingleItem from '@/components/upload/SingleItem'
 import { APP_CONSTANTS } from '@/app-constants'
 import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
@@ -42,7 +42,7 @@ export default {
   mounted () {
     this.filter = this.$route.params.filter
     this.$store.dispatch('myItemStore/fetchItems').then((items) => {
-      // if (!this.filter) this.$router.push('/my-items/minted')
+      // if (!this.filter) this.$router.push('/my-uploads')
       this.backupItems = items
       this.loaded = true
     })
