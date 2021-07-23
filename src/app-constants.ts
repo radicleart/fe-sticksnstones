@@ -29,6 +29,7 @@ export const APP_CONSTANTS = {
   KEY_FORMATTED_BIDDING_END_TIME: 'rpayPurchaseStore/getFormattedBiddingEndTime',
   KEY_RECIPIENT: 'rpayPurchaseStore/getRecipientAddress',
 
+  KEY_CONTENT_HOME: 'contentStore/getHomepage',
   KEY_CONTENT_ABOUT: 'contentStore/getAbout',
   KEY_TRANSACTION_DIALOG_MESSAGE: 'contentStore/getTransactionDialogMessage',
   KEY_WAITING_IMAGE: 'contentStore/getWaitingCSS',
@@ -47,9 +48,10 @@ export const APP_CONSTANTS = {
 
   KEY_TRANSACTION: 'rpayTransactionStore/getTransaction',
 
+  KEY_HAS_PRIVILEGE: 'rpayPrivilegeStore/hasPrivilege',
+  KEY_AVAILABLE_PRIVILEGES: 'rpayPrivilegeStore/getAvailablePrivileges',
   KEY_AUTHORISATIONS: 'rpayPrivilegeStore/getAuthorisations',
   KEY_AUTHORISATION: 'rpayPrivilegeStore/getAuthorisation',
-  KEY_AVAILABLE_PRIVILEGES: 'rpayPrivilegeStore/getAvailablePrivileges',
 
   KEY_USER_SESSION: 'rpayAuthStore/getUserSession',
   KEY_PROFILE: 'rpayAuthStore/getMyProfile',
