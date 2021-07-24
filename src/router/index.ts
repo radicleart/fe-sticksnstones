@@ -36,7 +36,7 @@ const isPermitted = function (to, profile) {
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'home',
+    name: 'homepage',
     components: { default: Home, header: MainNavbar, footer: MainFooter }
   },
   {
