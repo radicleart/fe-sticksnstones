@@ -69,11 +69,6 @@ export default {
       }
     },
     readPrismicContent () {
-      this.$prismic.client.getSingle('about').then(document => {
-        if (document) {
-          // this.$store.commit('contentStore/addAbout', document.data)
-        }
-      })
       this.$prismic.client.getSingle('tooltips').then(document => {
         if (document) {
           this.$store.commit('contentStore/addTooltips', document.data)
@@ -89,9 +84,9 @@ export default {
           this.$store.commit('contentStore/addHomeContent', document.data)
         }
       })
-      this.$prismic.client.getSingle('About').then(document => {
+      this.$prismic.client.getSingle('about').then(document => {
         if (document) {
-          this.$store.commit('contentStore/addAboutContent', document.data)
+          this.$store.commit('contentStore/addAbout', document.data)
         }
       })
       this.$prismic.client.query(

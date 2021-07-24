@@ -12,14 +12,9 @@ import Home from '../views/Home.vue'
 import ApplicationAdmin from '../views/admin/ApplicationAdmin.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
-<<<<<<< HEAD
-import Community from '../views/Community.vue'
-import NFT from '../views/NFT.vue'
-import About from '../views/About.vue'
-=======
 import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
->>>>>>> 5a2dc684df7eb337d8dba03442f14b9da02f6ca1
+import About from '../views/About.vue'
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
@@ -45,6 +40,11 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'home',
     components: { default: Home, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/about',
+    name: 'about',
+    components: { default: About, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/edit-item/:assetHash',

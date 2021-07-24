@@ -13,11 +13,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@prismicio/client": "^5.1.0",
-=======
     "@prismicio/client": "^4.0.0",
->>>>>>> 5a2dc684df7eb337d8dba03442f14b9da02f6ca1
     "@prismicio/vue": "^2.0.11",
     "@stacks/connect": "^5.0.5",
     "@stacks/storage": "^1.3.3",

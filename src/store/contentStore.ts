@@ -83,7 +83,7 @@ const contentStore = {
     addTooltips (state, o) {
       state.content.tooltips = o
     },
-    addAboutContent (state, o) {
+    addAbout (state, o) {
       state.content.about = o
     },
     addHowItWorks (state, o) {
