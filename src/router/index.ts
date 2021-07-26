@@ -13,6 +13,7 @@ import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
+import Model from '../views/Models/Model.vue'
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
@@ -128,6 +129,11 @@ const routes: Array<RouteConfig> = [
     path: '/information/:pageId',
     name: 'information',
     components: { default: InformationPage, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/Model',
+    name: 'Model',
+    components: { default: Model, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/404',
