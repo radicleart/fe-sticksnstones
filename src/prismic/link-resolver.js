@@ -10,9 +10,6 @@ export default function (doc) {
   if (doc.type === 'about') {
     return '/about'
   }
-  if (doc.uid) {
-    return '/' + doc.uid
-  }
   if (doc.isBroken) {
     return '/not-found'
   }

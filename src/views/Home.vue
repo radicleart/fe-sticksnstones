@@ -1,27 +1,35 @@
 <template>
-<section class="" id="section-upload">
-  <b-container class="mt-5 pt-5" v-if="loaded">
+<section v-if="content">
+  <b-container class="">
+    <PrismicItems :prismicItems="content.data.site-title" />
+    <PrismicItems :prismicItems="content.data.text" />
+    <PrismicItems :prismicItems="content.data.credits" />
+  </b-container>
+  <!-- <b-container class="mt-5 pt-5" v-if="loaded">
     <div><WalletStates @evt-loaded="setLoaded"/></div>
     <div><Gallery @evt-loaded="setLoaded"/></div>
   </b-container>
   <b-container v-else class="center text-center">
     <LoopbombSpinner />
     <div>Making daisy chains... back soon.</div>
-  </b-container>
+  </b-container> -->
 </section>
 </template>
 
 <script>
-import Gallery from '@/components/marketplace/Gallery'
-import WalletStates from '@/components/toolkit/wallet-flow/WalletStates'
-import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
+import PrismicItems from '@/components/prismic/PrismicItems'
+import { APP_CONSTANTS } from '@/app-constants'
+// import Gallery from '@/components/marketplace/Gallery'
+// import WalletStates from '@/components/toolkit/wallet-flow/WalletStates'
+// import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
   name: 'Home',
   components: {
-    LoopbombSpinner,
-    WalletStates,
-    Gallery
+    PrismicItems
+    // LoopbombSpinner,
+    // WalletStates,
+    // Gallery
   },
   data () {
     return {
@@ -29,14 +37,23 @@ export default {
     }
   },
   methods: {
-    setLoaded: function () {
-      this.loaded = true
+    changeModel (name) {
+      this.currentModel = this.rootPath + name
     }
   },
   computed: {
+    sectionDimensions () {
+      const height = this.$store.getters[APP_CONSTANTS.KEY_SECTION_HEIGHT]
+      return 'min-height: ' + height + 'px; width: auto;'
+    },
+    content () {
+      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_HOME]
+      return content
+    }
   }
 }
 </script>
+
 <style lang="scss" >
 #upload-item .drop-zone {
   min-width: 300px;

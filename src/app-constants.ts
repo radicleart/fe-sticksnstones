@@ -29,6 +29,7 @@ export const APP_CONSTANTS = {
   KEY_FORMATTED_BIDDING_END_TIME: 'rpayPurchaseStore/getFormattedBiddingEndTime',
   KEY_RECIPIENT: 'rpayPurchaseStore/getRecipientAddress',
 
+  KEY_CONTENT_HOME: 'contentStore/getHomepage',
   KEY_CONTENT_ABOUT: 'contentStore/getAbout',
   KEY_TRANSACTION_DIALOG_MESSAGE: 'contentStore/getTransactionDialogMessage',
   KEY_WAITING_IMAGE: 'contentStore/getWaitingCSS',
