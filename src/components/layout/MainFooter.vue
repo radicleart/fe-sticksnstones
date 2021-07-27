@@ -23,16 +23,16 @@
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
-                   <div v-scroll-to="{ offset: -60, element: '#identity', duration: 1000 }">
+                   <div v-scroll-to="{ offset: -60, element: '#h-1', duration: 1000 }">
                   <b-link to="/how-it-works">Get Your Stacks Wallet</b-link>
                 </div>
-                <div v-scroll-to="{ offset: -60, element: '#testnet', duration: 1000 }">
+                <div v-scroll-to="{ offset: -60, element: '#h-2', duration: 1000 }">
                   <b-link to="/how-it-works">Upload Your Item</b-link>
                 </div>
-                <div v-scroll-to="{ offset: -60, element: '#market', duration: 1000 }">
+                <div v-scroll-to="{ offset: -60, element: '#h-3', duration: 1000 }">
                   <b-link to="/how-it-works">Mint Your NFT</b-link>
                 </div>
-                <div v-scroll-to="{ offset: -60, element: '#clarity', duration: 1000 }">
+                <div v-scroll-to="{ offset: -60, element: '#h-4', duration: 1000 }">
                   <b-link to="/how-it-works">Set Royalties for Your NFTs</b-link>
                 </div>
               <!-- <div>
