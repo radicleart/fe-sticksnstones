@@ -33,7 +33,7 @@
                   <b-link to="/how-it-works">Mint Your NFT</b-link>
                 </div>
                 <div v-scroll-to="{ offset: -60, element: '#h-4', duration: 1000 }">
-                  <b-link to="/how-it-works">Set Royalties for Your NFTs</b-link>
+                  <b-link to="/how-it-works">Set Royalties</b-link>
                 </div>
               <!-- <div>
                 <b-link to="/how-it-works/identity">Self Owned Identity</b-link>

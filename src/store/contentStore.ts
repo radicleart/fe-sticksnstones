@@ -10,7 +10,7 @@ const contentStore = {
       homepage: null,
       about: null,
       tooltips: null,
-      howItWorks: null,
+      howitworks: null,
       nft: null
     },
     defaultArtist: 'chemicalx',
@@ -57,7 +57,7 @@ const contentStore = {
       return state.content.information.find((o) => o.uid === id)
     },
     getHowItWorks: state => {
-      return state.content.howItWorks
+      return state.content.howitworks
     },
     getArtistId: state => artist => {
       try {
@@ -87,7 +87,7 @@ const contentStore = {
       state.content.about = o
     },
     addHowItWorks (state, o) {
-      state.content.howItWorks = o
+      state.content.howitworks = o
     },
     addInformation (state, o) {
       state.content.information = o

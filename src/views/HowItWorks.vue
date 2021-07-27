@@ -3,10 +3,10 @@
 
   <!-- Right aligned nav items -->
         <b-navbar-nav class="mx-auto mt-3 ">
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#identity', duration: 1000 }" href="#identity">Get Your Stacks Wallet</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#testnet', duration: 1000 }" href="#testnet">Upload Your Item</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -80, element: '#market', duration: 1000 }" href="#market">Mint Your NFT</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#clarity', duration: 1000 }" href="#clarity">Set Royalties for Your NFTs</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#h-1', duration: 1000 }" href="#h-1">Get Your Stacks Wallet</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#h-2', duration: 1000 }" href="#h-2">Upload Your Item</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -80, element: '#h-3', duration: 1000 }" href="#h-3">Mint Your NFT</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#h-4', duration: 1000 }" href="#h-4">Set Royalties</a></b-nav-item>
         </b-navbar-nav>
       <HSection1 />
       <HSection2 />
