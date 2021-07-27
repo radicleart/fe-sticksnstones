@@ -6,9 +6,7 @@
       <b-row align-h="center" style="min-height: 91vh">
         <b-col md="8" sm="10" align-self="center">
           <div class="text-center">
-             <b-container class="">
               <PrismicItems :prismicItems="content.identity.text-img" />
-            </b-container>
           </div>
         </b-col>
       </b-row>

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div id="ruma"></div>
+  <div id="testnet"></div>
   <section id="how-2" class="how-section bg-white text-black">
     <b-container style="min-height: 60vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 91vh">
@@ -35,7 +35,7 @@ export default {
 
 <style lang="scss">
 /* General style */
-#ruma {
+#testnet {
   height: 90px;
   background-color: transparent;
   z-index: 10;
