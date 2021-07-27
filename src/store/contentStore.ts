@@ -56,8 +56,8 @@ const contentStore = {
     getInformationById: state => id => {
       return state.content.information.find((o) => o.uid === id)
     },
-    getHowItWorksById: state => id => {
-      return state.content.howItWorks.find((o) => o.uid === id)
+    getHowItWorks: state => {
+      return state.content.howItWorks
     },
     getArtistId: state => artist => {
       try {

@@ -1,21 +1,34 @@
 <template>
 <section v-if="content">
-  <b-container class="">
-    <PrismicItems :prismicItems="content.data.title" />
-    <PrismicItems :prismicItems="content.data.text" />
-    <PrismicItems :prismicItems="content.data.mainimg" />
-  </b-container>
+
+  <!-- Right aligned nav items -->
+        <b-navbar-nav class="mx-auto mt-3 ">
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#identity', duration: 1000 }" href="#identity">Get Your Stacks Wallet</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#testnet', duration: 1000 }" href="#testnet">Upload Your Item</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -80, element: '#market', duration: 1000 }" href="#market">Mint Your NFT</a></b-nav-item>
+          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#clarity', duration: 1000 }" href="#clarity">Set Royalties for Your NFTs</a></b-nav-item>
+        </b-navbar-nav>
+      <HSection1 />
+      <HSection2 />
+      <HSection3 />
+      <HSection4 />
 </section>
 </template>
 
 <script>
-import PrismicItems from '@/components/prismic/PrismicItems'
+import HSection1 from '@/components/howitworks/HSection1'
+import HSection2 from '@/components/howitworks/HSection2'
+import HSection3 from '@/components/howitworks/HSection3'
+import HSection4 from '@/components/howitworks/HSection4'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
   name: 'HowItWorks',
   components: {
-    PrismicItems
+    HSection1,
+    HSection2,
+    HSection3,
+    HSection4
   },
   data () {
     return {
@@ -32,8 +45,8 @@ export default {
       return 'min-height: ' + height + 'px; width: auto;'
     },
     content () {
-      const pageId = this.$route.params.pageId
-      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_HOW_PAGE](pageId)
+      // const pageId = this.$route.params.pageId
+      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_HOW]
       return content
     }
   }

@@ -1,12 +1,13 @@
 <template>
 <div>
-  <div id="ruma"></div>
-  <section id="how-1" class="how-section bg-white text-black">
+  <section v-if="content" id="identity">
     <b-container style="min-height: 60vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 91vh">
         <b-col md="8" sm="10" align-self="center">
           <div class="text-center">
-            <prismic-items :prismicItems="content.section1rtf2"></prismic-items>
+             <b-container class="">
+              <PrismicItems :prismicItems="content.identity.text-img" />
+            </b-container>
           </div>
         </b-col>
       </b-row>
