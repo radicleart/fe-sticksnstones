@@ -1,12 +1,12 @@
 <template>
 <div>
-  <div id="identity"></div>
-  <section v-if="content" id="identity">
+  <div id="h-1"></div>
+  <section v-if="content" id="how-1">
     <b-container style="min-height: 60vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 91vh">
         <b-col md="8" sm="10" align-self="center">
           <div class="text-center">
-              <PrismicItems :prismicItems="content.identity.text-img" />
+              <PrismicItems :prismicItems="content.group1" />
           </div>
         </b-col>
       </b-row>
@@ -35,7 +35,7 @@ export default {
 
 <style lang="scss">
 /* General style */
-#identity {
+#h-1 {
   height: 90px;
   background-color: transparent;
   z-index: 10;
