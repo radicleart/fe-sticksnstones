@@ -1,7 +1,7 @@
 <template>
 <div>
   <div id="h-2"></div>
-  <section id="how-2" class="how-section bg-white text-black">
+  <section v-if="content" id="how-2" class="how-section bg-white text-black">
     <b-container style="min-height: 60vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 91vh">
         <b-col md="8" sm="10" align-self="center">
