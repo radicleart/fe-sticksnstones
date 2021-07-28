@@ -1,7 +1,7 @@
 <template>
 <section v-if="content">
-  <b-container class="">
-    <PrismicItems :prismicItems="content.homepage" />
+  <b-container class="text-center">
+    <prismic-items :prismicItems="content.homepage" />
   </b-container>
   <!-- <b-container class="mt-5 pt-5" v-if="loaded">
     <div><WalletStates @evt-loaded="setLoaded"/></div>
