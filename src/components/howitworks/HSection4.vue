@@ -7,6 +7,8 @@
         <b-col md="8" sm="10" align-self="center">
           <div class="text-center">
             <prismic-items :prismicItems="content.group4"></prismic-items>
+            <prismic-items :prismicItems="content.title4"></prismic-items>
+            <prismic-items :prismicItems="content.text4"></prismic-items>
           </div>
         </b-col>
       </b-row>
@@ -23,7 +25,7 @@ export default {
   components: {
     PrismicItems
   },
-  props: ['howitworks'],
+  props: ['content'],
   data () {
     return {
     }
