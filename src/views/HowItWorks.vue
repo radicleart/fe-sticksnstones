@@ -24,13 +24,14 @@ import HSection4 from '@/components/howitworks/HSection4'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'HowItWorks',
+  name: 'howitworks',
   components: {
     HSection1,
     HSection2,
     HSection3,
     HSection4
   },
+  props: ['howitworks'],
   data () {
     return {
     }

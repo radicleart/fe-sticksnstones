@@ -23,7 +23,7 @@ export default {
   components: {
     PrismicItems
   },
-  props: ['content'],
+  props: ['howitworks'],
   data () {
     return {
     }
