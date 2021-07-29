@@ -1,34 +1,25 @@
 <template>
-<section v-if="content">
+<div>
+<section id="homepage" class="homepage">
   <b-container class="text-center">
-    <prismic-items :prismicItems="content.homepage" />
+    <h1><prismic-items :prismicItems="content.site-title"/></h1>
+    <prismic-items :prismicItems="content.text"/>
+    <prismic-items :prismicItems="content.credits"/>
   </b-container>
-  <!-- <b-container class="mt-5 pt-5" v-if="loaded">
-    <div><WalletStates @evt-loaded="setLoaded"/></div>
-    <div><Gallery @evt-loaded="setLoaded"/></div>
-  </b-container>
-  <b-container v-else class="center text-center">
-    <LoopbombSpinner />
-    <div>Making daisy chains... back soon.</div>
-  </b-container> -->
 </section>
+</div>
 </template>
 
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
 import { APP_CONSTANTS } from '@/app-constants'
-// import Gallery from '@/components/marketplace/Gallery'
-// import WalletStates from '@/components/toolkit/wallet-flow/WalletStates'
-// import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
-  name: 'Home',
+  name: 'home',
   components: {
     PrismicItems
-    // LoopbombSpinner,
-    // WalletStates,
-    // Gallery
   },
+  props: ['home'],
   data () {
     return {
       loaded: true
