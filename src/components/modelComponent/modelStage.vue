@@ -1,6 +1,6 @@
 <template>
 <section>
-  <canvas id="renderCanvas" touch-action="none" style="height: 80vh; width: 100vw;"></canvas>
+  <canvas @wheel.prevent id="renderCanvas" touch-action="none" width="350px" height="350px"></canvas>
 </section>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   name: 'modelStage',
   components: {
   },
-  props: ['model', 'scale', 'position'],
+  props: ['model', 'scale', 'position', 'modelName'],
   data () {
     return {
       canvas: null,
@@ -29,11 +29,12 @@ export default {
       meshId: null,
       movingMessage: null,
       pinMessage: null,
-      rootPath: 'https://prom.risidio.com/gltf/3dLogos/Stacks/',
+      rootPath: this.model,
       frames: 0,
       loading: true,
       running: false,
-      time: performance.now()
+      time: performance.now(),
+      name: this.name
     }
 
     // this.sceneObject.scene > sceneObject.scene
@@ -46,9 +47,13 @@ export default {
   mounted () {
     this.canvas = document.getElementById('renderCanvas')
     this.engine = new BABYLON.Engine(this.canvas, true, { preserveDrawingBuffer: true, stencil: true })
-    this.sceneObject = babylonUtils.createScene(this.canvas, this.engine, this.rootPath, this.model.name)
+    this.sceneObject = babylonUtils.createScene(this.canvas, this.engine, this.rootPath, this.name)
+    this.sceneObject.camera.inputs.attached.pointers.angularSensibilityX = 200
+    this.sceneObject.camera.inputs.attached.pointers.angularSensibilityY = 200
+    this.sceneObject.camera.position = new BABYLON.Vector3(-0.5, 1.5, 20)
+    this.sceneObject.camera.upperRadiusLimit = 25
     const $self = this
-    babylonUtils.createDelayedScene(this.canvas, this.sceneObject.scene, this.rootPath, this.model.name).then((objects) => {
+    babylonUtils.createDelayedScene(this.canvas, this.sceneObject.scene, this.rootPath, this.name).then((objects) => {
       this.$emit('evt-babylon-stage', { opcode: 'stage-loaded' })
       $self.objects = objects
       $self.loadingLayerMessage = 'ready:'
@@ -80,7 +85,7 @@ export default {
       })
     },
     loadNewScene () {
-      this.sceneObject.scene = babylonUtils.createDelayedScene(this.canvas, this.sceneObject.scene, this.rootPath, this.model.name)
+      this.sceneObject.scene = babylonUtils.createDelayedScene(this.canvas, this.sceneObject.scene, this.rootPath, this.name)
       this.renderNewScene()
     }
   }

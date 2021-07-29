@@ -6,8 +6,9 @@
   <b-container class="my-5 pt-5" v-if="item">
     <b-row style="min-height: 40vh" >
       <b-col md="4" sm="12" align-self="start" class="text-center">
-        <div  class="bg-white" style="width:100%;">
-          <media-item :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'artworkFile'"/>
+        <div class="bg-white" style="width:100%;">
+          <model-stage :model="item.attributes.artworkFile.fileUrl" :modelName="item.name" v-if="isItem3D"></model-stage>
+          <media-item v-else :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'artworkFile'"/>
         </div>
       </b-col>
       <b-col md="8" sm="12" align-self="start" class="mb-4">
@@ -39,6 +40,7 @@ import MediaItem from '@/components/upload/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
 import ItemActionMenu from '@/components/items/ItemActionMenu'
 import ItemPrivacyMenu from '@/components/upload/ItemPrivacyMenu'
+import modelStage from '@/components/modelComponent/modelStage.vue'
 
 export default {
   name: 'ItemPreview',
@@ -46,7 +48,8 @@ export default {
     MintingTools,
     MediaItem,
     ItemActionMenu,
-    ItemPrivacyMenu
+    ItemPrivacyMenu,
+    modelStage
   },
   data: function () {
     return {
@@ -111,6 +114,13 @@ export default {
     },
     keywords () {
       return this.$store.getters['myItemStore/myItem'](this.assetHash)
+    },
+    isItem3D () {
+      const aft = this.item.attributes.artworkFile.type
+      if (aft.indexOf('threed') > -1 || aft.indexOf('gltf') > -1 || aft.indexOf('glb') > -1) {
+        return true
+      }
+      return false
     }
   }
 }
