@@ -7,6 +7,8 @@
         <b-col md="8" sm="10" align-self="center">
           <div class="text-center">
               <prismic-items :prismicItems="content.sanity_check"></prismic-items>
+              <prismic-items :prismicItems="content.title1"></prismic-items>
+              <prismic-items :prismicItems="content.text1"></prismic-items>
           </div>
         </b-col>
       </b-row>
