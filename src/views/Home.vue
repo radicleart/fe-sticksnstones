@@ -2,8 +2,10 @@
 <div>
 <section id="homepage" class="homepage">
   <b-container class="text-center">
-    <h1><prismic-items :prismicItems="content.site-title"/></h1>
-    <prismic-items :prismicItems="content.text"/>
+    <prismic-items :prismicItems="content.title"/>
+    <prismic-items :prismicItems="content.text1"/>
+    <prismic-items :prismicItems="content.title2"/>
+    <prismic-items :prismicItems="content.text2"/>
     <prismic-items :prismicItems="content.credits"/>
   </b-container>
 </section>
