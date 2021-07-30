@@ -14,13 +14,10 @@ import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
-<<<<<<< HEAD
 import About from '../views/About.vue'
 import Security from '../views/Security.vue'
 import QAndA from '../views/QAndA.vue'
-=======
 import Model from '../views/Models/Model.vue'
->>>>>>> 789df53570a2b4e881d37953af95a609d6a04a47
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
