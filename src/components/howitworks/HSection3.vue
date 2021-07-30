@@ -2,10 +2,10 @@
 <div>
   <div id="h-3"></div>
   <section v-if="content" id="how-3" class="how-section bg-white text-black">
-    <b-container style="min-height: 60vh" class="pb-4 text-center">
-      <b-row align-h="center" style="min-height: 91vh">
+    <b-container style="min-height: 35vh" class="pb-4 text-center">
+      <b-row align-h="center" style="min-height: 61vh">
         <b-col md="8" sm="10" align-self="center">
-          <div class="text-center">
+          <div class="text-left">
             <prismic-items :prismicItems="content.group3"></prismic-items>
             <prismic-items :prismicItems="content.title3"></prismic-items>
             <prismic-items :prismicItems="content.text3"></prismic-items>
