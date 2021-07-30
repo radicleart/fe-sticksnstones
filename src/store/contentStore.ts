@@ -12,7 +12,8 @@ const contentStore = {
       tooltips: null,
       howItWorks: null,
       nft: null,
-      security: null
+      security: null,
+      qanda: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -44,6 +45,9 @@ const contentStore = {
     },
     getSecurity: state => {
       return state.content.security
+    },
+    getQAndA: state => {
+      return state.content.qanda
     },
     getApplications: state => {
       return state.content.applications
@@ -89,6 +93,9 @@ const contentStore = {
     },
     addAbout (state, o) {
       state.content.about = o
+    },
+    addQAndA (state, o) {
+      state.content.qanda = o
     },
     addSecurity (state, o) {
       state.content.security = o

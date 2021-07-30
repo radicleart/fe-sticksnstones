@@ -81,7 +81,12 @@ export default {
       })
       this.$prismic.client.getSingle('security').then(document => {
         if (document) {
-          this.$store.commit('contentStore/addsecurity', document.data)
+          this.$store.commit('contentStore/addSecurity', document.data)
+        }
+      })
+      this.$prismic.client.getSingle('qanda').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addQAndA', document.data)
         }
       })
       this.$prismic.client.getSingle('homepage').then(document => {

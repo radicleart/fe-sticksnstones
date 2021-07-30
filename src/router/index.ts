@@ -16,6 +16,7 @@ import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
 import About from '../views/About.vue'
 import Security from '../views/Security.vue'
+import QAndA from '../views/QAndA.vue'
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
@@ -46,6 +47,11 @@ const routes: Array<RouteConfig> = [
     path: '/about',
     name: 'about',
     components: { default: About, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/qanda',
+    name: 'qanda',
+    components: { default: QAndA, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/security',
