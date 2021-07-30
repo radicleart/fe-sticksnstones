@@ -11,7 +11,8 @@ const contentStore = {
       about: null,
       tooltips: null,
       howItWorks: null,
-      nft: null
+      nft: null,
+      security: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -40,6 +41,9 @@ const contentStore = {
     getTooltip: state => tooltipId => {
       if (!state.content.tooltips || !state.content.tooltips[tooltipId]) return
       return state.content.tooltips[tooltipId]
+    },
+    getSecurity: state => {
+      return state.content.security
     },
     getApplications: state => {
       return state.content.applications
@@ -85,6 +89,9 @@ const contentStore = {
     },
     addAbout (state, o) {
       state.content.about = o
+    },
+    addSecurity (state, o) {
+      state.content.security = o
     },
     addHowItWorks (state, o) {
       state.content.howItWorks = o

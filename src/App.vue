@@ -79,6 +79,11 @@ export default {
           this.$store.commit('contentStore/addDialogs', document.data)
         }
       })
+      this.$prismic.client.getSingle('security').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addsecurity', document.data)
+        }
+      })
       this.$prismic.client.getSingle('homepage').then(document => {
         if (document) {
           this.$store.commit('contentStore/addHomeContent', document.data)

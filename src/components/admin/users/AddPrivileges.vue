@@ -42,8 +42,8 @@
     <b-form-invalid-feedback id="privileges-feedback">
       Enter the privileges this user can enact
     </b-form-invalid-feedback>
-  </div>
-  <div class="my-4"><b-button class="btn-sm pointer mr-3" variant="info" @click.prevent="addPrivilege(priv.name)" v-for="(priv, index) in availablePrivileges" :key="index">{{priv.name}}</b-button></div>
+  </div >
+  <div  class="my-4"><b-button class="btn-sm pointer mr-4" variant="info" @click.prevent="addPrivilege(priv.name)" v-for="(priv, index) in availablePrivileges" :key="index">{{priv.name}}</b-button></div>
   <div class="my-4 text-right"><b-button class="" variant="warning" @click.prevent="saveAuthorisation()">Save</b-button></div>
 </div>
 <div v-else>
@@ -136,4 +136,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+div {
+  color: black;
+}
 </style>
