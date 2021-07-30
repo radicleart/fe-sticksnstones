@@ -15,7 +15,7 @@
   </b-navbar-toggle>
   <!-- Mobile Design for login menu -->
 
-  <b-sidebar id="my-sidebar" sidebar-class="border-left border-secondary" bg-variant="white" text-variant="dark" aria-label="Sidebar" right>
+  <b-sidebar id="my-sidebar"  sidebar-class="border-left border-secondary" bg-variant="white" text-variant="dark" aria-label="Sidebar" right>
     <template #default="{ hide }">
       <div class="pb-5 mt-5 border-bottom text-center">
         <h1>Welcome</h1>
