@@ -1,5 +1,5 @@
 <template>
-<b-dropdown :variant="variant || 'white'" class="bg-none m-0 p-0" no-caret>
+<b-dropdown :variant="variant || 'white'" no-caret size="sm">
   <template #button-content class="bg-none m-0 p-0">
     <b-icon icon="three-dots"/>
   </template>

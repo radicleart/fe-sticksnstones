@@ -15,7 +15,7 @@
                 <b-link to="/create">Mint A File</b-link>
               </div>
               <div>
-                <b-link to="/information/nfts">About NFTs</b-link>
+                <b-link to="/information/artists">Artists</b-link>
               </div>
               <div>
                 <b-link to="/information/applications">Applications</b-link>

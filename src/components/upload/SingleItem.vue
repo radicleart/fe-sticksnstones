@@ -2,7 +2,7 @@
 <div>
   <div class="" :style="bannerImage">
   </div>
-  <div class="p-0 m-0 bg-light text-small d-flex justify-content-end">
+  <div>
     <ItemActionMenu @performAction="performAction" :assetHash="item.assetHash" :variant="'white'" />
   </div>
   <div class="text-center py-1 pb-3 bg-light text-small">

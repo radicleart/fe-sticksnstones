@@ -14,9 +14,13 @@ import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
+<<<<<<< HEAD
 import About from '../views/About.vue'
 import Security from '../views/Security.vue'
 import QAndA from '../views/QAndA.vue'
+=======
+import Model from '../views/Models/Model.vue'
+>>>>>>> 789df53570a2b4e881d37953af95a609d6a04a47
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
@@ -40,7 +44,7 @@ const isPermitted = function (to, profile) {
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'home',
+    name: 'homepage',
     components: { default: Home, header: MainNavbar, footer: MainFooter }
   },
   {
@@ -147,6 +151,11 @@ const routes: Array<RouteConfig> = [
     path: '/information/:pageId',
     name: 'information',
     components: { default: InformationPage, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/Model',
+    name: 'Model',
+    components: { default: Model, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/404',
