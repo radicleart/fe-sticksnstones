@@ -10,6 +10,13 @@
               <prismic-items :prismicItems="content.title1"></prismic-items>
               <prismic-items :prismicItems="content.text1"></prismic-items>
           </div>
+          <!-- <div class="testing_group">
+            <div class="item" v-for="(item, index) in content.group1" :key="index">
+              <img class="item__img" :src="item.image.url" :alt="item.image.alt">
+              <div class="item__title">{{ item.title[0].text }}</div>
+              <div class="item__text">{{ item.text[0].text }}</div>
+            </div> -->
+          <!-- </div> -->
         </b-col>
       </b-row>
     </b-container>

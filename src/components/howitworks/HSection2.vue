@@ -6,7 +6,6 @@
       <b-row align-h="center" style="min-height: 61vh">
         <b-col md="8" sm="10" align-self="center">
           <div class="text-left">
-            <prismic-items :prismicItems="content.group2"></prismic-items>
             <prismic-items :prismicItems="content.title2"></prismic-items>
               <prismic-items :prismicItems="content.text2"></prismic-items>
           </div>

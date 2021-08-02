@@ -1,7 +1,7 @@
 <template>
 <div>
 <section id="homepage" class="homepage">
-  <b-container class="text-center">
+  <b-container class="text-left" fluid="md">
     <prismic-items :prismicItems="content.title"/>
     <prismic-items :prismicItems="content.text1"/>
     <prismic-items :prismicItems="content.title2"/>
