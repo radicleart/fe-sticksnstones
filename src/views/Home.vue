@@ -2,11 +2,19 @@
 <div>
 <section id="homepage" class="homepage">
   <b-container class="text-left" fluid="md">
+    <b-row align-h="center" style="min-height: 61vh">
+        <b-col md="10" sm="10" align-self="center">
     <prismic-items :prismicItems="content.title"/>
     <prismic-items :prismicItems="content.text1"/>
+    <b-row align-h="center" style="min-height: 61vh">
+        <b-col md="10" sm="10" align-self="center">
     <prismic-items :prismicItems="content.title2"/>
     <prismic-items :prismicItems="content.text2"/>
     <prismic-items :prismicItems="content.credits"/>
+    </b-col>
+    </b-row>
+      </b-col>
+    </b-row>
   </b-container>
 </section>
 </div>
