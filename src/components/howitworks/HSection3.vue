@@ -1,14 +1,15 @@
 <template>
-<div>
+<div v-if="content">
   <div id="h-3"></div>
-  <section v-if="content" id="how-3" class="how-section bg-white text-black">
-    <b-container style="min-height: 35vh" class="pb-4 text-center">
-      <b-row align-h="center" style="min-height: 61vh">
+  <section id="how-3" class="how-section bg-white text-black">
+    <b-container style="min-height: 25vh" class="pb-4 text-center">
+      <b-row align-h="center" style="min-height: 31vh">
         <b-col md="8" sm="10" align-self="center">
           <div class="text-left">
-            <prismic-items :prismicItems="content.group3"></prismic-items>
-            <prismic-items :prismicItems="content.title3"></prismic-items>
-            <prismic-items :prismicItems="content.text3"></prismic-items>
+            <b-list-group>
+            <b-list-group-item variant="primary"><prismic-items :prismicItems="content.title3"></prismic-items></b-list-group-item>
+            <b-list-group-item variant="info"><prismic-items :prismicItems="content.text3"></prismic-items></b-list-group-item>
+            </b-list-group>
           </div>
         </b-col>
       </b-row>
