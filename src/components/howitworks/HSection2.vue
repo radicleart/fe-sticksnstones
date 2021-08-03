@@ -1,6 +1,6 @@
 <template>
 <div v-if="content">
-  <div id="h-2"></div>
+  <div id="h-2">
   <section id="how-2" class="how-section bg-white text-black">
     <b-container style="min-height: 25vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 31vh">
@@ -15,6 +15,7 @@
       </b-row>
     </b-container>
   </section>
+</div>
 </div>
 </template>
 
