@@ -23,7 +23,7 @@
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
-                   <div v-scroll-to="{ offset: -60, element: '#h-1', duration: 1000 }">
+                   <div v-scroll-to="{ offset: -60, element: '#g1', duration: 1000 }">
                   <b-link to="/how-it-works">Get Your Stacks Wallet</b-link>
                 </div>
                 <div v-scroll-to="{ offset: -60, element: '#h-2', duration: 1000 }">

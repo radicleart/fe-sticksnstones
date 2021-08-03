@@ -1,14 +1,5 @@
 <template>
 <div v-if="content">
-<div class="nav">
-  <!-- Right aligned nav items -->
-        <b-navbar-nav class="mx-auto mt-3 ">
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#h-1', duration: 1000 }" href="#h-1">Get Your Stacks Wallet</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#h-2', duration: 1000 }" href="#h-2">Upload Your Item</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -80, element: '#h-3', duration: 1000 }" href="#h-3">Mint Your NFT</a></b-nav-item>
-          <b-nav-item href="#"><a class="text-nowrap text-white mx-md-5 mx-sm-3" v-scroll-to="{ offset: -60, element: '#h-4', duration: 1000 }" href="#h-4">Set Royalties</a></b-nav-item>
-        </b-navbar-nav>
-      </div>
       <h-section-1 :content="content"></h-section-1>
       <h-section-2 :content="content"></h-section-2>
       <h-section-3 :content="content"></h-section-3>
