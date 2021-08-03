@@ -36,8 +36,12 @@ export default {
 </script>
 
 <style lang="scss">
+#g1 {
+  height: 60rem;
+}
 .item {
   display: flex;
+  flex-direction: row;
 }
 .img {
   padding: 5%;
