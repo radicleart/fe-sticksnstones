@@ -1,9 +1,6 @@
 <template>
 <div id="g2" v-if="content">
   <div class="item" v-for="(item, index) in content.group2" :key="index">
-    <div class="img">
-    <img class="item__img" :src="item.img.url" :alt="item.img.alt">
-    </div>
     <div class="words">
     <h1 class="item__title">{{ item.title[0].text }}</h1>
     <ol>
@@ -14,6 +11,9 @@
       <li class="item__text">{{ item.text[4].text }}</li>
       <li class="item__text">{{ item.text[5].text }}</li>
     </ol>
+    </div>
+    <div class="img">
+    <img class="item__img" :src="item.img.url" :alt="item.img.alt">
     </div>
   </div>
 </div>
@@ -41,7 +41,7 @@ export default {
 }
 .item {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
 }
 .img {
   padding: 5%;

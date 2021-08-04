@@ -34,7 +34,7 @@ export default {
 }
 .item {
   display: flex;
-  flex-direction: reverse;
+  flex-direction: row;
 }
 .img {
   padding: 5%;
