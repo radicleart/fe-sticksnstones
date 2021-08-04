@@ -31,6 +31,9 @@ export default {
 <style lang="scss">
 #g3 {
   height: 60rem;
+  width: 100rem;
+  padding: 5%;
+  margin-left: 5%;
 }
 .item {
   display: flex;

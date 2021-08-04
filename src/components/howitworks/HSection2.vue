@@ -38,6 +38,9 @@ export default {
 <style lang="scss">
 #g2 {
   height: 60rem;
+  width: 100rem;
+  padding: 5%;
+  margin-left: 10%;
 }
 .item {
   display: flex;
