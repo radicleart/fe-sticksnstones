@@ -1,22 +1,28 @@
 <template>
-<section v-if="content">
-  <b-container class="">
-    <PrismicItems :prismicItems="content.data.title" />
-    <PrismicItems :prismicItems="content.data.text" />
-    <PrismicItems :prismicItems="content.data.mainimg" />
-  </b-container>
-</section>
+<div v-if="content">
+      <h-section-1 :content="content"></h-section-1>
+      <h-section-2 :content="content"></h-section-2>
+      <h-section-3 :content="content"></h-section-3>
+      <h-section-4 :content="content"></h-section-4>
+</div>
 </template>
 
 <script>
-import PrismicItems from '@/components/prismic/PrismicItems'
+import HSection1 from '@/components/howitworks/HSection1'
+import HSection2 from '@/components/howitworks/HSection2'
+import HSection3 from '@/components/howitworks/HSection3'
+import HSection4 from '@/components/howitworks/HSection4'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'HowItWorks',
+  name: 'howitworks',
   components: {
-    PrismicItems
+    HSection1,
+    HSection2,
+    HSection3,
+    HSection4
   },
+  props: ['howitworks'],
   data () {
     return {
     }
@@ -32,8 +38,8 @@ export default {
       return 'min-height: ' + height + 'px; width: auto;'
     },
     content () {
-      const pageId = this.$route.params.pageId
-      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_HOW_PAGE](pageId)
+      // const pageId = this.$route.params.pageId
+      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_HOW]
       return content
     }
   }
