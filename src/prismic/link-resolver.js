@@ -10,6 +10,9 @@ export default function (doc) {
   if (doc.type === 'about') {
     return '/about'
   }
+  if (doc.type === 'howitworks') {
+    return '/how-it-works'
+  }
   if (doc.isBroken) {
     return '/not-found'
   }

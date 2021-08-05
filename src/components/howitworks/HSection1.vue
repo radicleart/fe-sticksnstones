@@ -1,27 +1,29 @@
 <template>
-<div>
-  <div id="ruma"></div>
-  <section id="how-1" class="how-section bg-white text-black">
-    <b-container style="min-height: 60vh" class="pb-4 text-center">
-      <b-row align-h="center" style="min-height: 91vh">
-        <b-col md="8" sm="10" align-self="center">
-          <div class="text-center">
-            <prismic-items :prismicItems="content.section1rtf2"></prismic-items>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-  </section>
+<div id="g1" v-if="content">
+  <div class="item" v-for="(item, index) in content.group1" :key="index">
+    <div class="img">
+    <img class="item__img" :src="item.img.url" :alt="item.img.alt">
+    </div>
+    <div class="words">
+    <h1 class="item__title">{{ item.title[0].text }}</h1>
+    <ol>
+      <li class="item__text">{{ item.text[0].text }}</li>
+      <li class="item__text">{{ item.text[1].text }}</li>
+      <li class="item__text">{{ item.text[2].text }}</li>
+      <li class="item__text">{{ item.text[3].text }}</li>
+      <li class="item__text">{{ item.text[4].text }}</li>
+      <li class="item__text">{{ item.text[5].text }}</li>
+    </ol>
+    </div>
+  </div>
 </div>
 </template>
 
 <script>
-import PrismicItems from '@/components/prismic/PrismicItems'
-
 export default {
-  name: 'HSection1',
+  name: 'Group1',
   components: {
-    PrismicItems
+
   },
   props: ['content'],
   data () {
@@ -34,40 +36,21 @@ export default {
 </script>
 
 <style lang="scss">
-/* General style */
-#ruma {
-  height: 90px;
-  background-color: transparent;
-  z-index: 10;
+#g1 {
+  height: 60rem;
+  width: 100rem;
+  padding: 5%;
+  margin-left: 5%;
+}
+.item {
+  display: flex;
+  flex-direction: row;
+}
+.img {
+  padding: 5%;
+}
+.item__title{
+  padding: 2%;
 }
 
-section {
-  padding: 20px 0;
-}
-#how-1 p {
-  text-align: left;
-}
-#how-1 img {
-  text-align: center;
-  width: 100px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-#how-1 h4 {
-  text-align: left;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-top: 30px;
-  margin-bottom: 10px;
-}
-h1 {
-  font-size: 3rem;
-  color: #333333;
-}
-.section2-text {
-  max-width: 600px;
-  color: #888888;
-  font-size: 1.5rem;
-  margin: 0 auto;
-}
 </style>
