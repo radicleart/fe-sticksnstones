@@ -13,7 +13,12 @@ const contentStore = {
       howItWorks: null,
       nft: null,
       security: null,
-      qanda: null
+      qanda: null,
+      all: null,
+      minted: null,
+      onsale: null,
+      sold: null,
+      uploaded: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -48,6 +53,21 @@ const contentStore = {
     },
     getQAndA: state => {
       return state.content.qanda
+    },
+    getAll: state => {
+      return state.content.all
+    },
+    getMinted: state => {
+      return state.content.minted
+    },
+    getOnsale: state => {
+      return state.content.onsale
+    },
+    getSold: state => {
+      return state.content.sold
+    },
+    getUploaded: state => {
+      return state.content.uploaded
     },
     getApplications: state => {
       return state.content.applications
@@ -96,6 +116,21 @@ const contentStore = {
     },
     addQAndA (state, o) {
       state.content.qanda = o
+    },
+    addAll (state, o) {
+      state.content.all = o
+    },
+    addMinted (state, o) {
+      state.content.minted = o
+    },
+    addOnsale (state, o) {
+      state.content.onsale = o
+    },
+    addSold (state, o) {
+      state.content.sold = o
+    },
+    addUploaded (state, o) {
+      state.content.uploaded = o
     },
     addSecurity (state, o) {
       state.content.security = o

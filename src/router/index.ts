@@ -7,7 +7,6 @@ import MainNavbar from '@/components/layout/MainNavbar.vue'
 import MainFooter from '@/components/layout/MainFooter.vue'
 
 // public pages
-
 import Home from '../views/Home.vue'
 import ApplicationAdmin from '../views/admin/ApplicationAdmin.vue'
 import GetInTouch from '../views/GetInTouch.vue'
@@ -17,6 +16,11 @@ import InformationPage from '../views/InformationPage.vue'
 import About from '../views/About.vue'
 import Security from '../views/Security.vue'
 import QAndA from '../views/QAndA.vue'
+import All from '../components/MyItems.vue/All.vue'
+import Minted from '../components/MyItems.vue/Minted.vue'
+import Onsale from '../components/MyItems.vue/Onsale.vue'
+import Sold from '../components/MyItems.vue/Sold.vue'
+import Uploaded from '../components/MyItems.vue/Uploaded.vue'
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
@@ -42,6 +46,31 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'homepage',
     components: { default: Home, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/all',
+    name: 'all',
+    components: { default: All, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/minted',
+    name: 'minted',
+    components: { default: Minted, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/onsale',
+    name: 'onsale',
+    components: { default: Onsale, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/sold',
+    name: 'sold',
+    components: { default: Sold, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/uploaded',
+    name: 'uploaded',
+    components: { default: Uploaded, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/about',
