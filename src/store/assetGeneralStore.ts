@@ -7,7 +7,8 @@ const assetGeneralStore = {
   state: {
     emailData: [],
     offers: [],
-    transactions: []
+    transactions: [],
+    cacheState: 0
   },
   getters: {
     getTransactions: state => {
@@ -20,13 +21,16 @@ const assetGeneralStore = {
   mutations: {
     addRegisteredEmail (state, data) {
       state.emailData.push(data)
+    },
+    setCacheState (state, data) {
+      state.cacheState = data
     }
   },
   actions: {
     buildCache ({ commit }) {
       return new Promise(function (resolve, reject) {
         axios.get(MESH_API_PATH + '/v2/build-cache').then((result) => {
-          commit('addRegisteredEmail', result)
+          commit('setCacheState', result)
           resolve(result)
         }).catch((error) => {
           reject(new Error('Unable to register email: ' + error))

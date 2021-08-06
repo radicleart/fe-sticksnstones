@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     buildCache: function () {
-      this.$store.dispatch()
+      this.$store.dispatch('assetGeneralStore/buildCache')
     },
     formatDate: function (date) {
       const loaclEndM = moment(date)

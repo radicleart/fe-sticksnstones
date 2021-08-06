@@ -10,15 +10,8 @@ const contentStore = {
       homepage: null,
       about: null,
       tooltips: null,
-      howItWorks: null,
-      nft: null,
-      security: null,
-      qanda: null,
-      all: null,
-      minted: null,
-      onsale: null,
-      sold: null,
-      uploaded: null
+      howitworks: null,
+      nft: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -84,8 +77,8 @@ const contentStore = {
     getInformationById: state => id => {
       return state.content.information.find((o) => o.uid === id)
     },
-    getHowItWorksById: state => id => {
-      return state.content.howItWorks.find((o) => o.uid === id)
+    getHowItWorks: state => {
+      return state.content.howitworks
     },
     getArtistId: state => artist => {
       try {
@@ -136,7 +129,7 @@ const contentStore = {
       state.content.security = o
     },
     addHowItWorks (state, o) {
-      state.content.howItWorks = o
+      state.content.howitworks = o
     },
     addInformation (state, o) {
       state.content.information = o
