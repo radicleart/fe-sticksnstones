@@ -167,7 +167,7 @@ export default {
           $self.$bvModal.hide('minting-modal')
           $self.mintResult = txResult
           setInterval(function () {
-            $self.$store.dispatch('rpayTransactionStore/fetchTransactionInfo', $self.mintTxId).then((txData) => {
+            $self.$store.dispatch('rpayTransactionStore/watchTransactionInfo', $self.mintTxId).then((txData) => {
               $self.$notify({ type: 'warning', title: 'Transaction News', text: 'Transaction ' + txData.contract_call.function_name + ' has status ' + txData.tx_status + ' sent at ' + txData.receipt_time_iso })
             })
           }, 30000)
