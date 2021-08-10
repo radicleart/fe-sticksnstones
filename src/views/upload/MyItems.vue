@@ -1,6 +1,7 @@
 <template>
 <div class="container" v-if="loaded">
   <div class="mb-5" :key="componentKey">
+    <h1>Your NFTs</h1>
     <div class="d-flex justify-content-end">
       <b-button class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-button>
       <b-button class="ml-3" :variant="(filter === 'uploaded') ? 'info' : 'light'" @click="updateFilter('uploaded')">Uploaded</b-button>
