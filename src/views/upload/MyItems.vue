@@ -2,7 +2,7 @@
 <div class="container" v-if="loaded">
   <div class="mb-5" :key="componentKey">
     <h1>Your NFTs</h1>
-    <b-nav class="d-flex justify-content-center">
+    <b-nav class="d-flex justify-content-center" tabs>
       <b-nav-item class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'uploaded') ? 'info' : 'light'" @click="updateFilter('uploaded')">Uploaded</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'minted') ? 'info' : 'light'" @click="updateFilter('minted')">Minted</b-nav-item>
