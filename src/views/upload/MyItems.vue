@@ -15,6 +15,7 @@
       </b-col>
     </b-row>
   </div>
+  <b-button variant="warning" class="mr-2 mb-2"><b-link class="text-white" to="/create">Upload New Item</b-link></b-button>
 </div>
 <div v-else class="center text-center">
   <LoopbombSpinner />
