@@ -2,7 +2,20 @@
 <div class="container" v-if="loaded">
   <div class="mb-5" :key="componentKey">
     <h1>Your NFTs</h1>
-    <b-nav class="d-flex justify-content-center" tabs>
+    <div class="search">
+      <b-input-group
+        v-for="size in ['']"
+        :key="size"
+        :size="size"
+        class="mb-3"
+      >
+        <b-form-input size="sm" aria-label="Looking for Something in Particular?"></b-form-input>
+        <b-input-group-append>
+          <b-button size="sm" text="Search" variant="success">Search</b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </div>
+    <b-nav tabs align="center">
       <b-nav-item class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'uploaded') ? 'info' : 'light'" @click="updateFilter('uploaded')">Uploaded</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'minted') ? 'info' : 'light'" @click="updateFilter('minted')">Minted</b-nav-item>
