@@ -79,14 +79,14 @@ export default {
           this.$store.commit('contentStore/addDialogs', document.data)
         }
       })
-      this.$prismic.client.getSingle('security').then(document => {
+      this.$prismic.client.getSingle('terms').then(document => {
         if (document) {
-          this.$store.commit('contentStore/addSecurity', document.data)
+          this.$store.commit('contentStore/addTerms', document.data)
         }
       })
-      this.$prismic.client.getSingle('qanda').then(document => {
+      this.$prismic.client.getSingle('faq').then(document => {
         if (document) {
-          this.$store.commit('contentStore/addQAndA', document.data)
+          this.$store.commit('contentStore/addFAQ', document.data)
         }
       })
       this.$prismic.client.getSingle('homepage').then(document => {
@@ -97,6 +97,31 @@ export default {
       this.$prismic.client.getSingle('about').then(document => {
         if (document) {
           this.$store.commit('contentStore/addAbout', document.data)
+        }
+      })
+      this.$prismic.client.getSingle('all').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addAll', document.data)
+        }
+      })
+      this.$prismic.client.getSingle('minted').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addMinted', document.data)
+        }
+      })
+      this.$prismic.client.getSingle('onsale').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addOnsale', document.data)
+        }
+      })
+      this.$prismic.client.getSingle('sold').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addSold', document.data)
+        }
+      })
+      this.$prismic.client.getSingle('uploaded').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addUploaded', document.data)
         }
       })
       this.$prismic.client.getSingle('howitworks').then(document => {

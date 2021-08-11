@@ -1,10 +1,10 @@
 <template>
 <div>
-      <section id="security" class="security">
+      <section id="terms" class="terms">
                    <b-container fluid="lg" style="min-height: 10vh" class="pb-4 text-center">
       <b-row  align-h="center" style="min-height: 18vh">
                 <b-col md="5" sm="10" align-self="center">
-                  <router-link class="footer__link" to="/billboard">Terme and services</router-link>
+                  <router-link class="footer__link" to="/billboard">Terms and services</router-link>
                            </b-col>
         <b-col md="5" sm="10" align-self="center">
           <router-link class="footer__link" to="/billboard">Policy Privacy</router-link>
@@ -58,11 +58,11 @@
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
 export default {
-  name: 'Security',
+  name: 'Terms',
   components: {
     PrismicItems
   },
-  props: ['Security'],
+  props: ['Terms'],
   data () {
     return {
       response: null
@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     content () {
-      const content = this.$store.getters['contentStore/getSecurity']
+      const content = this.$store.getters['contentStore/getTerms']
       return content
     }
   }

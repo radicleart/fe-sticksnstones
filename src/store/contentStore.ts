@@ -12,8 +12,8 @@ const contentStore = {
       tooltips: null,
       howItWorks: null,
       nft: null,
-      security: null,
-      qanda: null,
+      terms: null,
+      faq: null,
       all: null,
       minted: null,
       onsale: null,
@@ -48,11 +48,11 @@ const contentStore = {
       if (!state.content.tooltips || !state.content.tooltips[tooltipId]) return
       return state.content.tooltips[tooltipId]
     },
-    getSecurity: state => {
-      return state.content.security
+    getTerms: state => {
+      return state.content.terms
     },
-    getQAndA: state => {
-      return state.content.qanda
+    getFAQ: state => {
+      return state.content.faq
     },
     getAll: state => {
       return state.content.all
@@ -114,8 +114,8 @@ const contentStore = {
     addAbout (state, o) {
       state.content.about = o
     },
-    addQAndA (state, o) {
-      state.content.qanda = o
+    addFAQ (state, o) {
+      state.content.faq = o
     },
     addAll (state, o) {
       state.content.all = o
@@ -132,8 +132,8 @@ const contentStore = {
     addUploaded (state, o) {
       state.content.uploaded = o
     },
-    addSecurity (state, o) {
-      state.content.security = o
+    addTerms (state, o) {
+      state.content.terms = o
     },
     addHowItWorks (state, o) {
       state.content.howitworks = o

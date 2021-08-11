@@ -14,8 +14,8 @@ import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
 import About from '../views/About.vue'
-import Security from '../views/Security.vue'
-import QAndA from '../views/QAndA.vue'
+import Terms from '../views/Terms.vue'
+import FAQ from '../views/FAQ.vue'
 import All from '../components/MyItems.vue/All.vue'
 import Minted from '../components/MyItems.vue/Minted.vue'
 import Onsale from '../components/MyItems.vue/Onsale.vue'
@@ -48,27 +48,27 @@ const routes: Array<RouteConfig> = [
     components: { default: Home, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/all',
+    path: '/my-items/all',
     name: 'all',
     components: { default: All, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/minted',
+    path: '/my-items/minted',
     name: 'minted',
     components: { default: Minted, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/onsale',
+    path: '/my-items/onsale',
     name: 'onsale',
     components: { default: Onsale, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/sold',
+    path: '/my-items/sold',
     name: 'sold',
     components: { default: Sold, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/uploaded',
+    path: '/my-items/uploaded',
     name: 'uploaded',
     components: { default: Uploaded, header: MainNavbar, footer: MainFooter }
   },
@@ -78,14 +78,14 @@ const routes: Array<RouteConfig> = [
     components: { default: About, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/qanda',
-    name: 'qanda',
-    components: { default: QAndA, header: MainNavbar, footer: MainFooter }
+    path: '/faq',
+    name: 'faq',
+    components: { default: FAQ, header: MainNavbar, footer: MainFooter }
   },
   {
-    path: '/security',
-    name: 'security',
-    components: { default: Security, header: MainNavbar, footer: MainFooter }
+    path: '/terms',
+    name: 'terms',
+    components: { default: Terms, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/edit-item/:assetHash',

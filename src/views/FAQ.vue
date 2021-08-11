@@ -1,6 +1,6 @@
 <template>
 <div>
-  <section id="qanda" class="qanda">
+  <section id="faq" class="faq">
      <b-container style="min-height: 18vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 18vh">
         <b-col md="8" sm="10" align-self="center">
@@ -25,11 +25,11 @@
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
 export default {
-  name: 'qanda',
+  name: 'faq',
   components: {
     PrismicItems
   },
-  props: ['qanda'],
+  props: ['faq'],
   data () {
     return {
       response: null
@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     content () {
-      const content = this.$store.getters['contentStore/getQAndA']
+      const content = this.$store.getters['contentStore/getFAQ']
       return content
     }
   }
