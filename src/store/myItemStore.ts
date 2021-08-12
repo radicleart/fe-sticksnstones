@@ -71,6 +71,12 @@ const myItemStore = {
     getMyUploaded: (state, getters, rootState, rootGetters) => {
       return filterItems(state, rootGetters, 'uploaded')
     },
+    getMySaleItems: (state, getters, rootState, rootGetters) => {
+      return filterItems(state, rootGetters, 'onsale')
+    },
+    getMySoldItems: (state, getters, rootState, rootGetters) => {
+      return filterItems(state, rootGetters, 'sold')
+    },
     getMyPurchasedItems: (state, getters, rootState, rootGetters) => {
       return purchasedItems(rootGetters)
     },

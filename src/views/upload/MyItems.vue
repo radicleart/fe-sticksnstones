@@ -82,6 +82,10 @@ export default {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_UPLOADED]
       } else if (this.filter === 'minted') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_MINTED_ITEMS]
+      } else if (this.filter === 'onsale') {
+        return this.$store.getters[APP_CONSTANTS.KEY_MY_SALE_ITEMS]
+      } else if (this.filter === 'sold') {
+        return this.$store.getters[APP_CONSTANTS.KEY_MY_SOLD_ITEMS]
       } else if (this.filter === 'pending') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_UNMINTED_ITEMS]
       } else {

@@ -17,6 +17,8 @@ export const APP_CONSTANTS = {
   KEY_MY_UNMINTED_ITEMS: 'myItemStore/getMyUnmintedItems',
   KEY_MY_MINTED_ITEMS: 'myItemStore/getMyMintedItems',
   KEY_MY_PURCHASED_ITEMS: 'myItemStore/getMyPurchasedItems',
+  KEY_MY_SALE_ITEMS: 'myItemStore/getMySaleItems',
+  KEY_MY_SOLD_ITEMS: 'myItemStore/getMySoldItems',
   KEY_MY_ITEM: 'myItemStore/myItem',
   KEY_MY_UPLOADED: 'myItemStore/getMyUploaded',
   KEY_MODAL_MESSAGE: 'getModalMessage',
