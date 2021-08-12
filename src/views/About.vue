@@ -16,7 +16,7 @@
       <div class="my-auto text-center text-white"><h2 class="text-white"></h2><div class="my-4"></div><div class="mb-3">
       </div><div class="mb-4 blurb"><span> <prismic-items :prismicItems="content.title2"></prismic-items><prismic-items :prismicItems="content.text2"></prismic-items>
       </span></div><div class="m-5 d-flex justify-content-center">
-      <a title="join us on discord" href="https://discord.com/invite/sQaKVft" class="mr-4"><b-button variant="light">Read More</b-button>
+      <a class="mr-4"><b-button variant="light">Read More</b-button>
       </a>
        </div></div></section>
        <div class="text-center">
