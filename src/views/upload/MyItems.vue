@@ -9,7 +9,7 @@
         :size="size"
         class="mb-3"
       >
-        <b-form-input size="sm" aria-label="Looking for Something in Particular?"></b-form-input>
+        <b-form-input aria-label="Looking for Something in Particular?"></b-form-input>
         <b-input-group-append>
           <b-button size="sm" text="Search" variant="success">Search</b-button>
         </b-input-group-append>
@@ -78,6 +78,8 @@ export default {
     filteredItems () {
       if (this.filter === 'all') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_ITEMS]
+      } else if (this.filter === 'uploaded') {
+        return this.$store.getters[APP_CONSTANTS.KEY_MY_UPLOADED]
       } else if (this.filter === 'minted') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_MINTED_ITEMS]
       } else if (this.filter === 'pending') {

@@ -18,6 +18,7 @@ export const APP_CONSTANTS = {
   KEY_MY_MINTED_ITEMS: 'myItemStore/getMyMintedItems',
   KEY_MY_PURCHASED_ITEMS: 'myItemStore/getMyPurchasedItems',
   KEY_MY_ITEM: 'myItemStore/myItem',
+  KEY_MY_UPLOADED: 'myItemStore/getMyUploaded',
   KEY_MODAL_MESSAGE: 'getModalMessage',
   KEY_ITEM_VALIDITY: 'myItemStore/getItemValidity',
 

@@ -68,6 +68,9 @@ const myItemStore = {
     getMyUnmintedItems: (state, getters, rootState, rootGetters) => {
       return filterItems(state, rootGetters, 'unminted')
     },
+    getMyUploaded: (state, getters, rootState, rootGetters) => {
+      return filterItems(state, rootGetters, 'uploaded')
+    },
     getMyPurchasedItems: (state, getters, rootState, rootGetters) => {
       return purchasedItems(rootGetters)
     },
