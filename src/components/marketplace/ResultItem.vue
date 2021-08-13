@@ -5,7 +5,7 @@
   </div>
   <div class="text-center py-1 py-3 bg-light text-small">
     <div v-if="result.name"><h3 class="h2-modal"><b-link router-tag="a" :to="assetUrl">{{result.name}}</b-link></h3></div>
-    <div v-else><h3 class="h2-modal">Unkown</h3></div>
+    <div v-else><h3 class="h2-modal">Unknown</h3></div>
     <div v-if="result.name">by <span class="text-success">{{result.artist}}</span></div>
     <div v-else>by <span class="text-success">TBD</span></div>
     <div v-if="contractAsset" class="mt-4 text-dark"><span >NFT #{{contractAsset.nftIndex}}</span></div>

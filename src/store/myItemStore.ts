@@ -58,6 +58,7 @@ const myItemStore = {
     purchasedRecords: null,
     unmintedRecords: null
   },
+  // this part was updated by me [Simone]
   getters: {
     getMyItems: state => {
       return (state.rootFile) ? state.rootFile.records : []
