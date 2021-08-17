@@ -3,6 +3,6 @@ module.exports = {
     '@vue/cli-plugin-babel/preset'
   ],
   plugins: [
-    'transform-runtime'
+    '@babel/plugin-transform-runtime'
   ]
 }
