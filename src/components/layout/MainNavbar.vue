@@ -121,9 +121,9 @@ export default {
       return content
     },
     bannerImage () {
-      if (this.$route.name === 'homepage') {
-        return ''
-      }
+      // if (this.$route.name === 'homepage') {
+      //   return ''
+      // }
       const content = this.$store.getters['contentStore/getHomepage']
       if (!content) {
         return
