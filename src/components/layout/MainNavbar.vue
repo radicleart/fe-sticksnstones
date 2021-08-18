@@ -132,7 +132,7 @@ export default {
         height: '128px',
         width: '100%',
         'background-repeat': 'no-repeat',
-        'background-image': `url(${this.banner})`,
+        'background-image': `url(${this.bannerx})`,
         'background-position': 'center center',
         '-webkit-background-size': 'cover',
         '-moz-background-size': 'cover',
