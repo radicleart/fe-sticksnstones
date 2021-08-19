@@ -83,8 +83,11 @@ const contentStore = {
     }
   },
   mutations: {
-    addHomeContent (state, o) {
-      state.content.homepage = o
+    addFAQ (state, o) {
+      state.content.faq = o
+    },
+    addTerms (state, o) {
+      state.content.terms = o
     },
     addTooltips (state, o) {
       state.content.tooltips = o
