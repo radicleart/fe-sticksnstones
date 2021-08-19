@@ -53,6 +53,12 @@ const contentStore = {
     getAbout: state => {
       return state.content.about
     },
+    getTerms: state => {
+      return state.content.terms
+    },
+    getFAQ: state => {
+      return state.content.faq
+    },
     getInformationById: state => id => {
       return state.content.information.find((o) => o.uid === id)
     },
@@ -83,7 +89,7 @@ const contentStore = {
     addTooltips (state, o) {
       state.content.tooltips = o
     },
-    addAboutContent (state, o) {
+    addAbout (state, o) {
       state.content.about = o
     },
     addHowItWorks (state, o) {
