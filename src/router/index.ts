@@ -14,6 +14,9 @@ import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
 import Model from '../views/Models/Model.vue'
+import About from '../views/About.vue'
+import Terms from '../views/Terms.vue'
+import FAQ from '../views/FAQ.vue'
 
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
@@ -96,6 +99,21 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
       requiresAdmin: false
     }
+  },
+  {
+    path: '/about',
+    name: 'about',
+    components: { default: About, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    components: { default: FAQ, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/terms',
+    name: 'terms',
+    components: { default: Terms, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/create',

@@ -2,8 +2,6 @@ const contentStore = {
   namespaced: true,
   state: {
     content: {
-      artists: [],
-      applications: null,
       mainFooter: null,
       information: null,
       navigation: null,
@@ -11,7 +9,9 @@ const contentStore = {
       about: null,
       tooltips: null,
       howitworks: null,
-      nft: null
+      nft: null,
+      terms: null,
+      faq: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
