@@ -15,6 +15,7 @@ import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
 import Model from '../views/Models/Model.vue'
 
+const MyNfts = () => import('../views/upload/MyNfts.vue')
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
 const UpdateItem = () => import('../views/upload/UpdateItem.vue')
@@ -50,7 +51,7 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/item-preview/:assetHash',
+    path: '/item-preview/:assetHash/:edition',
     name: 'item-preview',
     components: { default: ItemPreview, header: MainNavbar, footer: MainFooter },
     meta: {
@@ -77,6 +78,15 @@ const routes: Array<RouteConfig> = [
       requiresAuth: false,
       requiresAdmin: false,
       title: 'Item Display'
+    }
+  },
+  {
+    path: '/my-nfts',
+    name: 'my-nfts',
+    components: { default: MyNfts, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: false
     }
   },
   {

@@ -1,13 +1,16 @@
 <template>
-<b-dropdown :variant="variant || 'white'" no-caret size="sm">
-  <template #button-content class="bg-none m-0 p-0">
-    <b-icon icon="three-dots"/>
-  </template>
-  <b-dropdown-item v-if="showPreviewLink"><b-link :to="'/item-preview/' + item.assetHash"><span class="mb-0">open item</span></b-link></b-dropdown-item>
-  <b-dropdown-item v-if="!contractAsset"><b-link :to="'/edit-item/' + item.assetHash"><span class="mb-0">edit item</span></b-link></b-dropdown-item>
-  <b-dropdown-item v-else-if="testMode"><b-link :to="'/edit-item/' + item.assetHash"><span class="mb-0">edit item</span></b-link></b-dropdown-item>
-  <b-dropdown-item v-if="showDeleteLink && !contractAsset"><a href="#" @click.prevent="deleteItem" class="text-danger"><span class="mb-0">delete item</span></a></b-dropdown-item>
-</b-dropdown>
+<div class="text-small pb-0 mb-0">
+  <span class="ml-2 border-bottom" ><b-link :to="itemPreviewUrl">open</b-link></span>
+  <span v-if="this.item.contractAsset">
+    <span class="ml-2 border-bottom"><a :href="item.contractAsset.tokenInfo.metaDataUrl" v-b-tooltip.hover="{ variant: 'light' }" :title="'Meta Data URL: ' + item.contractAsset.tokenInfo.metaDataUrl" target="_blank">meta data</a></span>
+    <span class="ml-2 border-bottom"><a class="text-warning" :href="application.tokenContract.baseTokenUri + item.contractAsset.nftIndex" v-b-tooltip.hover="{ variant: 'light' }" :title="'Base Token URL: ' + application.tokenContract.baseTokenUri + item.contractAsset.nftIndex" target="_blank">nft link</a></span>
+    <span class="ml-2 border-bottom" v-if="item.mintInfo"><a :href="transactionUrl" v-b-tooltip.hover="{ variant: 'light' }" :title="'Base Token URL: ' + application.tokenContract.baseTokenUri + item.contractAsset.nftIndex" target="_blank">mint tx</a></span>
+  </span>
+  <span v-else>
+    <span class="ml-2 border-bottom" v-if="showEditLink"><b-link :to="'/edit-item/' + item.assetHash"><span class="mb-0">edit</span></b-link></span>
+    <span class="ml-2 border-bottom" v-if="showDeleteLink"><a href="#" @click.prevent="deleteItem" class="text-danger"><span class="mb-0">delete</span></a></span>
+  </span>
+</div>
 </template>
 
 <script>
@@ -17,34 +20,42 @@ export default {
   name: 'ItemActionMenu',
   components: {
   },
-  props: ['assetHash', 'variant'],
+  props: ['item', 'variant'],
   data () {
     return {
+      showPreviewLink: false,
+      showDeleteLink: false,
+      showEditLink: false
     }
+  },
+  mounted () {
+    this.showPreviewLink = this.$route.name !== 'item-preview'
+    this.showDeleteLink = !this.item.contractAsset
+    this.showEditLink = !this.item.contractAsset
   },
   methods: {
     deleteItem () {
-      this.$store.dispatch('myItemStore/deleteItem', this.item)
+      this.$store.dispatch('rpayMyItemStore/deleteItem', this.item)
     }
   },
   computed: {
+    itemPreviewUrl () {
+      let edition = 0
+      if (this.item.contractAsset) {
+        edition = this.item.contractAsset.tokenInfo.edition
+      }
+      return '/item-preview/' + this.item.assetHash + '/' + edition
+    },
+    transactionUrl: function () {
+      return 'https://explorer.stacks.co/txid/' + this.item.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
+    },
+    application () {
+      const application = this.$store.getters[APP_CONSTANTS.KEY_APPLICATION_FROM_REGISTRY_BY_CONTRACT_ID](process.env.VUE_APP_STACKS_CONTRACT_ADDRESS + '.' + process.env.VUE_APP_STACKS_CONTRACT_NAME)
+      return application
+    },
     testMode () {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       return profile.superAdmin
-    },
-    showPreviewLink () {
-      return this.$route.name !== 'item-preview'
-    },
-    showDeleteLink () {
-      return this.$route.name === 'edit-item' || this.$route.name === 'my-items-filter'
-    },
-    item () {
-      const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-      return item
-    },
-    contractAsset () {
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      return contractAsset
     }
   }
 }

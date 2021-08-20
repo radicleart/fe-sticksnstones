@@ -6,19 +6,28 @@
   <b-container class="my-5 pt-5" v-if="item">
     <b-row style="min-height: 40vh" >
       <b-col md="4" sm="12" align-self="start" class="text-center">
-        <div  class="bg-white" style="width:100%;">
-          <media-item :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'artworkFile'"/>
+        <div class="bg-white" style="width:100%;">
+          <model-stage :model="item.attributes.artworkFile.fileUrl" :modelName="item.name" v-if="isItem3D"></model-stage>
+          <media-item v-else :videoOptions="videoOptions" :dims="dims" :attributes="item.attributes" :targetItem="'artworkFile'"/>
         </div>
       </b-col>
       <b-col md="8" sm="12" align-self="start" class="mb-4">
         <div>
           <div class="mb-2 d-flex justify-content-between">
             <h2 class="d-block border-bottom mb-5">{{item.name}}</h2>
+            <div class="">
+              <div class="p-0 m-0 d-flex justify-content-end">
+                <ItemActionMenu @performAction="performAction" :assetHash="item.assetHash" :variant="'white'" />
+              </div>
+            </div>
+          </div>
+          <div class="mb-2 d-flex justify-content-end">
+            <ItemPrivacyMenu @performAction="performAction" :assetHash="item.assetHash" :mode="'update'" />
           </div>
           <h6 class="text-small">By : {{item.artist}}</h6>
         </div>
         <p class="pt-4 text-small" v-html="preserveWhiteSpace(item.description)"></p>
-        <h6 class="text-small"><a :href="marketplaceLink()" target="_blank">View on the Xchange</a></h6>
+        <minting-tools class="w-100" :assetHash="item.assetHash" />
       </b-col>
     </b-row>
   </b-container>
@@ -26,13 +35,21 @@
 </template>
 
 <script>
+import MintingTools from '@/components/toolkit/MintingTools'
 import MediaItem from '@/components/upload/MediaItem'
 import { APP_CONSTANTS } from '@/app-constants'
+import ItemActionMenu from '@/components/items/ItemActionMenu'
+import ItemPrivacyMenu from '@/components/upload/ItemPrivacyMenu'
+import modelStage from '@/components/modelComponent/modelStage.vue'
 
 export default {
-  name: 'ItemDisplay',
+  name: 'ItemPreview',
   components: {
-    MediaItem
+    MintingTools,
+    MediaItem,
+    ItemActionMenu,
+    ItemPrivacyMenu,
+    modelStage
   },
   data: function () {
     return {
@@ -44,32 +61,16 @@ export default {
   },
   mounted () {
     this.loading = false
-    if (this.$route.name === 'asset-display') {
-      this.assetHash = (this.$route.params.assetHash)
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      if (contractAsset) {
-        this.assetHash = contractAsset.tokenInfo.assetHash
-      } else {
-        this.$store.dispatch('rpayStacksContractStore/fetchAssetByNftIndex', this.nftIndex).then((contractAsset) => {
-          if (contractAsset) {
-            this.assetHash = contractAsset.tokenInfo.assetHash
-          } else {
-            this.$router.push('/')
-          }
-        })
+    this.assetHash = this.$route.params.assetHash
+    this.$store.dispatch('rpayMyItemStore/findItemByAssetHash', this.assetHash).then((item) => {
+      if (!item) {
+        this.$router.push('/my-items')
       }
-    } else {
-      this.assetHash = this.$route.params.assetHash
-      this.$store.dispatch('rpayMyItemStore/findItemByAssetHash', this.assetHash).then((item) => {
-        if (!item) {
-          this.$router.push('/my-items')
-        }
-      })
-    }
+    })
   },
   methods: {
-    marketplaceLink: function () {
-      return process.env.VUE_APP_MARKETPLACE_URL + '/assets/' + this.assetHash
+    performAction: function (data) {
+      console.log(data)
     },
     preserveWhiteSpace: function (content) {
       return '<span class="text-description" style="white-space: break-spaces;">' + content + '</span>'
@@ -90,7 +91,7 @@ export default {
         autoplay: false,
         muted: false,
         controls: true,
-        showMeta: false,
+        showMeta: true,
         poster: (item.attributes.coverImage) ? item.attributes.coverImage.fileUrl : null,
         sources: [
           { src: item.attributes.artworkFile.fileUrl, type: item.attributes.artworkFile.type }
@@ -110,6 +111,16 @@ export default {
     attributes () {
       const item = this.$store.getters['rpayMyItemStore/myItem'](this.assetHash)
       return item.attributes
+    },
+    keywords () {
+      return this.$store.getters['rpayMyItemStore/myItem'](this.assetHash)
+    },
+    isItem3D () {
+      const aft = this.item.attributes.artworkFile.type
+      if (aft.indexOf('threed') > -1 || aft.indexOf('gltf') > -1 || aft.indexOf('glb') > -1) {
+        return true
+      }
+      return false
     }
   }
 }

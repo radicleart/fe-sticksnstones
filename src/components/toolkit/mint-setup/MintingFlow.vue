@@ -19,31 +19,35 @@ export default {
     RoyaltyScreen,
     AddBeneficiaryScreen
   },
-  props: ['assetHash'],
+  props: ['item'],
   data () {
     return {
       loading: true,
       errorMessage: null,
-      beneficiaries: null,
+      beneficiaries: [],
       eBen: null
     }
   },
   mounted () {
-    const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-    if (item.beneficiaries && item.beneficiaries.length > 0) {
-      this.beneficiaries = item.beneficiaries
+    if (this.item.beneficiaries && this.item.beneficiaries.length > 0) {
+      this.beneficiaries = this.item.beneficiaries
     } else {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
-      this.beneficiaries = [
-        {
-          username: profile.username,
-          role: 'Seller',
-          owner: true,
-          email: profile.username,
-          royalty: 100,
-          chainAddress: profile.stxAddress
-        }
-      ]
+      const lben = JSON.parse(process.env.VUE_APP_BENEFICIARIES)
+      let tots = 0
+      lben.forEach((b) => {
+        tots += b.royalty
+      })
+      lben.push({
+        username: profile.username,
+        role: 'Seller',
+        owner: true,
+        email: profile.username,
+        royalty: 100 - tots,
+        chainAddress: profile.stxAddress
+      })
+      this.beneficiaries = lben
+      this.item.beneficiaries = this.beneficiaries
       this.updateItem()
     }
     this.setPage()
@@ -65,10 +69,10 @@ export default {
         owner: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS, // profile.stxAddress,
         assetHash: this.item.assetHash,
         metaDataUrl: this.item.metaDataUrl,
-        beneficiaries: this.item.beneficiaries,
+        beneficiaries: this.beneficiaries || [],
         editions: this.item.editions,
         editionCost: utils.toOnChainAmount(this.item.editionCost),
-        sendAsSky: true,
+        sendAsSky: false,
         contractAddress: contractAddress,
         contractName: contractName,
         functionName: 'mint-token'
@@ -92,6 +96,7 @@ export default {
       if (index > -1) {
         this.beneficiaries.splice(index, 1)
         this.setBaseRoyalty()
+        this.item.beneficiaries = this.beneficiaries
         this.updateItem()
       }
     },
@@ -100,6 +105,7 @@ export default {
       if (index > -1) {
         this.beneficiaries.splice(index, 1, beneficiary)
         this.setBaseRoyalty()
+        this.item.beneficiaries = this.beneficiaries
         this.updateItem()
       }
     },
@@ -120,6 +126,7 @@ export default {
         }
       }
       // this.setBaseRoyalty()
+      this.item.beneficiaries = this.beneficiaries
       this.updateItem()
       this.$store.commit('rpayStore/setDisplayCard', 100)
     },
@@ -140,11 +147,7 @@ export default {
       }
     },
     updateItem () {
-      const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-      item.beneficiaries = this.beneficiaries
-      this.$store.dispatch('myItemStore/saveItem', item).then((item) => {
-        this.beneficiaries = item.beneficiaries
-      })
+      this.$store.dispatch('rpayMyItemStore/saveItem', this.item)
     },
     setPage () {
       this.loading = false
@@ -155,13 +158,8 @@ export default {
     }
   },
   computed: {
-    item () {
-      const item = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
-      return item
-    },
     isMinted () {
-      const asset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      return asset
+      return this.item.contractAsset
     },
     displayCard () {
       const displayCard = this.$store.getters[APP_CONSTANTS.KEY_DISPLAY_CARD]

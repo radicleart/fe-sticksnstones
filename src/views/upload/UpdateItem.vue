@@ -57,19 +57,7 @@ export default {
       loaded: false,
       result: 'Saving data to your storage - back in a mo!',
       assetHash: null,
-      item: {
-        owner: null,
-        coverArtist: null,
-        private: false,
-        name: '',
-        description: '',
-        editions: null,
-        keywords: '',
-        attributes: {
-          coverImage: {},
-          artworkFile: {}
-        }
-      },
+      item: null,
       contentModelArtwork: {
         id: 'artworkFile',
         title: 'UPLOAD NFT FILE',
@@ -101,10 +89,10 @@ export default {
   },
   mounted () {
     this.assetHash = this.$route.params.assetHash
-    this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
+    this.$store.dispatch('rpayMyItemStore/findItemByAssetHash', this.assetHash).then((item) => {
       // this.uploadState++
       if (!item) {
-        this.$router.push('/my-items')
+        this.$router.push('/my-nfts')
         return
       }
       this.item = item
@@ -129,14 +117,14 @@ export default {
       return files
     },
     deleteMediaItem: function (mediaId) {
-      this.$store.dispatch('myItemStore/deleteMediaItem', { item: this.item, id: mediaId }).then(() => {
+      this.$store.dispatch('rpayMyItemStore/deleteMediaItem', { item: this.item, id: mediaId }).then(() => {
         this.$emit('delete-cover')
       })
     },
     updateUploadState: function (data) {
-      this.$store.dispatch('myItemStore/saveItem', this.item).then(() => {
+      this.$store.dispatch('rpayMyItemStore/saveItem', this.item).then(() => {
         if (data.change === 'done') {
-          this.$router.push('/item-preview/' + this.assetHash)
+          this.$router.push(this.itemPreviewUrl)
         } else if (data.change === 'up') {
           this.uploadState++
         } else {
@@ -153,10 +141,10 @@ export default {
       } else if (data.media && data.media.dataHash) {
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
-        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.assetHash, attributes: data.media }).then((attributes) => {
+        this.$store.dispatch('rpayMyItemStore/saveAttributesObject', { assetHash: this.assetHash, attributes: data.media }).then((attributes) => {
           const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.assetHash)
           myAsset.attributes[attributes.id] = attributes
-          $self.$store.dispatch('myItemStore/saveItem', myAsset).then((item) => {
+          $self.$store.dispatch('rpayMyItemStore/saveItem', myAsset).then((item) => {
             $self.item = item
             $self.$store.commit('setModalMessage', '')
             $self.$root.$emit('bv::hide::modal', 'waiting-modal')
@@ -196,11 +184,11 @@ export default {
       this.showWaitingModal = true
       this.$store.commit('setModalMessage', 'Uploading... once its saved you\'ll be able to mint this artwork - registering your ownership on the blockchain. Once registered you\'ll be able to prove you own it and be able to benefit from sales and from secondary sales.')
       this.$root.$emit('bv::show::modal', 'waiting-modal')
-      this.$store.dispatch('myItemStore/saveItem', this.item).then(() => {
+      this.$store.dispatch('rpayMyItemStore/saveItem', this.item).then(() => {
         this.$root.$emit('bv::hide::modal', 'waiting-modal')
         this.$root.$emit('bv::hide::modal', 'success-modal')
         this.$store.commit('setModalMessage', '')
-        this.$router.push('/item-preview/' + this.item.assetHash)
+        this.$router.push(this.itemPreviewUrl)
       }).catch((error) => {
         this.$store.commit('setModalMessage', 'Error occurred processing transaction.')
         this.result = error
@@ -208,6 +196,13 @@ export default {
     }
   },
   computed: {
+    itemPreviewUrl () {
+      let edition = 0
+      if (this.item.contractAsset) {
+        edition = this.item.contractAsset.tokenInfo.edition
+      }
+      return '/item-preview/' + this.item.assetHash + '/' + edition
+    },
     superAdmin: function () {
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       return profile.superAdmin
