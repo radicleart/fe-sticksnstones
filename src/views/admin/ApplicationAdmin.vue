@@ -18,7 +18,7 @@
 <script>
 import ShowPrivileges from '@/components/admin/users/ShowPrivileges'
 import AddPrivileges from '@/components/admin/users/AddPrivileges'
-import Registry from '@/components/admin/Registry'
+import Registry from '@/components/admin/cache/Registry'
 
 export default {
   name: 'UserAdmin',
