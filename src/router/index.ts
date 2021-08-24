@@ -14,6 +14,7 @@ import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import InformationPage from '../views/InformationPage.vue'
 import Model from '../views/Models/Model.vue'
+import NftGallery from '../views/NftGallery.vue'
 
 const MyNfts = () => import('../views/upload/MyNfts.vue')
 const MyItems = () => import('../views/upload/MyItems.vue')
@@ -49,6 +50,12 @@ const routes: Array<RouteConfig> = [
       requiresAuth: true,
       requiresAdmin: false
     }
+  },
+  {
+    path: '/nft-gallery',
+    name: 'nft-gallery',
+    components: { default: NftGallery, header: MainNavbar, footer: MainFooter },
+    meta: { title: 'This is number one' }
   },
   {
     path: '/item-preview/:assetHash/:edition',

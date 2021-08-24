@@ -52,6 +52,7 @@
   </b-sidebar>
 
     <b-navbar-nav class="ml-auto">
+      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Gallery</router-link></b-nav-item>
       <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/create">Upload Item</router-link></b-nav-item>
       <b-nav-item v-if="profile.loggedIn" class="mr-3"><a v-b-toggle.my-sidebar class="text-white nav-text" ><b-icon icon="person" class="mb-3 mr-0"/> Account</a></b-nav-item>
       <b-nav-item v-else class="text-white" @click.prevent="startLogin()" href="#">Login</b-nav-item>
