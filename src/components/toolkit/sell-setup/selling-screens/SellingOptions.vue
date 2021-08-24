@@ -19,25 +19,19 @@
     <p class="text-right"><a href="#" @click.prevent="showSaleData = !showSaleData"><b-icon icon="chevron-left"/>back</a></p>
     <NotForSale :contractAsset="contractAsset" v-if="contractAsset.saleData.saleType === 0" v-on="$listeners"/>
     <BuyNowTradeInfo :contractAsset="contractAsset" v-if="contractAsset.saleData.saleType === 1" v-on="$listeners"/>
-    <AuctionTradeInfo :contractAsset="contractAsset" v-else-if="contractAsset.saleData.saleType === 2" v-on="$listeners"/>
-    <OfferTradeInfo :contractAsset="contractAsset" v-else-if="contractAsset.saleData.saleType === 3" v-on="$listeners"/>
   </div>
 </b-card-text>
 </template>
 
 <script>
 import BuyNowTradeInfo from './forms/BuyNowTradeInfo'
-import AuctionTradeInfo from './forms/AuctionTradeInfo'
-import OfferTradeInfo from './forms/OfferTradeInfo'
 import NotForSale from './forms/NotForSale'
 import moment from 'moment'
 
 export default {
   name: 'SellingOptions',
   components: {
-    AuctionTradeInfo,
     BuyNowTradeInfo,
-    OfferTradeInfo,
     NotForSale
   },
   props: ['contractAsset'],
