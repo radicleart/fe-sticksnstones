@@ -7,7 +7,7 @@
     <div role="group">
       <label for="input-live"><span class="text2">Starting Price</span></label>
       <b-input-group>
-        <b-form-input @change="updateBuyNowOrStartingPrice" v-model="buyNowOrStartingPrice" class="input" placeholder="STX"></b-form-input>
+        <b-form-input @change="updateBuyNowOrStartingPrice" v-model="mySaleData.buyNowOrStartingPrice" class="input" placeholder="STX"></b-form-input>
       </b-input-group>
     </div>
   </div>
@@ -15,7 +15,7 @@
     <div role="group">
       <label for="input-live"><span class="text2">Reserve Price</span></label>
       <b-input-group class="mb-3">
-        <b-form-input @change="updateReservePrice" v-model="reservePrice" class="input" placeholder="STX"></b-form-input>
+        <b-form-input @change="updateReservePrice" v-model="mySaleData.reservePrice" class="input" placeholder="STX"></b-form-input>
       </b-input-group>
     </div>
   </div>
@@ -23,14 +23,14 @@
     <div role="group">
       <label for="input-live"><span class="text2">Increment</span></label>
       <b-input-group class="mb-3">
-        <b-form-input @change="updateIncrementPrice" v-model="incrementPrice" class="input" placeholder="STX"></b-form-input>
+        <b-form-input @change="updateIncrementPrice" v-model="mySaleData.incrementPrice" class="input" placeholder="STX"></b-form-input>
       </b-input-group>
     </div>
   </div>
   <div class="col-12 mb-3">
     <div role="group">
       <label for="input-live"><span class="text2">Bidding Ends</span></label>
-      <datetime type="datetime" input-id="biddingEndTime1" v-model="biddingEndTime">
+      <datetime type="datetime" input-id="biddingEndTime1" v-model="mySaleData.biddingEndTime">
         <input @change="updateBiddingEndTime" id="biddingEndTime" style="border-radius: 24px !important;">
       </datetime>
       <!-- {{getLongTime()}} -->
@@ -42,14 +42,13 @@
 <script>
 import moment from 'moment'
 import { Datetime } from 'vue-datetime'
-import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
   name: 'SellAuction',
   components: {
     Datetime
   },
-  props: ['submitData'],
+  props: ['contractAsset', 'submitData'],
   watch: {
     'biddingEndTime' () {
       this.updateBiddingEndTime()
@@ -57,49 +56,50 @@ export default {
   },
   data () {
     return {
-      biddingEndTime: null,
-      errorMessage: null,
+      mySaleData: {
+        biddingEndTime: null,
+        incrementPrice: 1,
+        buyNowOrStartingPrice: 0,
+        reservePrice: 0
+      },
       loading: true,
       saleType: 2,
-      incrementPrice: 1,
-      buyNowOrStartingPrice: 0,
-      reservePrice: 0
+      errorMessage: null
     }
   },
   mounted () {
-    const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-    this.buyNowOrStartingPrice = configuration.gaiaAsset.saleData.buyNowOrStartingPrice
-    this.incrementPrice = configuration.gaiaAsset.saleData.incrementPrice
-    this.reservePrice = configuration.gaiaAsset.saleData.reservePrice
-    if (configuration.gaiaAsset.saleData && configuration.gaiaAsset.saleData.biddingEndTime) {
-      let loaclEndM = moment(configuration.gaiaAsset.saleData.biddingEndTime)
+    this.buyNowOrStartingPrice = this.contractAsset.saleData.buyNowOrStartingPrice
+    this.incrementPrice = this.contractAsset.saleData.incrementPrice
+    this.reservePrice = this.contractAsset.saleData.reservePrice
+    if (this.contractAsset.saleData && this.contractAsset.saleData.biddingEndTime) {
+      let loaclEndM = moment(this.contractAsset.saleData.biddingEndTime)
       if (loaclEndM.isBefore(moment({}))) {
         loaclEndM = moment({}).add(2, 'days')
       }
       const loaclEnd = loaclEndM.format()
-      this.biddingEndTime = loaclEnd
+      this.mySaleData.biddingEndTime = loaclEnd
     } else {
       const dd = moment({}).add(2, 'days')
       dd.hour(10)
       dd.minute(0)
-      this.biddingEndTime = dd.format()
+      this.mySaleData.biddingEndTime = dd.format()
     }
-    this.$emit('updateSaleDataInfo', { field: 'saleType', value: 2 })
+    this.contractAsset.saleData = this.mySaleData
     this.loading = false
   },
   methods: {
     updateBuyNowOrStartingPrice: function () {
-      this.$emit('updateSaleDataInfo', { moneyField: true, field: 'buyNowOrStartingPrice', value: this.buyNowOrStartingPrice })
+      this.contractAsset.saleData.buyNowOrStartingPrice = parseInt(this.buyNowOrStartingPrice)
     },
     updateReservePrice: function () {
-      this.$emit('updateSaleDataInfo', { moneyField: true, field: 'reservePrice', value: this.reservePrice })
+      this.contractAsset.saleData.reservePrice = parseInt(this.reservePrice)
     },
     updateIncrementPrice: function () {
-      this.$emit('updateSaleDataInfo', { moneyField: true, field: 'incrementPrice', value: this.incrementPrice })
+      this.contractAsset.saleData.incrementPrice = parseInt(this.incrementPrice)
     },
     updateBiddingEndTime: function () {
       const localTime = moment(this.biddingEndTime).valueOf()
-      this.$emit('updateSaleDataInfo', { field: 'biddingEndTime', value: localTime })
+      this.contractAsset.saleData.biddingEndTime = localTime
     },
     checkEndTime () {
       const now = moment().unix()

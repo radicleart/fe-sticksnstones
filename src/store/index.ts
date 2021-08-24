@@ -121,6 +121,10 @@ const lookAndFeel = {
 const gaiaAsset = {
   saleData: {}
 }
+const appDetails = {
+  name: 'mint stuff',
+  icon: origin + '/img/logo/logo.png'
+}
 
 const setup = function (data) {
   if (!data.asset) data.asset = {}
@@ -133,6 +137,7 @@ const setup = function (data) {
   const risidioBaseApi = RISIDIO_API_PATH
   const configuration = {
     lookAndFeel: lookAndFeel,
+    appDetails: appDetails,
     gaiaAppDomains: ['localhost:8080', 'localhost:8081', 'localhost:8082'],
     gaiaAsset: (data.asset) ? data.asset : gaiaAsset,
     payment: payment,
@@ -227,10 +232,15 @@ export default new Vuex.Store({
       return new Promise(resolve => {
         dispatch('rpayAuthStore/fetchMyAccount').then(profile => {
           if (profile.loggedIn) {
-            dispatch('rpayAuthStore/fetchAccountInfo', { stxAddress: profile.stxAddress, force: true })
-            dispatch('rpayMyItemStore/initSchema', { root: true }).then(rootFile => {
-              dispatch('rpayStacksContractStore/fetchAssetsByOwner', profile.stxAddress)
-              resolve(rootFile)
+            const data = { stxAddress: 'STFJEDEQB1Y1CQ7F04CS62DCS5MXZVSNXXN413ZG', mine: true }
+            if (process.env.VUE_APP_NETWORK !== 'local') {
+              data.stxAddress = profile.stxAddress
+            }
+            dispatch('rpayStacksContractStore/fetchAssetsByOwner', data).then(() => {
+              dispatch('rpayMyItemStore/initSchema').then(rootFile => {
+                dispatch('rpayAuthStore/fetchAccountInfo', { stxAddress: profile.stxAddress, force: true })
+                resolve(rootFile)
+              })
             })
           } else {
             resolve(null)

@@ -1,7 +1,7 @@
 <template>
-<b-container class="text-white mt-5" v-if="loaded">
+<b-container class="mt-5" v-if="loaded">
   <h1>My Library</h1>
-  <b-tabs justified content-class="text-white mb-5">
+  <b-tabs justified content-class="mb-5">
     <b-tab :title="'NFTs (' + hasNfts + ')'" active>
       <p class="mt-4">NFTs you currently own - these may be files you
         uploaded and minted and still own or NFTs you bought from other
@@ -26,7 +26,7 @@
   </b-tabs>
 </b-container>
 <div class="container" style="min-height: 85vh;" v-else>
-  <b-container class="text-white mt-5">
+  <b-container class="mt-5">
     <h1>No NFTs</h1>
     <p>Upload a file and mint it to create your first NFT</p>
   </b-container>
@@ -46,7 +46,8 @@ export default {
   data () {
     return {
       loaded: false,
-      myNfts: []
+      myNfts: [],
+      myMintingNfts: []
     }
   },
   mounted () {

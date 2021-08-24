@@ -66,13 +66,12 @@ export default {
       const application = this.$store.getters[APP_CONSTANTS.KEY_APPLICATION_FROM_REGISTRY_BY_CONTRACT_ID](contractAddress + '.' + contractName)
       const data = {
         mintingFee: application.tokenContract.mintPrice,
-        owner: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS, // profile.stxAddress,
         assetHash: this.item.assetHash,
         metaDataUrl: this.item.metaDataUrl,
         beneficiaries: this.beneficiaries || [],
         editions: this.item.editions,
         editionCost: utils.toOnChainAmount(this.item.editionCost),
-        sendAsSky: false,
+        sendAsSky: true, // only applicable in local
         contractAddress: contractAddress,
         contractName: contractName,
         functionName: 'mint-token'

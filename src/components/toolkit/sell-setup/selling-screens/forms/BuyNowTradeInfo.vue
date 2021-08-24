@@ -16,14 +16,13 @@
 </template>
 
 <script>
-import { APP_CONSTANTS } from '@/app-constants'
 import utils from '@/services/utils'
 
 export default {
   name: 'SellBuyNow',
   components: {
   },
-  props: ['saleData'],
+  props: ['contractAsset'],
   watch: {
   },
   data () {
@@ -33,18 +32,17 @@ export default {
     }
   },
   mounted () {
-    const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-    this.buyNowOrStartingPrice = configuration.gaiaAsset.saleData.buyNowOrStartingPrice
-    this.$emit('updateSaleDataInfo', { moneyField: true, field: 'reservePrice', value: 0 })
-    this.$emit('updateSaleDataInfo', { moneyField: true, field: 'incrementPrice', value: 0 })
-    this.$emit('updateSaleDataInfo', { field: 'saleType', value: 1 })
+    this.buyNowOrStartingPrice = this.contractAsset.saleData.buyNowOrStartingPrice
+    this.contractAsset.saleData.reservePrice = 0
+    this.contractAsset.saleData.incrementPrice = 0
+    this.contractAsset.saleData.saleType = 1
   },
   methods: {
     toDecimals: function () {
       this.buyNowOrStartingPrice = utils.toDecimals(this.buyNowOrStartingPrice)
     },
     updateBuyNowOrStartingPrice: function () {
-      this.$emit('updateSaleDataInfo', { moneyField: true, field: 'buyNowOrStartingPrice', value: this.buyNowOrStartingPrice })
+      this.contractAsset.saleData.buyNowOrStartingPrice = parseInt(this.buyNowOrStartingPrice)
     }
   },
   computed: {

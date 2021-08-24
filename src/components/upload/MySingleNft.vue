@@ -1,5 +1,5 @@
 <template>
-<div class="mt-1 mx-4 text-center">
+<div class="mt-1 mx-4 text-center text-info">
   <div v-if="item && item.attributes">
     <MediaItemGeneral :classes="'item-image'" :options="options" :mediaItem="getMediaItem().artworkFile"/>
   </div>
@@ -69,14 +69,16 @@ export default {
     assetUrl () {
       if (!this.item.contractAsset) {
         return '/item-preview/' + this.item.assetHash + '/' + 0
+      } else {
+        if (this.token) {
+          return '/item-preview/' + this.item.assetHash + '/' + this.token.tokenInfo.edition
+        } else {
+          return '/item-preview/' + this.item.assetHash + '/' + this.item.contractAsset.tokenInfo.edition
+        }
       }
-      return '/item-preview/' + this.item.assetHash + '/' + this.token.tokenInfo.edition
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-a {
-  color: #fff;
-}
 </style>
