@@ -43,7 +43,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'homepage',
-    components: { default: Home, header: MainNavbar, footer: MainFooter }
+    components: { default: NftGallery, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/edit-item/:assetHash',
