@@ -52,18 +52,6 @@ export default {
             $self.$store.dispatch('initApplication').then(() => {
               $self.configured = true
             })
-          } else if (data.opcode === 'stx-transaction-finished') {
-            const txResult = $self.$store.getters[APP_CONSTANTS.KEY_TRANSACTION_DIALOG_MESSAGE]({ dKey: data.opcode, txId: data.txId })
-            $self.$store.commit('setModalMessage', txResult)
-          } else if (data.opcode === 'stx-transaction-sent') {
-            const txResult = $self.$store.getters[APP_CONSTANTS.KEY_TRANSACTION_DIALOG_MESSAGE]({ dKey: data.opcode, txId: data.txId })
-            $self.$store.commit('setModalMessage', txResult)
-          } else if (data.opcode === 'stx-transaction-error') {
-            const txResult = $self.$store.getters[APP_CONSTANTS.KEY_TRANSACTION_DIALOG_MESSAGE]({ dKey: data.opcode, txId: data.txId })
-            $self.$store.commit('setModalMessage', txResult)
-          } else if (data.opcode === 'configured-logged-in') {
-            $self.$store.commit('rpayAuthStore/setAuthResponse', data.session)
-            $self.$store.dispatch('rpayAuthStore/fetchMyAccount')
           }
         })
       }

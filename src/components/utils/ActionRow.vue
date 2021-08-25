@@ -24,7 +24,7 @@ export default {
   props: ['buttonLabel'],
   data () {
     return {
-      icon: require('@/assets/img/check-square.svg')
+      icon: 'check-square'
     }
   },
   methods: {

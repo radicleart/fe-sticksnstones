@@ -46,10 +46,10 @@ export default {
       } else if (data.media) {
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
-        this.$store.dispatch('myItemStore/saveAttributesObject', { assetHash: this.item.assetHash, attributes: data.media }).then((attributes) => {
+        this.$store.dispatch('rpayrpayMyItemStore/saveAttributesObject', { assetHash: this.item.assetHash, attributes: data.media }).then((attributes) => {
           const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)
           myAsset.attributes[attributes.id] = attributes
-          $self.$store.dispatch('myItemStore/saveItem', myAsset).then((item) => {
+          $self.$store.dispatch('rpayrpayMyItemStore/saveItem', myAsset).then((item) => {
             $self.item = item
             $self.$store.commit('setModalMessage', '')
             $self.$root.$emit('bv::hide::modal', 'waiting-modal')
@@ -93,7 +93,7 @@ export default {
       return this.uploadState > 2
     },
     deleteMediaItem: function (mediaId) {
-      this.$store.dispatch('myItemStore/deleteMediaItem', { item: this.item, id: mediaId }).then(() => {
+      this.$store.dispatch('rpayMyItemStore/deleteMediaItem', { item: this.item, id: mediaId }).then(() => {
         this.$emit('delete-cover')
       })
     }

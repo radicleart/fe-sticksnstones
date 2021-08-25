@@ -155,3 +155,36 @@ label {
 .stx-address {
   font-size: 1.0rem;
 }
+.item-image {
+  height: auto;
+  width: 100%;
+  border: 0pt solid $danger;
+  align-items: center;
+}
+.item-image-preview {
+  height: auto;
+  width: 100%;
+  border: 0pt solid $danger;
+  align-items: center;
+}
+.nft-display-image {
+  width: 100%;
+}
+.item-action-menu {
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  margin: 0;
+  padding: 0px 5px;
+}
+.item-action-menu .btn {
+  margin: 0;
+  padding: 0px 5px;
+  padding-bottom: 7px;
+  width: 40px;
+  background-color: rgb(94, 90, 90);
+  text-align: center;
+  border-radius: 0px;
+  color: #fff;
+}

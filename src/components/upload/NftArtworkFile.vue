@@ -57,7 +57,7 @@ export default {
       return this.uploadState > 2
     },
     deleteMediaItem: function (mediaId) {
-      this.$store.dispatch('myItemStore/deleteMediaItem', { item: this.item, id: mediaId }).then(() => {
+      this.$store.dispatch('rpayMyItemStore/deleteMediaItem', { item: this.item, id: mediaId }).then(() => {
         this.$emit('delete-cover')
       })
     }

@@ -59,7 +59,7 @@ export default {
   },
   mounted () {
     this.filter = this.$route.params.filter
-    this.$store.dispatch('myItemStore/fetchItems').then((items) => {
+    this.$store.dispatch('rpayMyItemStore/fetchItems').then((items) => {
       // if (!this.filter) this.$router.push('/my-uploads')
       this.backupItems = items
       this.loaded = true

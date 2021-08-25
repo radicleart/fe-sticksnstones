@@ -60,7 +60,7 @@ export default {
       }
     } else {
       this.assetHash = this.$route.params.assetHash
-      this.$store.dispatch('myItemStore/findItemByAssetHash', this.assetHash).then((item) => {
+      this.$store.dispatch('rpayMyItemStore/findItemByAssetHash', this.assetHash).then((item) => {
         if (!item) {
           this.$router.push('/my-items')
         }
@@ -75,13 +75,13 @@ export default {
       return '<span class="text-description" style="white-space: break-spaces;">' + content + '</span>'
     },
     targetItem: function () {
-      const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
+      const item = this.$store.getters['rpayMyItemStore/myItem'](this.assetHash)
       return this.$store.getters[APP_CONSTANTS.KEY_TARGET_FILE_FOR_DISPLAY](item)
     }
   },
   computed: {
     videoOptions () {
-      const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
+      const item = this.$store.getters['rpayMyItemStore/myItem'](this.assetHash)
       const videoOptions = {
         emitOnHover: true,
         playOnHover: false,
@@ -108,7 +108,7 @@ export default {
       return item
     },
     attributes () {
-      const item = this.$store.getters['myItemStore/myItem'](this.assetHash)
+      const item = this.$store.getters['rpayMyItemStore/myItem'](this.assetHash)
       return item.attributes
     }
   }

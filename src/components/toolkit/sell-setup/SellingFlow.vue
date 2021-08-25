@@ -3,8 +3,8 @@
   <div class="mx-auto">
     <b-card-group class="" :key="componentKey" style="width: 450px;">
       <b-card header-tag="header" footer-tag="footer" v-if="minted">
-        <selling-header :allowEdit="true"/>
-        <selling-options v-if="displayCard === 100" @updateSaleDataInfo="updateSaleDataInfo"/>
+        <SellingHeader :allowEdit="true"/>
+        <SellingOptions :contractAsset="contractAsset" v-if="displayCard === 100" @updateAmount="updateAmount"/>
         <div class="text-center">
           <div class="text-info" v-html="sellingMessage"></div>
         </div>
@@ -48,6 +48,7 @@ export default {
     SellingOptions,
     SellingHeader
   },
+  props: ['contractAsset'],
   data () {
     return {
       componentKey: 0,
@@ -57,16 +58,6 @@ export default {
     }
   },
   mounted () {
-    this.errorMessage = null
-    const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-    const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](configuration.gaiaAsset.assetHash)
-    configuration.gaiaAsset.saleData = contractAsset.saleData
-    // configuration.gaiaAsset.saleData.buyNowOrStartingPrice = utils.fromMicroAmount(configuration.gaiaAsset.saleData.buyNowOrStartingPrice)
-    // configuration.gaiaAsset.saleData.incrementPrice = utils.fromMicroAmount(configuration.gaiaAsset.saleData.incrementPrice)
-    // configuration.gaiaAsset.saleData.reservePrice = utils.fromMicroAmount(configuration.gaiaAsset.saleData.reservePrice)
-
-    this.$store.commit('rpayStore/addConfiguration', configuration)
-    this.$store.commit('rpayCategoryStore/setModalMessage', '')
     this.$store.dispatch('rpayStacksStore/fetchMacSkyWalletInfo').then(() => {
       this.$store.commit('rpayStore/setDisplayCard', 100)
       this.loading = false
@@ -82,23 +73,21 @@ export default {
       window.eventBus.$emit('rpayEvent', configuration)
     },
     minted () {
-      const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](configuration.gaiaAsset.assetHash)
-      return contractAsset
+      return this.contractAsset
+    },
+    updateAmount (amount) {
+      this.contractAsset.saleData.buyNowOrStartingPrice = Number(amount)
     },
     setTradeInfo () {
       this.errorMessage = null
       if (!this.isValid()) return
-      const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](configuration.gaiaAsset.assetHash)
-      const network = this.$store.getters[APP_CONSTANTS.KEY_PREFERRED_NETWORK]
       const data = {
-        contractAddress: network.contractAddress,
-        contractName: network.contractName,
-        owner: contractAsset.owner,
-        assetHash: configuration.gaiaAsset.assetHash,
-        nftIndex: contractAsset.nftIndex,
-        saleData: configuration.gaiaAsset.saleData
+        contractAddress: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,
+        contractName: process.env.VUE_APP_STACKS_CONTRACT_NAME,
+        owner: this.contractAsset.owner,
+        assetHash: this.contractAsset.tokenInfo.assetHash,
+        nftIndex: this.contractAsset.nftIndex,
+        saleData: this.contractAsset.saleData
       }
       this.$store.dispatch('rpayPurchaseStore/setTradeInfo', data).then((result) => {
         this.result = result
@@ -111,8 +100,7 @@ export default {
     },
     isValid: function () {
       this.errorMessage = null
-      const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-      const saleData = configuration.gaiaAsset.saleData
+      const saleData = this.contractAsset.saleData
       if (saleData.saleType < 0 || saleData.saleType > 3) {
         this.$notify({ type: 'danger', title: 'Sell Error', text: 'Sale type outside of allowed range' })
         return false
@@ -148,34 +136,9 @@ export default {
       if (!displayCard) {
         this.$store.commit('rpayStore/setDisplayCard', 100)
       }
-    },
-    updateSaleDataInfo (data) {
-      const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-      const saleDataTemp = configuration.gaiaAsset.saleData
-      if (data.moneyField) {
-        saleDataTemp[data.field] = data.value
-      } else {
-        saleDataTemp[data.field] = parseInt(data.value)
-      }
-      /**
-      if (this.isValid()) {
-        configuration.gaiaAsset.saleData = saleDataTemp
-        this.$store.commit('rpayStore/addConfiguration', configuration)
-      }
-      **/
     }
   },
   computed: {
-    saleData () {
-      const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-      const gaiaAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](configuration.gaiaAsset.assetHash)
-      const saleData = gaiaAsset.saleData
-      return saleData
-    },
-    configuration () {
-      const configuration = this.$store.getters[APP_CONSTANTS.KEY_CONFIGURATION]
-      return configuration
-    },
     displayCard () {
       const displayCard = this.$store.getters[APP_CONSTANTS.KEY_DISPLAY_CARD]
       return displayCard

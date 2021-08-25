@@ -33,6 +33,26 @@ const contentStore = {
         border: '1pt solid #ccc'
       }
     },
+    getWaitingImage: state => gaiaItem => {
+      let attrs = gaiaItem.attributes
+      if (!attrs || !attrs.artworkFile) {
+        attrs = {
+          artworkFile: {
+            fileUrl: state.waitingImage,
+            type: 'image/jpg',
+            name: 'Waiting Image'
+          }
+        }
+      }
+      if (!attrs.coverImage) {
+        attrs.coverImage = {
+          fileUrl: state.waitingImage,
+          type: 'image/jpg',
+          name: 'Waiting Image'
+        }
+      }
+      return attrs
+    },
     getBreakLine: state => {
       if (!state.content.homepage) return
       return state.content.homepage.breakline.url

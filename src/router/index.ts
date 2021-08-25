@@ -17,11 +17,13 @@ import Model from '../views/Models/Model.vue'
 import About from '../views/About.vue'
 import Terms from '../views/Terms.vue'
 import FAQ from '../views/FAQ.vue'
+import NftGallery from '../views/NftGallery.vue'
 
+const MyNfts = () => import('../views/upload/MyNfts.vue')
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
 const UpdateItem = () => import('../views/upload/UpdateItem.vue')
-const ItemDisplay = () => import('../views/ItemDisplay.vue')
+const AssetDetails = () => import('../views/AssetDetails.vue')
 const ItemPreview = () => import('../views/ItemPreview.vue')
 
 Vue.use(VueRouter)
@@ -53,7 +55,13 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/item-preview/:assetHash',
+    path: '/nft-gallery',
+    name: 'nft-gallery',
+    components: { default: NftGallery, header: MainNavbar, footer: MainFooter },
+    meta: { title: 'This is number one' }
+  },
+  {
+    path: '/item-preview/:assetHash/:edition',
     name: 'item-preview',
     components: { default: ItemPreview, header: MainNavbar, footer: MainFooter },
     meta: {
@@ -63,23 +71,28 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/assets/:assetHash',
-    name: 'asset-display',
-    components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
+    path: '/assets/:assetHash/:edition',
+    name: 'asset-by-hash',
+    components: { default: AssetDetails, header: MainNavbar, footer: MainFooter },
+    meta: { title: 'Asset informations' }
+  },
+  {
+    path: '/nfts/:nftIndex',
+    name: 'asset-by-index',
+    components: { default: AssetDetails, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: false,
       requiresAdmin: false,
-      title: 'Item Display'
+      title: 'NFT display'
     }
   },
   {
-    path: '/mesh/v2/asset/:nftIndex',
-    name: 'asset-display',
-    components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
+    path: '/my-nfts',
+    name: 'my-nfts',
+    components: { default: MyNfts, header: MainNavbar, footer: MainFooter },
     meta: {
-      requiresAuth: false,
-      requiresAdmin: false,
-      title: 'Item Display'
+      requiresAuth: true,
+      requiresAdmin: false
     }
   },
   {
@@ -89,6 +102,16 @@ const routes: Array<RouteConfig> = [
     meta: {
       requiresAuth: true,
       requiresAdmin: false
+    }
+  },
+  {
+    path: '/nfts/:nftIndex',
+    name: 'asset-by-index',
+    components: { default: AssetDetails, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: false,
+      requiresAdmin: false,
+      title: 'NFT display'
     }
   },
   {
@@ -202,7 +225,7 @@ router.beforeEach((to, from, next) => {
             query: { redirect: to.fullPath }
           })
         }
-      }, 2000)
+      }, 4000)
     }
   } else {
     return next() // make sure to always call next()!

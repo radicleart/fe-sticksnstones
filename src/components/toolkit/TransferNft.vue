@@ -19,7 +19,7 @@
       </div>
       <div class="col-12 text-right" v-if="showTransferButton">
         <b-link router-tag="span" v-b-tooltip.hover="{ variant: 'light' }" :title="ttTransfers" class="text-white mr-3" variant="outline-success"><b-icon class="ml-2" icon="question-circle"/></b-link>
-        <b-button variant="outline-primary" @click="transferNft()">Transfer NFT</b-button>
+        <b-button variant="outline-warning" style="width: 170px;" @click="transferNft()">Transfer NFT</b-button>
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
   name: 'TransferNft',
   components: {
   },
-  props: ['assetHash'],
+  props: ['item'],
   data: function () {
     return {
       toAddress: null,
@@ -50,7 +50,7 @@ export default {
   methods: {
     transferNft: function () {
       this.transferring = 'transfer started...'
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
+      const contractAsset = this.item.contractAsset
       const data = {
         contractAddress: STX_CONTRACT_ADDRESS,
         contractName: STX_CONTRACT_NAME,

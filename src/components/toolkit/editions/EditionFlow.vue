@@ -1,5 +1,5 @@
 <template>
-<div v-if="myDialog">
+<div>
   <b-row>
     <b-col cols="12">
       <h1>Mint Next Edition</h1>
@@ -7,9 +7,7 @@
   </b-row>
   <b-row class="row text-left mt-2">
     <b-col md="4" sm="12">
-      <p v-if="myDialog[2]">{{myDialog[2].text}}</p>
-      <p v-if="myDialog[3]">{{myDialog[3].text}}
-      </p>
+      <p>The owner of the artwork sets the numebr of editions that can be minted but the owner of each edition decides how much to mint each for.</p>
     </b-col>
     <b-col md="5" sm="6" style="border-right: 1pt solid #000;">
       <div>
@@ -17,29 +15,26 @@
         <h5>{{currentMaxEditions - (editionCounter - 1)}} available in current run</h5>
       </div>
       <div class="text-small">
-        <rates-listing :message="''" :amount="currentCost"/>
+        <RatesListing :message="''" :amount="currentCost"/>
       </div>
     </b-col>
   </b-row>
-  <action-row :buttonLabel="'MINT EDITION'" @clickButton="mintEdition" :svgImage="icon"/>
+  <b-button :buttonLabel="'MINT EDITION'" @click="mintEdition">MINT EDITION</b-button>
 </div>
 </template>
 
 <script>
 import RatesListing from '@/components/toolkit/RatesListing'
-import ActionRow from '@/components/utils/ActionRow'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
   name: 'PurchaseBuyNow',
   components: {
-    ActionRow,
     RatesListing
   },
-  props: ['assetHash'],
+  props: ['item'],
   data () {
     return {
-      icon: require('@/assets/img/check-square.svg'),
       loading: true,
       formSubmitted: false,
       errorMessage: null,
@@ -55,46 +50,35 @@ export default {
     },
     mintEdition: function () {
       this.errorMessage = 'Minting non fungible token - takes a minute or so..'
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
       const methos = (process.env.VUE_APP_NETWORK === 'local') ? 'callContractRisidio' : 'callContractBlockstack'
       const data = {
-        owner: contractAsset.owner,
+        owner: this.item.contractAsset.owner,
         editionCost: this.currentCost,
         action: methos,
-        nftIndex: contractAsset.nftIndex,
+        nftIndex: this.item.contractAsset.nftIndex,
         contractAddress: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS,
         contractName: process.env.VUE_APP_STACKS_CONTRACT_NAME,
         functionName: 'mint-edition'
       }
       this.$store.dispatch('rpayPurchaseStore/mintEdition', data).then((result) => {
-        this.result = result
+        this.$emit('mintedEvent', result)
+      }).catch(() => {
+        this.$emit('mintedEvent', { opcode: 'mint-edition-failed' })
       })
     }
   },
   computed: {
-    myDialog () {
-      const dialog = this.$store.getters[APP_CONSTANTS.KEY_DIALOG_CONTENT]('buy-now')
-      return dialog
-    },
     currentCost: function () {
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      if (!contractAsset) return
-      return contractAsset.tokenInfo.editionCost
+      return this.item.contractAsset.tokenInfo.editionCost
     },
     editionsMintable: function () {
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      if (!contractAsset) return
-      return (contractAsset.tokenInfo.maxEditions >= contractAsset.editionCounter)
+      return (this.item.contractAsset.tokenInfo.maxEditions >= this.item.contractAsset.editionCounter)
     },
     editionCounter: function () {
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      if (!contractAsset) return
-      return contractAsset.editionCounter
+      return this.item.contractAsset.editionCounter
     },
     currentMaxEditions: function () {
-      const contractAsset = this.$store.getters[APP_CONSTANTS.KEY_ASSET_FROM_CONTRACT_BY_HASH](this.assetHash)
-      if (!contractAsset) return
-      return contractAsset.tokenInfo.maxEditions
+      return this.item.contractAsset.tokenInfo.maxEditions
     }
   }
 }

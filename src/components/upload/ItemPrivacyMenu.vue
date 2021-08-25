@@ -40,7 +40,7 @@ export default {
       } else {
         this.item.privacy = 'private'
       }
-      this.$store.dispatch('myItemStore/saveItem', this.item).then((item) => {
+      this.$store.dispatch('rpayMyItemStore/saveItem', this.item).then((item) => {
         this.$notify({ type: 'warning', title: 'Privacy Update', text: 'Item is now: ' + item.privacy })
       })
     }
