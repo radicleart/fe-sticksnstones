@@ -20,7 +20,7 @@ const MyNfts = () => import('../views/upload/MyNfts.vue')
 const MyItems = () => import('../views/upload/MyItems.vue')
 const UploadItem = () => import('../views/upload/UploadItem.vue')
 const UpdateItem = () => import('../views/upload/UpdateItem.vue')
-const ItemDisplay = () => import('../views/ItemDisplay.vue')
+const AssetDetails = () => import('../views/AssetDetails.vue')
 const ItemPreview = () => import('../views/ItemPreview.vue')
 
 Vue.use(VueRouter)
@@ -68,23 +68,19 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/assets/:assetHash',
-    name: 'asset-display',
-    components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
-    meta: {
-      requiresAuth: false,
-      requiresAdmin: false,
-      title: 'Item Display'
-    }
+    path: '/assets/:assetHash/:edition',
+    name: 'asset-by-hash',
+    components: { default: AssetDetails, header: MainNavbar, footer: MainFooter },
+    meta: { title: 'Asset informations' }
   },
   {
-    path: '/mesh/v2/asset/:nftIndex',
-    name: 'asset-display',
-    components: { default: ItemDisplay, header: MainNavbar, footer: MainFooter },
+    path: '/nfts/:nftIndex',
+    name: 'asset-by-index',
+    components: { default: AssetDetails, header: MainNavbar, footer: MainFooter },
     meta: {
       requiresAuth: false,
       requiresAdmin: false,
-      title: 'Item Display'
+      title: 'NFT display'
     }
   },
   {
@@ -103,6 +99,16 @@ const routes: Array<RouteConfig> = [
     meta: {
       requiresAuth: true,
       requiresAdmin: false
+    }
+  },
+  {
+    path: '/nfts/:nftIndex',
+    name: 'asset-by-index',
+    components: { default: AssetDetails, header: MainNavbar, footer: MainFooter },
+    meta: {
+      requiresAuth: false,
+      requiresAdmin: false,
+      title: 'NFT display'
     }
   },
   {

@@ -1,5 +1,5 @@
 <template>
-<div v-if="myDialog">
+<div>
   <b-row>
     <b-col cols="12">
       <h1>Mint Next Edition</h1>
@@ -7,9 +7,7 @@
   </b-row>
   <b-row class="row text-left mt-2">
     <b-col md="4" sm="12">
-      <p v-if="myDialog[2]">{{myDialog[2].text}}</p>
-      <p v-if="myDialog[3]">{{myDialog[3].text}}
-      </p>
+      <p>The owner of the artwork sets the numebr of editions that can be minted but the owner of each edition decides how much to mint each for.</p>
     </b-col>
     <b-col md="5" sm="6" style="border-right: 1pt solid #000;">
       <div>
@@ -21,25 +19,22 @@
       </div>
     </b-col>
   </b-row>
-  <ActionRow :buttonLabel="'MINT EDITION'" @clickButton="mintEdition" :svgImage="icon"/>
+  <b-button :buttonLabel="'MINT EDITION'" @click="mintEdition">MINT EDITION</b-button>
 </div>
 </template>
 
 <script>
 import RatesListing from '@/components/toolkit/RatesListing'
-import ActionRow from '@/components/utils/ActionRow'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
   name: 'PurchaseBuyNow',
   components: {
-    ActionRow,
     RatesListing
   },
   props: ['item'],
   data () {
     return {
-      icon: require('@/assets/img/check-square.svg'),
       loading: true,
       formSubmitted: false,
       errorMessage: null,
@@ -73,10 +68,6 @@ export default {
     }
   },
   computed: {
-    myDialog () {
-      const dialog = this.$store.getters[APP_CONSTANTS.KEY_DIALOG_CONTENT]('buy-now')
-      return dialog
-    },
     currentCost: function () {
       return this.item.contractAsset.tokenInfo.editionCost
     },

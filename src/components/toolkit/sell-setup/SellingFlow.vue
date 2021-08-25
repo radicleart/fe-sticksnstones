@@ -4,7 +4,7 @@
     <b-card-group class="" :key="componentKey" style="width: 450px;">
       <b-card header-tag="header" footer-tag="footer" v-if="minted">
         <SellingHeader :allowEdit="true"/>
-        <SellingOptions :contractAsset="contractAsset" v-if="displayCard === 100"/>
+        <SellingOptions :contractAsset="contractAsset" v-if="displayCard === 100" @updateAmount="updateAmount"/>
         <div class="text-center">
           <div class="text-info" v-html="sellingMessage"></div>
         </div>
@@ -74,6 +74,9 @@ export default {
     },
     minted () {
       return this.contractAsset
+    },
+    updateAmount (amount) {
+      this.contractAsset.saleData.buyNowOrStartingPrice = Number(amount)
     },
     setTradeInfo () {
       this.errorMessage = null

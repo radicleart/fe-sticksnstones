@@ -82,9 +82,6 @@ export default {
                 this.$store.dispatch('rpayMyItemStore/saveItem', item)
               }
             })
-          } else if (item.mintInfo.txStatus === 'sent') {
-            item.mintInfo = null
-            this.$store.dispatch('rpayMyItemStore/saveItem', item)
           }
         }
       }

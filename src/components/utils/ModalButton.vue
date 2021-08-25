@@ -1,6 +1,6 @@
 <template>
   <b-button-group class="text-white" id="parent-group" v-if="loaded">
-    <b-button @click="$emit('clickButton')" class="btn-square" :class="colorHover" :style="(usePixelBg) ? 'background-image: url(' + pixelBg + ')' : ''">
+    <b-button @click="$emit('clickButton')" class="btn-square" :class="colorHover">
       <span class="d-flex justify-content-center" v-if="icon">
         <b-icon :class="(textWarning) ? 'text-warning' : ''" style="width: 30px; height: 30px;" :icon="icon"/>
       </span>
@@ -23,7 +23,6 @@ export default {
   props: ['theme', 'usePixelBg', 'label1', 'icon', 'route', 'svgImage', 'textWarning', 'colorOnHover'],
   data () {
     return {
-      pixelBg: require('@/assets/img/pixelBg.svg'),
       loaded: false,
       b1: null,
       bigButtonTheme: null,

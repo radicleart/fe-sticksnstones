@@ -44,8 +44,8 @@ export default {
   },
   computed: {
     salesButtonLabel () {
-      if (!this.token) return 'NOT MINTED'
-      return 'MINTED #' + this.token.nftIndex + ' (Ed. ' + this.token.tokenInfo.edition + ' of ' + this.token.tokenInfo.maxEditions + ')'
+      if (!this.item.contractAsset) return 'NOT MINTED'
+      return 'MINTED #' + this.item.contractAsset.nftIndex + ' (Ed. ' + this.item.contractAsset.tokenInfo.edition + ' of ' + this.item.contractAsset.tokenInfo.maxEditions + ')'
     },
     options () {
       const attributes = this.getMediaItem()

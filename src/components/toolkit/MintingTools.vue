@@ -6,7 +6,7 @@
         <b-alert show variant="warning">
           <div class="d-flex justify-content-between">
             <div class="w-100 text-small">Currently Minting - <a class="text-dark" :href="transactionUrl()" target="_blank">track progress...</a></div>
-            <div><a class="text-danger" href="#" @click.prevent="markFailed">check transaction?</a></div>
+            <div><a class="text-danger" href="#" @click.prevent="checkMinting">check transaction?</a></div>
           </div>
         </b-alert>
       </div>
@@ -166,18 +166,22 @@ export default {
     }
   },
   methods: {
-    markFailed: function () {
-      const cacheUpdate = {
-        type: 'token',
-        functionName: 'general',
-        nftIndex: (this.item.contractAsset) ? Number(this.item.contractAsset.nftIndex) : null,
-        assetHash: this.item.assetHash,
-        contractId: process.env.VUE_APP_STACKS_CONTRACT_ADDRESS + '.' + process.env.VUE_APP_STACKS_CONTRACT_NAME
+    checkMinting (item) {
+      if (item.mintInfo) {
+        if (!item.mintInfo.txId) {
+          item.mintInfo = null
+          this.$store.dispatch('rpayMyItemStore/saveItem', item)
+        } else {
+          if (item.mintInfo.txStatus === 'pending') {
+            this.$store.dispatch('rpayTransactionStore/readTransactionInfo', item.mintInfo.txId, { root: true }).then((txData) => {
+              if (txData.txStatus !== 'pending') {
+                item.mintInfo = txData
+                this.$store.dispatch('rpayMyItemStore/saveItem', item)
+              }
+            })
+          }
+        }
       }
-      this.$store.dispatch('rpayStacksContractStore/updateCache', cacheUpdate, { root: true }).then((result) => {
-        this.item.mintInfo = result
-        this.$store.dispatch('rpayMyItemStore/saveItem', this.item)
-      })
     },
     openSaleDataDialog: function () {
       this.$store.commit(APP_CONSTANTS.SET_RPAY_FLOW, { flow: 'selling-flow', asset: this.item })

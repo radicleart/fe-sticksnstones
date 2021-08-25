@@ -35,7 +35,6 @@ export const APP_CONSTANTS = {
   KEY_WAITING_IMAGE_CSS: 'contentStore/getWaitingCSS',
   KEY_WAITING_IMAGE: 'contentStore/getWaitingImage',
   KEY_TOOL_TIP: 'contentStore/getTooltip',
-  KEY_DIALOG_CONTENT: 'contentStore/getDialog',
   KEY_CONTENT_CHARITY_BY_ARTIST_ID: 'contentStore/getCharityByArtistId',
   KEY_CONTENT_ARTIST_BY_ID: 'contentStore/getArtistById',
   KEY_CONTENT_ARTIST_ID: 'contentStore/getArtistId',
