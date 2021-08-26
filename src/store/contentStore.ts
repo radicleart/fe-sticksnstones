@@ -68,7 +68,7 @@ const contentStore = {
       return state.content.artists
     },
     getArtistById: state => id => {
-      return state.content.artists.find((o) => o.uid === id)
+      return (state.content.artists) ? state.content.artists.find((o) => o.uid === id) : null
     },
     getAbout: state => {
       return state.content.about
@@ -80,7 +80,7 @@ const contentStore = {
       return state.content.faq
     },
     getInformationById: state => id => {
-      return state.content.information.find((o) => o.uid === id)
+      return (state.content.information) ? state.content.information.find((o) => o.uid === id) : null
     },
     getHowItWorks: state => {
       return state.content.howitworks
@@ -111,6 +111,9 @@ const contentStore = {
     },
     addTooltips (state, o) {
       state.content.tooltips = o
+    },
+    addHomeContent (state, o) {
+      state.content.homepage = o
     },
     addAbout (state, o) {
       state.content.about = o

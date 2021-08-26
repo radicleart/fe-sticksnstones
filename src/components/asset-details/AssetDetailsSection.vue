@@ -70,7 +70,7 @@
     <b-row>
       <b-col cols="12" class="w-50">
         <h1>Confirmation</h1>
-        <h4 class="text-center mb-5"><a :href="transactionUrl(mintResultTxId)" target="_blank">Transaction sent to Stacks Blockchain</a></h4>
+        <h4 class="text-center mb-5"><a :href="transactionUrl" target="_blank">Transaction sent to Stacks Blockchain</a></h4>
         <div class="mt-5"><a href="#" @click.prevent="back()"><b-icon icon="chevron-left"/> back</a></div>
       </b-col>
     </b-row>
@@ -92,8 +92,6 @@ import MediaItem from '@/components/upload/MediaItem'
 import moment from 'moment'
 import utils from '@/services/utils'
 import MintInfo from '@/components/toolkit/mint-setup/MintInfo'
-
-const NETWORK = process.env.VUE_APP_NETWORK
 
 export default {
   name: 'AssetDetailsSection',
@@ -131,12 +129,12 @@ export default {
     this.resizeContainers()
     if (window.eventBus && window.eventBus.$on) {
       window.eventBus.$on('rpayEvent', function (data) {
-        $self.$store.commit('setModalMessage', '')
-        if (data.opcode.indexOf('stx-transaction-') > -1) {
+        if (data.opcode.indexOf('stx-transaction-sent') > -1 || data.opcode.indexOf('stx-transaction-update') > -1) {
           $self.$bvModal.hide('asset-offer-modal')
           $self.$bvModal.hide('result-modal')
           if (data.txStatus === 'success') {
-            $self.$notify({ type: 'success', title: 'Buy Now', text: 'Buy Now Complete. ' })
+            $self.$notify({ type: 'success', title: 'Buy Now', text: 'Congratulations! This NFT is now yours - redirecting to your NFT Library. ' })
+            // this.$router.push('/my-nfts')
           } else if (data.txStatus === 'pending') {
             $self.$notify({ type: 'warning', title: 'Buy Now', text: 'Buy Now In Progress. ' })
           } else {
@@ -212,9 +210,6 @@ export default {
     getSaleType: function () {
       return this.gaiaAsset.contractAsset.saleData.saleType
     },
-    transactionUrl: function (txId) {
-      return 'https://explorer.stacks.co/txid/' + txId + '?chain=' + NETWORK
-    },
     openPurchaceDialog: function () {
       this.forceOfferFlow = false
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
@@ -267,6 +262,11 @@ export default {
     }
   },
   computed: {
+    transactionUrl: function () {
+      if (!this.gaiaAsset.mintInfo || !this.gaiaAsset.mintInfo.txId) return '#'
+      const stacksApiUrl = process.env.VUE_APP_STACKS_EXPLORER
+      return stacksApiUrl + '/txid/' + this.gaiaAsset.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
+    },
     editionsAvailable: function () {
       return this.gaiaAsset.contractAsset.editionCounter < this.gaiaAsset.contractAsset.tokenInfo.maxEditions
     },

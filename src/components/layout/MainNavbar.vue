@@ -95,8 +95,10 @@ export default {
       if (myProfile.loggedIn) {
         this.$emit('connect-login', myProfile)
       } else {
-        this.$store.dispatch('rpayAuthStore/startLogin').catch(() => {
-          // https://www.hiro.so/wallet/install-web
+        this.$store.dispatch('rpayAuthStore/startLogin').then((profile) => {
+          console.log(profile)
+          location.reload()
+        }).catch(() => {
           this.$store.commit(APP_CONSTANTS.SET_WEB_WALLET_NEEDED)
         })
       }
@@ -122,13 +124,6 @@ export default {
       return content
     },
     bannerImage () {
-      // if (this.$route.name === 'homepage') {
-      //   return ''
-      // }
-      const content = this.$store.getters['contentStore/getHomepage']
-      if (!content) {
-        return
-      }
       return {
         height: '128px',
         width: '100%',

@@ -7,7 +7,6 @@ import MainNavbar from '@/components/layout/MainNavbar.vue'
 import MainFooter from '@/components/layout/MainFooter.vue'
 
 // public pages
-import Home from '../views/Home.vue'
 import ApplicationAdmin from '../views/admin/ApplicationAdmin.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
@@ -17,14 +16,13 @@ import Model from '../views/Models/Model.vue'
 import About from '../views/About.vue'
 import Terms from '../views/Terms.vue'
 import FAQ from '../views/FAQ.vue'
+import AssetDetails from '../views/AssetDetails.vue'
+import ItemPreview from '../views/ItemPreview.vue'
+import MyNfts from '../views/upload/MyNfts.vue'
 import NftGallery from '../views/NftGallery.vue'
-
-const MyNfts = () => import('../views/upload/MyNfts.vue')
-const MyItems = () => import('../views/upload/MyItems.vue')
-const UploadItem = () => import('../views/upload/UploadItem.vue')
-const UpdateItem = () => import('../views/upload/UpdateItem.vue')
-const AssetDetails = () => import('../views/AssetDetails.vue')
-const ItemPreview = () => import('../views/ItemPreview.vue')
+import MyItems from '../views/upload/MyItems.vue'
+import UploadItem from '../views/upload/UploadItem.vue'
+import UpdateItem from '../views/upload/UpdateItem.vue'
 
 Vue.use(VueRouter)
 
@@ -208,7 +206,7 @@ router.beforeEach((to, from, next) => {
       if (isPermitted(to, myProfile)) {
         return next()
       } else {
-        return next({ path: '/home', query: { redirect: to.fullPath } })
+        return next({ path: '/home' })
       }
     } else {
       setTimeout(function () {
@@ -217,15 +215,12 @@ router.beforeEach((to, from, next) => {
           if (isPermitted(to, myProfile)) {
             return next()
           } else {
-            return next({ path: '/home', query: { redirect: to.fullPath } })
+            return next({ path: '/home' })
           }
         } else {
-          return next({
-            path: '/',
-            query: { redirect: to.fullPath }
-          })
+          return next({ path: '/' })
         }
-      }, 4000)
+      }, 5000)
     }
   } else {
     return next() // make sure to always call next()!

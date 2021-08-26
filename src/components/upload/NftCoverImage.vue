@@ -46,10 +46,10 @@ export default {
       } else if (data.media) {
         const $self = this
         this.$store.commit('setModalMessage', 'Fetched. Saving file info to library.')
-        this.$store.dispatch('rpayrpayMyItemStore/saveAttributesObject', { assetHash: this.item.assetHash, attributes: data.media }).then((attributes) => {
+        this.$store.dispatch('rpayMyItemStore/saveAttributesObject', { assetHash: this.item.assetHash, attributes: data.media }).then((attributes) => {
           const myAsset = this.$store.getters[APP_CONSTANTS.KEY_MY_ITEM](this.item.assetHash)
           myAsset.attributes[attributes.id] = attributes
-          $self.$store.dispatch('rpayrpayMyItemStore/saveItem', myAsset).then((item) => {
+          $self.$store.dispatch('rpayMyItemStore/saveItem', myAsset).then((item) => {
             $self.item = item
             $self.$store.commit('setModalMessage', '')
             $self.$root.$emit('bv::hide::modal', 'waiting-modal')

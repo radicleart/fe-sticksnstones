@@ -13,7 +13,7 @@
         </b-col>
       </b-row>
     </b-tab>
-    <b-tab v-if="canUpload()" :title="'Uploads'">
+    <b-tab :title="'Uploads'">
       <p class="mt-4">Files you uploaded to your Gaia storage bucket.</p>
       <p>If you minted them (to create NFTs) you may also have
         sold or transferred the NFT to another wallet. </p>

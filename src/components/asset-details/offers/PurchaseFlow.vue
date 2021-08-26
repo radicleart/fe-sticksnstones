@@ -21,12 +21,6 @@
 import { APP_CONSTANTS } from '@/app-constants'
 import PurchaseBuyNow from './PurchaseBuyNow'
 import PurchaseOfferLogin from './PurchaseOfferLogin'
-import {
-  makeStandardSTXPostCondition,
-  FungibleConditionCode
-} from '@stacks/transactions'
-import utils from '@/services/utils'
-import BigNum from 'bn.js'
 
 const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
 const STX_CONTRACT_NAME = process.env.VUE_APP_STACKS_CONTRACT_NAME
@@ -84,17 +78,11 @@ export default {
           this.webWalletNeeded = true
         })
       }
-      const standardSTXPostCondition = makeStandardSTXPostCondition(
-        profile.stxAddress,
-        FungibleConditionCode.LessEqual,
-        new BigNum(utils.toOnChainAmount(contractAsset.saleData.buyNowOrStartingPrice))
-      )
 
       if (NETWORK === 'local') {
         // recipient = (contractAsset.owner === mac.keyInfo.address) ? sky.keyInfo.address : mac.keyInfo.address
       }
       const buyNowData = {
-        postConditions: [standardSTXPostCondition],
         contractAddress: STX_CONTRACT_ADDRESS,
         contractName: STX_CONTRACT_NAME,
         sendAsSky: false,

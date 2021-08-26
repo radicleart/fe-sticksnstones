@@ -15,6 +15,9 @@
                 <b-link to="/create">Mint A File</b-link>
               </div>
               <div>
+                <b-link to="/information/buy-now-tutorial">Minting and Buying</b-link>
+              </div>
+              <div>
                 <b-link to="/information/artists">Artists</b-link>
               </div>
               <div>

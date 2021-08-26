@@ -86,9 +86,6 @@ export default {
     }
   },
   computed: {
-    txPending: function () {
-      return this.item.mintInfo && this.item.mintInfo.txId
-    },
     options () {
       const videoOptions = {
         emitOnHover: true,
