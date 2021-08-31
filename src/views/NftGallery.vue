@@ -1,7 +1,7 @@
 <template>
 <div class="container" v-if="resultSet && resultSet.length > 0">
   <div class="my-5">
-    <h1 class="text-white">#1 NFT Gallery</h1>
+    <h1 class="text-black">RUMA NFT GALLERY</h1>
     <div class="row mb-4">
       <div v-for="(item, index) in resultSet" :key="index" class="mt-5 col-md-4 col-sm-4 col-6">
         <GalleryNft class="mb-2" :item="item"/>
