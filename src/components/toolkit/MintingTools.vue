@@ -92,9 +92,7 @@ import TransferNft from '@/components/toolkit/TransferNft'
 import ListBeneficiaries from '@/components/toolkit/ListBeneficiaries'
 import OfferHistory from '@/components/toolkit/offers/OfferHistory'
 import BidHistory from '@/components/toolkit/bids/BidHistory'
-
 // const RisidioPay = () => import('risidio-pay')
-
 export default {
   name: 'MintingTools',
   components: {
