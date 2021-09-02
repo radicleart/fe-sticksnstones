@@ -17,12 +17,6 @@
               <div>
                 <b-link to="/information/buy-now-tutorial">Minting and Buying</b-link>
               </div>
-              <div>
-                <b-link to="/information/artists">Artists</b-link>
-              </div>
-              <div>
-                <b-link to="/information/applications">Applications</b-link>
-              </div>
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
