@@ -53,7 +53,6 @@
 
     <b-navbar-nav class="ml-auto">
       <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/my-nfts">My NFTs</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/create">Mint NFTs</router-link></b-nav-item>
       <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
       <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
       <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/create">Upload Item</router-link></b-nav-item>
