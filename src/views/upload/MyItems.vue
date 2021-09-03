@@ -6,7 +6,7 @@
       <b-input-group
         v-for="size in ['']"
         :key="size"
-        :size="size"
+        :size="sm"
         class="mb-3"
       >
         <b-form-input aria-label="Looking for Something in Particular?"></b-form-input>
