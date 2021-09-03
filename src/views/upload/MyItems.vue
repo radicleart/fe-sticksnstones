@@ -79,15 +79,9 @@ export default {
       if (this.filter === 'all') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_ITEMS]
       } else if (this.filter === 'uploaded') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_UPLOADED]
+        return this.$store.getters[APP_CONSTANTS.KEY_MY_UNMINTED_ITEMS]
       } else if (this.filter === 'minted') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_MINTED_ITEMS]
-      } else if (this.filter === 'onsale') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_SALE_ITEMS]
-      } else if (this.filter === 'sold') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_SOLD_ITEMS]
-      } else if (this.filter === 'pending') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_UNMINTED_ITEMS]
       } else {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_PURCHASED_ITEMS]
       }
