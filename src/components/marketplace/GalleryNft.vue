@@ -29,8 +29,6 @@ export default {
   data () {
     return {
       dims: { width: 360, height: 360 },
-      likeIconTurquoise: require('@/assets/img/Favorite_button_turquoise_empty.png'),
-      likeIconPurple: require('@/assets/img/Favorite_button_purple_empty.png'),
       explorer: 'https://explorer.stacks.co/txid/'
     }
   },

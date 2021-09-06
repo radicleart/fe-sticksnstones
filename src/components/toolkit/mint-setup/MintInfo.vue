@@ -82,7 +82,7 @@ export default {
           this.$store.dispatch('rpayMyItemStore/saveItem', this.item)
         } else {
           if (this.item.mintInfo.txStatus === 'pending') {
-            this.$store.dispatch('rpayTransactionStore/readTransactionInfo', this.item.mintInfo.txId, { root: true }).then((txData) => {
+            this.$store.dispatch('rpayTransactionStore/fetchTransactionFromChainByTxId', this.item.mintInfo.txId, { root: true }).then((txData) => {
               if (txData.txStatus !== 'pending') {
                 this.item.mintInfo = txData
                 this.$store.dispatch('rpayMyItemStore/saveItem', this.item)

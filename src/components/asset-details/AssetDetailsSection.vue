@@ -296,7 +296,7 @@ export default {
       if (this.webWalletNeeded) return 'GET WALLET'
       const profile = this.$store.getters[APP_CONSTANTS.KEY_PROFILE]
       if (!profile.loggedIn) return 'LOGIN'
-      let label = 'BUY NOW - ' + this.gaiaAsset.contractAsset.saleData.buyNowOrStartingPrice + ' STX'
+      let label = 'BUY NOW ' + this.gaiaAsset.contractAsset.saleData.buyNowOrStartingPrice + ' STX'
       if (this.gaiaAsset.contractAsset.saleData.saleType !== 1) {
         label = 'NOT ON SALE'
       }
