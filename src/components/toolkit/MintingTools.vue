@@ -2,7 +2,10 @@
 <div id="minting-tools" class="mt-3" v-if="item">
   <div class="">
     <div v-if="!item.contractAsset" class="w-100 text-small">
-      <div v-if="!txPending">
+      <div v-if="txPending && txPending.length > 0">
+        Minting in progess - please refresh this page when the transaction completes.
+      </div>
+      <div v-else>
         <div v-if="isValid">
           <div>
             <b-button variant="outline-warning" @click="startMinting()">Mint File</b-button>
@@ -69,15 +72,9 @@
     <template #modal-footer class="text-center"><div class="w-100"></div></template>
   </b-modal>
   <b-modal size="lg" id="selling-modal">
-    <SellingFlow :contractAsset="item.contractAsset"  v-if="item.contractAsset"/>
+    <SellingFlow @cancel="cancel" :contractAsset="item.contractAsset"  v-if="item.contractAsset"/>
     <template #modal-footer class="text-center"><div class="w-100"></div></template>
   </b-modal>
-  <!--
-  <b-modal size="md" id="selling-modal">
-    <risidio-pay v-if="showRpay" :configuration="configuration"/>
-    <template #modal-footer class="text-center"><div class="w-100"></div></template>
-  </b-modal>
-  -->
 </div>
 </template>
 
@@ -160,6 +157,10 @@ export default {
     }
   },
   methods: {
+    cancel: function () {
+      this.$bvModal.hide('selling-modal')
+      this.$bvModal.hide('minting-modal')
+    },
     openSaleDataDialog: function () {
       this.$store.commit(APP_CONSTANTS.SET_RPAY_FLOW, { flow: 'selling-flow', asset: this.item })
       this.showRpay = true
@@ -184,8 +185,14 @@ export default {
     }
   },
   computed: {
-    txPending: function () {
-      return this.item.mintInfo && this.item.mintInfo.txId
+    txPending () {
+      let transactions = []
+      if (this.item.contractAsset) {
+        transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_TX_ID](this.item.contractAsset.nftIndex)
+      } else {
+        transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_ASSET_HASH](this.item.assetHash)
+      }
+      return transactions
     },
     transaction () {
       const transaction = this.$store.getters[APP_CONSTANTS.KEY_TRANSACTION](this.item.mintInfo.txId)

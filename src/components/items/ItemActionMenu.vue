@@ -47,7 +47,10 @@ export default {
       return '/item-preview/' + this.item.assetHash + '/' + edition
     },
     transactionUrl: function () {
-      return 'https://explorer.stacks.co/txid/' + this.item.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
+      if (this.item.mintInfo && this.item.mintInfo.txId) {
+        return 'https://explorer.stacks.co/txid/' + this.item.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
+      }
+      return '#'
     },
     application () {
       const application = this.$store.getters[APP_CONSTANTS.KEY_APPLICATION_FROM_REGISTRY_BY_CONTRACT_ID](process.env.VUE_APP_STACKS_CONTRACT_ADDRESS + '.' + process.env.VUE_APP_STACKS_CONTRACT_NAME)

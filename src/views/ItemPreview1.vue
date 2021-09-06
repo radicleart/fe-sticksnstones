@@ -6,7 +6,9 @@
   <b-container :key="componentKey" class="my-5 pt-5" v-if="item">
     <b-row style="min-height: 40vh" >
       <b-col md="4" sm="12" align-self="start" class="text-center">
-        <MediaItemGeneral :classes="'item-image-preview'" :options="options" :mediaItem="getMediaItem().artworkFile"/>
+        <div class="">
+          <MediaItemGeneral :classes="'item-image-preview'" :options="options" :mediaItem="getMediaItem().artworkFile"/>
+        </div>
         <div class="text-left text-small mt-3">
           <b-link to="/my-nfts"><b-icon icon="chevron-left"/> Back</b-link>
         </div>
@@ -17,34 +19,30 @@
             <h2 class="d-block border-bottom mb-5">{{item.name}}</h2>
             <ItemActionMenu :item="item" />
           </div>
+          <h6 class="text-small">By : {{item.artist}}</h6>
         </div>
-        <h2>{{item.artist}}</h2>
-        <div class="w-100 " v-html="item.description"></div>
-        <!--
-        <div class="text-small" v-if="pending">
-          Transaction has been sent to the blockchain
-        </div>
-        -->
-        <MintInfo :item="item"/>
-        <PendingTransactionInfo v-if="txPending.length > 0" :contractAsset="item.contractAsset" :assetHash="item.assetHash"/>
-        <div v-else>
-          <MintingTools class="w-100" :item="item" v-if="iAmOwner || edition === 0" />
+        <p class="pt-4 text-small" v-html="preserveWhiteSpace(item.description)"></p>
+        <MintInfo @update="update" :item="item"/>
+        <div>
+          <MintingTools @update="update" class="w-100" :item="item" v-if="iAmOwner || edition === 0" />
         </div>
       </b-col>
     </b-row>
   </b-container>
-  <b-modal size="md" id="tx-modal">
+  <b-modal size="md" id="minting-tx-modal">
     <div  class="mt-3" v-if="item">
       <div class="row">
         <div class="col-12">{{item.name}}</div>
       </div>
       <div class="row mb-4">
         <div class="col-12" v-if="txPending">
-          <p class="mt-5">Transaction in progress - <a :href="transactionUrl" target="_blank">check transaction here</a></p>
-          <p class="mt-5">Transactions on stacks can take a few minute so make a brew and refresh this page when the transaction confirms</p>
+          <p class="mt-5">Minting in progress - <a :href="transactionUrl" target="_blank">check transaction here</a></p>
+          <p class="mt-5">Minting on stacks can take a few minute so make a brew and refresh this
+            page when the transaction confirms
+          </p>
         </div>
         <div class="col-12" v-else>
-          Transaction sent to blockchain - reload page..
+          transaction sent to blockchain - reload page..
         </div>
       </div>
     </div>
@@ -54,26 +52,23 @@
 </template>
 
 <script>
-import PendingTransactionInfo from '@/components/toolkit/PendingTransactionInfo'
 import MintInfo from '@/components/toolkit/mint-setup/MintInfo'
 import MintingTools from '@/components/toolkit/MintingTools'
 import { APP_CONSTANTS } from '@/app-constants'
-import ItemActionMenu from '@/components/items/ItemActionMenu'
 import MediaItemGeneral from '@/components/upload/MediaItemGeneral'
+import ItemActionMenu from '@/components/items/ItemActionMenu'
 
 export default {
   name: 'ItemPreview',
   components: {
     MintingTools,
+    MediaItemGeneral,
     ItemActionMenu,
-    PendingTransactionInfo,
-    MintInfo,
-    MediaItemGeneral
+    MintInfo
   },
   data: function () {
     return {
       showHash: false,
-      pending: false,
       componentKey: 0,
       assetHash: null,
       message: 'No item available...'
@@ -85,29 +80,16 @@ export default {
     this.edition = Number(this.$route.params.edition)
     if (this.edition > 0) {
       this.$store.dispatch('rpayStacksContractStore/fetchAssetByHashAndEdition', { assetHash: this.assetHash, edition: this.edition })
-    }
-    if (window.eventBus && window.eventBus.$on) {
-      const $self = this
-      window.eventBus.$on('rpayEvent', function (data) {
-        if (data.opcode === 'stx-transaction-sent' || data.opcode === 'stx-transaction-update') {
-          // save transaction but not on gaia asset
-          if (data.txId) {
-            $self.pending = true
-            if (data.txStatus !== 'pending') {
-              $self.pending = false
-            }
-            if (data.functionName === 'mint-token') {
-              if (data.txStatus !== 'pending') {
-                $self.item.mintInfo = data
-                $self.$store.dispatch('rpayMyItemStore/saveItem', $self.item)
-              }
-            }
-          }
-        }
-      })
+      this.$store.dispatch('assetGeneralStore/cacheUpdate', { assetHash: this.assetHash })
     }
   },
   methods: {
+    update () {
+      this.componentKey++
+      if (this.txPending) {
+        this.$bvModal.show('minting-tx-modal')
+      }
+    },
     getMediaItem () {
       const attributes = this.$store.getters[APP_CONSTANTS.KEY_WAITING_IMAGE](this.item)
       return attributes
@@ -130,14 +112,8 @@ export default {
       const stacksApiUrl = process.env.VUE_APP_STACKS_EXPLORER
       return stacksApiUrl + '/txid/' + this.item.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
     },
-    txPending () {
-      let transactions = []
-      if (this.item.contractAsset) {
-        transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_TX_ID](this.item.contractAsset.nftIndex)
-      } else {
-        transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_ASSET_HASH](this.item.assetHash)
-      }
-      return transactions
+    txPending: function () {
+      return this.item.mintInfo && this.item.mintInfo.txId && this.item.mintInfo.txStatus !== 'success'
     },
     options () {
       const videoOptions = {
@@ -191,4 +167,9 @@ export default {
 </script>
 
 <style>
+#minting-modal .modal-content {
+  border: none !important;
+  background-color: transparent !important;
+}
+
 </style>

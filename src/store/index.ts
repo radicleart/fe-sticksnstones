@@ -231,6 +231,7 @@ export default new Vuex.Store({
     initApplication ({ dispatch }) {
       return new Promise(resolve => {
         dispatch('rpayAuthStore/fetchMyAccount').then(profile => {
+          dispatch('rpayTransactionStore/initialiseTransactionListener', { root: true })
           if (profile.loggedIn) {
             const data = { stxAddress: 'STFJEDEQB1Y1CQ7F04CS62DCS5MXZVSNXXN413ZG', mine: true }
             if (process.env.VUE_APP_NETWORK !== 'local') {

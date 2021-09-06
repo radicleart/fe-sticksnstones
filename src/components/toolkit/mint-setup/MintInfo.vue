@@ -11,8 +11,8 @@
         </span>
         <br/><span class="">{{item.contractAsset.owner}}</span>
       </b-col>
-      <b-col cols="12" class="text-right">
-        <a :href="transactionUrl" target="_blank">Show in Explorer</a>
+      <b-col cols="12" class="text-right" v-if="item.mintInfo">
+        <a :href="transactionUrl(item.mintInfo.txId)" target="_blank">Show in Explorer</a>
       </b-col>
     </b-row>
   </b-alert>
@@ -24,35 +24,25 @@
       <b-col cols="12">
         <span>{{item.contractAsset.owner}} <b-link router-tag="span" v-b-tooltip.hover="{ variant: 'warning' }"  :title="ttStacksAddress"><b-icon class="ml-2" icon="question-circle"/></b-link></span>
       </b-col>
-      <b-col cols="12" class="text-right">
-        <a :href="transactionUrl" target="_blank">Show in Explorer</a>
+      <b-col cols="12" class="text-right" v-if="item.mintInfo && item.mintInfo.txId">
+        <a :href="transactionUrl(item.mintInfo.txId)" target="_blank">Show in Explorer</a>
       </b-col>
     </b-row>
   </b-alert>
 </div>
-<div class="text-small" v-else-if="minted">
-  <b-alert show variant="warning">
-    <div class="d-flex justify-content-between">
-      <div class="w-100">Minted - reload page? - <a class="text-dark" :href="transactionUrl" target="_blank">Show in Explorer</a></div>
-      <div><a class="text-danger" href="#" @click.prevent="checkMinting">check transaction?</a></div>
+<div class="text-small" v-if="txPending">
+  <div class="text-dark" v-if="txPending.length > 0">
+    <h6 class="mb-3">Pending Transactions</h6>
+    <div v-for="(tx, index) in txPending" :key="index" class="d-flex justify-content-between">
+      <div>
+        <div v-if="tx.txStatus === 'pending'"><b-icon icon="circle" animation="throb"/> <span @click="checkTx(tx.txId)" class="ml-3 text-warning">{{tx.functionName}}</span></div>
+        <div v-else>Status: {{tx.txStatus}}</div>
+      </div>
+      <div>
+       <a class="text-dark" :href="transactionUrl(tx.txId)" target="_blank">show in explorer</a>
+      </div>
     </div>
-  </b-alert>
-</div>
-<div class="text-small" v-else-if="txPending">
-  <b-alert show variant="warning">
-    <div class="d-flex justify-content-between">
-      <div class="w-100"><b-icon icon="circle" animation="throb"/> {{item.mintInfo.functionName}} {{item.mintInfo.txStatus}} - <a class="text-dark" :href="transactionUrl" target="_blank">Show in Explorer</a></div>
-      <div><a class="text-danger" href="#" @click.prevent="checkMinting">check transaction?</a></div>
-    </div>
-  </b-alert>
-</div>
-<div class="text-small" v-else-if="item.mintInfo">
-  <b-alert show variant="warning">
-    <div class="d-flex justify-content-between" v-if="item.mintInfo">
-      <div class="w-100"><b-icon icon="circle" animation="throb"/> {{item.mintInfo.functionName}} {{item.mintInfo.txStatus}} - <a class="text-dark" :href="transactionUrl" target="_blank">Show in Explorer</a></div>
-      <div><a class="text-danger" href="#" @click.prevent="reload">reload this page</a></div>
-    </div>
-  </b-alert>
+  </div>
 </div>
 </div>
 </template>
@@ -69,35 +59,7 @@ export default {
     return {
     }
   },
-  watch: {
-    item () {
-      if (this.item && this.item.mintInfo) this.checkMinting()
-    }
-  },
   methods: {
-    checkMinting () {
-      if (this.item.mintInfo) {
-        if (!this.item.mintInfo.txId) {
-          this.item.mintInfo = null
-          this.$store.dispatch('rpayMyItemStore/saveItem', this.item)
-        } else {
-          if (this.item.mintInfo.txStatus === 'pending') {
-            this.$store.dispatch('rpayTransactionStore/fetchTransactionFromChainByTxId', this.item.mintInfo.txId, { root: true }).then((txData) => {
-              if (txData.txStatus !== 'pending') {
-                this.item.mintInfo = txData
-                this.$store.dispatch('rpayMyItemStore/saveItem', this.item)
-              }
-            })
-          }
-        }
-        if (!this.item.contractAsset) {
-          const edition = Number(this.$route.params.edition) || 1
-          const ga = this.$store.getters[APP_CONSTANTS.KEY_GAIA_ASSET_BY_HASH_EDITION]({ assetHash: this.item.assetHash, edition: edition })
-          if (ga && ga.contractAsset) this.item.contractAsset = ga.contractAsset
-        }
-      }
-      this.$emit('update')
-    },
     variant () {
       let v = (this.iAmOwner) ? 'warning' : 'danger'
       if (this.$route.name === 'asset-by-hash' || this.$route.name === 'asset-by-index') {
@@ -105,18 +67,20 @@ export default {
       }
       return v
     },
-    reload () {
-      location.reload()
+    transactionUrl: function (txId) {
+      const stacksApiUrl = process.env.VUE_APP_STACKS_EXPLORER
+      return stacksApiUrl + '/txid/' + txId + '?chain=' + process.env.VUE_APP_NETWORK
     }
   },
   computed: {
-    transactionUrl: function () {
-      if (!this.item.mintInfo || !this.item.mintInfo.txId) return '#'
-      const stacksApiUrl = process.env.VUE_APP_STACKS_EXPLORER
-      return stacksApiUrl + '/txid/' + this.item.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
-    },
-    txPending: function () {
-      return !this.item.contractAsset && this.item.mintInfo && this.item.mintInfo.txId && this.item.mintInfo.txStatus !== 'success'
+    txPending () {
+      let transactions = []
+      if (this.contractAsset) {
+        transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_TX_ID](this.item.contractAsset.nftIndex)
+      } else {
+        transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_ASSET_HASH](this.item.assetHash)
+      }
+      return transactions
     },
     minted: function () {
       return !this.item.contractAsset && this.item.mintInfo && this.item.mintInfo.txId && this.item.mintInfo.txStatus === 'success'

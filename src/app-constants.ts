@@ -13,6 +13,15 @@ export const APP_CONSTANTS = {
   KEY_WEB_WALLET_LINK_FIREFOX: 'getWebWalletLinkFirefox',
   KEY_STACKS_MATE_URL: 'getStacksMateUrl',
 
+  KEY_TX_PENDING_BY_TX_ID: 'rpayTransactionStore/getPendingByNftIndex',
+  KEY_TX_PENDING_BY_ASSET_HASH: 'rpayTransactionStore/getPendingByAssetHash',
+  KEY_TRANSACTION_BY_TX_ID: 'rpayTransactionStore/getTransaction',
+  KEY_TRANSACTIONS_BY_NFT_INDEX: 'rpayTransactionStore/getTransactionsByNftIndex',
+  KEY_TRANSACTIONS_BY_ASSET_HASH: 'rpayTransactionStore/getTransactionsByAssetHash',
+  KEY_TRANSACTIONS_BY_TX_STATUS: 'rpayTransactionStore/getTransactionsByTxStatus',
+  KEY_TRANSACTIONS_BY_FUNCTION_NAME: 'rpayTransactionStore/getTransactionsByFunctionName',
+  KEY_TRANSACTIONS_BY_TX_STATUS_AND_NFT_INDEX: 'rpayTransactionStore/getTransactionsByTxStatusAndNftIndex',
+
   KEY_MY_ITEMS: 'rpayMyItemStore/getMyItems',
   KEY_MY_UNMINTED_ITEMS: 'rpayMyItemStore/getMyUnmintedItems',
   KEY_MY_MINTED_ITEMS: 'rpayMyItemStore/getMyMintedItems',

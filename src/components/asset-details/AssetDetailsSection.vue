@@ -1,8 +1,8 @@
 <template>
-<section :key="componentKey" id="asset-details-section" v-if="gaiaAsset && gaiaAsset.contractAsset" class="">
+<section :key="componentKey" id="asset-details-section" v-if="gaiaAsset && gaiaAsset.contractAsset" class="mt-5">
   <b-container class="center-section" style="min-height: 50vh;">
     <b-row align-h="center" :style="'min-height: ' + videoHeight + 'px'">
-      <b-col lg="7" sm="10" class="mb-5">
+      <b-col md="5" sm="10">
         <div id="video-column" :style="dimensions">
           <MediaItem :videoOptions="videoOptions" :attributes="gaiaAsset.attributes" :targetItem="targetItem()"/>
         </div>
@@ -13,7 +13,7 @@
             <div class="d-flex justify-content-between mb-5">
               <div><router-link class="" to="/nft-gallery"><b-icon icon="chevron-left" shift-h="-4" variant="white"></b-icon> Back</router-link></div>
               <div class="d-flex justify-content-between">
-                <div class="text-center on-auction-text ml-3 py-3 px-4 bg-warning ">
+                <div class="text-center on-auction-text ml-3 py-1 px-4 bg-warning ">
                   <div v-if="isOwner"><router-link class="" to="/my-nfts">{{salesBadgeLabel}}</router-link></div>
                   <div v-else>{{salesBadgeLabel}}</div>
                   <div v-if="showEndTime()">{{biddingEndTime()}}</div>
@@ -25,34 +25,23 @@
             <div class="w-100">
               <h1 class="">{{gaiaAsset.name}}</h1>
               <h2>{{gaiaAsset.artist}}</h2>
+              <div class="w-100 " v-html="preserveWhiteSpace(gaiaAsset.description)"></div>
               <MintInfo :item="gaiaAsset" />
-              <div class="w-100 " v-html="preserveWhiteSpace(gaiaAsset.description)">
+              <PendingTransactionInfo v-if="txPending.length > 0" :contractAsset="gaiaAsset.contractAsset" :assetHash="gaiaAsset.assetHash"/>
+              <div v-else>
+                <b-row>
+                  <b-col>
+                    <b-button variant="success" @click="openPurchaceDialog()">{{salesButtonLabel}}</b-button>
+                  </b-col>
+                </b-row>
               </div>
-              <b-row v-if="getSaleType() === 0">
-                <!--
-                <b-col md="6" sm="12" v-if="editionsAvailable">
-                  <EditionTrigger :item="gaiaAsset" @mintedEvent="mintedEvent"/>
-                </b-col>
-                <b-col md="6" sm="12">
-                  <b-button @click="openUpdates()">GET UPDATES</b-button>
-                </b-col>
-                -->
-              </b-row>
-              <b-row v-else>
-                <b-col v-if="webWalletNeeded" md="6" sm="12" class="mb-3">
-                    <b-button class="w-100" style="height: 61px;" variant="outline-light"><a :href="webWalletLink" class="" target="_blank">Get Stacks Web Wallet <b-icon class="ml-3" icon="arrow-up-right-square-fill"/></a></b-button>
-                </b-col>
-                <b-col md="6" sm="6" class="mb-3 text-center" v-else-if="getSaleType() > 0 && getSaleType() < 3">
-                  <b-button @click="openPurchaceDialog()">{{salesButtonLabel}}</b-button>
-                </b-col>
-              </b-row>
             </div>
           </b-col>
         </b-row>
       </b-col>
     </b-row>
   <b-modal size="lg" id="asset-offer-modal" class="text-left">
-    <PurchaseFlow v-if="showRpay === 1" :gaiaAsset="gaiaAsset" :forceOfferFlow="forceOfferFlow" @offerSent="offerSent"/>
+    <PurchaseFlow v-if="showRpay === 1" :gaiaAsset="gaiaAsset" :forceOfferFlow="forceOfferFlow"/>
     <AssetUpdatesModal v-if="showRpay === 2" @registerForUpdates="registerForUpdates"/>
     <template #modal-header="{ close }">
       <div class=" text-warning w-100 d-flex justify-content-end">
@@ -71,6 +60,7 @@
       <b-col cols="12" class="w-50">
         <h1>Confirmation</h1>
         <h4 class="text-center mb-5"><a :href="transactionUrl" target="_blank">Transaction sent to Stacks Blockchain</a></h4>
+        <p v-if="txData">Transaction Status: {{txData.txStatus}}</p>
         <div class="mt-5"><a href="#" @click.prevent="back()"><b-icon icon="chevron-left"/> back</a></div>
       </b-col>
     </b-row>
@@ -92,10 +82,12 @@ import MediaItem from '@/components/upload/MediaItem'
 import moment from 'moment'
 import utils from '@/services/utils'
 import MintInfo from '@/components/toolkit/mint-setup/MintInfo'
+import PendingTransactionInfo from '@/components/toolkit/PendingTransactionInfo'
 
 export default {
   name: 'AssetDetailsSection',
   components: {
+    PendingTransactionInfo,
     AssetUpdatesModal,
     PurchaseFlow,
     MediaItem,
@@ -111,9 +103,7 @@ export default {
       componentKey: 0,
       showHash: false,
       assetHash: null,
-      mintResult: null,
-      mintResultTxId: null,
-      message: 'No item available...'
+      txData: null
     }
   },
   watch: {
@@ -129,17 +119,17 @@ export default {
     this.resizeContainers()
     if (window.eventBus && window.eventBus.$on) {
       window.eventBus.$on('rpayEvent', function (data) {
+        $self.txData = data
         if (data.opcode.indexOf('stx-transaction-sent') > -1 || data.opcode.indexOf('stx-transaction-update') > -1) {
           $self.$bvModal.hide('asset-offer-modal')
-          $self.$bvModal.hide('result-modal')
           if (data.txStatus === 'success') {
             $self.$notify({ type: 'success', title: 'Buy Now', text: 'Congratulations! This NFT is now yours - redirecting to your NFT Library. ' })
-            // this.$router.push('/my-nfts')
           } else if (data.txStatus === 'pending') {
             $self.$notify({ type: 'warning', title: 'Buy Now', text: 'Buy Now In Progress. ' })
           } else {
             $self.$notify({ type: 'warning', title: 'Buy Now', text: 'Buy Now In sent to blockchain. ' })
           }
+          $self.$bvModal.show('result-modal')
         }
       })
     }
@@ -149,9 +139,12 @@ export default {
     }, this)
   },
   methods: {
-    mintedEvent (data) {
+    update (data) {
       this.$store.commit('setModalMessage', 'Request to mint an edition sent to the blockchain.<br/> Transaction Id: ' + data.txId)
       this.$root.$emit('bv::show::modal', 'success-modal')
+    },
+    mintedEvent () {
+      this.componentKey++
     },
     resizeContainers () {
       let resizeTimer
@@ -172,9 +165,6 @@ export default {
     },
     back: function () {
       this.$bvModal.hide('result-modal')
-    },
-    offerSent: function () {
-      // local notification
     },
     showEndTime: function () {
       return this.gaiaAsset.contractAsset.saleData.saleType === 2
@@ -252,7 +242,6 @@ export default {
         this.showRpay = 0
         this.$bvModal.hide('asset-offer-modal')
         this.$root.$emit('bv::show::modal', 'success-modal')
-        this.message = result
       }).catch(() => {
         this.$store.commit('setModalMessage', 'Thanks for re-registering an interest - we will keep you updated.')
         this.showRpay = 0
@@ -266,6 +255,10 @@ export default {
       if (!this.gaiaAsset.mintInfo || !this.gaiaAsset.mintInfo.txId) return '#'
       const stacksApiUrl = process.env.VUE_APP_STACKS_EXPLORER
       return stacksApiUrl + '/txid/' + this.gaiaAsset.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
+    },
+    txPending () {
+      const transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_TX_ID](this.gaiaAsset.contractAsset.nftIndex)
+      return transactions
     },
     editionsAvailable: function () {
       return this.gaiaAsset.contractAsset.editionCounter < this.gaiaAsset.contractAsset.tokenInfo.maxEditions
@@ -346,16 +339,10 @@ export default {
 </script>
 
 <style>
-.more-link {
-  border: 1pt solid #fff;
-  padding: 3px 10px;
-  text-align: center;
-  font-size: 1.2rem;
-}
 .on-auction-text {
   text-transform: capitalize;
-  font-weight: 700;
-  font-size: 1.5rem;
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 #asset-offer-modal .modal-content {
   text-align: left !important;
