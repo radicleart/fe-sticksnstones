@@ -17,12 +17,8 @@
               <div>
                 <b-link to="/information/buy-now-tutorial">Minting and Buying</b-link>
               </div>
-              <div>
-                <b-link to="/information/artists">Artists</b-link>
-              </div>
-              <div>
-                <b-link to="/information/applications">Applications</b-link>
-              </div>
+              <div></div>
+              <div></div>
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
@@ -38,18 +34,6 @@
                 <div v-scroll-to="{ offset: -60, element: '#g4', duration: 1000 }">
                   <b-link to="/how-it-works">Set Royalties</b-link>
                 </div>
-              <!-- <div>
-                <b-link to="/how-it-works/identity">Self Owned Identity</b-link>
-              </div>
-              <div>
-                <b-link to="/how-it-works/testnet">Getting Testnet</b-link>
-              </div>
-              <div>
-                <b-link to="/how-it-works/market">Buying and Selling</b-link>
-              </div>
-              <div>
-                <b-link to="/how-it-works/clarity">Clarity Contracts</b-link>
-              </div> -->
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">What we do</div>
@@ -89,7 +73,7 @@
         </div>
         <div>
           <span>Privacy Policy</span>
-          <span>Terms Of Use</span>
+          <router-link to="/terms">Terms of Use</router-link>
         </div>
       </div>
     </div>

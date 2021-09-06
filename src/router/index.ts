@@ -56,7 +56,7 @@ const routes: Array<RouteConfig> = [
     path: '/nft-gallery',
     name: 'nft-gallery',
     components: { default: NftGallery, header: MainNavbar, footer: MainFooter },
-    meta: { title: 'This is number one' }
+    meta: { title: 'This is RUMA' }
   },
   {
     path: '/item-preview/:assetHash/:edition',

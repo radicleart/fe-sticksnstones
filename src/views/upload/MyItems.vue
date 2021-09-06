@@ -6,7 +6,7 @@
       <b-input-group
         v-for="size in ['']"
         :key="size"
-        :size="size"
+        :size="sm"
         class="mb-3"
       >
         <b-form-input aria-label="Looking for Something in Particular?"></b-form-input>
@@ -19,8 +19,8 @@
       <b-nav-item class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'uploaded') ? 'info' : 'light'" @click="updateFilter('uploaded')">Uploaded</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'minted') ? 'info' : 'light'" @click="updateFilter('minted')">Minted</b-nav-item>
-      <b-nav-item class="ml-3" :variant="(filter === 'onsale') ? 'info' : 'light'" @click="updateFilter('onsale')">On Sale</b-nav-item>
-      <b-nav-item class="ml-3" :variant="(filter === 'sold') ? 'info' : 'light'" @click="updateFilter('sold')">Sold</b-nav-item>
+      <!-- <b-nav-item class="ml-3" :variant="(filter === 'onsale') ? 'info' : 'light'" @click="updateFilter('onsale')">On Sale</b-nav-item>
+      <b-nav-item class="ml-3" :variant="(filter === 'sold') ? 'info' : 'light'" @click="updateFilter('sold')">Sold</b-nav-item> -->
     </b-nav>
     <b-row :key="componentKey" class="mb-4" v-if="filteredItems && filteredItems.length > 0">
       <b-col md="4" sm="4" xs="6" v-for="(item, index) in filteredItems" :key="index" class="mt-5">
@@ -79,15 +79,9 @@ export default {
       if (this.filter === 'all') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_ITEMS]
       } else if (this.filter === 'uploaded') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_UPLOADED]
+        return this.$store.getters[APP_CONSTANTS.KEY_MY_UNMINTED_ITEMS]
       } else if (this.filter === 'minted') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_MINTED_ITEMS]
-      } else if (this.filter === 'onsale') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_SALE_ITEMS]
-      } else if (this.filter === 'sold') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_SOLD_ITEMS]
-      } else if (this.filter === 'pending') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_UNMINTED_ITEMS]
       } else {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_PURCHASED_ITEMS]
       }
