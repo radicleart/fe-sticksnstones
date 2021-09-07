@@ -38,7 +38,7 @@
             <div class="footer__column-content">
               <div class="text-secondary">What we do</div>
               <div><router-link to="/get-in-touch">Get in Touch</router-link></div>
-              <div><router-link to="/admin-app">Developers</router-link></div>
+              <div><router-link to="/developers">Developers</router-link></div>
               <div class="text-secondary">placeholder</div>
               <div class="text-secondary">placeholder</div>
             </div>

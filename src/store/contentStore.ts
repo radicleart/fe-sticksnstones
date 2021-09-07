@@ -79,6 +79,9 @@ const contentStore = {
     getFAQ: state => {
       return state.content.faq
     },
+    getDevelopers: state => {
+      return state.content.developers
+    },
     getInformationById: state => id => {
       return (state.content.information) ? state.content.information.find((o) => o.uid === id) : null
     },

@@ -9,7 +9,6 @@
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
 import { APP_CONSTANTS } from '@/app-constants'
-
 export default {
   name: 'InformationPage',
   components: {
@@ -60,7 +59,6 @@ export default {
   color: #333333;
   font-size: 1.4rem;
 }
-
 /* Link panel responsive design */
 @media only screen and (max-width: 768px) {
   .link-panel--content {

@@ -11,6 +11,7 @@ import ApplicationAdmin from '../views/admin/ApplicationAdmin.vue'
 import GetInTouch from '../views/GetInTouch.vue'
 import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
+import Developers from '../views/Developers.vue'
 import InformationPage from '../views/InformationPage.vue'
 import Model from '../views/Models/Model.vue'
 import About from '../views/About.vue'
@@ -163,6 +164,11 @@ const routes: Array<RouteConfig> = [
     path: '/how-it-works',
     name: 'how-it-works',
     components: { default: HowItWorks, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/developers',
+    name: 'developers',
+    components: { default: Developers, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/information/:pageId',
