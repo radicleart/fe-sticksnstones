@@ -57,7 +57,7 @@
         </div>
         <div>
           <span>Privacy Policy</span>
-          <span>Terms Of Use</span>
+          <router-link to="/terms">Terms of Use</router-link>
         </div>
       </div>
       <!-- MOBILE DESIGN LAST ROW -->
