@@ -22,11 +22,11 @@
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
 export default {
-  name: 'faq',
+  name: 'developers',
   components: {
     PrismicItems
   },
-  props: ['faq'],
+  props: ['developers'],
   data () {
     return {
       response: null
