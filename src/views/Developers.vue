@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="content">
   <section id="developers" class="developers">
      <b-container style="min-height: 18vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 18vh">
@@ -21,6 +21,8 @@
 
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
+import { APP_CONSTANTS } from '@/app-constants'
+
 export default {
   name: 'developers',
   components: {
@@ -29,12 +31,21 @@ export default {
   props: ['developers'],
   data () {
     return {
-      response: null
+      loaded: true
+    }
+  },
+  methods: {
+    changeModel (name) {
+      this.currentModel = this.rootPath + name
     }
   },
   computed: {
+    sectionDimensions () {
+      const height = this.$store.getters[APP_CONSTANTS.KEY_SECTION_HEIGHT]
+      return 'min-height: ' + height + 'px; width: auto;'
+    },
     content () {
-      const content = this.$store.getters['contentStore/getDevelopers']
+      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_DEV]
       return content
     }
   }

@@ -13,6 +13,9 @@ export default function (doc) {
   if (doc.type === 'howitworks') {
     return '/how-it-works'
   }
+  if (doc.type === 'developers') {
+    return '/developers'
+  }
   if (doc.isBroken) {
     return '/not-found'
   }

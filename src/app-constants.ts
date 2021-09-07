@@ -52,6 +52,7 @@ export const APP_CONSTANTS = {
   KEY_CONTENT_INFO_PAGE: 'contentStore/getInformationById',
   KEY_CONTENT_HOW: 'contentStore/getHowItWorks',
   KEY_BREAK_LINE: 'contentStore/getBreakLine',
+  KEY_CONTENT_DEV: 'contentStore/getDevelopers',
 
   KEY_CATEGORIES: 'rpayCategoryStore/getCategories',
 
