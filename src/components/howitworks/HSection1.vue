@@ -1,5 +1,5 @@
 <template>
-<div id="g1" v-if="content">
+<div id="g1" v-if="content" bg-color="grey">
   <div class="item" v-for="(item, index) in content.group1" :key="index">
     <div class="img">
     <img class="item__img" :src="item.img.url" :alt="item.img.alt">
