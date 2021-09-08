@@ -17,8 +17,7 @@
               <div>
                 <b-link to="/information/buy-now-tutorial">Minting and Buying</b-link>
               </div>
-              <div></div>
-              <div></div>
+              <div style="height: 20px; width: 50px; bg-secondary"></div>
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
@@ -39,8 +38,8 @@
               <div class="text-secondary">What we do</div>
               <div><router-link to="/get-in-touch">Get in Touch</router-link></div>
               <div><router-link to="/developers">Developers</router-link></div>
-              <div class="text-light">placeholder</div>
-              <div class="text-light">placeholder</div>
+              <div style="height: 20px; width: 50px; bg-secondary"></div>
+              <div style="height: 20px; width: 50px; bg-secondary"></div>
             </div>
         </div>
       </div>
