@@ -17,7 +17,7 @@
               <div>
                 <b-link to="/information/buy-now-tutorial">Minting and Buying</b-link>
               </div>
-              <div style="height: 20px; width: 50px; bg-secondary"></div>
+              <div style="height: 17px; width: 50px; bg-secondary"></div>
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
