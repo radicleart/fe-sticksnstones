@@ -1,5 +1,5 @@
 <template>
-<div v-if="content">
+<div>
   <section id="developers" class="developers">
      <b-container style="min-height: 18vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 18vh">

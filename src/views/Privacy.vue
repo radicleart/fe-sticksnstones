@@ -1,6 +1,6 @@
 <template>
-<div v-if="content">
-  <section id="privacy_policy" class="privacy_policy">
+<div>
+    <section id="privacy_policy" class="privacy_policy">
      <b-container style="min-height: 18vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 18vh">
         <b-col md="8" sm="10" align-self="center">
@@ -15,7 +15,7 @@
         </b-col>
      </b-row>
    </b-container>
-  </section>
+   </section>
 </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
   props: ['privacy_policy'],
   data () {
     return {
-      loaded: true
+      response: null
     }
   },
   methods: {
@@ -45,7 +45,7 @@ export default {
       return 'min-height: ' + height + 'px; width: auto;'
     },
     content () {
-      const content = this.$store.getters[APP_CONSTANTS.KEY_CONTENT_PRI]
+      const content = this.$store.getters['contentStore/getPrivacypolicy']
       return content
     }
   }
