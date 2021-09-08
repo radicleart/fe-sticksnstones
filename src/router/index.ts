@@ -123,11 +123,6 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/about',
-    name: 'about',
-    components: { default: About, header: MainNavbar, footer: MainFooter }
-  },
-  {
     path: '/terms',
     name: 'terms',
     components: { default: Terms, header: MainNavbar, footer: MainFooter }
