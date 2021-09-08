@@ -39,8 +39,8 @@
               <div class="text-secondary">What we do</div>
               <div><router-link to="/get-in-touch">Get in Touch</router-link></div>
               <div><router-link to="/developers">Developers</router-link></div>
-              <div class="text-transparent">placeholder</div>
-              <div class="text-transparent">placeholder</div>
+              <div color="transparent">placeholder</div>
+              <div color="transparent">placeholder</div>
             </div>
         </div>
       </div>

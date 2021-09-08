@@ -12,7 +12,8 @@ const contentStore = {
       nft: null,
       terms: null,
       faq: null,
-      developers: null
+      developers: null,
+      privacy: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'

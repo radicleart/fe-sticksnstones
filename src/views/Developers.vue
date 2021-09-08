@@ -52,16 +52,13 @@ export default {
 }
 </script>
 <style scoped >
-#about{
-   min-width: 300px;
+#developers {
+min-width: 300px;
  min-height: 300px;
  padding: 20px;
  height: auto;
 }
 .h1{
 text-align: left;
-}
-#b-button{
-  color: aqua;
 }
 </style>

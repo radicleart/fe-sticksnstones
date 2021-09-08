@@ -16,6 +16,7 @@ import InformationPage from '../views/InformationPage.vue'
 import Model from '../views/Models/Model.vue'
 import About from '../views/About.vue'
 import Terms from '../views/Terms.vue'
+import Privacy from '../views/Privacy.vue'
 import FAQ from '../views/FAQ.vue'
 import AssetDetails from '../views/AssetDetails.vue'
 import ItemPreview from '../views/ItemPreview.vue'
@@ -136,6 +137,11 @@ const routes: Array<RouteConfig> = [
     path: '/terms',
     name: 'terms',
     components: { default: Terms, header: MainNavbar, footer: MainFooter }
+  },
+  {
+    path: '/privacy',
+    name: 'privacy_policy',
+    components: { default: Privacy, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/create',

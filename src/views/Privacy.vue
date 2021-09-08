@@ -24,11 +24,11 @@ import PrismicItems from '@/components/prismic/PrismicItems'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'developers',
+  name: 'privacy_policy',
   components: {
     PrismicItems
   },
-  props: ['developers'],
+  props: ['privacy_policy'],
   data () {
     return {
       loaded: true
@@ -52,7 +52,7 @@ export default {
 }
 </script>
 <style scoped >
-#about{
+#privacy_policy{
  min-width: 300px;
  min-height: 300px;
  padding: 20px;
@@ -60,8 +60,5 @@ export default {
 }
 .h1{
 text-align: left;
-}
-#b-button{
-color: aqua;
 }
 </style>
