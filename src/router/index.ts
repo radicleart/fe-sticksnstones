@@ -13,7 +13,6 @@ import FourOFour from '../views/FourOFour.vue'
 import HowItWorks from '../views/HowItWorks.vue'
 import Developers from '../views/Developers.vue'
 import InformationPage from '../views/InformationPage.vue'
-import Model from '../views/Models/Model.vue'
 import Terms from '../views/Terms.vue'
 import Privacy from '../views/Privacy.vue'
 import AssetDetails from '../views/AssetDetails.vue'
@@ -168,11 +167,6 @@ const routes: Array<RouteConfig> = [
     path: '/information/:pageId',
     name: 'information',
     components: { default: InformationPage, header: MainNavbar, footer: MainFooter }
-  },
-  {
-    path: '/Model',
-    name: 'Model',
-    components: { default: Model, header: MainNavbar, footer: MainFooter }
   },
   {
     path: '/404',
