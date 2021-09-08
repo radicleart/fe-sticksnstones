@@ -45,7 +45,7 @@ export default {
       return 'min-height: ' + height + 'px; width: auto;'
     },
     content () {
-      const content = this.$store.getters['contentStore/getPrivacypolicy']
+      const content = this.$store.getters['contentStore/getPrivacy']
       return content
     }
   }

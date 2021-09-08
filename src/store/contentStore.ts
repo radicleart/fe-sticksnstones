@@ -78,6 +78,9 @@ const contentStore = {
     getTerms: state => {
       return state.content.terms
     },
+    getPrivacy: state => {
+      return state.content.privacy
+    },
     getFAQ: state => {
       return state.content.faq
     },
