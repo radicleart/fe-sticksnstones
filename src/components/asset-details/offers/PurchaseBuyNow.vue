@@ -7,8 +7,25 @@
     <b-col cols="12">
       <RatesListing :message="''" :amount="contractAsset.saleData.buyNowOrStartingPrice"/>
     </b-col>
-    <b-col class="mt-5" cols="12">
-      <b-button @click="$emit('buyNow')">BUY NOW</b-button>
+    <b-row class="text-small mt-5">
+      <b-col cols="2" class="text-right">
+        Transfer from:
+      </b-col>
+      <b-col cols="10">
+        <span class="stx-address">{{contractAsset.owner}}</span>
+      </b-col>
+      <b-col cols="2" class="text-right">
+        to
+      </b-col>
+      <b-col cols="10">
+        <span class="stx-address">{{profile.stxAddress}}</span>
+      </b-col>
+    </b-row>
+    <b-col class="mt-5" cols="12" v-if="iAmOwner">
+      You own this NFT!
+    </b-col>
+    <b-col class="mt-5" cols="12" v-else>
+      <b-button variant="success" @click="$emit('buyNow')">BUY NOW</b-button>
     </b-col>
   </b-row>
 </b-container>
@@ -41,8 +58,15 @@ export default {
     }
   },
   computed: {
+    profile () {
+      const profile = this.$store.getters['rpayAuthStore/getMyProfile']
+      return profile
+    },
     fbet () {
       return this.$store.getters[APP_CONSTANTS.KEY_FORMATTED_BIDDING_END_TIME](this.contractAsset)
+    },
+    iAmOwner () {
+      return this.contractAsset && this.contractAsset.owner === this.profile.stxAddress
     }
   }
 }

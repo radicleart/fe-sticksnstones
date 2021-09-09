@@ -98,7 +98,12 @@ export default {
             }
             if (data.functionName === 'mint-token') {
               if (data.txStatus !== 'pending') {
-                $self.item.mintInfo = data
+                if (data && data.functionName === 'mint-token') {
+                  $self.item.mintInfo = {
+                    txId: data.txId,
+                    txStatus: data.txStatus
+                  }
+                }
                 $self.$store.dispatch('rpayMyItemStore/saveItem', $self.item)
               }
             }
@@ -174,7 +179,7 @@ export default {
     },
     iAmOwner () {
       if (process.env.VUE_APP_NETWORK === 'local') {
-        return this.item.contractAsset && this.item.contractAsset.owner === 'STFJEDEQB1Y1CQ7F04CS62DCS5MXZVSNXXN413ZG'
+        return this.item.contractAsset && (this.item.contractAsset.owner === 'STFJEDEQB1Y1CQ7F04CS62DCS5MXZVSNXXN413ZG' || this.item.contractAsset.owner === this.profile.stxAddress)
       }
       return this.item.contractAsset && this.item.contractAsset.owner === this.profile.stxAddress
     },

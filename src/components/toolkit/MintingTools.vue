@@ -141,7 +141,12 @@ export default {
           $self.$bvModal.hide('minting-modal')
           if (data.txId) {
             const item = $self.item
-            item.mintInfo = data
+            if (data && data.functionName === 'mint-token') {
+              item.mintInfo = {
+                txId: data.txId,
+                txStatus: data.txStatus
+              }
+            }
             $self.$store.dispatch('rpayMyItemStore/saveItem', item).then(() => {
               $self.$emit('update')
             }).catch(() => {

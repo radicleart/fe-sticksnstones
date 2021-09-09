@@ -43,11 +43,21 @@ const assetGeneralStore = {
     },
     buildCache ({ commit }) {
       return new Promise(function (resolve, reject) {
-        axios.get(MESH_API_PATH + '/v2/build-cache').then((result) => {
-          commit('setCacheState', result)
-          resolve(result)
+        axios.get(MESH_API_PATH + '/v2/build-cache/' + STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME).then((result) => {
+          commit('setCacheState', result.data)
+          resolve(result.data)
         }).catch((error) => {
           reject(new Error('Unable to register email: ' + error))
+        })
+      })
+    },
+    buildSearchIndex ({ commit }) {
+      return new Promise(function (resolve) {
+        axios.get(MESH_API_PATH + '/v2/gaia/indexFiles/' + STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME).then((result) => {
+          commit('setCacheState', result.data)
+          resolve(result.data)
+        }).catch((error) => {
+          resolve(new Error('Unable to build search index: ' + error))
         })
       })
     },

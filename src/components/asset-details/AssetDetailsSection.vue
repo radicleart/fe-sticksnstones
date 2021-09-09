@@ -123,11 +123,11 @@ export default {
         if (data.opcode.indexOf('stx-transaction-sent') > -1 || data.opcode.indexOf('stx-transaction-update') > -1) {
           $self.$bvModal.hide('asset-offer-modal')
           if (data.txStatus === 'success') {
-            $self.$notify({ type: 'success', title: 'Buy Now', text: 'Congratulations! This NFT is now yours - redirecting to your NFT Library. ' })
+            // $self.$notify({ type: 'success', title: 'Buy Now', text: 'Congratulations! This NFT is now yours - redirecting to your NFT Library. ' })
           } else if (data.txStatus === 'pending') {
-            $self.$notify({ type: 'warning', title: 'Buy Now', text: 'Buy Now In Progress. ' })
+            // $self.$notify({ type: 'warning', title: 'Buy Now', text: 'Buy Now In Progress. ' })
           } else {
-            $self.$notify({ type: 'warning', title: 'Buy Now', text: 'Buy Now In sent to blockchain. ' })
+            $self.$notify({ type: 'error', title: 'Buy Now', text: 'Transaction failed: ' + data.txStatus })
           }
           $self.$bvModal.show('result-modal')
         }
@@ -237,7 +237,7 @@ export default {
         assetHash: this.assetHash,
         email: email
       }
-      this.$store.dispatch('rpayPurchaseStore/registerForUpdates', data).then((result) => {
+      this.$store.dispatch('rpayPurchaseStore/registerForUpdates', data).then(() => {
         this.$store.commit('setModalMessage', 'Thanks for registering an interest - we will keep you updated.')
         this.showRpay = 0
         this.$bvModal.hide('asset-offer-modal')

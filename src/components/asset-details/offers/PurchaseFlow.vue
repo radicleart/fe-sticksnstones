@@ -24,7 +24,6 @@ import PurchaseOfferLogin from './PurchaseOfferLogin'
 
 const STX_CONTRACT_ADDRESS = process.env.VUE_APP_STACKS_CONTRACT_ADDRESS
 const STX_CONTRACT_NAME = process.env.VUE_APP_STACKS_CONTRACT_NAME
-const NETWORK = process.env.VUE_APP_NETWORK
 
 export default {
   name: 'PurchaseFlow',
@@ -42,7 +41,6 @@ export default {
       biddingData: {},
       biddingEndTime: null,
       flowType: 0,
-      contentKey: null,
       webWalletNeeded: false
     }
   },
@@ -54,12 +52,6 @@ export default {
       this.loading = false
     }).catch(() => {
       this.loading = false
-    })
-    const $self = this
-    window.eventBus.$on('rpayEvent', function (data) {
-      if (data.opcode.indexOf('-mint-success') > -1) {
-        $self.$store.commit('rpayStore/setDisplayCard', 106)
-      }
     })
   },
   methods: {
@@ -79,10 +71,30 @@ export default {
         })
       }
 
-      if (NETWORK === 'local') {
-        // recipient = (contractAsset.owner === mac.keyInfo.address) ? sky.keyInfo.address : mac.keyInfo.address
-      }
+      /**
+      const postCondAddress = profile.stxAddress
+      const postConds = []
+      const amount = new BigNum(utils.toOnChainAmount(contractAsset.saleData.buyNowOrStartingPrice))
+      postConds.push(makeStandardSTXPostCondition(
+        postCondAddress,
+        FungibleConditionCode.LessEqual, // less or equal - if the buyer is one of the royalties payment is skipped.
+        amount // uintCV(utils.toOnChainAmount(data.mintingFee))
+      ))
+      const nonFungibleAssetInfo = createAssetInfo(
+        STX_CONTRACT_ADDRESS,
+        STX_CONTRACT_NAME,
+        'my-nft'
+      )
+      postConds.push(makeStandardNonFungiblePostCondition(
+        contractAsset.owner,
+        NonFungibleConditionCode.DoesNotOwn,
+        nonFungibleAssetInfo,
+        uintCV(contractAsset.nftIndex)
+      ))
+      **/
+
       const buyNowData = {
+        // postConditions: postConds,
         contractAddress: STX_CONTRACT_ADDRESS,
         contractName: STX_CONTRACT_NAME,
         sendAsSky: false,
@@ -92,10 +104,8 @@ export default {
         provider: 'risidio',
         recipient: recipient
       }
-      this.$store.dispatch('rpayPurchaseStore/buyNow', buyNowData).then((result) => {
-        this.contentKey = 'successful-buy'
+      this.$store.dispatch('rpayPurchaseStore/buyNow', buyNowData).then(() => {
         this.flowType = 2
-        this.$emit('buySent', result)
       }).catch((err) => {
         this.errorMessage = err
         this.flowType = 3

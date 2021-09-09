@@ -220,7 +220,7 @@ router.beforeEach((to, from, next) => {
         } else {
           return next({ path: '/' })
         }
-      }, 5000)
+      }, 1000)
     }
   } else {
     return next() // make sure to always call next()!
