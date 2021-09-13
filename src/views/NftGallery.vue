@@ -39,8 +39,8 @@ export default {
   },
   methods: {
     findAssets () {
-      const pid = STX_CONTRACT_NAME.split('-')[0]
-      this.$store.dispatch('rpaySearchStore/findByProjectId', STX_CONTRACT_ADDRESS + '.' + pid).then((results) => {
+      // const pid = STX_CONTRACT_NAME.split('-')[0]
+      this.$store.dispatch('rpaySearchStore/findByProjectId', STX_CONTRACT_ADDRESS + '.' + STX_CONTRACT_NAME).then((results) => {
         this.resultSet = results
       })
     }
