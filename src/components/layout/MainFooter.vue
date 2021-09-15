@@ -55,7 +55,7 @@
           <a href="https://www.youtube.com/channel/UCrMDxxhMvpeyErw7m92IIXA/featured"><img :src="youtubeLogo" alt="youtube-logo"></a>
         </div>
         <div>
-          <router-link to="/terms">Privacy Policy</router-link>
+          <router-link to="/privacy">Privacy Policy</router-link>
           <router-link to="/terms">Terms of Use</router-link>
         </div>
       </div>

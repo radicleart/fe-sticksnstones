@@ -1,6 +1,16 @@
 <template>
 <div>
     <section id="privacy_policy" class="privacy_policy">
+      <b-container fluid="lg" style="min-height: 10vh" class="pb-4 text-center">
+      <b-row  align-h="center" style="min-height: 18vh">
+      <b-col md="5" sm="10" align-self="center">
+      <router-link class="footer__link" to="/terms">Terms</router-link>
+      </b-col>
+      <b-col md="5" sm="10" align-self="center">
+      <router-link class="footer__link" to="/privacy">Privacy Policy</router-link>
+      </b-col>
+      </b-row>
+   </b-container>
      <b-container style="min-height: 18vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 18vh">
         <b-col md="8" sm="10" align-self="center">
@@ -24,11 +34,11 @@ import PrismicItems from '@/components/prismic/PrismicItems'
 import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'privacy_policy',
+  name: 'Privacy',
   components: {
     PrismicItems
   },
-  props: ['privacy_policy'],
+  props: ['privacy'],
   data () {
     return {
       response: null

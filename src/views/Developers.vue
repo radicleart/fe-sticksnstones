@@ -4,14 +4,14 @@
      <b-container style="min-height: 18vh" class="pb-4 text-center">
       <b-row align-h="center" style="min-height: 18vh">
         <b-col md="8" sm="10" align-self="center">
-        <prismic-items :prismicItems="content.title"></prismic-items>
+        <prismic-items :prismicItems="content.title1"></prismic-items>
        </b-col>
      </b-row>
    </b-container>
       <b-container style="min-height: 60vh" class="pb-4 text-left">
       <b-row align-h="center" style="min-height: 91vh">
         <b-col md="8" sm="10" align-self="center">
-            <prismic-items :prismicItems="content.text"></prismic-items>
+            <prismic-items :prismicItems="content.text1"></prismic-items>
         </b-col>
      </b-row>
    </b-container>
@@ -21,17 +21,16 @@
 
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
-import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'developers',
+  name: 'Developers',
   components: {
     PrismicItems
   },
-  props: ['developers'],
+  props: ['Developers'],
   data () {
     return {
-      loaded: true
+      response: null
     }
   },
   methods: {
@@ -40,10 +39,6 @@ export default {
     }
   },
   computed: {
-    sectionDimensions () {
-      const height = this.$store.getters[APP_CONSTANTS.KEY_SECTION_HEIGHT]
-      return 'min-height: ' + height + 'px; width: auto;'
-    },
     content () {
       const content = this.$store.getters['contentStore/getDevelopers']
       return content

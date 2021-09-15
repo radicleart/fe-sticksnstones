@@ -140,7 +140,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/privacy',
-    name: 'privacy_policy',
+    name: 'privacy',
     components: { default: Privacy, header: MainNavbar, footer: MainFooter }
   },
   {

@@ -117,6 +117,12 @@ const contentStore = {
     addTerms (state, o) {
       state.content.terms = o
     },
+    addDevelopers (state, o) {
+      state.content.developers = o
+    },
+    addPrivacy (state, o) {
+      state.content.privacy = o
+    },
     addTooltips (state, o) {
       state.content.tooltips = o
     },
