@@ -16,6 +16,9 @@ export default function (doc) {
   if (doc.type === 'developers') {
     return '/developers'
   }
+  if (doc.type === 'privacy') {
+    return '/privacy'
+  }
   if (doc.isBroken) {
     return '/not-found'
   }

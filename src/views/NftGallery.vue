@@ -3,7 +3,7 @@
   <div class="container d-flex justify-content-lg-between justify-content-center mb-5 gallery__collections">
     <div class="gallery__collections--whitespace d-lg-block d-none"></div>
     <div>
-      <h1>Featured NFTs</h1>
+      <h1>NFT Public Gallery</h1>
     </div>
     <div class="gallery__collections--view-all d-lg-block d-none">
     </div>

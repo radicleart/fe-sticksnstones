@@ -31,10 +31,9 @@
 
 <script>
 import PrismicItems from '@/components/prismic/PrismicItems'
-import { APP_CONSTANTS } from '@/app-constants'
 
 export default {
-  name: 'Privacy',
+  name: 'privacy',
   components: {
     PrismicItems
   },
@@ -50,10 +49,6 @@ export default {
     }
   },
   computed: {
-    sectionDimensions () {
-      const height = this.$store.getters[APP_CONSTANTS.KEY_SECTION_HEIGHT]
-      return 'min-height: ' + height + 'px; width: auto;'
-    },
     content () {
       const content = this.$store.getters['contentStore/getPrivacy']
       return content
