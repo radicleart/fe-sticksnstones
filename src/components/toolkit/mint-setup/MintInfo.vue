@@ -73,7 +73,7 @@ export default {
   computed: {
     txPending () {
       let transactions = []
-      if (this.contractAsset) {
+      if (this.item.contractAsset) {
         transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_TX_ID](this.item.contractAsset.nftIndex)
       } else {
         transactions = this.$store.getters[APP_CONSTANTS.KEY_TX_PENDING_BY_ASSET_HASH](this.item.assetHash)

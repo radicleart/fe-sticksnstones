@@ -33,23 +33,6 @@
       </b-col>
     </b-row>
   </b-container>
-  <b-modal size="md" id="tx-modal">
-    <div  class="mt-3" v-if="item">
-      <div class="row">
-        <div class="col-12">{{item.name}}</div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-12" v-if="txPending">
-          <p class="mt-5">Transaction in progress - <a :href="transactionUrl" target="_blank">check transaction here</a></p>
-          <p class="mt-5">Transactions on stacks can take a few minute so make a brew and refresh this page when the transaction confirms</p>
-        </div>
-        <div class="col-12" v-else>
-          Transaction sent to blockchain - reload page..
-        </div>
-      </div>
-    </div>
-    <template #modal-footer class="text-center"><div class="w-100"></div></template>
-  </b-modal>
 </section>
 </template>
 
@@ -130,11 +113,6 @@ export default {
     }
   },
   computed: {
-    transactionUrl: function () {
-      if (!this.item.mintInfo || !this.item.mintInfo.txId) return '#'
-      const stacksApiUrl = process.env.VUE_APP_STACKS_EXPLORER
-      return stacksApiUrl + '/txid/' + this.item.mintInfo.txId + '?chain=' + process.env.VUE_APP_NETWORK
-    },
     txPending () {
       let transactions = []
       if (this.item.contractAsset) {

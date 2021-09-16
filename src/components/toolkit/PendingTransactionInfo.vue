@@ -5,7 +5,7 @@
     <div v-for="(tx, index) in txPending" :key="index" class="d-flex justify-content-between">
       <div>
         <div class="d-flex justify-content-between" v-if="tx.txStatus === 'pending'">
-          <div><b-icon icon="circle" animation="throb"/> <span @click="checkTx(tx.txId)" class="ml-3 text-warning">{{tx.functionName}}</span></div>
+          <div><b-icon icon="circle" animation="throb" font-scale="2"/> <span @click="checkTx(tx.txId)" class="ml-3 text-warning">{{tx.functionName}}</span></div>
           <div><a href="#" @click.prevent="checkTx(tx.txId)" class="ml-3 text-warning">check status</a></div>
         </div>
         <div v-else>Status: {{tx.txStatus}}</div>
