@@ -1,5 +1,5 @@
 <template>
-<div class="container" v-if="loaded">
+<div v-if="loaded" id="homepage">
   <div class="mb-5" :key="componentKey">
     <h1>Your NFTs</h1>
   <!-- <div v-else class="center text-center">
@@ -87,3 +87,26 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+#homepage {
+
+ /* MAIN SEARCH BAR */
+  & .main-search {
+    margin-top: -28.5px;
+    z-index: 2;
+  }
+  & .main-search--border {
+    width: 100%;
+    max-width: 800px;
+  }
+
+ /* MAIN SEARCH BAR -- LOOP ICON */
+  & .input-group-append svg {
+    font-size: 20px;
+    font-weight: bold;
+    color: #50B1B5;
+    margin-right: 22px;
+    margin-left: 1px;
+  }
+}
+</style>
