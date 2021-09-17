@@ -2,18 +2,14 @@
 <div class="container" v-if="loaded">
   <div class="mb-5" :key="componentKey">
     <h1>Your NFTs</h1>
-    <div class="search">
-      <b-input-group
-        v-for="size in ['']"
-        :key="size"
-        :size="sm"
-        class="mb-3"
-      >
-        <b-form-input aria-label="Looking for Something in Particular?"></b-form-input>
-        <b-input-group-append>
-          <b-button size="sm" text="Search" variant="success">Search</b-button>
-        </b-input-group-append>
-      </b-input-group>
+  <!-- <div v-else class="center text-center">
+  <LoopbombSpinner />
+  <div>Making daisy chains... back soon.</div>
+</div> -->
+    <!-- Items Section -->
+    <div class="container" v-if="content" :key="componentKey">
+    <div class="d-flex justify-content-center main-search">
+    <search-bar :showPrepend="true" v-on="$listeners"/>
     </div>
     <b-nav tabs align="center">
       <b-nav-item class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-nav-item>
@@ -27,27 +23,25 @@
         <SingleItem class="mb-2" :item="item"/>
       </b-col>
     </b-row>
+      <result-grid :resultSet="resultSet" :gridClasses="gridClasses" v-if="resultSet && resultSet.length > 0"/>
+      <div v-else>No results</div>
   </div>
   <div class="d-flex justify-content-center">
   <b-button variant="warning" class="mr-2 mb-2"><b-link class="text-white" to="/create">Upload New Item</b-link></b-button>
   </div>
-</div>
-<div v-else class="center text-center">
-  <LoopbombSpinner />
-  <div>Making daisy chains... back soon.</div>
 </div>
 </template>
 
 <script>
 import SingleItem from '@/components/upload/SingleItem'
 import { APP_CONSTANTS } from '@/app-constants'
-import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
+// import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
   name: 'MyItems',
   components: {
-    SingleItem,
-    LoopbombSpinner
+    SingleItem
+    // LoopbombSpinner
   },
   data () {
     return {
@@ -59,6 +53,7 @@ export default {
   },
   mounted () {
     this.filter = this.$route.params.filter
+    this.$store.dispatch('rpaySearchStore/findBySearchTerm')
     this.$store.dispatch('rpayMyItemStore/fetchItems').then((items) => {
       // if (!this.filter) this.$router.push('/my-uploads')
       this.backupItems = items
@@ -75,6 +70,9 @@ export default {
     }
   },
   computed: {
+    resultSet () {
+      return this.$store.getters[APP_CONSTANTS.KEY_SEARCH_RESULTS]
+    },
     filteredItems () {
       if (this.filter === 'all') {
         return this.$store.getters[APP_CONSTANTS.KEY_MY_ITEMS]
