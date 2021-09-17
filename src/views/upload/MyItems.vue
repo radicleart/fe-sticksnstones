@@ -1,6 +1,5 @@
 <template>
-<div v-if="loaded" id="homepage">
-  <div class="mb-5" :key="componentKey">
+<div v-if="content" id="homepage">
     <h1>Your NFTs</h1>
   <!-- <div v-else class="center text-center">
   <LoopbombSpinner />
@@ -11,13 +10,13 @@
     <div class="d-flex justify-content-center main-search">
     <search-bar :showPrepend="true" v-on="$listeners"/>
     </div>
-    <b-nav tabs align="center">
-      <b-nav-item class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-nav-item>
-      <b-nav-item class="ml-3" :variant="(filter === 'uploaded') ? 'info' : 'light'" @click="updateFilter('uploaded')">Uploaded</b-nav-item>
-      <b-nav-item class="ml-3" :variant="(filter === 'minted') ? 'info' : 'light'" @click="updateFilter('minted')">Minted</b-nav-item>
+    <div class="d-flex justify-content-center homepage__categories">
+      <div :class="isActive('all')"><a href="#" @click.prevent="category = 'all'">All</a></div>
+      <div :class="isActive('uploaded')"><a href="#" @click.prevent="category = 'uploaded'">Uploaded</a></div>
+      <div :class="isActive('minted')"><a href="#" @click.prevent="category = 'minted'">Minted</a></div>
       <!-- <b-nav-item class="ml-3" :variant="(filter === 'onsale') ? 'info' : 'light'" @click="updateFilter('onsale')">On Sale</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'sold') ? 'info' : 'light'" @click="updateFilter('sold')">Sold</b-nav-item> -->
-    </b-nav>
+    </div>
     <b-row :key="componentKey" class="mb-4" v-if="filteredItems && filteredItems.length > 0">
       <b-col md="4" sm="4" xs="6" v-for="(item, index) in filteredItems" :key="index" class="mt-5">
         <SingleItem class="mb-2" :item="item"/>
