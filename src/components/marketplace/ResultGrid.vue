@@ -1,5 +1,5 @@
 <template>
-  <b-row >
+  <b-row>
     <b-col cols="4" v-for="(result, index) in resultSet" :key="index" v-show="isDisplayable(result)">
       <ResultItem v-on="$listeners" :result="result"/>
     </b-col>
