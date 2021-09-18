@@ -1,5 +1,5 @@
 <template>
-<div v-if="content" id="homepage">
+<div v-if="content" id="myitems">
     <h1>Your NFTs</h1>
   <!-- <div v-else class="center text-center">
   <LoopbombSpinner />
@@ -32,14 +32,14 @@
 import { APP_CONSTANTS } from '@/app-constants'
 // import SingleItem from '@/components/upload/SingleItem'
 import SearchBar from '@/components/items/SearchBar'
+import ResultGrid from '@/components/marketplace/ResultGrid.vue'
 // import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
   name: 'MyItems',
   components: {
-    // SingleItem,
+    ResultGrid,
     SearchBar
-    // LoopbombSpinner
   },
   data () {
     return {
@@ -69,7 +69,7 @@ export default {
 }
 </script>
 <style lang="scss">
-#homepage {
+#myitems {
 
  /* MAIN SEARCH BAR */
   & .main-search {
