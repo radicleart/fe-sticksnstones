@@ -17,13 +17,10 @@
       <!-- <b-nav-item class="ml-3" :variant="(filter === 'onsale') ? 'info' : 'light'" @click="updateFilter('onsale')">On Sale</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'sold') ? 'info' : 'light'" @click="updateFilter('sold')">Sold</b-nav-item> -->
     </div>
-    <b-row :key="componentKey" class="mb-4" v-if="filteredItems && filteredItems.length > 0">
-      <b-col md="4" sm="4" xs="6" v-for="(item, index) in filteredItems" :key="index" class="mt-5">
-        <SingleItem class="mb-2" :item="item"/>
-      </b-col>
-    </b-row>
-      <result-grid :resultSet="resultSet" :gridClasses="gridClasses" v-if="resultSet && resultSet.length > 0"/>
+    <div class="homepage__items-section">
+    <result-grid :resultSet="resultSet" :gridClasses="gridClasses" v-if="resultSet && resultSet.length > 0"/>
       <div v-else>No results</div>
+    </div>
   </div>
   <div class="d-flex justify-content-center">
   <b-button variant="warning" class="mr-2 mb-2"><b-link class="text-white" to="/create">Upload New Item</b-link></b-button>
@@ -32,56 +29,41 @@
 </template>
 
 <script>
-import SingleItem from '@/components/upload/SingleItem'
 import { APP_CONSTANTS } from '@/app-constants'
+// import SingleItem from '@/components/upload/SingleItem'
+import SearchBar from '@/components/items/SearchBar'
 // import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
 export default {
   name: 'MyItems',
   components: {
-    SingleItem
+    // SingleItem,
+    SearchBar
     // LoopbombSpinner
   },
   data () {
     return {
-      filter: 'pending',
+      query: null,
       componentKey: 0,
-      backupItems: null,
-      loaded: false
+      category: 'all',
+      gridClasses: ['col-md-3', 'col-sm-4', 'col-6']
     }
   },
   mounted () {
-    this.filter = this.$route.params.filter
+    this.loading = false
     this.$store.dispatch('rpaySearchStore/findBySearchTerm')
-    this.$store.dispatch('rpayMyItemStore/fetchItems').then((items) => {
-      // if (!this.filter) this.$router.push('/my-uploads')
-      this.backupItems = items
-      this.loaded = true
-    })
   },
   methods: {
-    updateFilter (filter) {
-      this.filter = filter
-      if (filter !== this.$route.params.filter) {
-        this.$router.push('/my-items/' + filter)
-        this.componentKey++
+    isActive (category) {
+      if (this.category === category) {
+        return 'active'
       }
+      return ''
     }
   },
   computed: {
     resultSet () {
       return this.$store.getters[APP_CONSTANTS.KEY_SEARCH_RESULTS]
-    },
-    filteredItems () {
-      if (this.filter === 'all') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_ITEMS]
-      } else if (this.filter === 'uploaded') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_UNMINTED_ITEMS]
-      } else if (this.filter === 'minted') {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_MINTED_ITEMS]
-      } else {
-        return this.$store.getters[APP_CONSTANTS.KEY_MY_PURCHASED_ITEMS]
-      }
     }
   }
 }
