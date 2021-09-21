@@ -51,15 +51,20 @@
     </template>
   </b-sidebar>
 
-    <b-navbar-nav class="ml-auto">
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/my-nfts">My NFTs</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/create">Upload Item</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3"><a v-b-toggle.my-sidebar class="text-white nav-text" ><b-icon icon="person" class="mb-3 mr-0"/> Account</a></b-nav-item>
-      <b-nav-item v-else class="text-white" @click.prevent="startLogin()" href="#">Login</b-nav-item>
+    <b-navbar-nav v-if="profile.loggedIn" class="ml-auto">
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/my-nfts">My NFTs</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/create">Create an NFT</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link @click.prevent="logout()" href="#">Logout</b-nav-item>
+      <b-nav-item class="mr-3"><a v-b-toggle.my-sidebar class="text-white nav-text" ><b-icon icon="person" class="mb-3 mr-0"/>Account</a></b-nav-item>
     </b-navbar-nav>
-</b-navbar>
+    <b-navbar-nav v-else class="text-white ml-auto">
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
+      <b-nav-item @click.prevent="startLogin()" href="#">Login</b-nav-item>
+    </b-navbar-nav>
+
 </div>
 </template>
 
