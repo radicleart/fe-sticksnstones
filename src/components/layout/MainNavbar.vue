@@ -59,7 +59,7 @@
       <b-nav-item class="mr-3 mt-0"><router-link @click.prevent="logout()" href="#">Logout</b-nav-item>
       <b-nav-item class="mr-3"><a v-b-toggle.my-sidebar class="text-white nav-text" ><b-icon icon="person" class="mb-3 mr-0"/>Account</a></b-nav-item>
     </b-navbar-nav>
-    <b-navbar-nav v-else class="text-white ml-auto">
+    <b-navbar-nav v-else class="text-white ml-auto text-right">
       <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
       <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
       <b-nav-item @click.prevent="startLogin()" href="#">Login</b-nav-item>
