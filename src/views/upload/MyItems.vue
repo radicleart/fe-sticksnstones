@@ -1,5 +1,5 @@
 <template>
-<div class="container" v-if="loaded">
+<div class="container" v-if="loaded" id="items">
   <div class="mb-5" :key="componentKey">
     <h1>Your NFTs</h1>
     <b-nav tabs align="center">
@@ -30,7 +30,6 @@
 
 <script>
 import SearchBar from '@/components/marketplace/SearchBar.vue'
-import ResultGrid from '@/components/marketplace/ResultGrid.vue'
 import SingleItem from '@/components/upload/SingleItem'
 import { APP_CONSTANTS } from '@/app-constants'
 import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
@@ -81,3 +80,16 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+#items {
+  /* MAIN SEARCH BAR */
+  & .main-search {
+    margin-top: -28.5px;
+    z-index: 2;
+  }
+  & .main-search--border {
+    width: 100%;
+    max-width: 800px;
+  }
+}
+</style>
