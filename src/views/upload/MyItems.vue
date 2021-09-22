@@ -2,20 +2,10 @@
 <div class="container" v-if="loaded">
   <div class="mb-5" :key="componentKey">
     <h1>Your NFTs</h1>
-    <div class="search">
-      <b-input-group
-        v-for="size in ['']"
-        :key="size"
-        :size="sm"
-        class="mb-3"
-      >
-        <b-form-input aria-label="Looking for Something in Particular?"></b-form-input>
-        <b-input-group-append>
-          <b-button size="sm" text="Search" variant="success">Search</b-button>
-        </b-input-group-append>
-      </b-input-group>
-    </div>
     <b-nav tabs align="center">
+      <div class="d-flex justify-content-center main-search">
+      <search-bar :showPrepend="true" v-on="$listeners"/>
+    </div>
       <b-nav-item class="ml-3" :variant="(filter === 'all') ? 'info' : 'light'" @click="updateFilter('all')">All</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'uploaded') ? 'info' : 'light'" @click="updateFilter('uploaded')">Uploaded</b-nav-item>
       <b-nav-item class="ml-3" :variant="(filter === 'minted') ? 'info' : 'light'" @click="updateFilter('minted')">Minted</b-nav-item>
@@ -39,6 +29,8 @@
 </template>
 
 <script>
+import SearchBar from '@/components/marketplace/SearchBar.vue'
+import ResultGrid from '@/components/marketplace/ResultGrid.vue'
 import SingleItem from '@/components/upload/SingleItem'
 import { APP_CONSTANTS } from '@/app-constants'
 import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
@@ -46,7 +38,8 @@ export default {
   name: 'MyItems',
   components: {
     SingleItem,
-    LoopbombSpinner
+    LoopbombSpinner,
+    SearchBar
   },
   data () {
     return {
