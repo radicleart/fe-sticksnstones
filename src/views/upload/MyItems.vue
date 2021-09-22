@@ -31,7 +31,7 @@
 <script>
 import { APP_CONSTANTS } from '@/app-constants'
 // import SingleItem from '@/components/upload/SingleItem'
-import SearchBar from '@/components/items/SearchBar'
+import SearchBar from '@/components/marketplace/SearchBar'
 import ResultGrid from '@/components/marketplace/ResultGrid.vue'
 // import LoopbombSpinner from '@/components/utils/LoopbombSpinner'
 
