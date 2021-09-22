@@ -18,8 +18,7 @@
               <!-- <b-navbar-nav v-else class="ml-auto"> -->
               <!-- <div><b-link to="/information/buy-now-tutorial">Minting and Buying</b-link></div> -->
                <!-- </b-navbar-nav> -->
-              <div></div>
-              <div></div>
+              <div style="height: 17px; width: 50px; bg-secondary"></div>
             </div>
             <div class="footer__column-content">
               <div class="text-secondary">How It Works</div>
@@ -39,9 +38,9 @@
             <div class="footer__column-content">
               <div class="text-secondary">What we do</div>
               <div><router-link to="/get-in-touch">Get in Touch</router-link></div>
-              <div><router-link to="/admin-app">Developers</router-link></div>
-              <div class="text-secondary">placeholder</div>
-              <div class="text-secondary">placeholder</div>
+              <div><router-link to="/developers">Developers</router-link></div>
+              <div style="height: 20px; width: 50px; bg-secondary"></div>
+              <div style="height: 20px; width: 50px; bg-secondary"></div>
             </div>
         </div>
       </div>
@@ -57,8 +56,8 @@
           <a href="https://www.youtube.com/channel/UCrMDxxhMvpeyErw7m92IIXA/featured"><img :src="youtubeLogo" alt="youtube-logo"></a>
         </div>
         <div>
-          <span>Privacy Policy</span>
-          <span>Terms Of Use</span>
+          <router-link to="/privacy">Privacy Policy</router-link>
+          <router-link to="/terms">Terms of Use</router-link>
         </div>
       </div>
       <!-- MOBILE DESIGN LAST ROW -->

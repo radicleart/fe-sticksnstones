@@ -11,7 +11,9 @@ const contentStore = {
       howitworks: null,
       nft: null,
       terms: null,
-      faq: null
+      faq: null,
+      developers: null,
+      privacy: null
     },
     defaultArtist: 'chemicalx',
     waitingImage: 'https://images.prismic.io/radsoc/f60d92d0-f733-46e2-9cb7-c59e33a15fc1_download.jpeg?auto=compress,format'
@@ -76,8 +78,14 @@ const contentStore = {
     getTerms: state => {
       return state.content.terms
     },
+    getPrivacy: state => {
+      return state.content.privacy
+    },
     getFAQ: state => {
       return state.content.faq
+    },
+    getDevelopers: state => {
+      return state.content.developers
     },
     getInformationById: state => id => {
       return (state.content.information) ? state.content.information.find((o) => o.uid === id) : null
@@ -108,6 +116,12 @@ const contentStore = {
     },
     addTerms (state, o) {
       state.content.terms = o
+    },
+    addDevelopers (state, o) {
+      state.content.developers = o
+    },
+    addPrivacy (state, o) {
+      state.content.privacy = o
     },
     addTooltips (state, o) {
       state.content.tooltips = o

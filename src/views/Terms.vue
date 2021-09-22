@@ -4,10 +4,10 @@
                    <b-container fluid="lg" style="min-height: 10vh" class="pb-4 text-center">
       <b-row  align-h="center" style="min-height: 18vh">
                 <b-col md="5" sm="10" align-self="center">
-                  <router-link class="footer__link" to="/billboard">Terms and services</router-link>
+                  <router-link class="footer__link" to="/terms">Terms</router-link>
                            </b-col>
         <b-col md="5" sm="10" align-self="center">
-          <router-link class="footer__link" to="/billboard">Policy Privacy</router-link>
+          <router-link class="footer__link" to="/privacy">Privacy Policy</router-link>
                </b-col>
      </b-row>
    </b-container>
