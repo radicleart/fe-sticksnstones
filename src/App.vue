@@ -72,6 +72,16 @@ export default {
           this.$store.commit('contentStore/addTerms', document.data)
         }
       })
+      this.$prismic.client.getSingle('developers').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addDevelopers', document.data)
+        }
+      })
+      this.$prismic.client.getSingle('privacy').then(document => {
+        if (document) {
+          this.$store.commit('contentStore/addPrivacy', document.data)
+        }
+      })
       this.$prismic.client.getSingle('faq').then(document => {
         if (document) {
           this.$store.commit('contentStore/addFAQ', document.data)

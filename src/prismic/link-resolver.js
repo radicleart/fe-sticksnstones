@@ -13,6 +13,12 @@ export default function (doc) {
   if (doc.type === 'howitworks') {
     return '/how-it-works'
   }
+  if (doc.type === 'developers') {
+    return '/developers'
+  }
+  if (doc.type === 'privacy') {
+    return '/privacy'
+  }
   if (doc.isBroken) {
     return '/not-found'
   }

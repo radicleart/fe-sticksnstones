@@ -40,6 +40,8 @@ export const APP_CONSTANTS = {
 
   KEY_CONTENT_HOME: 'contentStore/getHomepage',
   KEY_CONTENT_ABOUT: 'contentStore/getAbout',
+  KEY_CONTENT_DEV: 'contentStore/getDevelopers',
+  KEY_CONTENT_PRI: 'contentStore/getPrivacypolicy',
   KEY_TRANSACTION_DIALOG_MESSAGE: 'contentStore/getTransactionDialogMessage',
   KEY_WAITING_IMAGE_CSS: 'contentStore/getWaitingCSS',
   KEY_WAITING_IMAGE: 'contentStore/getWaitingImage',
