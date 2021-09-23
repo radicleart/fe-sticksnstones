@@ -10,7 +10,6 @@
         <template v-slot:button-content>
           <span>Search by</span>
         </template>
-        <!--
         <div class="dropdown__whitespace"></div>
         <div class="dropdown__filler"></div>
         <div class="dropdown__items">
@@ -19,7 +18,6 @@
           <b-dropdown-item>Uploaded</b-dropdown-item>
           <b-dropdown-item>Minted</b-dropdown-item>
         </div>
-        -->
       </b-dropdown>
     </template>
     <b-form-input v-on:keyup.enter="doSearch" v-model="query"  size="sm" class="text-13-300 mr-sm-2" placeholder="Looking for something in particular?"></b-form-input>
@@ -49,7 +47,7 @@ export default {
 }
 </script>
 <style lang="scss">
-#homepage {
+#items {
   /* 1ST SECTION STYLE */
   & .title-container h1 {
     margin-bottom: 24px;
