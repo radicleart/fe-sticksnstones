@@ -10,13 +10,14 @@
         <div class="col-lg-7 col-12 d-flex columns3-content__container">
             <div class="footer__column-content ml-lg-auto">
               <div class="text-secondary">NFT</div>
-              <div><b-link to="/my-items">Your NFTs</b-link></div>
-              <div>
-                <b-link to="/create">Mint A File</b-link>
-              </div>
-              <div>
-                <b-link to="/information/buy-now-tutorial">Minting and Buying</b-link>
-              </div>
+              <!-- <b-navbar-nav v-if="profile.loggedIn" class="ml-auto"> -->
+              <div><b-link to="/my-items">My Items</b-link></div>
+              <div><b-link to="/create">Mint an NFT</b-link></div>
+              <div><b-link to="/information/buy-now-tutorial">Minting and Buying</b-link></div>
+              <!-- </b-navbar-nav> -->
+              <!-- <b-navbar-nav v-else class="ml-auto"> -->
+              <!-- <div><b-link to="/information/buy-now-tutorial">Minting and Buying</b-link></div> -->
+               <!-- </b-navbar-nav> -->
               <div style="height: 17px; width: 50px; bg-secondary"></div>
             </div>
             <div class="footer__column-content">
@@ -28,7 +29,7 @@
                   <b-link to="/how-it-works">Upload Your Item</b-link>
                 </div>
                 <div v-scroll-to="{ offset: -60, element: '#g3', duration: 1000 }">
-                  <b-link to="/how-it-works">Mint Your NFT</b-link>
+                  <b-link to="/how-it-works">Mint an NFT</b-link>
                 </div>
                 <div v-scroll-to="{ offset: -60, element: '#g4', duration: 1000 }">
                   <b-link to="/how-it-works">Set Royalties</b-link>

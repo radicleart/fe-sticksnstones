@@ -26,7 +26,7 @@
         <div class="d-flex justify-content-center">
           <nav class="mt-4 mx-auto">
             <b-nav vertical class="text-small">
-              <b-nav-item v-if="profile" active><b-link to="/my-nfts"><b-icon class="mr-2 mb-2" icon="files"></b-icon> My NFTs</b-link></b-nav-item>
+              <b-nav-item v-if="profile" active><b-link to="/my-nfts"><b-icon class="mr-2 mb-2" icon="files"></b-icon>My NFTs</b-link></b-nav-item>
               <b-nav-item v-if="profile.superAdmin" active><b-link to="/app-admin"><b-icon class="mr-2 mb-2" icon="person"></b-icon> App Admin</b-link></b-nav-item>
               <b-nav-item @click="hide"><b-link @click.prevent="logout()"><b-icon icon="person" class="mr-2 mb-2"/> Logout</b-link></b-nav-item>
             </b-nav>
@@ -51,15 +51,19 @@
     </template>
   </b-sidebar>
 
-    <b-navbar-nav class="ml-auto">
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/my-nfts">My NFTs</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3 mt-0"><router-link class="text-white" to="/create">Upload Item</router-link></b-nav-item>
-      <b-nav-item v-if="profile.loggedIn" class="mr-3"><a v-b-toggle.my-sidebar class="text-white nav-text" ><b-icon icon="person" class="mb-3 mr-0"/> Account</a></b-nav-item>
-      <b-nav-item v-else class="text-white" @click.prevent="startLogin()" href="#">Login</b-nav-item>
+    <b-navbar-nav v-if="profile.loggedIn" class="ml-auto">
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/my-nfts">Your NFTs</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/create">Mint an NFT</router-link></b-nav-item>
+      <b-nav-item class="mr-3"><a v-b-toggle.my-sidebar class="text-white nav-text" ><b-icon icon="person" class="mb-3 mr-0"/>Account</a></b-nav-item>
     </b-navbar-nav>
-</b-navbar>
+    <b-navbar-nav v-else class="text-white ml-auto text-right">
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/nft-gallery">Public Gallery</router-link></b-nav-item>
+      <b-nav-item class="mr-3 mt-0"><router-link class="text-white" to="/how-it-works">How It Works</router-link></b-nav-item>
+      <b-nav-item @click.prevent="startLogin()" href="#">Login</b-nav-item>
+    </b-navbar-nav>
+
 </div>
 </template>
 
